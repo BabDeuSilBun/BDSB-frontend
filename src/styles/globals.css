@@ -1,6 +1,5 @@
 // css 변수 설정
 :root {
-
 }
 
 // 다크 테마 화이트 테마때 설정
@@ -37,8 +36,8 @@ body {
 }
 
 body {
-  color: ;
-  background: ;
+  color:;
+  background:;
 }
 
 a {
@@ -48,13 +47,14 @@ a {
 
 // 여기 미디어 쿼리 단계별로 나눠주세요
 // 내용은 넣을 거 있으면 넣고 아님 비워두고
-@media (max-width: ) { //여기 max-width를 design token에서 가져오기
-  // 저희 모바일 기본 규격
+@media (max-width: ) {
+  /* 여기 max-width를 design token에서 가져오기
+  저희 모바일 기본 규격 */
 }
 
 @media (min-width: var(--breakpoint-tablet)) and (max-width: var(--breakpoint-desktop)) {
 }
 
 @media (min-width: var(--breakpoint-desktop)) {
-  // 좀 커지면 폰트 사이즈를 조정한다던지
+  /* 좀 커지면 폰트 사이즈를 조정한다던지 */
 }
