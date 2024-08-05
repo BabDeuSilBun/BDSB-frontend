@@ -6,23 +6,10 @@ import type { Metadata } from 'next';
 import StyledComponentsRegistry from '@/lib/registry';
 
 const font = localFont({
-  src: [
-    {
-      path: './fonts/SF-Pro-Display-Light.otf',
-      style: 'normal',
-    },
-    {
-      path: './fonts/SF-Pro-Display-Regular.otf',
-      style: 'normal',
-    },
-    {
-      path: './fonts/SF-Pro-Display-Semibold.otf',
-      style: 'normal',
-    },
-    {
-      path: './fonts/SUIT.woff2',
-    },
-  ],
+  src: 'fonts/SF-Pro-Display-Regular.otf',
+  style: 'normal',
+  weight: '400',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {

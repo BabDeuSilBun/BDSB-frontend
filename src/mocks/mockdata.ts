@@ -1,4 +1,7 @@
-export const stores = [
+import { MeetingDetail } from '@/types/meeting';
+import { StoreDetail } from '@/types/store';
+
+export const stores: StoreDetail[] = [
   {
     storeId: 1,
     entrepreneur_id: 101,
@@ -45,53 +48,47 @@ export const stores = [
   },
 ];
 
-export const meetings = [
+export const meetings: MeetingDetail[] = [
   {
     meetingId: 1,
+    leaderId: 101,
     storeId: 1,
-    image: [
-      {
-        imageId: 301,
-        url: 'https://avatars.githubusercontent.com/u/14985020?s=200&v=4',
-      },
-    ],
     storeName: '푸라닭',
     orderType: '각자 식사',
     participantMin: 2,
     participantMax: 10,
     isEarlyPaymentAvailable: true,
-    paymentAvailableAt: '2024-08-06T10:00:00',
+    paymentAvailableDt: '2024-08-06T10:00:00',
+    deliveredAt: '2024-08-06T10:00:00',
     deliveredPostal: '12345',
     deliveredStreetAddress: '서울시 강남구 테헤란로 123',
     deliveredDetailAddress: '12층 1201호',
     meetedPostal: '12345',
     meetedStreetAddress: '서울시 강남구 테헤란로 123',
     meetedDetailAddress: '12층 1201호',
-    deliveryFee: '3000',
     status: '확정',
+    createdAt: '2024-08-06T09:00:00',
+    updatedAt: '2024-08-06T09:00:00',
   },
   {
     meetingId: 2,
+    leaderId: 102,
     storeId: 2,
-    image: [
-      {
-        imageId: 302,
-        url: 'https://avatars.githubusercontent.com/u/14985020?s=200&v=4',
-      },
-    ],
     storeName: '교촌 치킨',
     orderType: '함께 식사',
     participantMin: 1,
     participantMax: 6,
     isEarlyPaymentAvailable: false,
-    paymentAvailableAt: '2024-08-06T12:00:00',
+    paymentAvailableDt: '2024-08-06T12:00:00',
+    deliveredAt: '2024-08-06T12:00:00',
     deliveredPostal: '67890',
     deliveredStreetAddress: '서울시 종로구 종로 45',
     deliveredDetailAddress: '3층 305호',
     meetedPostal: '67890',
     meetedStreetAddress: '서울시 종로구 종로 45',
     meetedDetailAddress: '3층 305호',
-    deliveryFee: '2500',
     status: '대기 중',
+    createdAt: '2024-08-06T11:00:00',
+    updatedAt: '2024-08-06T11:00:00',
   },
 ];
