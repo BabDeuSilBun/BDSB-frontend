@@ -155,8 +155,10 @@ body {
 
 body {
   color: var(--text);
-  background-color: var(--background);
+  background-color: var(--gray100);
   font-family: var(--font-family-body);
+  width: 360px;
+  height: 815px;
 }
 
 a {
