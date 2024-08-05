@@ -7,10 +7,13 @@ assignees: ''
 
 ---
 
-## DESCRIPTION
+## 📃 Description
 
-## TO-DO
-- [] to do 1
-- [] to do 2
+## ☑️ To-Do
+- [ ]
+- [ ]
 
-## ELSE
+## ✨Reference
+links
+
+## ✏️ Else
