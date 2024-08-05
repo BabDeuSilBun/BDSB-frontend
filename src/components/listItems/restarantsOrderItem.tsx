@@ -1,5 +1,5 @@
 const RestarantsOrderItem = () => {
-    return <></>;
-  };
-  
-  export default RestarantsOrderItem;
+  return <></>;
+};
+
+export default RestarantsOrderItem;

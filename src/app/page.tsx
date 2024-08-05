@@ -2,33 +2,14 @@ import Header from '@/components/layout/header';
 import Tabs from '@/components/layout/tabs';
 import RestaurantsList from './restaurantsList';
 import TeamOrderList from './teamOrderList';
-import axios from 'axios';
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
   useQuery,
 } from '@tanstack/react-query';
-
-const getTemOrderList = async () => {
-  try {
-    const response = await axios.get('http://www.test.com/api/meetings');
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw error;
-  }
-};
-
-const getRestaurantsList = async () => {
-  try {
-    const response = await axios.get('http://www.test.com/api/restaurants');
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw error;
-  }
-};
+import { getTeamOrderList } from '@/services/teamOrderService';
+import { getRestaurantsList } from '@/services/restaurantService';
 
 export default async function Home() {
   const params = 'temOrder';
@@ -37,7 +18,7 @@ export default async function Home() {
   if (params === 'temOrder') {
     await queryClient.prefetchQuery({
       queryKey: ['temOrderList'],
-      queryFn: getTemOrderList,
+      queryFn: getTeamOrderList,
     });
   } else {
     await queryClient.prefetchQuery({
