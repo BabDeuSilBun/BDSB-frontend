@@ -1,10 +1,7 @@
 'use client';
 
-import React, { ReactNode } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
-import { useServerInsertedHTML } from 'next/navigation';
 
 function makeQueryClient() {
   return new QueryClient({
@@ -29,38 +26,12 @@ function getQueryClient() {
   }
 }
 
-// Providers 컴포넌트
-export function Providers({ children }: { children: ReactNode }) {
+export function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
-  const [styledComponentsStyleSheet] = React.useState(
-    () => new ServerStyleSheet(),
-  );
-
-  useServerInsertedHTML(() => {
-    const styles = styledComponentsStyleSheet.getStyleElement();
-    styledComponentsStyleSheet.instance.clearTag();
-    return <>{styles}</>;
-  });
-
-  if (typeof window !== 'undefined') {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <ChakraProvider>
-          <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-            {children}
-          </StyleSheetManager>
-        </ChakraProvider>
-      </QueryClientProvider>
-    );
-  }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ChakraProvider>
-        <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-          {children}
-        </StyleSheetManager>
-      </ChakraProvider>
+      <ChakraProvider>{children}</ChakraProvider>
     </QueryClientProvider>
   );
 }

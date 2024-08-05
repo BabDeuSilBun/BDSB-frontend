@@ -1,5 +1,4 @@
 import { text } from 'stream/consumers';
-import Loading from './loading';
 
 export default function Home() {
   // const handleTestClick = async () => {
@@ -12,9 +11,5 @@ export default function Home() {
   //   }
   // };
 
-  return (
-    <div>
-      <Loading />
-    </div>
-  );
+  return <></>;
 }

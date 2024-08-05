@@ -3,6 +3,7 @@ import { MswComponent } from '@/components/msw.component';
 import { Providers } from './providers';
 import localFont from 'next/font/local';
 import type { Metadata } from 'next';
+import StyledComponentsRegistry from '@/lib/registry';
 
 const font = localFont({
   src: [
@@ -54,7 +55,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <MswComponent />
-        <Providers>{children}</Providers>
+        <div id="layout-wrapper">
+          <div id="main-content">
+            <Providers>
+              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+            </Providers>
+          </div>
+        </div>
       </body>
     </html>
   );

@@ -3,13 +3,14 @@
 import styled from 'styled-components';
 import { Spinner } from '@chakra-ui/react';
 
-// 스타일링된 div 컴포넌트 생성
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
+  background-color: #123145;
 `;
 
 export default function Loading() {
