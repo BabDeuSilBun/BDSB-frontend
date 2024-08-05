@@ -1,20 +1,91 @@
-// css 변수 설정
 :root {
+  /* Main colors */
+  --primary: #6F6CF6; /* Same as purple500 */
+  --secondary: #E7ECFF; /* Same as purple100 */
+  --background: #FFFFFF;
+  --text: #010B13;
+
+  /* Grayscale */
+  --gray100: #F8F8F8;
+  --gray200: #DDE1E8;
+  --gray300: #B4BAC6;
+  --gray400: #757880;
+  --gray500: #363841;
+
+  /* Purple scale */
+  --purple100: #E7ECFF;
+  --purple200: #BAC0F7;
+  --purple300: #8D8BFB;
+  --purple400: #6851F5;
+  --purple500: #6F6CF6;
+
+  /* Additional colors */
+  --error: #FE4E39; /* Red */
+  --shadow: #5B6374; /* Shadow color */
+
+  /* Font families */
+  --font-family-body: "SF Pro Text", Arial, sans-serif; /* Primary font for body text */
+  --font-family-heading: "SF Pro Text", Georgia, serif; /* Primary font for headings */
+  --font-family-monospace: "SF Mono", "Courier New", monospace; /* Font for code or monospace needs */
+
+  /* Font weights */
+  --font-weight-light: 300;     /* Light */
+  --font-weight-regular: 400;   /* Regular */
+  --font-weight-semi-bold: 600; /* Semi-bold */
+
+  /* Font sizes */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-md: 1rem;       /* 16px */
+  --font-size-lg: 1.25rem;    /* 20px */
+  --font-size-xl: 1.375rem;   /* 22px */
+  --font-size-xxl: 1.5rem;    /* 24px */
+
+  /* Border radii */
+  --border-radius-default: 0.6rem; /* 9.6px */
+  --border-radius-md: 0.5rem;      /* 8px */
+  --border-radius-lg: 1rem;        /* 16px */
+
+  /* Spacing */
+  --spacing-xs: 0.5rem;   /* 8px */
+  --spacing-sm: 1rem;     /* 16px */
+  --spacing-md: 1.5rem;   /* 24px */
+  --spacing-lg: 2rem;     /* 32px */
+  --spacing-xl: 3rem;     /* 48px */
+
+  /* Breakpoints */
+  --breakpoint-mobile-min: 479px;  /* min-width for mobile (portrait) */
+  --breakpoint-mobile-max: 767px;  /* max-width for mobile (landscape) */
+  --breakpoint-tablet-min: 768px;  /* min-width for tablets (portrait) */
+  --breakpoint-tablet-max: 1023px; /* max-width for tablets (landscape) */
+  --breakpoint-desktop: 1024px;    /* min-width for desktops */
 }
 
-// 다크 테마 화이트 테마때 설정
 @media (prefers-color-scheme: dark) {
   :root {
-    /* --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0; */
+    /* Main colors */
+    --primary: #8967F6; /* Same as purple500 */
+    --secondary: #2B215A; /* Same as purple100 */
+    --background: #010B13; /* Same as gray100 */
+    --text: #F8F8F8;
 
-    /* --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0)); */
+    /* Grayscale */
+    --gray100: #010B13;
+    --gray200: #363841;
+    --gray300: #757880;
+    --gray400: #B4BAC6;
+    --gray500: #DDE1E8;
 
-    /* --callout-rgb: 20, 20, 20;
-    --callout-border-rgb: 108, 108, 108;
-    --card-rgb: 100, 100, 100;
-    --card-border-rgb: 200, 200, 200; */
+    /* Purple scale */
+    --purple100: #2B215A;
+    --purple200: #44328C;
+    --purple300: #5C43B5;
+    --purple400: #7252E0;
+    --purple500: #8967F6;
+
+    /* Additional colors */
+    --error: #FF6A62; /* Red */
+    --shadow: #5B6374; /* Shadow color */
   }
 
   html {
@@ -22,7 +93,54 @@
   }
 }
 
-// 여기부터 global styles
+/* CSS Reset */
+body,
+input,
+textarea,
+select,
+table,
+button {
+  font-family: var(--font-family-body); /* Primary font for body text */
+}
+
+code {
+  font-family: var(--font-family-monospace); /* Monospace font for code */
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+input:disabled {
+  cursor: not-allowed;
+}
+
+/* CSS Preset */
+.screen-out {
+  position: absolute;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  overflow: hidden;
+  text-indent: -9999px;
+}
+
+.scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* Global Css Styles */
 * {
   box-sizing: border-box;
   padding: 0;
@@ -36,8 +154,9 @@ body {
 }
 
 body {
-  color:;
-  background:;
+  color: var(--text);
+  background-color: var(--background);
+  font-family: var(--font-family-body);
 }
 
 a {
@@ -45,16 +164,56 @@ a {
   text-decoration: none;
 }
 
-// 여기 미디어 쿼리 단계별로 나눠주세요
-// 내용은 넣을 거 있으면 넣고 아님 비워두고
-@media (max-width: ) {
-  /* 여기 max-width를 design token에서 가져오기
-  저희 모바일 기본 규격 */
+/* Input Styles */
+input[type="text"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: var(--spacing-sm); /* 1rem */
+  font-size: var(--font-size-md); /* 1rem */
+  font-family: var(--font-family-body);
+  color: var(--gray500);
+  background-color: var(--background);
+  border: 1px solid var(--gray200);
+  border-radius: var(--border-radius-md); /* 0.5rem */
+  box-shadow: none;
+  outline: none;
+  transition: border-color 0.2s;
 }
 
-@media (min-width: var(--breakpoint-tablet)) and (max-width: var(--breakpoint-desktop)) {
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+  border-color: var(--primary);
+}
+
+input[type="text"]::placeholder,
+input[type="password"]::placeholder,
+textarea::placeholder {
+  color: var(--gray400);
+}
+
+input[type="text"]:disabled,
+input[type="password"]:disabled,
+textarea:disabled {
+  background-color: var(--gray100);
+  color: var(--gray300);
+  cursor: not-allowed;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Media Queries */
+@media (max-width: var(--breakpoint-mobile-max)) {
+  /* Styles for mobile devices */
+}
+
+@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+  /* Styles for tablets */
 }
 
 @media (min-width: var(--breakpoint-desktop)) {
-  /* 좀 커지면 폰트 사이즈를 조정한다던지 */
+  /* Styles for desktops */
 }
