@@ -1,8 +1,9 @@
-import type { Metadata } from 'next';
-import localFont from 'next/font/local';
 import '@/styles/globals.css';
 import { MswComponent } from '@/components/msw.component';
-// tanstack query setting ing
+import { Providers } from './providers';
+import localFont from 'next/font/local';
+import type { Metadata } from 'next';
+import StyledComponentsRegistry from '@/lib/registry';
 
 const font = localFont({
   src: [
@@ -50,12 +51,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // 나중에 themeprovider로 감싸줘야 함
   return (
     <html lang="en">
       <body className={font.className}>
         <MswComponent />
-        {children}
+        <div id="layout-wrapper">
+          <div id="main-content">
+            <Providers>
+              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+            </Providers>
+          </div>
+        </div>
       </body>
     </html>
   );

@@ -1,4 +1,4 @@
-'use client';
+import { text } from 'stream/consumers';
 
 export default function Home() {
   // const handleTestClick = async () => {
@@ -11,5 +11,5 @@ export default function Home() {
   //   }
   // };
 
-  return <div>{/* <button onClick={handleTestClick}>Test API</button> */}</div>;
+  return <></>;
 }
