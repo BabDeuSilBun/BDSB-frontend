@@ -42,7 +42,11 @@ const BaseBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   children,
   ...props
 }) => {
-  return <BaseButton {...props}>{children}</BaseButton>;
+  return (
+    <BaseButton {...props} className="bold">
+      {children}
+    </BaseButton>
+  );
 };
 
 const BaseButtonInactive = styled(BaseButton)`
