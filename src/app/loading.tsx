@@ -10,7 +10,6 @@ const Wrapper = styled.div`
   align-items: center;
   height: 100%;
   width: 100%;
-  background-color: #123145;
 `;
 
 export default function Loading() {

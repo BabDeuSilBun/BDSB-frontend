@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 const mediaQueries = {
   mobile: `@media (max-width: var(--breakpoint-mobile-max))`,
@@ -42,7 +42,11 @@ const BaseBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   children,
   ...props
 }) => {
-  return <BaseButton {...props}>{children}</BaseButton>;
+  return (
+    <BaseButton {...props} className="bold">
+      {children}
+    </BaseButton>
+  );
 };
 
 const BaseButtonInactive = styled(BaseButton)`
