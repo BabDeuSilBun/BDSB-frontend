@@ -20,7 +20,7 @@ const TeamOrderList = () => {
 
   return (
     <div>
-      <h3 className='bold'>임박한 모임</h3>
+      <h3 className="bold">임박한 모임</h3>
       {data?.map((item) => <TeamOrderItem key={item.meetingId} item={item} />)}
     </div>
   );

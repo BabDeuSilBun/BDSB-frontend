@@ -225,14 +225,14 @@ a {
   text-decoration: none;
 }
 
-/* Input Styles */
+/* Input, Text Area, Selector Styles */
 input[type='text'],
 input[type='password'],
-textarea {
+textarea,
+select {
   width: 100%;
   padding: var(--spacing-sm); /* 1rem */
   font-size: var(--font-size-md); /* 1rem */
-  font-family: var(--font-family-body);
   color: var(--gray500);
   background-color: var(--background);
   border: 1px solid var(--gray200);
@@ -244,26 +244,46 @@ textarea {
 
 input[type='text']:focus,
 input[type='password']:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   border-color: var(--primary);
 }
 
 input[type='text']::placeholder,
 input[type='password']::placeholder,
-textarea::placeholder {
+textarea::placeholder,
+selector::placeholder {
   color: var(--gray400);
 }
 
 input[type='text']:disabled,
 input[type='password']:disabled,
-textarea:disabled {
+textarea:disabled,
+select:disabled {
   background-color: var(--gray100);
   color: var(--gray300);
   cursor: not-allowed;
 }
 
-.hidden {
-  display: none !important;
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  background: none;
+  padding-right: 2rem;
+  color: var(--gray400);
+  background: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%23757880'%3E%3Cpath d='M480-376q-5 0-10-1.5t-9-5.5L284-568q-7-7-7-18t7-18q7-7 18-7t18 7l160 160 160-160q7-7 18-7t18 7q7 7 7 18t-7 18L500-383q-4 4-9 5.5t-10 1.5Z'/%3E%3C/svg%3E") no-repeat right 0.5rem center;
+  background-size: 2rem;
+}
+
+/* Button Styles */
+button {
+  transition: all 0.2s;
+}
+
+button:focus {
+  outline: none;
 }
 
 /* Media Queries */

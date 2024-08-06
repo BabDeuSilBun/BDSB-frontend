@@ -29,9 +29,9 @@ export default async function Home() {
   return (
     <>
       {/* <Header /> <Tabs />*/}
-      <HydrationBoundary state={dehydrate(queryClient)}>
+      {/* <HydrationBoundary state={dehydrate(queryClient)}>
         {params === 'temOrder' ? <TeamOrderList /> : <RestaurantsList />}
-      </HydrationBoundary>
+      </HydrationBoundary> */}
     </>
   );
 }
