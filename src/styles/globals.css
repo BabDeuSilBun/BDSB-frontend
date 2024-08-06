@@ -21,7 +21,7 @@
 
   /* Additional colors */
   --warning: #fe4e39; /* Red */
-  --shadow: #5b6374; /* Shadow color */
+  --shadow: rgba(91, 99, 116, 0.3); /* Shadow color */
 
   /* Font sizes */
   --font-size-xs: 0.75rem; /* 12px */
@@ -75,7 +75,7 @@
 
     /* Additional colors */
     --error: #ff6a62; /* Red */
-    --shadow: #5b6374; /* Shadow color */
+    --shadow: rgba(0, 0, 0, 0.5); /* Shadow color */
   }
 
   html {
