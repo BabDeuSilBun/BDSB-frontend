@@ -46,9 +46,7 @@ export default function RootLayout({
         <div id="layout-wrapper">
           <div id="main-content">
             <Providers>
-              <ChakraProvider>
-                <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-              </ChakraProvider>
+              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
             </Providers>
           </div>
         </div>
