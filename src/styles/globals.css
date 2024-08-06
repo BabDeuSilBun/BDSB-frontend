@@ -20,18 +20,8 @@
   --purple500: #6f6cf6;
 
   /* Additional colors */
-  --error: #fe4e39; /* Red */
+  --warning: #fe4e39; /* Red */
   --shadow: #5b6374; /* Shadow color */
-
-  /* Font families */
-  --font-family-body: 'SF Pro Text', Arial, sans-serif; /* Primary font for body text */
-  --font-family-heading: 'SF Pro Text', Georgia, serif; /* Primary font for headings */
-  --font-family-monospace: 'SF Mono', 'Courier New', monospace; /* Font for code or monospace needs */
-
-  /* Font weights */
-  --font-weight-light: 300; /* Light */
-  --font-weight-regular: 400; /* Regular */
-  --font-weight-semi-bold: 600; /* Semi-bold */
 
   /* Font sizes */
   --font-size-xs: 0.75rem; /* 12px */
@@ -93,18 +83,48 @@
   }
 }
 
-/* CSS Reset */
-body,
-input,
-textarea,
-select,
-table,
-button {
-  font-family: var(--font-family-body); /* Primary font for body text */
+@font-face {
+  font-family: 'SF Pro Display Light';
+  src: url('../app/fonts/SF-Pro-Display-Light.otf') format('opentype');
 }
 
-code {
-  font-family: var(--font-family-monospace); /* Monospace font for code */
+@font-face {
+  font-family: 'SF Pro Display Semibold';
+  src: url('../app/fonts/SF-Pro-Display-Semibold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'SUIT';
+  src: url('../app/fonts/SUIT.woff2') format('woff2');
+}
+
+.xs {
+  font-size: var(--font-size-xs);
+}
+
+.sm {
+  font-size: var(--font-size-sm);
+}
+
+.lg {
+  font-size: var(--font-size-lg);
+}
+.xl {
+  font-size: var(--font-size-xl);
+}
+
+.icon {
+  font-family: 'SUIT', sans-serif;
+}
+
+.bold {
+  font-family: 'SF Pro Display Semibold', sans-serif;
+  font-weight: 600;
+}
+
+.light {
+  font-family: 'SF Pro Display Light', sans-serif;
+  font-weight: 300;
 }
 
 ul,
@@ -156,7 +176,6 @@ body {
 
 body {
   color: var(--text);
-  font-family: var(--font-family-body);
   display: flex;
   justify-content: center;
   align-items: center;
