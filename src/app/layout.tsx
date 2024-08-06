@@ -5,7 +5,6 @@ import localFont from 'next/font/local';
 import type { Metadata } from 'next';
 import { ChakraProvider } from '@chakra-ui/react';
 import StyledComponentsRegistry from '@/lib/registry';
-import theme from '@/styles/chakraTheme';
 
 const font = localFont({
   src: 'fonts/SF-Pro-Display-Regular.otf',
@@ -47,7 +46,7 @@ export default function RootLayout({
         <div id="layout-wrapper">
           <div id="main-content">
             <Providers>
-              <ChakraProvider theme={theme}>
+              <ChakraProvider>
                 <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
               </ChakraProvider>
             </Providers>
