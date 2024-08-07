@@ -1,6 +1,6 @@
 'use client';
 
-import { RESTAURANT_CATEGORIES } from '@/constant/category';
+import { RESTAURANT_CATEGORIES, RestaurantCategory } from '@/constant/category';
 import Image from 'next/image';
 import styled from 'styled-components';
 
@@ -41,7 +41,7 @@ const CategoryItem = () => {
         <Wrapper key={category}>
           <ImageWrapper>
             <Image
-              src={RESTAURANT_CATEGORIES[category]}
+              src={RESTAURANT_CATEGORIES[category as RestaurantCategory]}
               alt={category}
               layout="fill"
               objectFit="cover"

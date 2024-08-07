@@ -12,3 +12,4 @@ export const RESTAURANT_CATEGORIES = {
   분식: '/fee.svg',
   기타: '/fee.svg',
 };
+export type RestaurantCategory = keyof typeof RESTAURANT_CATEGORIES;
