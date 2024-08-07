@@ -1,5 +1,5 @@
 import { MeetingDetail } from '@/types/meeting';
-import { StoreDetail } from '@/types/store';
+import { StoreDetail } from '@/types/restaurant';
 
 export const stores: StoreDetail[] = [
   {

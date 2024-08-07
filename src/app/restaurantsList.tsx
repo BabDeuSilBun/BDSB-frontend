@@ -1,21 +1,35 @@
-import RestarantsOrderItem from '@/components/listItems/restarantsOrderItem';
-import { RestarantSummary } from '@/types/store';
+'use client';
+
+import { RestaurantSummary } from '@/types/restaurant';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import styled from 'styled-components';
-import { Divider } from '@chakra-ui/react';
-import BigRestarantsItem from '@/components/listItems/bigRestarantsItem';
+import BigRestarantsItem from '@/components/listItems/bigRestarantItem';
 import CategoryItem from '@/components/listItems/categoryItem';
+import { getRestaurantsList } from '@/services/restaurantService';
 
-const getRestarantsList = async () => {
-  const response = await axios.get('api/users/meetings');
-  return response.data;
-};
+const RestarantsList = () => {
+  const { data, isLoading, error } = useQuery<RestaurantSummary[]>({
+    queryKey: ['restaurantsList'],
+    queryFn: getRestaurantsList,
+  });
 
-export default function RestarantsList() {
+  if (isLoading) return <p>데이터를 로딩 중입니다...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
   return (
     <div>
       <CategoryItem />
+      <select name="" id="">
+        <option value="">기본 순</option>
+        <option value="">최소주문금액 낮은 순</option>
+      </select>
+      {data ? (
+        data.map((item) => <BigRestarantsItem item={item} key={item.storeId} />)
+      ) : (
+        <div>주문 가능한 가게가 없습니다.</div>
+      )}
     </div>
   );
-}
+};
+
+export default RestarantsList;

@@ -13,7 +13,7 @@ export const getRestaurantsList = async () => {
   }
 };
 
-export const getRestaurantDetail = async (storeId: number) => {
+export const getRestaurantInfo = async (storeId: number) => {
   try {
     const response = await axios.get(
       RESTAURANT_API_URL.replace('{storeId}', storeId.toString()),
