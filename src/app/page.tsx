@@ -1,4 +1,5 @@
 import Header from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
 import Tabs from '@/components/layout/tabs';
 import RestaurantsList from './restaurantsList';
 import TeamOrderList from './teamOrderList';
@@ -28,10 +29,12 @@ export default async function Home() {
 
   return (
     <>
-      {/* <Header /> <Tabs />*/}
+      <Header />
+      {/* <Tabs />*/}
       <HydrationBoundary state={dehydrate(queryClient)}>
         {params === 'teamOrder' ? <TeamOrderList /> : <RestaurantsList />}
       </HydrationBoundary>
+      <Footer type="button" buttonText="버튼입니당" />
     </>
   );
 }

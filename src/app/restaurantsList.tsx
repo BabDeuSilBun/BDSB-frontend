@@ -8,6 +8,11 @@ import RestaurantsItem from '@/components/listItems/restaurantsItem';
 import CategoryItem from '@/components/listItems/categoryItem';
 import { getRestaurantsList } from '@/services/restaurantService';
 
+const Container = styled.section`
+  margin-top: 48px;
+  padding-bottom: 120px;
+`;
+
 const RestarantsList = () => {
   const { data, isLoading, error } = useQuery<RestaurantSummary[]>({
     queryKey: ['restaurantsList'],
@@ -18,7 +23,7 @@ const RestarantsList = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div>
+    <Container>
       <CategoryItem />
       <select name="" id="">
         <option value="">기본 순</option>
@@ -34,7 +39,7 @@ const RestarantsList = () => {
       ) : (
         <div>주문 가능한 가게가 없습니다.</div>
       )}
-    </div>
+    </Container>
   );
 };
 
