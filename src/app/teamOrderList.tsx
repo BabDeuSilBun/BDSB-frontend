@@ -61,7 +61,7 @@ const TeamOrderList = () => {
       <Divider />
       <Container>
         <h3 className="bold xl">모임 모아보기</h3>
-        {data? (
+        {data ? (
           data.map((item, index) => (
             <div key={item.meetingId}>
               <TeamOrderItem item={item} />
