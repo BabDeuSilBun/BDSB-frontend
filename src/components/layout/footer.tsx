@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { BaseBtn, BaseBtnInactive, BtnGroup } from '@/styles/button';
 
 const FooterContainer = styled.footer`
-  width: 360px;
+  width: 100%;
+  max-width: 360px;
   height: 100px;
   background-color: var(--background);
   box-shadow: 0px 4px 8px var(--shadow);
@@ -11,6 +12,7 @@ const FooterContainer = styled.footer`
   align-items: center;
   position: fixed;
   bottom: 0;
+  z-index: 1000;
 `;
 
 interface FooterProps {
