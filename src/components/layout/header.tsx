@@ -1,6 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import styled from 'styled-components';
+import HamburgerIcon from '../svg/hamburger';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -13,12 +15,30 @@ const HeaderContainer = styled.header`
   width: inherit;
   box-sizing: border-box;
   box-shadow: 1.48px 1.48px 7px var(--shadow);
+  padding: 1.5rem;
 `;
 
-const Header = () => {
+const Button = styled.div``;
+
+interface HeaderProps {
+  buttonLeft?: string;
+  text?: string;
+  buttonRight?: string;
+}
+
+const Header: React.FC<HeaderProps> = ({ buttonLeft, text, buttonRight }) => {
+  let left = buttonLeft;
+  let right = buttonRight;
+
   return (
     <HeaderContainer>
-      <h1>header 내용</h1>
+      <Button>
+        <HamburgerIcon color="var(--primary)" width={18} height={18} />
+      </Button>
+      <h1>{text}</h1>
+      <Button>
+        <HamburgerIcon color="var(--primary)" width={18} height={18} />
+      </Button>
     </HeaderContainer>
   );
 };
