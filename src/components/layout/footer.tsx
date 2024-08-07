@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { BaseBtn, BaseBtnInactive, BtnGroup } from '@/styles/button';
 
 const FooterContainer = styled.footer`
-  width: 360px;
+  width: 100%;
+  max-width: 360px;
   height: 100px;
   background-color: var(--background);
   box-shadow: 0px 4px 8px var(--shadow);
@@ -11,6 +12,7 @@ const FooterContainer = styled.footer`
   align-items: center;
   position: fixed;
   bottom: 0;
+  z-index: 1000;
 `;
 
 interface FooterProps {
@@ -18,17 +20,28 @@ interface FooterProps {
   buttonText?: string;
   buttonText1?: string;
   buttonText2?: string;
+  onButtonClick?: () => void;
+  onButtonClick1?: () => void;
+  onButtonClick2?: () => void;
 }
 
-const Footer: React.FC<FooterProps> = ({ type, buttonText, buttonText1, buttonText2 }) => {
+const Footer: React.FC<FooterProps> = ({ 
+  type, 
+  buttonText, 
+  buttonText1, 
+  buttonText2,
+  onButtonClick, 
+  onButtonClick1, 
+  onButtonClick2 
+ }) => {
   return (
     <FooterContainer>
-      {type === 'button' && <BaseBtn>{buttonText}</BaseBtn>}
+      {type === 'button' && <BaseBtn onClick={onButtonClick}>{buttonText}</BaseBtn>}
       {type === 'inactiveButton' && <BaseBtnInactive>{buttonText}</BaseBtnInactive>}
       {type === 'buttonGroup' && (
         <BtnGroup>
-          <BaseBtn>{buttonText1}</BaseBtn>
-          <BaseBtnInactive>{buttonText2}</BaseBtnInactive>
+          <BaseBtn onClick={onButtonClick1}>{buttonText1}</BaseBtn>
+          <BaseBtnInactive onClick={onButtonClick2}>{buttonText2}</BaseBtnInactive>
         </BtnGroup>
       )}
     </FooterContainer>

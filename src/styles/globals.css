@@ -1,9 +1,9 @@
 :root {
   /* Main colors */
-  --primary: #6f6cf6; /* Same as purple500 */
+  --primary: #6f6cf6; /* Same as purple400 */
   --secondary: #e7ecff; /* Same as purple100 */
-  --background: #ffffff;
-  --text: #363841;
+  --background: #f8f8f8; /* Same as gray100 */
+  --text: #010b13;
 
   /* Grayscale */
   --gray100: #f8f8f8;
@@ -16,8 +16,8 @@
   --purple100: #e7ecff;
   --purple200: #bac0f7;
   --purple300: #8d8bfb;
-  --purple400: #6851f5;
-  --purple500: #6f6cf6;
+  --purple400: #6f6cf6;
+  --purple500: #6851f5;
 
   /* Additional colors */
   --warning: #fe4e39; /* Red */
@@ -54,28 +54,28 @@
 @media (prefers-color-scheme: dark) {
   :root {
     /* Main colors */
-    --primary: #8967f6; /* Same as purple500 */
-    --secondary: #2b215a; /* Same as purple100 */
-    --background: #010b13; /* Same as gray100 */
+    --primary: #6f6cf6; /* Same as purple400 */
+    --secondary: #141414; /* Same as purple100 */
+    --background: #2c3138; /* Same as gray100 */
     --text: #f8f8f8;
 
     /* Grayscale */
-    --gray100: #010b13;
+    --gray100: #2c3138;
     --gray200: #363841;
     --gray300: #757880;
     --gray400: #b4bac6;
     --gray500: #dde1e8;
 
     /* Purple scale */
-    --purple100: #2b215a;
-    --purple200: #44328c;
-    --purple300: #5c43b5;
-    --purple400: #7252e0;
-    --purple500: #8967f6;
+    --purple100: #141414;
+    --purple200: #282828;
+    --purple300: #8d8bfb;
+    --purple400: #6f6cf6;
+    --purple500: #6851f5;
 
     /* Additional colors */
     --error: #ff6a62; /* Red */
-    --shadow: rgba(0, 0, 0, 0.5); /* Shadow color */
+    --shadow: rgba(255, 255, 255, 0.3); /* Shadow color */
   }
 
   html {

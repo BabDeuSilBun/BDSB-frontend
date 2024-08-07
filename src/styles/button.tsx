@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const mediaQueries = {
@@ -15,17 +16,11 @@ const BaseButton = styled.button`
   border: none;
   cursor: pointer;
   &:hover {
-    background-color: var(--purple400);
+    background-color: var(--purple500);
   }
   &:active {
-    background-color: var(--purple500);
+    background-color: var(--purple400);
     transform: scale(0.98);
-  }
-  &:focus {
-    box-shadow:
-      0 0 1px 2px var(--primary),
-      0 1px 1px rgba(0, 0, 0, 0.15);
-    outline: none;
   }
   ${mediaQueries.mobile} {
     width: 100%;
@@ -38,12 +33,18 @@ const BaseButton = styled.button`
   }
 `;
 
-const BaseBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
+const BaseBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
+> = ({
   children,
+  onClick,
   ...props
 }) => {
   return (
-    <BaseButton {...props} className="bold">
+    <BaseButton 
+      onClick={onClick}
+      {...props}
+      className="bold"
+    >
       {children}
     </BaseButton>
   );
@@ -59,18 +60,21 @@ const BaseButtonInactive = styled(BaseButton)`
     background-color: var(--gray500);
     transform: scale(0.98);
   }
-  &:focus {
-    box-shadow:
-      0 0 1px 2px var(--gray300),
-      0 1px 1px rgba(0, 0, 0, 0.15);
-    outline: none;
-  }
 `;
 
-const BaseBtnInactive: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, ...props }) => {
-  return <BaseButtonInactive {...props}>{children}</BaseButtonInactive>;
+const BaseBtnInactive: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
+> = ({ 
+  children,
+  ...props
+}) => {
+  return (
+    <BaseButtonInactive 
+      {...props} 
+      className="bold"
+    >
+      {children}
+    </BaseButtonInactive>
+  );
 };
 
 const HalfButtonPurple = styled(BaseButton)`
@@ -88,8 +92,20 @@ const HalfButtonPurple = styled(BaseButton)`
 
 const HalfBtnPurple: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, ...props }) => {
-  return <HalfButtonPurple {...props}>{children}</HalfButtonPurple>;
+> = ({ 
+  children, 
+  onClick,
+  ...props 
+}) => {
+  return (
+    <HalfButtonPurple 
+      onClick={onClick}
+      {...props} 
+      className="bold"
+    >
+      {children}
+    </HalfButtonPurple>
+  );
 };
 
 const HalfButtonLight = styled(BaseButton)`
@@ -103,12 +119,6 @@ const HalfButtonLight = styled(BaseButton)`
     background-color: var(--purple300);
     transform: scale(0.98);
   }
-  &:focus {
-    box-shadow:
-      0 0 1px 2px var(--primary),
-      0 1px 1px rgba(0, 0, 0, 0.15);
-    outline: none;
-  }
   ${mediaQueries.mobile} {
     width: 100%;
   }
@@ -120,17 +130,27 @@ const HalfButtonLight = styled(BaseButton)`
   }
 `;
 
-const HalfBtnLight: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
+const HalfBtnLight: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
+> = ({
   children,
+  onClick,
   ...props
 }) => {
-  return <HalfButtonLight {...props}>{children}</HalfButtonLight>;
+  return (
+    <HalfButtonLight 
+      onClick={onClick}
+      {...props} 
+      className="bold"
+    >
+      {children}
+    </HalfButtonLight>
+  );
 };
 
 const ButtonGroup = styled.div`
   display: flex;
   gap: 1rem;
-  width: 328px;
+  width: 281px;
   button {
     flex: 1;
   }
@@ -145,7 +165,8 @@ const ButtonGroup = styled.div`
   }
 `;
 
-const BtnGroup: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+const BtnGroup: React.FC<React.PropsWithChildren<{}>
+> = ({ children }) => {
   return <ButtonGroup>{children}</ButtonGroup>;
 };
 
@@ -156,6 +177,7 @@ const RoundButtonFilled = styled.button`
   color: var(--text);
   border-radius: 21px;
   border: none;
+  padding: 0.3rem 1rem;
   cursor: pointer;
   &:hover {
     background-color: var(--purple200);
@@ -164,12 +186,7 @@ const RoundButtonFilled = styled.button`
     background-color: var(--purple300);
     transform: scale(0.98);
   }
-  &:focus {
-    box-shadow:
-      0 0 1px 2px var(--primary),
-      0 1px 1px rgba(0, 0, 0, 0.15);
-    outline: none;
-  }
+
   ${mediaQueries.mobile} {
     width: 100%;
   }
@@ -181,32 +198,42 @@ const RoundButtonFilled = styled.button`
   }
 `;
 
-const RoundBtnFilled: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, ...props }) => {
-  return <RoundButtonFilled {...props}>{children}</RoundButtonFilled>;
+const RoundBtnFilled: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
+> = ({ 
+  children,
+  onClick, 
+  ...props
+}) => {
+  return (
+    <RoundButtonFilled 
+      onClick={onClick}
+      {...props}
+    >
+      {children}
+    </RoundButtonFilled>
+  );
 };
 
-const SmallRoundStroke = styled.button`
+const SmallRoundButton = styled.button<{ isActive: boolean }>`
   width: 45px;
   height: 27px;
-  background-color: transparent;
-  color: var(--gray300);
+  background-color: ${({ isActive }) => (isActive ? 'var(--primary)' : 'transparent')};
+  color: ${({ isActive }) => (isActive ? 'white' : 'var(--gray300)')};
   border-radius: 15px;
   border: 1px solid var(--gray300);
+  padding: 0.03rem 0.2rem;
   cursor: pointer;
   &:hover {
-    background-color: var(--gray200);
+    background-color: ${({ isActive }) => (isActive ? 'var(--primary)' : 'var(--gray200)')};
   }
   &:active {
-    background-color: var(--gray100);
+    background-color: ${({ isActive }) => (isActive ? 'var(--primary)' : 'var(--gray100)')};
     transform: scale(0.98);
   }
   &:focus {
-    box-shadow:
-      0 0 1px 2px var(--primary),
-      0 1px 1px rgba(0, 0, 0, 0.15);
-    outline: none;
+    background-color: ${({ isActive }) => (isActive ? 'var(--primary)' : 'transparent')};
+    color: ${({ isActive }) => (isActive ? 'white' : 'var(--gray300)')};
+    border: ${({ isActive }) => (isActive ? 'none' : '1px solid var(--gray300)')};
   }
   ${mediaQueries.mobile} {
     width: 100%;
@@ -219,47 +246,30 @@ const SmallRoundStroke = styled.button`
   }
 `;
 
-const SmallRdStroke: React.FC<
+const SmallRdBtn: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, ...props }) => {
-  return <SmallRoundStroke {...props}>{children}</SmallRoundStroke>;
-};
+> = ({ 
+  children,
+  onClick,
+  ...props 
+}) => {
+  const [isActive, setIsActive] = useState(false);
+  const handleClick = () => {
+    setIsActive(!isActive);
+  };
 
-const SmallRoundFilled = styled.button`
-  width: 45px;
-  height: 27px;
-  background-color: var(--primary);
-  color: white;
-  border-radius: 15px;
-  cursor: pointer;
-  &:hover {
-    background-color: var(--purple400);
-  }
-  &:active {
-    background-color: var(--purple500);
-    transform: scale(0.98);
-  }
-  &:focus {
-    box-shadow:
-      0 0 1px 2px var(--primary),
-      0 1px 1px rgba(0, 0, 0, 0.15);
-    outline: none;
-  }
-  ${mediaQueries.mobile} {
-    width: 100%;
-  }
-  ${mediaQueries.tablet} {
-    width: 50%;
-  }
-  ${mediaQueries.desktop} {
-    width: 45px;
-  }
-`;
-
-const SmallRdFilled: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, ...props }) => {
-  return <SmallRoundFilled {...props}>{children}</SmallRoundFilled>;
+  return (
+    <SmallRoundButton 
+      isActive={isActive} 
+      onClick={(e) => {
+        handleClick();
+        onClick && onClick(e);
+      }}
+      {...props}
+    >
+      {children}
+    </SmallRoundButton>
+  );
 };
 
 export {
@@ -269,6 +279,5 @@ export {
   HalfBtnLight,
   BtnGroup,
   RoundBtnFilled,
-  SmallRdStroke,
-  SmallRdFilled,
+  SmallRdBtn,
 };
