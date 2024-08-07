@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const mediaQueries = {
@@ -33,12 +33,18 @@ const BaseButton = styled.button`
   }
 `;
 
-const BaseBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
+const BaseBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
+> = ({
   children,
+  onClick,
   ...props
 }) => {
   return (
-    <BaseButton {...props} className="bold">
+    <BaseButton 
+      onClick={onClick}
+      {...props}
+      className="bold"
+    >
       {children}
     </BaseButton>
   );
@@ -56,12 +62,19 @@ const BaseButtonInactive = styled(BaseButton)`
   }
 `;
 
-const BaseBtnInactive: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, ...props }) => {
-  return <BaseButtonInactive {...props} className="bold">
-           {children}
-         </BaseButtonInactive>;
+const BaseBtnInactive: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
+> = ({ 
+  children,
+  ...props
+}) => {
+  return (
+    <BaseButtonInactive 
+      {...props} 
+      className="bold"
+    >
+      {children}
+    </BaseButtonInactive>
+  );
 };
 
 const HalfButtonPurple = styled(BaseButton)`
@@ -79,10 +92,20 @@ const HalfButtonPurple = styled(BaseButton)`
 
 const HalfBtnPurple: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, ...props }) => {
-  return <HalfButtonPurple {...props} className="bold">
-           {children}
-         </HalfButtonPurple>;
+> = ({ 
+  children, 
+  onClick,
+  ...props 
+}) => {
+  return (
+    <HalfButtonPurple 
+      onClick={onClick}
+      {...props} 
+      className="bold"
+    >
+      {children}
+    </HalfButtonPurple>
+  );
 };
 
 const HalfButtonLight = styled(BaseButton)`
@@ -107,19 +130,27 @@ const HalfButtonLight = styled(BaseButton)`
   }
 `;
 
-const HalfBtnLight: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
+const HalfBtnLight: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
+> = ({
   children,
+  onClick,
   ...props
 }) => {
-  return <HalfButtonLight {...props} className="bold">
-           {children}
-         </HalfButtonLight>;
+  return (
+    <HalfButtonLight 
+      onClick={onClick}
+      {...props} 
+      className="bold"
+    >
+      {children}
+    </HalfButtonLight>
+  );
 };
 
 const ButtonGroup = styled.div`
   display: flex;
   gap: 1rem;
-  width: 328px;
+  width: 281px;
   button {
     flex: 1;
   }
@@ -134,7 +165,8 @@ const ButtonGroup = styled.div`
   }
 `;
 
-const BtnGroup: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+const BtnGroup: React.FC<React.PropsWithChildren<{}>
+> = ({ children }) => {
   return <ButtonGroup>{children}</ButtonGroup>;
 };
 
@@ -166,10 +198,20 @@ const RoundButtonFilled = styled.button`
   }
 `;
 
-const RoundBtnFilled: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, ...props }) => {
-  return <RoundButtonFilled {...props}>{children}</RoundButtonFilled>;
+const RoundBtnFilled: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
+> = ({ 
+  children,
+  onClick, 
+  ...props
+}) => {
+  return (
+    <RoundButtonFilled 
+      onClick={onClick}
+      {...props}
+    >
+      {children}
+    </RoundButtonFilled>
+  );
 };
 
 const SmallRoundButton = styled.button<{ isActive: boolean }>`
@@ -206,14 +248,25 @@ const SmallRoundButton = styled.button<{ isActive: boolean }>`
 
 const SmallRdBtn: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ children, ...props }) => {
+> = ({ 
+  children,
+  onClick,
+  ...props 
+}) => {
   const [isActive, setIsActive] = useState(false);
   const handleClick = () => {
     setIsActive(!isActive);
   };
 
   return (
-    <SmallRoundButton isActive={isActive} onClick={handleClick} {...props}>
+    <SmallRoundButton 
+      isActive={isActive} 
+      onClick={(e) => {
+        handleClick();
+        onClick && onClick(e);
+      }}
+      {...props}
+    >
       {children}
     </SmallRoundButton>
   );
