@@ -9,12 +9,14 @@ import { getCurrentHeadCount } from '@/services/teamOrderService';
 import { useQuery } from '@tanstack/react-query';
 import GroupIcon from '../svg/group';
 
-const Container = styled.div`
+// 카드 레이아웃 컨테이너
+const CardContainer = styled.div`
   display: flex;
-  padding: 10px;
+  padding: 1rem 0;
 `;
 
-const ImageBox = styled.div`
+// 이미지 컨테이너
+const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,16 +28,18 @@ const ImageBox = styled.div`
   position: relative;
 `;
 
-const MainDescriptions = styled.div`
+// 주 정보 영역
+const InfoSection = styled.div`
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
+  justify-content: space-between;
   padding: 0 10px;
   flex: 1;
   overflow: hidden;
 `;
 
-const OtherDescriptions = styled.div`
+// 추가 정보 영역
+const AdditionalInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -43,24 +47,28 @@ const OtherDescriptions = styled.div`
   flex: 0 1 auto;
 `;
 
-const HeadCount = styled.div`
+// 참가자 수 표시
+const ParticipantCount = styled.div`
   display: flex;
   gap: 8px;
   justify-content: right;
 `;
 
-const Title = styled.h4.attrs({ className: 'bold' })`
+// 매장 이름
+const StoreName = styled.h4.attrs({ className: 'bold' })`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 `;
 
-const Delivery = styled.p.attrs({ className: 'xs' })`
+// 배달 시간 및 가격 정보
+const InfoItem = styled.p.attrs({ className: 'xs' })`
   display: flex;
   gap: 8px;
 `;
 
-const OrderType = styled.p.attrs({ className: 'bold' })`
+// 주문 타입
+const OrderTypeLabel = styled.p.attrs({ className: 'bold' })`
   color: var(--primary);
 `;
 
@@ -78,42 +86,38 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
   });
 
   return (
-    <Container>
-      <ImageBox>
+    <CardContainer>
+      <ImageContainer>
         {storeData?.image[0] && (
-          <Image src={storeData.image[0].url} alt="store image" layout="fill" />
+          <Image
+            src={storeData.image[0].url}
+            alt="Store Image"
+            layout="fill"
+            objectFit="cover"
+          />
         )}
-      </ImageBox>
-
-      <MainDescriptions>
+      </ImageContainer>
+      <InfoSection>
         <p className="sm">4분 뒤 마감</p>
-        <Title> {storeData?.name}</Title>
-        <Delivery>
-          <Image src="./timer.svg" alt="delivery time" width="18" height="18" />
+        <StoreName>{storeData?.name}</StoreName>
+        <InfoItem>
+          <Image src="./timer.svg" alt="Delivery Time" width="18" height="18" />
           <span>{storeData?.deliveryTime}</span>
-        </Delivery>
-        <Delivery>
-          <Image src="./fee.svg" alt="delivery time" width="18" height="18" />
+        </InfoItem>
+        <InfoItem>
+          <Image src="./fee.svg" alt="Delivery Fee" width="18" height="18" />
           <span>{storeData?.deliveryPrice}</span>
-        </Delivery>
-      </MainDescriptions>
-
-      <OtherDescriptions>
-        <HeadCount>
+        </InfoItem>
+      </InfoSection>
+      <AdditionalInfo>
+        <ParticipantCount>
           <GroupIcon color="var(--primary)" width={18} height={18} />
           <p className="sm">{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</p>
-        </HeadCount>
-        <OrderType>{item.orderType}</OrderType>
-      </OtherDescriptions>
-    </Container>
+        </ParticipantCount>
+        <OrderTypeLabel>{item.orderType}</OrderTypeLabel>
+      </AdditionalInfo>
+    </CardContainer>
   );
 };
 
 export default TeamOrderItem;
-
-{
-  /* 여기 나중에 로직 추가해서 수정 예정 */
-}
-{
-  /* <p>{item.paymentAvailableDt}</p>*/
-}

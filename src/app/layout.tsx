@@ -3,7 +3,6 @@ import { MswComponent } from '@/components/msw.component';
 import { Providers } from './providers';
 import localFont from 'next/font/local';
 import type { Metadata } from 'next';
-import { ChakraProvider } from '@chakra-ui/react';
 import StyledComponentsRegistry from '@/lib/registry';
 
 const font = localFont({

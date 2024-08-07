@@ -11,7 +11,7 @@ import { getTeamOrderList } from '@/services/teamOrderService';
 import { getRestaurantsList } from '@/services/restaurantService';
 
 export default async function Home() {
-  const params = 'temOrder';
+  const params = 'store';
   const queryClient = new QueryClient();
 
   if (params === 'temOrder') {
