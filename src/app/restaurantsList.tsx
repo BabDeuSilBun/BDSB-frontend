@@ -4,6 +4,7 @@ import { RestaurantSummary } from '@/types/restaurant';
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import BigRestarantsItem from '@/components/listItems/bigRestarantItem';
+import RestaurantsItem from '@/components/listItems/restaurantsItem';
 import CategoryItem from '@/components/listItems/categoryItem';
 import { getRestaurantsList } from '@/services/restaurantService';
 
@@ -25,6 +26,11 @@ const RestarantsList = () => {
       </select>
       {data ? (
         data.map((item) => <BigRestarantsItem item={item} key={item.storeId} />)
+      ) : (
+        <div>주문 가능한 가게가 없습니다.</div>
+      )}
+      {data ? (
+        data.map((item) => <RestaurantsItem item={item} key={item.storeId} />)
       ) : (
         <div>주문 가능한 가게가 없습니다.</div>
       )}

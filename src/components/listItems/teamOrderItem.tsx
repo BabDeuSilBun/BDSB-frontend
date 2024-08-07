@@ -122,7 +122,12 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
       </InfoSection>
       <AdditionalInfo>
         <ParticipantCount>
-          <GroupIcon color="var(--primary)" width={18} height={18} />
+          <GroupIcon
+            color="var(--primary)"
+            width={18}
+            height={18}
+            priority={true}
+          />
           <p className="sm">{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</p>
         </ParticipantCount>
         <OrderTypeLabel>{item.orderType}</OrderTypeLabel>
