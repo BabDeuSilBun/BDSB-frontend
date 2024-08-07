@@ -1,12 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { MeetingSummary } from '@/types/meeting';
 import styled from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
+import { MeetingSummary } from '@/types/meeting';
 import { RestaurantSummary } from '@/types/restaurant';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getCurrentHeadCount } from '@/services/teamOrderService';
-import { useQuery } from '@tanstack/react-query';
+
 import GroupIcon from '../svg/group';
 
 // 스타일 컨테이너

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-export const MswComponent = () => {
+function MswComponent() {
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
       if (typeof window === 'undefined') {
@@ -20,4 +20,6 @@ export const MswComponent = () => {
   });
 
   return null;
-};
+}
+
+export default MswComponent;
