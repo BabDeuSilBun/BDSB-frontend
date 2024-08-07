@@ -11,12 +11,12 @@ import { getTeamOrderList } from '@/services/teamOrderService';
 import { getRestaurantsList } from '@/services/restaurantService';
 
 export default async function Home() {
-  const params = 'store';
+  let params = 'store';
   const queryClient = new QueryClient();
 
-  if (params === 'temOrder') {
+  if (params === 'teamOrder') {
     await queryClient.prefetchQuery({
-      queryKey: ['temOrderList'],
+      queryKey: ['teamOrderList'],
       queryFn: getTeamOrderList,
     });
   } else {
@@ -30,7 +30,7 @@ export default async function Home() {
     <>
       {/* <Header /> <Tabs />*/}
       <HydrationBoundary state={dehydrate(queryClient)}>
-        {params === 'temOrder' ? <TeamOrderList /> : <RestaurantsList />}
+        {params === 'teamOrder' ? <TeamOrderList /> : <RestaurantsList />}
       </HydrationBoundary>
     </>
   );

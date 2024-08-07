@@ -4,14 +4,9 @@ import { MeetingSummary } from '@/types/meeting';
 import TeamOrderItem from '@/components/listItems/teamOrderItem';
 import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
-
-const getTemOrderList = async () => {
-  const response = await axios.get('api/users/meetings');
-  return response.data;
-};
+import { getTeamOrderList } from '@/services/teamOrderService';
 
 const Container = styled.section<{ additional?: string }>`
   padding: 1rem;
@@ -31,19 +26,22 @@ const CardContainer = styled.div`
 `;
 
 const TeamOrderList = () => {
-  const { data, error } = useQuery<MeetingSummary[]>({
-    queryKey: ['temOrderList'],
-    queryFn: getTemOrderList,
+  const { data, isLoading, error } = useQuery<MeetingSummary[]>({
+    queryKey: ['teamOrderList'],
+    queryFn: getTeamOrderList,
   });
 
   const imminentItems = data
-    ?.sort(
-      (a, b) =>
-        new Date(a.paymentAvailableDt).getTime() -
-        new Date(b.paymentAvailableDt).getTime(),
-    )
-    .slice(0, 4);
+    ? data
+        .sort(
+          (a, b) =>
+            new Date(a.paymentAvailableDt).getTime() -
+            new Date(b.paymentAvailableDt).getTime(),
+        )
+        .slice(0, 4)
+    : [];
 
+  if (isLoading) return <p>데이터를 로딩 중입니다...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
@@ -51,20 +49,28 @@ const TeamOrderList = () => {
       <Container additional="0">
         <h3 className="bold xl">임박한 모임</h3>
         <CardContainer>
-          {imminentItems?.map((item) => (
-            <ImminentOrderItem key={item.meetingId} item={item} />
-          ))}
+          {imminentItems.length > 0 ? (
+            imminentItems.map((item) => (
+              <ImminentOrderItem key={item.meetingId} item={item} />
+            ))
+          ) : (
+            <div>모집 중인 모임이 없습니다.</div>
+          )}
         </CardContainer>
       </Container>
       <Divider />
       <Container>
         <h3 className="bold xl">모임 모아보기</h3>
-        {data?.map((item, index) => (
-          <div key={item.meetingId}>
-            <TeamOrderItem item={item} />
-            {index < data.length - 1 && <Divider />}
-          </div>
-        ))}
+        {data ? (
+          data.map((item, index) => (
+            <div key={item.meetingId}>
+              <TeamOrderItem item={item} />
+              {index < data.length - 1 && <Divider />}
+            </div>
+          ))
+        ) : (
+          <div>모집 중인 모임이 없습니다.</div>
+        )}
       </Container>
     </>
   );
