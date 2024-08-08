@@ -61,8 +61,7 @@ const DropdownToggle = styled.div<{ selected: boolean }>`
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem;
-  font-size: 1rem;
-  font-weight: ${({ selected }) => (selected ? '500' : '400')};
+  font-weight: ${({ selected }) => (selected ? 'var(--font-regular)' : 'var(--font-light)')};
   color: ${({ selected }) => (selected ? 'var(--primary)' : 'var(--gray400)')};
   border: solid
     ${({ selected }) =>
@@ -76,13 +75,12 @@ const DropdownToggle = styled.div<{ selected: boolean }>`
 
   @media (max-width: var(--breakpoint-mobile-max)) {
     padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
+    font-size: var(--font-size-sm);
   }
 
   @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
     padding: 0.45rem 0.9rem;
-    font-size: 0.95rem;
-  }
+    font-size: var(--font-size-md);
 `;
 
 const SmallDropdownToggle = styled(DropdownToggle)`
@@ -90,10 +88,11 @@ const SmallDropdownToggle = styled(DropdownToggle)`
   font-size: var(--font-size-xs);
   border: none;
 
-  @media (max-width: var(--breakpoint-mobile-max)) {
-    padding: 0.2rem 0.4rem;
-    font-size: var(--font-size-xxs);
-  }
+  // xxs가 없어요!
+  // @media (max-width: var(--breakpoint-mobile-max)) {
+  //   padding: 0.2rem 0.4rem;
+  //   font-size: var(--font-size-xxs);
+  // }
 
   @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
     padding: 0.22rem 0.45rem;
@@ -134,8 +133,6 @@ const SmallDropdownMenu = styled(DropdownMenu)`
 const DropdownItem = styled.div<{ selected: boolean }>`
   padding: 0.5rem 1rem;
   cursor: pointer;
-  font-size: 1rem;
-  font-weight: 500;
   color: ${({ selected }) => (selected ? 'var(--primary)' : 'var(--gray400)')};
 
   &:hover {

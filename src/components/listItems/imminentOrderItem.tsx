@@ -66,14 +66,21 @@ const ParticipantCount = styled.div`
 `;
 
 // 제목
-const StoreTitle = styled.h4.attrs({ className: 'bold' })`
+const StoreTitle = styled.h4`
+  font-weight: var(--font-semi-bold);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 `;
 
+const Information = styled.p`
+  font-size: var(--font-size-xs);
+`;
+
 // 주문 타입
-const OrderTypeText = styled.p.attrs({ className: 'bold sm' })`
+const OrderTypeText = styled.p`
+  font-weight: var(--font-semi-bold);
+  font-size: var(--font-size-sm);
   white-space: nowrap;
   color: var(--primary);
 `;
@@ -105,10 +112,10 @@ const ImminentItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
           </ImageWrapper>
         )}
         <InfoOverlay>
-          <p className="xs">4분 뒤 마감</p>
+          <Information>4분 뒤 마감</Information>
           <ParticipantCount>
             <GroupIcon color="white" width={16} height={18} />
-            <p className="xs">{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</p>
+            <Information>{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</Information>
           </ParticipantCount>
         </InfoOverlay>
       </ImageSection>

@@ -7,7 +7,7 @@ import { formatCurrency } from '@/utils/currencyFormatter';
 
 const CardContainer = styled.div`
   display: flex;
-  padding: 1rem 0;
+  padding: 1rem;
 `;
 
 const ImageContainer = styled.div`
@@ -32,13 +32,15 @@ const InfoSection = styled.div`
   overflow: hidden;
 `;
 
-const RestaurantName = styled.h4.attrs({ className: 'bold' })`
+const RestaurantName = styled.h4`
+  font-weight: var(--font-semi-bold);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 `;
 
-const InfoItem = styled.p.attrs({ className: 'xs' })`
+const InfoItem = styled.p`
+  font-size: var(--font-size-xs);
   display: flex;
   gap: 0.3rem;
 `;

@@ -53,13 +53,13 @@ const Image = styled.img`
 const Title1 = styled.h2`
   margin-top: var(--spacing-md);
   font-size: var(--font-size-lg);
-  font-family: 'SF Pro Display Semibold', sans-serif;
+  font-weight: var(--font-semi-bold);
   color: var(--text);
 `;
 
 const Title2 = styled.h2`
   font-size: var(--font-size-lg);
-  font-family: 'SF Pro Display Semibold', sans-serif;
+  font-weight: var(--font-semi-bold);
   color: var(--text);
 `;
 
@@ -86,7 +86,7 @@ const Table = styled.table`
   th {
     width: 40%;
     padding-left: 0;
-    font-family: 'SF Pro Display Semibold', sans-serif;
+    font-weight: var(--font-semi-bold);
   }
   td {
     word-wrap: break-word;
