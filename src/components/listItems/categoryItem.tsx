@@ -1,13 +1,12 @@
 'use client';
 
-import { RESTAURANT_CATEGORIES, RestaurantCategory } from '@/constant/category';
 import Image from 'next/image';
 import styled from 'styled-components';
+import { RESTAURANT_CATEGORIES, RestaurantCategory } from '@/constant/category';
 
 const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   margin: 0 auto;
   padding: 1.5rem;
@@ -15,7 +14,6 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  flex: 1 1 calc(25% - 1rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,7 +32,7 @@ const ImageWrapper = styled.div`
 
 const CategoryName = styled.p.attrs({ className: 'xs' })``;
 
-const CategoryItem = () => {
+function CategoryItem() {
   return (
     <Container>
       {Object.keys(RESTAURANT_CATEGORIES).map((category) => (
@@ -43,8 +41,9 @@ const CategoryItem = () => {
             <Image
               src={RESTAURANT_CATEGORIES[category as RestaurantCategory]}
               alt={category}
-              layout="fill"
-              objectFit="cover"
+              fill
+              style={{ objectFit: 'cover' }}
+              priority
             />
           </ImageWrapper>
           <CategoryName>{category}</CategoryName>
@@ -52,6 +51,6 @@ const CategoryItem = () => {
       ))}
     </Container>
   );
-};
+}
 
 export default CategoryItem;

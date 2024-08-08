@@ -1,12 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-import { MeetingSummary } from '@/types/meeting';
 import styled from 'styled-components';
-import { StoreSummary } from '@/types/store';
-import { getRestaurantDetail } from '@/services/restaurantService';
-import { getCurrentHeadCount } from '@/services/teamOrderService';
 import { useQuery } from '@tanstack/react-query';
+import { MeetingSummary } from '@/types/meeting';
+import { RestaurantSummary } from '@/types/restaurant';
+import { getRestaurantInfo } from '@/services/restaurantService';
+import { getCurrentHeadCount } from '@/services/teamOrderService';
+
 import GroupIcon from '../svg/group';
 
 // 스타일 컨테이너
@@ -78,9 +79,9 @@ const OrderTypeText = styled.p.attrs({ className: 'bold sm' })`
 `;
 
 const ImminentItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
-  const { data: storeData } = useQuery<StoreSummary>({
-    queryKey: ['storeDetails', item.storeId],
-    queryFn: () => getRestaurantDetail(item.storeId),
+  const { data: storeData } = useQuery<RestaurantSummary>({
+    queryKey: ['restaurantInfo', item.storeId],
+    queryFn: () => getRestaurantInfo(item.storeId),
     enabled: !!item.storeId,
   });
 
@@ -98,8 +99,8 @@ const ImminentItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
             <Image
               src={storeData.image[0].url}
               alt="Store Image"
-              layout="fill"
-              objectFit="cover"
+              fill
+              style={{ objectFit: 'cover' }}
             />
           </ImageWrapper>
         )}

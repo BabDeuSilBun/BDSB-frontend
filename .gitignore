@@ -1,6 +1,6 @@
 # dependencies
 /.pnp
-.pnp.js
+.pnp.cjs
 .yarn/install-state.gz
 
 # testing
@@ -39,13 +39,5 @@ next-env.d.ts
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-
-# unused Zero-Install
-.yarn/*
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
 !.yarn/sdks
 !.yarn/versions

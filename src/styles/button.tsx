@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import styled from 'styled-components';
 
 const mediaQueries = {
@@ -33,21 +34,18 @@ const BaseButton = styled.button`
   }
 `;
 
-const BaseBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({
+const BaseBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   children,
   onClick,
   ...props
 }) => {
+  /* eslint-disable react/jsx-props-no-spreading */
   return (
-    <BaseButton 
-      onClick={onClick}
-      {...props}
-      className="bold"
-    >
+    <BaseButton onClick={onClick} {...props} className="bold">
       {children}
     </BaseButton>
   );
+  /* eslint-enable react/jsx-props-no-spreading */
 };
 
 const BaseButtonInactive = styled(BaseButton)`
@@ -62,19 +60,16 @@ const BaseButtonInactive = styled(BaseButton)`
   }
 `;
 
-const BaseBtnInactive: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ 
-  children,
-  ...props
-}) => {
+const BaseBtnInactive: React.FC<
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+> = ({ children, ...props }) => {
+  /* eslint-disable react/jsx-props-no-spreading */
   return (
-    <BaseButtonInactive 
-      {...props} 
-      className="bold"
-    >
+    <BaseButtonInactive {...props} className="bold">
       {children}
     </BaseButtonInactive>
   );
+  /* eslint-disable react/jsx-props-no-spreading */
 };
 
 const HalfButtonPurple = styled(BaseButton)`
@@ -92,17 +87,9 @@ const HalfButtonPurple = styled(BaseButton)`
 
 const HalfBtnPurple: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ 
-  children, 
-  onClick,
-  ...props 
-}) => {
+> = ({ children, onClick, ...props }) => {
   return (
-    <HalfButtonPurple 
-      onClick={onClick}
-      {...props} 
-      className="bold"
-    >
+    <HalfButtonPurple onClick={onClick} {...props} className="bold">
       {children}
     </HalfButtonPurple>
   );
@@ -130,18 +117,13 @@ const HalfButtonLight = styled(BaseButton)`
   }
 `;
 
-const HalfBtnLight: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({
+const HalfBtnLight: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   children,
   onClick,
   ...props
 }) => {
   return (
-    <HalfButtonLight 
-      onClick={onClick}
-      {...props} 
-      className="bold"
-    >
+    <HalfButtonLight onClick={onClick} {...props} className="bold">
       {children}
     </HalfButtonLight>
   );
@@ -165,8 +147,7 @@ const ButtonGroup = styled.div`
   }
 `;
 
-const BtnGroup: React.FC<React.PropsWithChildren<{}>
-> = ({ children }) => {
+const BtnGroup: React.FC<React.PropsWithChildren<object>> = ({ children }) => {
   return <ButtonGroup>{children}</ButtonGroup>;
 };
 
@@ -198,17 +179,11 @@ const RoundButtonFilled = styled.button`
   }
 `;
 
-const RoundBtnFilled: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ 
-  children,
-  onClick, 
-  ...props
-}) => {
+const RoundBtnFilled: React.FC<
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+> = ({ children, onClick, ...props }) => {
   return (
-    <RoundButtonFilled 
-      onClick={onClick}
-      {...props}
-    >
+    <RoundButtonFilled onClick={onClick} {...props}>
       {children}
     </RoundButtonFilled>
   );
@@ -217,23 +192,28 @@ const RoundBtnFilled: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>
 const SmallRoundButton = styled.button<{ isActive: boolean }>`
   width: 45px;
   height: 27px;
-  background-color: ${({ isActive }) => (isActive ? 'var(--primary)' : 'transparent')};
+  background-color: ${({ isActive }) =>
+    isActive ? 'var(--primary)' : 'transparent'};
   color: ${({ isActive }) => (isActive ? 'white' : 'var(--gray300)')};
   border-radius: 15px;
   border: 1px solid var(--gray300);
   padding: 0.03rem 0.2rem;
   cursor: pointer;
   &:hover {
-    background-color: ${({ isActive }) => (isActive ? 'var(--primary)' : 'var(--gray200)')};
+    background-color: ${({ isActive }) =>
+      isActive ? 'var(--primary)' : 'var(--gray200)'};
   }
   &:active {
-    background-color: ${({ isActive }) => (isActive ? 'var(--primary)' : 'var(--gray100)')};
+    background-color: ${({ isActive }) =>
+      isActive ? 'var(--primary)' : 'var(--gray100)'};
     transform: scale(0.98);
   }
   &:focus {
-    background-color: ${({ isActive }) => (isActive ? 'var(--primary)' : 'transparent')};
+    background-color: ${({ isActive }) =>
+      isActive ? 'var(--primary)' : 'transparent'};
     color: ${({ isActive }) => (isActive ? 'white' : 'var(--gray300)')};
-    border: ${({ isActive }) => (isActive ? 'none' : '1px solid var(--gray300)')};
+    border: ${({ isActive }) =>
+      isActive ? 'none' : '1px solid var(--gray300)'};
   }
   ${mediaQueries.mobile} {
     width: 100%;
@@ -246,12 +226,10 @@ const SmallRoundButton = styled.button<{ isActive: boolean }>`
   }
 `;
 
-const SmallRdBtn: React.FC<
-  React.ButtonHTMLAttributes<HTMLButtonElement>
-> = ({ 
+const SmallRdBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   children,
   onClick,
-  ...props 
+  ...props
 }) => {
   const [isActive, setIsActive] = useState(false);
   const handleClick = () => {
@@ -259,11 +237,13 @@ const SmallRdBtn: React.FC<
   };
 
   return (
-    <SmallRoundButton 
-      isActive={isActive} 
+    <SmallRoundButton
+      isActive={isActive}
       onClick={(e) => {
         handleClick();
-        onClick && onClick(e);
+        if (onClick) {
+          onClick(e);
+        }
       }}
       {...props}
     >
