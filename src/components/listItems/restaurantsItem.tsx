@@ -70,7 +70,7 @@ const RestaurantsItem: React.FC<{ item: RestaurantSummary }> = ({ item }) => {
             alt="Delivery Time"
             width="18"
             height="18"
-            priority={true}
+            priority
           />
           <span>{item.deliveryTime}</span>
         </InfoItem>
@@ -80,7 +80,7 @@ const RestaurantsItem: React.FC<{ item: RestaurantSummary }> = ({ item }) => {
             alt="Delivery Fee"
             width="18"
             height="18"
-            priority={true}
+            priority
           />
           <span>{deliveryPrice}</span>
         </InfoItem>

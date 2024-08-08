@@ -1,17 +1,20 @@
-import Header from '@/components/layout/header';
-import Tabs from '@/components/layout/tabs';
-import RestaurantsList from './restaurantsList';
-import TeamOrderList from './teamOrderList';
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
+// import Header from '@/components/layout/header';
+// import Tabs from '@/components/layout/tabs';
 import { getTeamOrderList } from '@/services/teamOrderService';
 import { getRestaurantsList } from '@/services/restaurantService';
 
+import TeamOrderList from './teamOrderList';
+import RestaurantsList from './restaurantsList';
+
+type Params = 'teamOrder' | 'restaurant';
+
 export default async function Home() {
-  let params = 'store';
+  const params: Params = 'teamOrder';
   const queryClient = new QueryClient();
 
   if (params === 'teamOrder') {
@@ -19,16 +22,17 @@ export default async function Home() {
       queryKey: ['teamOrderList'],
       queryFn: getTeamOrderList,
     });
-  } else {
+  } else if (params === 'restaurant') {
     await queryClient.prefetchQuery({
       queryKey: ['restaurantsList'],
       queryFn: getRestaurantsList,
     });
+  } else {
+    throw new Error(`Unexpected value for params: ${params}`);
   }
-
   return (
     <>
-      {/* <Header /> <Tabs />*/}
+      {/* <Header /> <Tabs /> */}
       <HydrationBoundary state={dehydrate(queryClient)}>
         {params === 'teamOrder' ? <TeamOrderList /> : <RestaurantsList />}
       </HydrationBoundary>

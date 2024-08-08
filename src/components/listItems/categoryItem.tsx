@@ -1,8 +1,8 @@
 'use client';
 
-import { RESTAURANT_CATEGORIES, RestaurantCategory } from '@/constant/category';
 import Image from 'next/image';
 import styled from 'styled-components';
+import { RESTAURANT_CATEGORIES, RestaurantCategory } from '@/constant/category';
 
 const Container = styled.div`
   display: grid;
@@ -32,7 +32,7 @@ const ImageWrapper = styled.div`
 
 const CategoryName = styled.p.attrs({ className: 'xs' })``;
 
-const CategoryItem = () => {
+function CategoryItem() {
   return (
     <Container>
       {Object.keys(RESTAURANT_CATEGORIES).map((category) => (
@@ -43,7 +43,7 @@ const CategoryItem = () => {
               alt={category}
               fill
               style={{ objectFit: 'cover' }}
-              priority={true}
+              priority
             />
           </ImageWrapper>
           <CategoryName>{category}</CategoryName>
@@ -51,6 +51,6 @@ const CategoryItem = () => {
       ))}
     </Container>
   );
-};
+}
 
 export default CategoryItem;

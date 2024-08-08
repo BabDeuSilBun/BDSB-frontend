@@ -1,14 +1,14 @@
 'use client';
 
-import { RestaurantSummary } from '@/types/restaurant';
 import { useQuery } from '@tanstack/react-query';
-import styled from 'styled-components';
+// import styled from 'styled-components';
+import { RestaurantSummary } from '@/types/restaurant';
 import BigRestarantsItem from '@/components/listItems/bigRestarantItem';
 import RestaurantsItem from '@/components/listItems/restaurantsItem';
 import CategoryItem from '@/components/listItems/categoryItem';
 import { getRestaurantsList } from '@/services/restaurantService';
 
-const RestarantsList = () => {
+function RestarantsList() {
   const { data, isLoading, error } = useQuery<RestaurantSummary[]>({
     queryKey: ['restaurantsList'],
     queryFn: getRestaurantsList,
@@ -36,6 +36,6 @@ const RestarantsList = () => {
       )}
     </div>
   );
-};
+}
 
 export default RestarantsList;

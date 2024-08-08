@@ -1,11 +1,11 @@
 'use client';
 
-import { MeetingSummary } from '@/types/meeting';
-import TeamOrderItem from '@/components/listItems/teamOrderItem';
-import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
+import { MeetingSummary } from '@/types/meeting';
+import TeamOrderItem from '@/components/listItems/teamOrderItem';
+import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
 import { getTeamOrderList } from '@/services/teamOrderService';
 
 const Container = styled.section<{ additional?: string }>`
@@ -25,7 +25,7 @@ const CardContainer = styled.div`
   }
 `;
 
-const TeamOrderList = () => {
+function TeamOrderList() {
   const { data, isLoading, error } = useQuery<MeetingSummary[]>({
     queryKey: ['teamOrderList'],
     queryFn: getTeamOrderList,
@@ -74,6 +74,6 @@ const TeamOrderList = () => {
       </Container>
     </>
   );
-};
+}
 
 export default TeamOrderList;

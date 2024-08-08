@@ -25,23 +25,29 @@ interface FooterProps {
   onButtonClick2?: () => void;
 }
 
-const Footer: React.FC<FooterProps> = ({ 
-  type, 
-  buttonText, 
-  buttonText1, 
+const Footer: React.FC<FooterProps> = ({
+  type,
+  buttonText,
+  buttonText1,
   buttonText2,
-  onButtonClick, 
-  onButtonClick1, 
-  onButtonClick2 
- }) => {
+  onButtonClick,
+  onButtonClick1,
+  onButtonClick2,
+}) => {
   return (
     <FooterContainer>
-      {type === 'button' && <BaseBtn onClick={onButtonClick}>{buttonText}</BaseBtn>}
-      {type === 'inactiveButton' && <BaseBtnInactive>{buttonText}</BaseBtnInactive>}
+      {type === 'button' && (
+        <BaseBtn onClick={onButtonClick}>{buttonText}</BaseBtn>
+      )}
+      {type === 'inactiveButton' && (
+        <BaseBtnInactive>{buttonText}</BaseBtnInactive>
+      )}
       {type === 'buttonGroup' && (
         <BtnGroup>
           <BaseBtn onClick={onButtonClick1}>{buttonText1}</BaseBtn>
-          <BaseBtnInactive onClick={onButtonClick2}>{buttonText2}</BaseBtnInactive>
+          <BaseBtnInactive onClick={onButtonClick2}>
+            {buttonText2}
+          </BaseBtnInactive>
         </BtnGroup>
       )}
     </FooterContainer>

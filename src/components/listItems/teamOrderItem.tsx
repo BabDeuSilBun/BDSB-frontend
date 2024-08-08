@@ -1,14 +1,15 @@
 'use client';
 
 import Image from 'next/image';
-import { MeetingSummary } from '@/types/meeting';
 import styled from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
+import { MeetingSummary } from '@/types/meeting';
 import { RestaurantSummary } from '@/types/restaurant';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getCurrentHeadCount } from '@/services/teamOrderService';
-import { useQuery } from '@tanstack/react-query';
-import GroupIcon from '../svg/group';
 import { formatCurrency } from '@/utils/currencyFormatter';
+
+import GroupIcon from '../svg/group';
 
 // 카드 레이아웃 컨테이너
 const CardContainer = styled.div`
@@ -111,7 +112,7 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
             alt="Delivery Time"
             width="18"
             height="18"
-            priority={true}
+            priority
           />
           <span>{restaurantData?.deliveryTime}</span>
         </InfoItem>
@@ -122,12 +123,7 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
       </InfoSection>
       <AdditionalInfo>
         <ParticipantCount>
-          <GroupIcon
-            color="var(--primary)"
-            width={18}
-            height={18}
-            priority={true}
-          />
+          <GroupIcon color="var(--primary)" width={18} height={18} />
           <p className="sm">{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</p>
         </ParticipantCount>
         <OrderTypeLabel>{item.orderType}</OrderTypeLabel>
