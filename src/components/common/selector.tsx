@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 interface DropdownOption {
@@ -30,15 +29,19 @@ const DropdownToggle = styled.div<{ selected: boolean }>`
   font-size: var(--font-size-sm);
   font-weight: 500;
   color: ${({ selected }) => (selected ? 'var(--primary)' : 'var(--text)')};
-  border: 1.5px solid ${({ selected }) => (selected ? 'var(--primary)' : 'var(--gray200)')};
+  border: 1.5px solid
+    ${({ selected }) => (selected ? 'var(--primary)' : 'var(--gray200)')};
   border-radius: var(--border-radius-lg);
   cursor: pointer;
   background-color: var(--background);
-  transition: color 0.3s ease, border-color 0.3s ease;
+  transition:
+    color 0.3s ease,
+    border-color 0.3s ease;
 `;
 
 const Arrow = styled.span<{ selected: boolean }>`
-  border: solid ${({ selected }) => (selected ? 'var(--primary)' : 'var(--text)')};
+  border: solid
+    ${({ selected }) => (selected ? 'var(--primary)' : 'var(--text)')};
   border-width: 0 2px 2px 0;
   display: inline-block;
   padding: 3px;
@@ -77,7 +80,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   onSelect,
   placeholder,
   isOpen,
-  onToggle
+  onToggle,
 }) => {
   const handleSelect = (value: number | null) => {
     onSelect(value);
@@ -87,12 +90,14 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   return (
     <DropdownContainer>
       <DropdownToggle selected={!!selectedValue} onClick={onToggle}>
-        {selectedValue ? options.find(option => option.id === selectedValue)?.name : placeholder}
+        {selectedValue
+          ? options.find((option) => option.id === selectedValue)?.name
+          : placeholder}
         <Arrow selected={!!selectedValue} />
       </DropdownToggle>
       {isOpen && (
         <DropdownMenu>
-          {options.map(option => (
+          {options.map((option) => (
             <DropdownItem
               key={option.id}
               selected={selectedValue === option.id}
@@ -101,7 +106,10 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
               {option.name}
             </DropdownItem>
           ))}
-          <DropdownItem selected={selectedValue === null} onClick={() => handleSelect(null)}>
+          <DropdownItem
+            selected={selectedValue === null}
+            onClick={() => handleSelect(null)}
+          >
             All
           </DropdownItem>
         </DropdownMenu>
