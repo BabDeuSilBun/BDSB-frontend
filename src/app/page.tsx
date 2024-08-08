@@ -1,12 +1,10 @@
 import Header from '@/components/layout/header';
 // import Tabs from '@/components/layout/tabs';
-
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-
 import { getTeamOrderList } from '@/services/teamOrderService';
 import { getRestaurantsList } from '@/services/restaurantService';
 
@@ -35,7 +33,7 @@ export default async function Home() {
   return (
     <>
       <Header buttonLeft="hamburger" text="Header Text" buttonRight="home" />
-      {/* <Tabs />*/}
+      {/* <Tabs /> */}
       <HydrationBoundary state={dehydrate(queryClient)}>
         {params === 'teamOrder' ? <TeamOrderList /> : <RestaurantsList />}
       </HydrationBoundary>
