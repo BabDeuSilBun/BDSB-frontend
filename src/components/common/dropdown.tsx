@@ -86,7 +86,6 @@ const SmallDropdownToggle = styled(DropdownToggle)`
   padding: 0.25rem 0.5rem;
   font-size: var(--font-size-xs);
   border: none;
-  background-color: transparent;
 
   @media (max-width: var(--breakpoint-mobile-max)) {
     padding: 0.2rem 0.4rem;
@@ -127,7 +126,6 @@ const DropdownMenu = styled.div`
 
 const SmallDropdownMenu = styled(DropdownMenu)`
   border: none;
-  background-color: transparent;
 `;
 
 const DropdownItem = styled.div<{ selected: boolean }>`
