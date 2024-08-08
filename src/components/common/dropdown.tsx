@@ -9,13 +9,16 @@ interface DropdownOption {
   name: string;
 }
 
-interface CustomDropdownProps {
+interface SmallCustomDropdownProps {
   options: DropdownOption[];
   selectedValue: number | null;
   onSelect: (value: number | null) => void;
-  placeholder: string;
   isOpen: boolean;
   onToggle: () => void;
+}
+
+interface CustomDropdownProps extends SmallCustomDropdownProps {
+  placeholder: string;
 }
 
 const DropdownContainer = styled.div`
@@ -183,7 +186,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   );
 };
 
-const SmallCustomDropdown: React.FC<CustomDropdownProps> = ({
+const SmallCustomDropdown: React.FC<SmallCustomDropdownProps> = ({
   options,
   selectedValue,
   onSelect,
@@ -192,7 +195,7 @@ const SmallCustomDropdown: React.FC<CustomDropdownProps> = ({
 }) => {
   useEffect(() => {
     if (selectedValue === null && options.length > 0) {
-      onSelect(options[0].id); // Set the first option as selected by default
+      onSelect(options[0]?.id ?? null); // Set the first option as selected by default
     }
   }, [selectedValue, options, onSelect]);
 
