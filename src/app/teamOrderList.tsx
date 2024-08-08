@@ -7,8 +7,9 @@ import { MeetingSummary } from '@/types/meeting';
 import TeamOrderItem from '@/components/listItems/teamOrderItem';
 import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
 import { getTeamOrderList } from '@/services/teamOrderService';
+import Container from '@/styles/container';
 
-const Container = styled.section<{ additional?: string }>`
+const SectionContainer = styled.section<{ additional?: string }>`
   padding: 1rem;
   padding-right: ${(props) => props.additional || '1rem'};
   padding-bottom: ${(props) => props.additional || '1rem'};
@@ -45,8 +46,8 @@ function TeamOrderList() {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <>
-      <Container additional="0">
+    <Container>
+      <SectionContainer additional="0">
         <h3 className="bold xl">임박한 모임</h3>
         <CardContainer>
           {imminentItems.length > 0 ? (
@@ -57,9 +58,9 @@ function TeamOrderList() {
             <div>모집 중인 모임이 없습니다.</div>
           )}
         </CardContainer>
-      </Container>
+      </SectionContainer>
       <Divider />
-      <Container>
+      <SectionContainer>
         <h3 className="bold xl">모임 모아보기</h3>
         {data ? (
           data.map((item, index) => (
@@ -71,8 +72,8 @@ function TeamOrderList() {
         ) : (
           <div>모집 중인 모임이 없습니다.</div>
         )}
-      </Container>
-    </>
+      </SectionContainer>
+    </Container>
   );
 }
 

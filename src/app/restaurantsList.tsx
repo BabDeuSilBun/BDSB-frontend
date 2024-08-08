@@ -1,12 +1,13 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import { RestaurantSummary } from '@/types/restaurant';
 import BigRestarantsItem from '@/components/listItems/bigRestarantItem';
 import RestaurantsItem from '@/components/listItems/restaurantsItem';
 import CategoryItem from '@/components/listItems/categoryItem';
 import { getRestaurantsList } from '@/services/restaurantService';
+import Container from '@/styles/container';
 
 function RestarantsList() {
   const { data, isLoading, error } = useQuery<RestaurantSummary[]>({
@@ -18,7 +19,7 @@ function RestarantsList() {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div>
+    <Container>
       <CategoryItem />
       <select name="" id="">
         <option value="">기본 순</option>
@@ -34,7 +35,7 @@ function RestarantsList() {
       ) : (
         <div>주문 가능한 가게가 없습니다.</div>
       )}
-    </div>
+    </Container>
   );
 }
 
