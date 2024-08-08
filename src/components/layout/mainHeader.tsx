@@ -31,6 +31,7 @@ color: var(--gray500)
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: var(--font-size-lg);
+  font-weight: var(--font-semi-bold);
 `;
 
 const Chat = styled.div`
