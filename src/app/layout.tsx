@@ -1,9 +1,10 @@
 import '@/styles/globals.css';
-import { MswComponent } from '@/components/msw.component';
-import { Providers } from './providers';
 import localFont from 'next/font/local';
 import type { Metadata } from 'next';
+import MswComponent from '@/components/msw.component';
 import StyledComponentsRegistry from '@/lib/registry';
+
+import Providers from './providers';
 
 const font = localFont({
   src: 'fonts/SF-Pro-Display-Regular.otf',

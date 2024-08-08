@@ -1,5 +1,12 @@
+'use client';
+
 import styled from 'styled-components';
-import { BaseBtn, HalfBtnPurple, HalfBtnLight, BtnGroup } from '@/styles/button';
+import {
+  BaseBtn,
+  BtnGroup,
+  HalfBtnLight,
+  HalfBtnPurple,
+} from '@/styles/button';
 
 interface ModalProps {
   type: 'image' | 'text' | 'info';
@@ -68,7 +75,8 @@ const Table = styled.table`
   margin-bottom: var(--spacing-lg);
   border-collapse: collapse;
   table-layout: fixed;
-  th, td {
+  th,
+  td {
     font-size: var(--font-size-sm);
     color: var(--text);
     padding: var(--spacing-xs);
@@ -113,7 +121,10 @@ const Modal: React.FC<ModalProps> = ({
           <tbody>
             <tr>
               <th>주소</th>
-              <td>{address1}{address2}</td>
+              <td>
+                {address1}
+                {address2}
+              </td>
             </tr>
             <tr>
               <th>운영시간</th>
@@ -128,7 +139,9 @@ const Modal: React.FC<ModalProps> = ({
           <HalfBtnLight onClick={onButtonClick2}>{buttonText2}</HalfBtnLight>
         </BtnGroup>
       ) : (
-        <BaseBtn onClick={onButtonClick3} style={{ width: '17.625rem' }}>{buttonText}</BaseBtn> /* 282px in 360px mobile screen */
+        <BaseBtn onClick={onButtonClick3} style={{ width: '17.625rem' }}>
+          {buttonText}
+        </BaseBtn> /* 282px in 360px mobile screen */
       )}
     </ModalContainer>
   );

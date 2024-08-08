@@ -1,7 +1,8 @@
 import { http, HttpResponse } from 'msw';
-import { stores, meetings } from './mockdata';
 import { TEAM_ORDERLIST_API_URL } from '@/services/teamOrderService';
 import { RESTAURANT_LIST_API_URL } from '@/services/restaurantService';
+
+import { meetings, stores } from './mockdata';
 
 export const handler = [
   http.get(RESTAURANT_LIST_API_URL, () => {
@@ -12,9 +13,8 @@ export const handler = [
     const store = stores.find((s) => s.storeId === storeId);
     if (store) {
       return HttpResponse.json(store);
-    } else {
-      return HttpResponse.status(404).json({ message: 'Store not found' });
     }
+    return HttpResponse.status(404).json({ message: 'Store not found' });
   }),
   http.get(TEAM_ORDERLIST_API_URL, () => {
     return HttpResponse.json(meetings);
