@@ -1,5 +1,4 @@
-import Header from '@/components/layout/header';
-// import Tabs from '@/components/layout/tabs';
+import MainHeader from '@/components/layout/mainHeader';
 import {
   dehydrate,
   HydrationBoundary,
@@ -7,35 +6,26 @@ import {
 } from '@tanstack/react-query';
 import { getTeamOrderList } from '@/services/teamOrderService';
 import { getRestaurantsList } from '@/services/restaurantService';
-
-import TeamOrderList from './teamOrderList';
-import RestaurantsList from './restaurantsList';
-
-type Params = 'teamOrder' | 'restaurant';
+import ClientComponent from './clientComponent';
 
 export default async function Home() {
-  const params: Params = 'teamOrder';
   const queryClient = new QueryClient();
 
-  if (params === 'teamOrder') {
-    await queryClient.prefetchQuery({
-      queryKey: ['teamOrderList'],
-      queryFn: getTeamOrderList,
-    });
-  } else if (params === 'restaurant') {
-    await queryClient.prefetchQuery({
-      queryKey: ['restaurantsList'],
-      queryFn: getRestaurantsList,
-    });
-  } else {
-    throw new Error(`Unexpected value for params: ${params}`);
-  }
+  await queryClient.prefetchQuery({
+    queryKey: ['teamOrderList'],
+    queryFn: getTeamOrderList,
+  });
+
+  await queryClient.prefetchQuery({
+    queryKey: ['restaurantsList'],
+    queryFn: getRestaurantsList,
+  });
+
   return (
     <>
-      <Header buttonLeft="hamburger" text="Header Text" buttonRight="home" />
-      {/* <Tabs /> */}
+      <MainHeader />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        {params === 'teamOrder' ? <TeamOrderList /> : <RestaurantsList />}
+        <ClientComponent />
       </HydrationBoundary>
     </>
   );

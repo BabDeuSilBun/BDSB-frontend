@@ -3,16 +3,16 @@
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 
-import HamburgerIcon from '../svg/hamburger';
-import BackIcon from '../svg/arrowLeft';
-import HomeIcon from '../svg/home';
-import ExitIcon from '../svg/exit';
+import HamburgerIcon from '@/components/svg/hamburger';
+import BackIcon from '@/components/svg/arrowLeft';
+import HomeIcon from '@/components/svg/home';
+import ExitIcon from '@/components/svg/exit';
 
 const Icons = {
-  hamburger: <HamburgerIcon color="var(--gray500)" width={18} height={18} />,
-  back: <BackIcon color="var(--gray500)" width={18} height={18} />,
-  home: <HomeIcon color="var(--gray500)" width={18} height={18} />,
-  exit: <ExitIcon color="var(--gray500)" width={18} height={18} />,
+  hamburger: <HamburgerIcon color="var(--gray500)" width={24} height={24} />,
+  back: <BackIcon color="var(--gray500)" width={24} height={24} />,
+  home: <HomeIcon color="var(--gray500)" width={24} height={24} />,
+  exit: <ExitIcon color="var(--gray500)" width={24} height={24} />,
 };
 
 const HeaderContainer = styled.header`
@@ -24,7 +24,6 @@ const HeaderContainer = styled.header`
   z-index: 1000;
   height: 48px;
   width: inherit;
-  box-sizing: border-box;
   box-shadow: 1.48px 1.48px 7px var(--shadow);
   padding: 1.5rem;
 `;
