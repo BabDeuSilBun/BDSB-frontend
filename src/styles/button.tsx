@@ -39,11 +39,13 @@ const BaseBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   onClick,
   ...props
 }) => {
+  /* eslint-disable react/jsx-props-no-spreading */
   return (
     <BaseButton onClick={onClick} {...props} className="bold">
       {children}
     </BaseButton>
   );
+  /* eslint-enable react/jsx-props-no-spreading */
 };
 
 const BaseButtonInactive = styled(BaseButton)`
@@ -61,11 +63,13 @@ const BaseButtonInactive = styled(BaseButton)`
 const BaseBtnInactive: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
 > = ({ children, ...props }) => {
+  /* eslint-disable react/jsx-props-no-spreading */
   return (
     <BaseButtonInactive {...props} className="bold">
       {children}
     </BaseButtonInactive>
   );
+  /* eslint-disable react/jsx-props-no-spreading */
 };
 
 const HalfButtonPurple = styled(BaseButton)`
@@ -143,7 +147,7 @@ const ButtonGroup = styled.div`
   }
 `;
 
-const BtnGroup: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+const BtnGroup: React.FC<React.PropsWithChildren<object>> = ({ children }) => {
   return <ButtonGroup>{children}</ButtonGroup>;
 };
 
@@ -237,7 +241,9 @@ const SmallRdBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
       isActive={isActive}
       onClick={(e) => {
         handleClick();
-        onClick && onClick(e);
+        if (onClick) {
+          onClick(e);
+        }
       }}
       {...props}
     >

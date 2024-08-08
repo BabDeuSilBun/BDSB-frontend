@@ -61,11 +61,11 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <HeaderContainer>
-      <button onClick={handleLeftButtonClick}>
+      <button type="button" onClick={handleLeftButtonClick}>
         {buttonLeft && Icons[buttonLeft]}
       </button>
       <h1>{text}</h1>
-      <button onClick={handleRightButtonClick}>
+      <button type="button" onClick={handleRightButtonClick}>
         {buttonRight && Icons[buttonRight]}
       </button>
     </HeaderContainer>
