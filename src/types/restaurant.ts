@@ -1,6 +1,6 @@
 import { Image } from './types';
 
-export interface StoreSummary {
+export interface RestaurantSummary {
   storeId: number;
   name: string;
   image: Image[];
@@ -9,7 +9,7 @@ export interface StoreSummary {
   minOrderPrice: number;
 }
 
-export interface StoreDetail extends StoreSummary {
+export interface RestarantDetail extends RestaurantSummary {
   entrepreneur_id: number;
   description: string;
   postal: string;

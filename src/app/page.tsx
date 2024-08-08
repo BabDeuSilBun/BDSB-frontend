@@ -1,7 +1,5 @@
 import Header from '@/components/layout/header';
-import Tabs from '@/components/layout/tabs';
-import RestaurantsList from './restaurantsList';
-import TeamOrderList from './teamOrderList';
+// import Tabs from '@/components/layout/tabs';
 import {
   dehydrate,
   HydrationBoundary,
@@ -10,27 +8,34 @@ import {
 import { getTeamOrderList } from '@/services/teamOrderService';
 import { getRestaurantsList } from '@/services/restaurantService';
 
+import TeamOrderList from './teamOrderList';
+import RestaurantsList from './restaurantsList';
+
+type Params = 'teamOrder' | 'restaurant';
+
 export default async function Home() {
-  const params = 'store';
+  const params: Params = 'teamOrder';
   const queryClient = new QueryClient();
 
-  if (params === 'temOrder') {
+  if (params === 'teamOrder') {
     await queryClient.prefetchQuery({
-      queryKey: ['temOrderList'],
+      queryKey: ['teamOrderList'],
       queryFn: getTeamOrderList,
     });
-  } else {
+  } else if (params === 'restaurant') {
     await queryClient.prefetchQuery({
       queryKey: ['restaurantsList'],
       queryFn: getRestaurantsList,
     });
+  } else {
+    throw new Error(`Unexpected value for params: ${params}`);
   }
-
   return (
     <>
-      {/* <Header /> <Tabs />*/}
+      <Header buttonLeft="hamburger" text="Header Text" buttonRight="home" />
+      {/* <Tabs /> */}
       <HydrationBoundary state={dehydrate(queryClient)}>
-        {params === 'temOrder' ? <TeamOrderList /> : <RestaurantsList />}
+        {params === 'teamOrder' ? <TeamOrderList /> : <RestaurantsList />}
       </HydrationBoundary>
     </>
   );
