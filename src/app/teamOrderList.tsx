@@ -7,7 +7,10 @@ import { MeetingSummary } from '@/types/meeting';
 import TeamOrderItem from '@/components/listItems/teamOrderItem';
 import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
 import { getTeamOrderList } from '@/services/teamOrderService';
-import Container from '@/styles/container';
+
+const ListContainer = styled.section`
+  margin: 124px 0 20px;
+`;
 
 const SectionContainer = styled.section<{ additional?: string }>`
   padding: 1rem;
@@ -46,7 +49,7 @@ function TeamOrderList() {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <Container>
+    <ListContainer>
       <SectionContainer additional="0">
         <h3 className="bold xl">임박한 모임</h3>
         <CardContainer>
@@ -73,7 +76,7 @@ function TeamOrderList() {
           <div>모집 중인 모임이 없습니다.</div>
         )}
       </SectionContainer>
-    </Container>
+    </ListContainer>
   );
 }
 
