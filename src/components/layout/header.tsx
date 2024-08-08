@@ -1,7 +1,18 @@
 'use client';
 
 import styled from 'styled-components';
+import { useRouter } from 'next/navigation';
 import HamburgerIcon from '../svg/hamburger';
+import BackIcon from '../svg/arrowLeft';
+import HomeIcon from '../svg/home';
+import ExitIcon from '../svg/exit';
+
+const Icons = {
+  hamburger: <HamburgerIcon color="var(--gray500)" width={18} height={18} />,
+  back: <BackIcon color="var(--gray500)" width={18} height={18} />,
+  home: <HomeIcon color="var(--gray500)" width={18} height={18} />,
+  exit: <ExitIcon color="var(--gray500)" width={18} height={18} />,
+};
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -17,27 +28,46 @@ const HeaderContainer = styled.header`
   padding: 1.5rem;
 `;
 
-const Button = styled.div``;
-
 interface HeaderProps {
-  buttonLeft?: string;
+  buttonLeft?: 'hamburger' | 'back' | undefined;
+  buttonRight?: 'home' | 'exit' | undefined;
   text?: string;
-  buttonRight?: string;
+  onExit?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ buttonLeft, text, buttonRight }) => {
-  let left = buttonLeft;
-  let right = buttonRight;
+const Header: React.FC<HeaderProps> = ({
+  buttonLeft,
+  text,
+  buttonRight,
+  onExit,
+}) => {
+  const router = useRouter();
+
+  const handleLeftButtonClick = () => {
+    if (buttonLeft === 'hamburger') {
+      console.log('Hamburger button clicked');
+    } else if (buttonLeft === 'back') {
+      router.back();
+    }
+  };
+
+  const handleRightButtonClick = () => {
+    if (buttonRight === 'home') {
+      router.push('/');
+    } else if (buttonRight === 'exit' && onExit) {
+      onExit();
+    }
+  };
 
   return (
     <HeaderContainer>
-      <Button>
-        <HamburgerIcon color="var(--primary)" width={18} height={18} />
-      </Button>
+      <button onClick={handleLeftButtonClick}>
+        {buttonLeft && Icons[buttonLeft]}
+      </button>
       <h1>{text}</h1>
-      <Button>
-        <HamburgerIcon color="var(--primary)" width={18} height={18} />
-      </Button>
+      <button onClick={handleRightButtonClick}>
+        {buttonRight && Icons[buttonRight]}
+      </button>
     </HeaderContainer>
   );
 };

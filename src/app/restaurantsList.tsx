@@ -7,11 +7,7 @@ import BigRestarantsItem from '@/components/listItems/bigRestarantItem';
 import RestaurantsItem from '@/components/listItems/restaurantsItem';
 import CategoryItem from '@/components/listItems/categoryItem';
 import { getRestaurantsList } from '@/services/restaurantService';
-
-const Container = styled.section`
-  margin-top: 48px;
-  padding-bottom: 120px;
-`;
+import Container from '@/styles/container';
 
 function RestarantsList() {
   const { data, isLoading, error } = useQuery<RestaurantSummary[]>({
