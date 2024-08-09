@@ -1,16 +1,15 @@
 'use client';
 
+import { useState } from 'react';
+
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
 import { RestaurantSummary } from '@/types/restaurant';
-import { useState } from 'react';
-
 import { SmallCustomDropdown } from '@/components/common/dropdown';
 import BigRestarantsItem from '@/components/listItems/bigRestarantItem';
 import RestaurantsItem from '@/components/listItems/restaurantsItem';
 import CategoryItem from '@/components/listItems/categoryItem';
-
 import { getRestaurantsList } from '@/services/restaurantService';
 
 const ListContainer = styled.section`
