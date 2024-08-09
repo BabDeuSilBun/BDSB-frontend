@@ -15,6 +15,7 @@ const BaseButton = styled.button`
   color: white;
   border-radius: var(--border-radius-md);
   border: none;
+  font-weight: var(--font-semi-bold);
   cursor: pointer;
   &:hover {
     background-color: var(--purple500);
@@ -41,7 +42,7 @@ const BaseBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
 }) => {
   /* eslint-disable react/jsx-props-no-spreading */
   return (
-    <BaseButton onClick={onClick} {...props} className="bold">
+    <BaseButton onClick={onClick} {...props}>
       {children}
     </BaseButton>
   );
@@ -64,11 +65,7 @@ const BaseBtnInactive: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
 > = ({ children, ...props }) => {
   /* eslint-disable react/jsx-props-no-spreading */
-  return (
-    <BaseButtonInactive {...props} className="bold">
-      {children}
-    </BaseButtonInactive>
-  );
+  return <BaseButtonInactive {...props}>{children}</BaseButtonInactive>;
   /* eslint-disable react/jsx-props-no-spreading */
 };
 
@@ -89,7 +86,7 @@ const HalfBtnPurple: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
 > = ({ children, onClick, ...props }) => {
   return (
-    <HalfButtonPurple onClick={onClick} {...props} className="bold">
+    <HalfButtonPurple onClick={onClick} {...props}>
       {children}
     </HalfButtonPurple>
   );
@@ -123,7 +120,7 @@ const HalfBtnLight: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   ...props
 }) => {
   return (
-    <HalfButtonLight onClick={onClick} {...props} className="bold">
+    <HalfButtonLight onClick={onClick} {...props}>
       {children}
     </HalfButtonLight>
   );
