@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-query';
 import { getTeamOrderList } from '@/services/teamOrderService';
 import { getRestaurantsList } from '@/services/restaurantService';
+
 import ClientComponent from './clientComponent';
 
 export default async function Home() {

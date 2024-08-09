@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { RESTAURANT_CATEGORIES, RestaurantCategory } from '@/constant/category';
@@ -28,6 +29,7 @@ const ImageWrapper = styled.div`
   position: relative;
   background-color: var(--gray200);
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 const CategoryName = styled.p`
@@ -35,11 +37,18 @@ const CategoryName = styled.p`
 `;
 
 function CategoryItem() {
+  const cat = null;
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/restaurants/category=${cat}`);
+  };
+
   return (
     <Container>
       {Object.keys(RESTAURANT_CATEGORIES).map((category) => (
         <Wrapper key={category}>
-          <ImageWrapper>
+          <ImageWrapper onClick={handleClick}>
             <Image
               src={RESTAURANT_CATEGORIES[category as RestaurantCategory]}
               alt={category}

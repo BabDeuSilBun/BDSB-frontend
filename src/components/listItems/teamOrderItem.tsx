@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
@@ -82,6 +83,8 @@ const OrderTypeLabel = styled.p`
 `;
 
 const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
+  const router = useRouter();
+
   const { data: restaurantData } = useQuery<RestaurantSummary>({
     queryKey: ['restaurantInfo', item.storeId],
     queryFn: () => getRestaurantInfo(item.storeId),
@@ -98,9 +101,13 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
     ? formatCurrency(restaurantData.deliveryPrice)
     : 0;
 
+  const handleClick = () => {
+    router.push(`/restaurants/id=${item.storeId}`);
+  };
+
   return (
     <CardContainer>
-      <ImageContainer>
+      <ImageContainer onClick={handleClick}>
         {restaurantData?.image[0] && (
           <Image
             src={restaurantData.image[0].url}
