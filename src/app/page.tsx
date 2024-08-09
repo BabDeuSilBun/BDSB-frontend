@@ -5,7 +5,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 import { getTeamOrderList } from '@/services/teamOrderService';
-import { getRestaurantsList } from '@/services/restaurantService';
+// import { getRestaurantsList } from '@/services/restaurantService';
 
 import ClientComponent from './clientComponent';
 

@@ -73,7 +73,9 @@ const BigRestarantsItem: React.FC<{ item: RestaurantSummary }> = ({ item }) => {
             src={item.image[0].url}
             alt="Store Image"
             fill
+            sizes="50vw"
             style={{ objectFit: 'cover' }}
+            priority
           />
         )}
       </ImageContainer>

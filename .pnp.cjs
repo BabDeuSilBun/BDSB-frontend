@@ -35,6 +35,7 @@ const RAW_RUNTIME_STATE =
           ["@tanstack/react-query", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:5.51.23"],\
           ["@tanstack/react-query-devtools", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:5.51.23"],\
           ["@types/node", "npm:20.14.14"],\
+          ["@types/qs", "npm:6.9.15"],\
           ["@types/react", "npm:18.3.3"],\
           ["@types/react-dom", "npm:18.3.0"],\
           ["@typescript-eslint/eslint-plugin", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:8.0.1"],\
@@ -55,6 +56,7 @@ const RAW_RUNTIME_STATE =
           ["msw", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:2.3.5"],\
           ["next", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:14.2.5"],\
           ["prettier", "npm:3.3.3"],\
+          ["qs", "npm:6.13.0"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:18.3.1"],\
           ["styled-components", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:6.1.12"],\
@@ -3396,6 +3398,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@types/qs", [\
+      ["npm:6.9.15", {\
+        "packageLocation": "../../../AppData/Local/Yarn/Berry/cache/@types-qs-npm-6.9.15-aae1b1e2f7-10c0.zip/node_modules/@types/qs/",\
+        "packageDependencies": [\
+          ["@types/qs", "npm:6.9.15"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@types/react", [\
       ["npm:18.3.3", {\
         "packageLocation": "../../../AppData/Local/Yarn/Berry/cache/@types-react-npm-18.3.3-07e68e178e-10c0.zip/node_modules/@types/react/",\
@@ -4209,6 +4220,7 @@ const RAW_RUNTIME_STATE =
           ["@tanstack/react-query", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:5.51.23"],\
           ["@tanstack/react-query-devtools", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:5.51.23"],\
           ["@types/node", "npm:20.14.14"],\
+          ["@types/qs", "npm:6.9.15"],\
           ["@types/react", "npm:18.3.3"],\
           ["@types/react-dom", "npm:18.3.0"],\
           ["@typescript-eslint/eslint-plugin", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:8.0.1"],\
@@ -4229,6 +4241,7 @@ const RAW_RUNTIME_STATE =
           ["msw", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:2.3.5"],\
           ["next", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:14.2.5"],\
           ["prettier", "npm:3.3.3"],\
+          ["qs", "npm:6.13.0"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:18.3.1"],\
           ["styled-components", "virtual:0ac29cac2946a15c0086efe82219d75544e77fcf062ce20cc3b777699190b62054f86befb3f404d04bf8b8b0b69252ae1104a352a8a9d745322f993eadf2d382#npm:6.1.12"],\
@@ -7347,6 +7360,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../AppData/Local/Yarn/Berry/cache/punycode-npm-2.3.1-97543c420d-10c0.zip/node_modules/punycode/",\
         "packageDependencies": [\
           ["punycode", "npm:2.3.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["qs", [\
+      ["npm:6.13.0", {\
+        "packageLocation": "../../../AppData/Local/Yarn/Berry/cache/qs-npm-6.13.0-53676ddc84-10c0.zip/node_modules/qs/",\
+        "packageDependencies": [\
+          ["qs", "npm:6.13.0"],\
+          ["side-channel", "npm:1.0.6"]\
         ],\
         "linkType": "HARD"\
       }]\

@@ -102,7 +102,7 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
     : 0;
 
   const handleClick = () => {
-    router.push(`/restaurants/id=${item.storeId}`);
+    router.push(`/teamOrder/id=${item.storeId}`);
   };
 
   return (
@@ -113,7 +113,9 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
             src={restaurantData.image[0].url}
             alt="restaurant Image"
             fill
+            sizes="50vw"
             style={{ objectFit: 'cover' }}
+            priority
           />
         )}
       </ImageContainer>
@@ -121,13 +123,7 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
         <Information>4분 뒤 마감</Information>
         <RestaurantName>{restaurantData?.name}</RestaurantName>
         <InfoItem>
-          <Image
-            src="./timer.svg"
-            alt="Delivery Time"
-            width="18"
-            height="18"
-            priority
-          />
+          <Image src="./timer.svg" alt="Delivery Time" width="18" height="18" />
           <span>{restaurantData?.deliveryTime}</span>
         </InfoItem>
         <InfoItem>

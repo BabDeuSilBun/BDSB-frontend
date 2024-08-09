@@ -103,7 +103,7 @@ const ImminentItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
   });
 
   const handleClick = () => {
-    router.push(`/restaurants/id=${item.storeId}`);
+    router.push(`/teamOrder/id=${item.storeId}`);
   };
 
   return (
@@ -115,7 +115,9 @@ const ImminentItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
               src={storeData.image[0].url}
               alt="Store Image"
               fill
+              sizes="50vw"
               style={{ objectFit: 'cover' }}
+              priority
             />
           </ImageWrapper>
         )}

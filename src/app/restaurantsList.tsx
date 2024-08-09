@@ -50,6 +50,8 @@ function RestarantsList() {
     },
   });
 
+  const totalResults = data?.pages[0]?.totalElements || 0;
+
   const handleSelect = (value: string | null) => {
     if (value !== null) {
       setSelectedSort(value);
@@ -88,15 +90,18 @@ function RestarantsList() {
       ) : (
         <>
           <CategoryItem />
-          <DropDownWrapper>
-            <SmallCustomDropdown
-              options={options}
-              selectedValue={selectedSort}
-              onSelect={handleSelect}
-              isOpen={isOpen}
-              onToggle={handleToggle}
-            />
-          </DropDownWrapper>
+          <div style={{ display: 'flex' }}>
+            <p>총 {totalResults}개</p>
+            <DropDownWrapper>
+              <SmallCustomDropdown
+                options={options}
+                selectedValue={selectedSort}
+                onSelect={handleSelect}
+                isOpen={isOpen}
+                onToggle={handleToggle}
+              />
+            </DropDownWrapper>
+          </div>
           <button
             onClick={() => fetchNextPage()}
             disabled={!hasNextPage || isFetchingNextPage}

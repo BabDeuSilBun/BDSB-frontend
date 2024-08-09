@@ -17,6 +17,8 @@ interface ModalProps {
   address1?: string;
   address2?: string;
   openTime?: string;
+  closeTime?: string;
+  closeDay?: string;
   buttonText?: string;
   buttonText1?: string;
   buttonText2?: string;
@@ -24,6 +26,11 @@ interface ModalProps {
   onButtonClick2?: () => void;
   onButtonClick3?: () => void;
 }
+
+const mediaQueries = {
+  tablet: `@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max))`,
+  desktop: `@media (min-width: var(--breakpoint-desktop))`,
+};
 
 const ModalContainer = styled.div`
   width: 90%;
@@ -41,6 +48,12 @@ const ModalContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
+  ${mediaQueries.tablet} {
+    max-width: 25rem; /* Slightly larger modal for tablets */
+  }
+  ${mediaQueries.desktop} {
+    max-width: 30rem; /* Larger modal for desktops */
+  }
 `;
 
 const Image = styled.img`
@@ -48,26 +61,43 @@ const Image = styled.img`
   max-width: 18rem; /* 288px in 360px mobile screen */
   height: auto;
   border-radius: var(--border-radius-lg);
+  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+    max-width: 22rem; /* Slightly larger image for tablets */
+  }
+
+  @media (min-width: var(--breakpoint-desktop)) {
+    max-width: 26rem; /* Larger image for desktops */
+  }
 `;
 
 const Title1 = styled.h2`
   margin-top: var(--spacing-md);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-lg); /* 20px */
   font-weight: var(--font-semi-bold);
   color: var(--text);
+  ${mediaQueries.tablet} {
+    font-size: var(--font-size-xl); /* 22px */
+  }
+  ${mediaQueries.desktop} {
+    font-size: var(--font-size-xxl); /* 24px */
+  }
 `;
 
-const Title2 = styled.h2`
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-semi-bold);
-  color: var(--text);
+const Title2 = styled(Title1)`
+  margin-top: 0;
 `;
 
 const Description = styled.p`
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-sm); /* 14px */
   color: var(--text);
   margin-top: var(--spacing-sm);
   margin-bottom: var(--spacing-lg);
+  ${mediaQueries.tablet} {
+    font-size: var(--font-size-md); /* 16px */
+  }
+  ${mediaQueries.desktop} {
+    font-size: var(--font-size-lg); /* 20px */
+  }
 `;
 
 const Table = styled.table`
@@ -77,20 +107,32 @@ const Table = styled.table`
   table-layout: fixed;
   th,
   td {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-sm); /* 14px */
     color: var(--text);
     padding: var(--spacing-xs);
     text-align: left;
     vertical-align: top;
   }
   th {
-    width: 40%;
+    width: 30%;
     padding-left: 0;
     font-weight: var(--font-semi-bold);
   }
   td {
     word-wrap: break-word;
     padding-right: 0;
+  }
+  ${mediaQueries.tablet} {
+    th,
+    td {
+      font-size: var(--font-size-md); /* 16px */
+    }
+  }
+  ${mediaQueries.desktop} {
+    th,
+    td {
+      font-size: var(--font-size-lg); /* 20px */
+    }
   }
 `;
 
@@ -103,6 +145,8 @@ const Modal: React.FC<ModalProps> = ({
   address1,
   address2,
   openTime,
+  closeTime,
+  closeDay,
   buttonText,
   buttonText1,
   buttonText2,
@@ -112,7 +156,9 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   return (
     <ModalContainer>
-      {type === 'image' && imageUrl && <Image src={imageUrl} alt={title1} />}
+      {type === 'image' && imageUrl && (
+        <Image src={imageUrl} alt={title1} sizes="50vw" />
+      )}
       <Title1>{title1}</Title1>
       <Title2>{title2}</Title2>
       <Description>{description}</Description>
@@ -121,14 +167,17 @@ const Modal: React.FC<ModalProps> = ({
           <tbody>
             <tr>
               <th>주소</th>
-              <td>
-                {address1}
-                {address2}
-              </td>
+              <td>{`${address1} ${address2}`}</td>
             </tr>
             <tr>
               <th>운영시간</th>
-              <td>{openTime}</td>
+              <td>
+                {openTime} ~ {closeTime}
+              </td>
+            </tr>
+            <tr>
+              <th>영업일</th>
+              <td>{closeDay}</td>
             </tr>
           </tbody>
         </Table>
