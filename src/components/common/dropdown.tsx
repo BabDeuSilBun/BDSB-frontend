@@ -21,38 +21,31 @@ interface CustomDropdownProps extends SmallCustomDropdownProps {
   placeholder: string;
 }
 
+const mediaQueries = {
+  tablet: `@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max))`,
+  desktop: `@media (min-width: var(--breakpoint-desktop))`,
+};
+
 const DropdownContainer = styled.div`
   position: relative;
   display: inline-block;
   flex-wrap: nowrap;
   width: 20rem; /* 320px */
-
-  @media (max-width: var(--breakpoint-mobile-max)) {
-    width: 90%;
+  ${mediaQueries.tablet} {
+    width: 25rem; /* 400px on tablets */
   }
-
-  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
-    width: 18rem;
-  }
-
-  @media (min-width: var(--breakpoint-desktop)) {
-    width: 20rem;
+  ${mediaQueries.desktop} {
+    width: 30rem; /* 480px on desktops */
   }
 `;
 
 const SmallDropdownContainer = styled(DropdownContainer)`
-  width: 9rem; /* Half the width of the default dropdown */
-
-  @media (max-width: var(--breakpoint-mobile-max)) {
-    width: 45%;
+  width: 10rem; /* Half the width of the default dropdown */
+  ${mediaQueries.tablet} {
+    width: 12rem; /* 192px on tablets */
   }
-
-  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
-    width: 9rem;
-  }
-
-  @media (min-width: var(--breakpoint-desktop)) {
-    width: 10rem;
+  ${mediaQueries.desktop} {
+    width: 15rem; /* 240px on desktops */
   }
 `;
 
@@ -61,7 +54,9 @@ const DropdownToggle = styled.div<{ selected: boolean }>`
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem;
-  font-weight: ${({ selected }) => (selected ? 'var(--font-regular)' : 'var(--font-light)')};
+  font-size: var(--font-size-md); /* 16px */
+  font-weight: ${({ selected }) =>
+    selected ? 'var(--font-regular)' : 'var(--font-light)'};
   color: ${({ selected }) => (selected ? 'var(--primary)' : 'var(--gray400)')};
   border: solid
     ${({ selected }) =>
@@ -72,31 +67,27 @@ const DropdownToggle = styled.div<{ selected: boolean }>`
   transition:
     color 0.3s ease,
     border-color 0.3s ease;
-
-  @media (max-width: var(--breakpoint-mobile-max)) {
-    padding: 0.4rem 0.8rem;
-    font-size: var(--font-size-sm);
+  ${mediaQueries.tablet} {
+    font-size: var(--font-size-lg); /* 20px on tablet */
+    padding: 0.75rem 1.25rem; /* Increased padding on tablets */
   }
-
-  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
-    padding: 0.45rem 0.9rem;
-    font-size: var(--font-size-md);
+  ${mediaQueries.desktop} {
+    font-size: var(--font-size-lg); /* 20px on desktops */
+    padding: 1rem 1.5rem; /* Increased padding on desktops */
+  }
 `;
 
 const SmallDropdownToggle = styled(DropdownToggle)`
   padding: 0.25rem 0.5rem;
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-xs); /* 12px */
   border: none;
-
-  // xxs가 없어요!
-  // @media (max-width: var(--breakpoint-mobile-max)) {
-  //   padding: 0.2rem 0.4rem;
-  //   font-size: var(--font-size-xxs);
-  // }
-
-  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
-    padding: 0.22rem 0.45rem;
-    font-size: var(--font-size-xs);
+  ${mediaQueries.tablet} {
+    font-size: var(--font-size-sm); /* 14px on tablets */
+    padding: 0.5rem 1rem; /* Increased padding on tablets */
+  }
+  ${mediaQueries.desktop} {
+    font-size: var(--font-size-md); /* 16px on desktops */
+    padding: 0.75rem 1.25rem; /* Increased padding on desktops */
   }
 `;
 
@@ -111,6 +102,14 @@ const Arrow = styled.span<{ isOpen: boolean; selected: boolean }>`
   background-size: contain;
   transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
   transition: transform 0.3s ease;
+  ${mediaQueries.tablet} {
+    width: 2rem;
+    height: 2rem; /* Larger arrow on tablets */
+  }
+  ${mediaQueries.desktop} {
+    width: 2.5rem;
+    height: 2.5rem; /* Even larger arrow on desktops */
+  }
 `;
 
 const DropdownMenu = styled.div`
@@ -124,13 +123,21 @@ const DropdownMenu = styled.div`
   z-index: 1000;
   padding: 0.5rem 0;
   transition: 0.3s ease;
+  ${mediaQueries.tablet} {
+    padding: 0.75rem 0; /* Increased padding on tablets */
+  }
+  ${mediaQueries.desktop} {
+    padding: 1rem 0; /* Increased padding on desktops */
+  }
 `;
 
 const SmallDropdownMenu = styled(DropdownMenu)`
   border: none;
+  box-shadow: 0px 4px 8px var(--shadow);
 `;
 
 const DropdownItem = styled.div<{ selected: boolean }>`
+  font-size: var(--font-size-md); /* 16px */
   padding: 0.5rem 1rem;
   cursor: pointer;
   color: ${({ selected }) => (selected ? 'var(--primary)' : 'var(--gray400)')};
@@ -138,11 +145,27 @@ const DropdownItem = styled.div<{ selected: boolean }>`
   &:hover {
     background-color: var(--gray100);
   }
+  ${mediaQueries.tablet} {
+    font-size: var(--font-size-lg); /* 20px on tablet */
+    padding: 0.75rem 1.25rem; /* Increased padding on tablets */
+  }
+  ${mediaQueries.desktop} {
+    font-size: var(--font-size-lg); /* 20px on desktops */
+    padding: 1rem 1.5rem; /* Increased padding on desktops */
+  }
 `;
 
 const SmallDropdownItem = styled(DropdownItem)`
+  font-size: var(--font-size-xs); /* 12px */
   padding: 0.25rem 0.5rem;
-  font-size: var(--font-size-xs);
+  ${mediaQueries.tablet} {
+    font-size: var(--font-size-sm); /* 14px on tablets */
+    padding: 0.5rem 1rem; /* Increased padding on tablets */
+  }
+  ${mediaQueries.desktop} {
+    font-size: var(--font-size-md); /* 16px on desktops */
+    padding: 0.75rem 1.25rem; /* Increased padding on desktops */
+  }
 `;
 
 const CustomDropdown: React.FC<CustomDropdownProps> = ({

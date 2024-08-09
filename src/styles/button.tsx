@@ -3,18 +3,19 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 const mediaQueries = {
-  mobile: `@media (max-width: var(--breakpoint-mobile-max))`,
   tablet: `@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max))`,
   desktop: `@media (min-width: var(--breakpoint-desktop))`,
 };
 
 const BaseButton = styled.button`
-  width: 328px;
+  width: 328px; /* 328px max width by default */
   height: 44px;
   background-color: var(--primary);
   color: white;
   border-radius: var(--border-radius-md);
   border: none;
+  font-size: var(--font-size-md); /* 16px by default */
+  font-weight: var(--font-semi-bold);
   cursor: pointer;
   &:hover {
     background-color: var(--purple500);
@@ -23,14 +24,13 @@ const BaseButton = styled.button`
     background-color: var(--purple400);
     transform: scale(0.98);
   }
-  ${mediaQueries.mobile} {
-    width: 100%;
-  }
   ${mediaQueries.tablet} {
-    width: 80%;
+    max-width: 480px; /* Wider on tablets */
+    font-size: var(--font-size-lg); /* 20px on tablets */
   }
   ${mediaQueries.desktop} {
-    width: 328px;
+    max-width: 640px; /* Even wider on desktops */
+    font-size: var(--font-size-lg); /* 20px on desktops */
   }
 `;
 
@@ -41,7 +41,7 @@ const BaseBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
 }) => {
   /* eslint-disable react/jsx-props-no-spreading */
   return (
-    <BaseButton onClick={onClick} {...props} className="bold">
+    <BaseButton onClick={onClick} {...props}>
       {children}
     </BaseButton>
   );
@@ -64,24 +64,19 @@ const BaseBtnInactive: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
 > = ({ children, ...props }) => {
   /* eslint-disable react/jsx-props-no-spreading */
-  return (
-    <BaseButtonInactive {...props} className="bold">
-      {children}
-    </BaseButtonInactive>
-  );
+  return <BaseButtonInactive {...props}>{children}</BaseButtonInactive>;
   /* eslint-disable react/jsx-props-no-spreading */
 };
 
 const HalfButtonPurple = styled(BaseButton)`
   width: 136px;
-  ${mediaQueries.mobile} {
-    width: 100%;
-  }
   ${mediaQueries.tablet} {
-    width: 50%;
+    max-width: 240px; /* Larger on tablets */
+    font-size: var(--font-size-lg); /* 20px on tablets */
   }
   ${mediaQueries.desktop} {
-    width: 136px;
+    max-width: 320px; /* Even larger on desktops */
+    font-size: var(--font-size-lg); /* 20px on desktops */
   }
 `;
 
@@ -89,7 +84,7 @@ const HalfBtnPurple: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
 > = ({ children, onClick, ...props }) => {
   return (
-    <HalfButtonPurple onClick={onClick} {...props} className="bold">
+    <HalfButtonPurple onClick={onClick} {...props}>
       {children}
     </HalfButtonPurple>
   );
@@ -104,16 +99,14 @@ const HalfButtonLight = styled(BaseButton)`
   }
   &:active {
     background-color: var(--purple300);
-    transform: scale(0.98);
-  }
-  ${mediaQueries.mobile} {
-    width: 100%;
   }
   ${mediaQueries.tablet} {
-    width: 50%;
+    max-width: 240px; /* Larger on tablets */
+    font-size: var(--font-size-lg); /* 20px on tablets */
   }
   ${mediaQueries.desktop} {
-    width: 136px;
+    max-width: 320px; /* Even larger on desktops */
+    font-size: var(--font-size-lg); /* 20px on desktops */
   }
 `;
 
@@ -123,7 +116,7 @@ const HalfBtnLight: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   ...props
 }) => {
   return (
-    <HalfButtonLight onClick={onClick} {...props} className="bold">
+    <HalfButtonLight onClick={onClick} {...props}>
       {children}
     </HalfButtonLight>
   );
@@ -136,14 +129,11 @@ const ButtonGroup = styled.div`
   button {
     flex: 1;
   }
-  ${mediaQueries.mobile} {
-    width: 100%;
-  }
   ${mediaQueries.tablet} {
-    width: 80%;
+    max-width: 480px; /* Wider on tablets */
   }
   ${mediaQueries.desktop} {
-    width: 328px;
+    max-width: 640px; /* Even wider on desktops */
   }
 `;
 
@@ -159,6 +149,7 @@ const RoundButtonFilled = styled.button`
   border-radius: 21px;
   border: none;
   padding: 0.3rem 1rem;
+  font-size: var(--font-size-sm); /* 14px by default */
   cursor: pointer;
   &:hover {
     background-color: var(--purple200);
@@ -167,15 +158,13 @@ const RoundButtonFilled = styled.button`
     background-color: var(--purple300);
     transform: scale(0.98);
   }
-
-  ${mediaQueries.mobile} {
-    width: 100%;
-  }
   ${mediaQueries.tablet} {
-    width: 50%;
+    max-width: 160px; /* Larger on tablets */
+    font-size: var(--font-size-md); /* 16px on tablets */
   }
   ${mediaQueries.desktop} {
-    width: 106px;
+    max-width: 214px; /* Even larger on desktops */
+    font-size: var(--font-size-md); /* 16px on desktops */
   }
 `;
 
@@ -198,6 +187,7 @@ const SmallRoundButton = styled.button<{ isActive: boolean }>`
   border-radius: 15px;
   border: 1px solid var(--gray300);
   padding: 0.03rem 0.2rem;
+  font-size: var(--font-size-sm); /* 14px by default */
   cursor: pointer;
   &:hover {
     background-color: ${({ isActive }) =>
@@ -215,14 +205,13 @@ const SmallRoundButton = styled.button<{ isActive: boolean }>`
     border: ${({ isActive }) =>
       isActive ? 'none' : '1px solid var(--gray300)'};
   }
-  ${mediaQueries.mobile} {
-    width: 100%;
-  }
   ${mediaQueries.tablet} {
-    width: 50%;
+    max-width: 60px; /* Larger on tablets */
+    font-size: var(--font-size-md); /* 16px on tablets */
   }
   ${mediaQueries.desktop} {
-    width: 45px;
+    max-width: 75px; /* Even larger on desktops */
+    font-size: var(--font-size-md); /* 16px on desktops */
   }
 `;
 
