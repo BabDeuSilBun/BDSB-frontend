@@ -133,6 +133,7 @@ const DropdownMenu = styled.div`
 
 const SmallDropdownMenu = styled(DropdownMenu)`
   border: none;
+  box-shadow: 0px 4px 8px var(--shadow);
 `;
 
 const DropdownItem = styled.div<{ selected: boolean }>`
