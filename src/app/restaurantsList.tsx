@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -31,7 +31,6 @@ const options = [
 function RestarantsList() {
   const [selectedSort, setSelectedSort] = useState<string>('deadline');
   const [isOpen, setIsOpen] = useState(false);
-  // const lastItemRef = useRef<HTMLDivElement | null>(null);
 
   const {
     data,
@@ -61,25 +60,6 @@ function RestarantsList() {
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
-
-  // useEffect(() => {
-  //   if (!lastItemRef.current || !hasNextPage) return;
-
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       if (entries[0].isIntersecting) {
-  //         fetchNextPage();
-  //       }
-  //     },
-  //     { threshold: 1.0 },
-  //   );
-
-  //   observer.observe(lastItemRef.current);
-
-  //   return () => {
-  //     if (lastItemRef.current) observer.unobserve(lastItemRef.current);
-  //   };
-  // }, [fetchNextPage, hasNextPage]);
 
   return (
     <ListContainer>

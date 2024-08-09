@@ -5,7 +5,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 import { getTeamOrderList } from '@/services/teamOrderService';
-// import { getRestaurantsList } from '@/services/restaurantService';
+import { getRestaurantsList } from '@/services/restaurantService';
 
 import ClientComponent from './clientComponent';
 
@@ -17,10 +17,18 @@ export default async function Home() {
     queryFn: getTeamOrderList,
   });
 
-  // await queryClient.prefetchQuery({
-  //   queryKey: ['restaurantsList'],
-  //   queryFn: ({ pageParam = 0 }) => getRestaurantsList({ pageParam }),
-  // });
+  const initialPageParam = 0;
+  const selectedSort = 'deadline';
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['restaurantsList', selectedSort],
+    queryFn: ({ pageParam = 0 }) =>
+      getRestaurantsList({
+        pageParam,
+        sortCriteria: selectedSort,
+      }),
+    initialPageParam,
+  });
 
   return (
     <>
