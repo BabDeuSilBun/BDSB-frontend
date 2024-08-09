@@ -18,7 +18,8 @@ const Child = styled.div`
   align-items: center;
   height: 100px;
   background-color: var(--background);
-  box-shadow: 0px 4px 8px var(--shadow);
+  box-shadow: 1.48px 1.48px 7px var(--shadow); /* Similar box shadow as Header */
+  padding: 1.5rem;
   position: fixed;
 `;
 
