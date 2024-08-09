@@ -40,7 +40,7 @@ const DropdownContainer = styled.div`
 `;
 
 const SmallDropdownContainer = styled(DropdownContainer)`
-  width: 9rem; /* Half the width of the default dropdown */
+  width: 10rem; /* Half the width of the default dropdown */
   ${mediaQueries.tablet} {
     width: 12rem; /* 192px on tablets */
   }
