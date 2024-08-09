@@ -29,6 +29,11 @@ const CardContainer = styled.div`
   }
 `;
 
+const GroupTitle = styled.h3`
+  font-weight: var(--font-semi-bold);
+  font-size: var(--font-size-xl);
+`;
+
 function TeamOrderList() {
   const { data, isLoading, error } = useQuery<MeetingSummary[]>({
     queryKey: ['teamOrderList'],
@@ -51,7 +56,7 @@ function TeamOrderList() {
   return (
     <ListContainer>
       <SectionContainer additional="0">
-        <h3 className="bold xl">임박한 모임</h3>
+        <GroupTitle>임박한 모임</GroupTitle>
         <CardContainer>
           {imminentItems.length > 0 ? (
             imminentItems.map((item) => (
@@ -64,7 +69,7 @@ function TeamOrderList() {
       </SectionContainer>
       <Divider />
       <SectionContainer>
-        <h3 className="bold xl">모임 모아보기</h3>
+        <GroupTitle>모임 모아보기</GroupTitle>
         {data ? (
           data.map((item, index) => (
             <div key={item.meetingId}>

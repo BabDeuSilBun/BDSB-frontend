@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
+import { Divider } from '@chakra-ui/react';
 import { RestaurantSummary } from '@/types/restaurant';
 import { useState } from 'react';
 
@@ -66,7 +67,12 @@ function RestarantsList() {
         <div>주문 가능한 가게가 없습니다.</div>
       )}
       {data ? (
-        data.map((item) => <RestaurantsItem item={item} key={item.storeId} />)
+        data.map((item, index) => (
+          <div key={item.storeId}>
+            <RestaurantsItem item={item} />
+            {index < data.length - 1 && <Divider />}
+          </div>
+        ))
       ) : (
         <div>주문 가능한 가게가 없습니다.</div>
       )}

@@ -29,18 +29,19 @@ const InfoSection = styled.div`
   text-align: left;
 `;
 
-const StoreTitle = styled.h4.attrs({ className: 'bold' })`
+const StoreTitle = styled.h4`
+  font-weight: var(--font-semi-bold);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   margin-bottom: 4px;
 `;
 
-const InfoContainer = styled.div.attrs({ className: 'xs' })`
+const InfoContainer = styled.div`
   display: flex;
   justify-content: space-betwwen;
   gap: 0.8rem;
-
+  font-size: var(--font-size-xs);
   & div {
     display: flex;
     gap: 0.3rem;

@@ -30,7 +30,9 @@ const ImageWrapper = styled.div`
   border-radius: 50%;
 `;
 
-const CategoryName = styled.p.attrs({ className: 'xs' })``;
+const CategoryName = styled.p`
+  font-size: var(--font-size-xs);
+`;
 
 function CategoryItem() {
   return (

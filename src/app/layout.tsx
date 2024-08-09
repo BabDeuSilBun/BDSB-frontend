@@ -7,7 +7,7 @@ import StyledComponentsRegistry from '@/lib/registry';
 import Providers from './providers';
 
 const font = localFont({
-  src: 'fonts/SF-Pro-Display-Regular.otf',
+  src: 'fonts/SF-Pro.ttf',
   style: 'normal',
   weight: '400',
   display: 'swap',

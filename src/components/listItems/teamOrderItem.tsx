@@ -57,20 +57,27 @@ const ParticipantCount = styled.div`
 `;
 
 // 매장 이름
-const RestaurantName = styled.h4.attrs({ className: 'bold' })`
+const RestaurantName = styled.h4`
+  font-weight: var(--font-semi-bold);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 `;
 
 // 배달 시간 및 가격 정보
-const InfoItem = styled.p.attrs({ className: 'xs' })`
+const InfoItem = styled.p`
+  font-size: var(--font-size-xs);
   display: flex;
   gap: 0.3rem;
 `;
 
+const Information = styled.p`
+  font-size: var(--font-size-sm);
+`;
+
 // 주문 타입
-const OrderTypeLabel = styled.p.attrs({ className: 'bold' })`
+const OrderTypeLabel = styled.p`
+  font-weight: var(--font-semi-bold);
   color: var(--primary);
 `;
 
@@ -104,7 +111,7 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
         )}
       </ImageContainer>
       <InfoSection>
-        <p className="sm">4분 뒤 마감</p>
+        <Information>4분 뒤 마감</Information>
         <RestaurantName>{restaurantData?.name}</RestaurantName>
         <InfoItem>
           <Image
@@ -124,7 +131,7 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
       <AdditionalInfo>
         <ParticipantCount>
           <GroupIcon color="var(--primary)" width={18} height={18} />
-          <p className="sm">{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</p>
+          <Information>{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</Information>
         </ParticipantCount>
         <OrderTypeLabel>{item.orderType}</OrderTypeLabel>
       </AdditionalInfo>
