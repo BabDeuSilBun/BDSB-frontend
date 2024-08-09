@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import {
   GetRestaurantsListParams,
-  PaginatedRestaurants,
+  RestaurantsResponse,
 } from '@/types/restaurant';
 
 export const RESTAURANT_LIST_API_URL = '/api/stores';
@@ -14,9 +14,9 @@ export const getRestaurantsList = async ({
   sortCriteria,
   foodCategoryFilter,
   searchMenu,
-}: GetRestaurantsListParams): Promise<PaginatedRestaurants> => {
+}: GetRestaurantsListParams): Promise<RestaurantsResponse> => {
   try {
-    const response = await axios.get<PaginatedRestaurants>(
+    const response = await axios.get<RestaurantsResponse>(
       RESTAURANT_LIST_API_URL,
       {
         params: {

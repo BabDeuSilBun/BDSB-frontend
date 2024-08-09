@@ -1,9 +1,9 @@
 'use client';
 
-import styled from 'styled-components';
-import { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
+import styled from 'styled-components';
+import { useRouter, useSearchParams } from 'next/navigation';
 import ChatIcon from '@/components/svg/chat';
 import SearchIcon from '@/components/svg/search';
 import HamburgerIcon from '@/components/svg/hamburger';

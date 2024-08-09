@@ -1,7 +1,7 @@
 import { MeetingDetail } from '@/types/meeting';
-import { StoreDetail } from '@/types/restaurant';
+import { RestarantDetail } from '@/types/restaurant';
 
-export const stores: StoreDetail[] = [
+export const stores: RestarantDetail[] = [
   {
     storeId: 1,
     entrepreneur_id: 101,

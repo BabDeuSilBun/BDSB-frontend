@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { RestaurantSummary } from '@/types/restaurant';
@@ -8,6 +9,7 @@ import { formatCurrency } from '@/utils/currencyFormatter';
 const CardContainer = styled.div`
   display: flex;
   padding: 1rem;
+  cursor: pointer;
 `;
 
 const ImageContainer = styled.div`
@@ -51,12 +53,18 @@ const InfoTitle = styled.span`
 `;
 
 const RestaurantsItem: React.FC<{ item: RestaurantSummary }> = ({ item }) => {
+  const router = useRouter();
+
   const deliveryPrice = formatCurrency(item.deliveryPrice);
   const minOrderPrice = formatCurrency(item.minOrderPrice);
 
+  const handleClick = () => {
+    router.push(`/restaurants/id=${item.storeId}`);
+  };
+
   return (
     <CardContainer>
-      <ImageContainer>
+      <ImageContainer onClick={handleClick}>
         <Image
           src={item.image[0].url}
           alt="restaurant Image"

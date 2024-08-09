@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { RestaurantSummary } from '@/types/restaurant';
@@ -12,6 +13,7 @@ const CardContainer = styled.div`
   box-shadow: 1.48px 1.48px 7px var(--shadow);
   border-radius: var(--border-radius-default);
   overflow: hidden;
+  cursor: pointer;
 `;
 
 // 이미지 컨테이너
@@ -54,11 +56,17 @@ const InfoTitle = styled.span`
 `;
 
 const BigRestarantsItem: React.FC<{ item: RestaurantSummary }> = ({ item }) => {
+  const router = useRouter();
+
   const deliveryPrice = formatCurrency(item.deliveryPrice);
   const minOrderPrice = formatCurrency(item.minOrderPrice);
 
+  const handleClick = () => {
+    router.push(`/restaurants/id=${item.storeId}`);
+  };
+
   return (
-    <CardContainer>
+    <CardContainer onClick={handleClick}>
       <ImageContainer>
         {item.image[0] && (
           <Image

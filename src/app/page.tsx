@@ -17,10 +17,10 @@ export default async function Home() {
     queryFn: getTeamOrderList,
   });
 
-  await queryClient.prefetchQuery({
-    queryKey: ['restaurantsList'],
-    queryFn: getRestaurantsList,
-  });
+  // await queryClient.prefetchQuery({
+  //   queryKey: ['restaurantsList'],
+  //   queryFn: ({ pageParam = 0 }) => getRestaurantsList({ pageParam }),
+  // });
 
   return (
     <>

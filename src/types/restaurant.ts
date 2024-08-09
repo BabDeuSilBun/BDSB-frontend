@@ -20,33 +20,21 @@ export interface RestarantDetail extends RestaurantSummary {
   closeTime: string;
 }
 
-export interface PaginatedRestaurants {
+export interface RestaurantsResponse {
   content: RestaurantSummary[];
   pageable: {
     pageNumber: number;
-    pageSize: number;
-    sort: {
-      empty: boolean;
-      unsorted: boolean;
-      sorted: boolean;
-    };
-    offset: number;
-    paged: boolean;
-    unpaged: boolean;
   };
   last: boolean;
   totalPages: number;
   totalElements: number;
   size: number;
   number: number;
-  sort: {
-    empty: boolean;
-    unsorted: boolean;
-    sorted: boolean;
-  };
   first: boolean;
   numberOfElements: number;
   empty: boolean;
+  code: string;
+  message: string;
 }
 
 export interface GetRestaurantsListParams {

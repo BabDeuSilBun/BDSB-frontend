@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
@@ -19,6 +20,7 @@ const CardContainer = styled.div`
   background-color: white;
   box-shadow: 1.48px 1.48px 7px var(--shadow);
   margin-bottom: 1rem;
+  cursor: pointer;
 `;
 
 // 상단 이미지 컨테이너
@@ -86,6 +88,8 @@ const OrderTypeText = styled.p`
 `;
 
 const ImminentItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
+  const router = useRouter();
+
   const { data: storeData } = useQuery<RestaurantSummary>({
     queryKey: ['restaurantInfo', item.storeId],
     queryFn: () => getRestaurantInfo(item.storeId),
@@ -98,9 +102,13 @@ const ImminentItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
     enabled: !!item.meetingId,
   });
 
+  const handleClick = () => {
+    router.push(`/restaurants/id=${item.storeId}`);
+  };
+
   return (
     <CardContainer>
-      <ImageSection>
+      <ImageSection onClick={handleClick}>
         {storeData?.image[0] && (
           <ImageWrapper>
             <Image
