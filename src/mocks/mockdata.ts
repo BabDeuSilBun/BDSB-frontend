@@ -23,6 +23,29 @@ export const stores: StoreDetail[] = [
     phoneNumber: '02-1234-5678',
     openTime: '11:00',
     closeTime: '22:00',
+    closeDay: '일요일',
+    menuItems: [
+      {
+        name: '마르게리타 피자',
+        description: '토마토와 모짜렐라, 바질을 얹은 피자',
+        imageUrl: 'https://via.placeholder.com/300x200',
+      },
+      {
+        name: '페퍼로니 피자',
+        description: '스파이시한 페퍼로니를 얹은 피자',
+        imageUrl: 'https://via.placeholder.com/300x200',
+      },
+      {
+        name: '콤비네이션 피자',
+        description: '여러가지 재료를 얹은 피자',
+        imageUrl: 'https://via.placeholder.com/300x200',
+      },
+      {
+        name: '고르곤졸라 피자',
+        description: '고르곤졸라 치즈와 꿀을 곁들인 피자',
+        imageUrl: 'https://via.placeholder.com/300x200',
+      },
+    ],
   },
   {
     storeId: 2,
@@ -45,6 +68,29 @@ export const stores: StoreDetail[] = [
     phoneNumber: '02-9876-5432',
     openTime: '09:00',
     closeTime: '21:00',
+    closeDay: '일요일',
+    menuItems: [
+      {
+        name: '시저 샐러드',
+        description: '로메인과 시저 드레싱을 곁들인 샐러드',
+        imageUrl: 'https://via.placeholder.com/300x200',
+      },
+      {
+        name: '그릭 샐러드',
+        description: '올리브와 페타 치즈를 곁들인 샐러드',
+        imageUrl: 'https://via.placeholder.com/300x200',
+      },
+      {
+        name: '콥 샐러드',
+        description: '다양한 재료를 곁들인 푸짐한 샐러드',
+        imageUrl: 'https://via.placeholder.com/300x200',
+      },
+      {
+        name: '퀴노아 샐러드',
+        description: '퀴노아와 채소를 곁들인 건강한 샐러드',
+        imageUrl: 'https://via.placeholder.com/300x200',
+      },
+    ],
   },
 ];
 
