@@ -18,4 +18,5 @@ export interface RestarantDetail extends RestaurantSummary {
   phoneNumber: string;
   openTime: string;
   closeTime: string;
+  closeDay: string;
 }
