@@ -1,5 +1,7 @@
+import { RestaurantSummary } from '@/types/restaurant';
+
 export function applyFiltersAndSorting(
-  content: any[],
+  content: RestaurantSummary[],
   filters: {
     campusFilter?: string;
     foodCategoryFilter?: string;
