@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -21,6 +21,12 @@ const DropDownWrapper = styled.div`
   justify-content: right;
 `;
 
+const LoaderContainer = styled.div`
+  display: flex;
+  height: 650px;
+  align-items: center;
+`;
+
 const options = [
   { id: 1, value: 'deadline', name: '주문이 임박한 순' },
   { id: 2, value: 'delivery-fee', name: '배달비가 낮은 순' },
@@ -31,6 +37,8 @@ const options = [
 function RestarantsList() {
   const [selectedSort, setSelectedSort] = useState<string>('deadline');
   const [isOpen, setIsOpen] = useState(false);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useRef<HTMLDivElement | null>(null);
 
   const {
     data,
@@ -49,7 +57,34 @@ function RestarantsList() {
     },
   });
 
-  const totalResults = data?.pages[0]?.totalElements || 0;
+  useEffect(() => {
+    if (isFetchingNextPage) return;
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    };
+
+    // Initialize IntersectionObserver
+    observer.current = new IntersectionObserver(handleIntersect, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    });
+
+    // Observe the last element
+    if (lastElementRef.current) {
+      observer.current.observe(lastElementRef.current);
+    }
+
+    // Cleanup function to unobserve the last element
+    return () => {
+      if (observer.current && lastElementRef.current) {
+        observer.current.unobserve(lastElementRef.current);
+      }
+    };
+  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
 
   const handleSelect = (value: string | null) => {
     if (value !== null) {
@@ -64,51 +99,49 @@ function RestarantsList() {
   return (
     <ListContainer>
       {status === 'pending' ? (
-        <Loading />
+        <LoaderContainer>
+          <Loading />
+        </LoaderContainer>
       ) : status === 'error' ? (
         <p>Error: {error.message}</p>
       ) : (
         <>
           <CategoryItem />
-          <div style={{ display: 'flex' }}>
-            <p>총 {totalResults}개</p>
-            <DropDownWrapper>
-              <SmallCustomDropdown
-                options={options}
-                selectedValue={selectedSort}
-                onSelect={handleSelect}
-                isOpen={isOpen}
-                onToggle={handleToggle}
-              />
-            </DropDownWrapper>
-          </div>
-          <button
-            onClick={() => fetchNextPage()}
-            disabled={!hasNextPage || isFetchingNextPage}
-          >
-            {isFetchingNextPage
-              ? 'Loading more...'
-              : hasNextPage
-                ? 'Load More'
-                : 'Nothing more to load'}
-          </button>
+          <DropDownWrapper>
+            <SmallCustomDropdown
+              options={options}
+              selectedValue={selectedSort}
+              onSelect={handleSelect}
+              isOpen={isOpen}
+              onToggle={handleToggle}
+            />
+          </DropDownWrapper>
           {data ? (
-            data.pages.map((page) =>
-              page.content.map((item) => (
-                <BigRestarantsItem item={item} key={item.storeId} />
-              )),
-            )
+            <>
+              {data.pages.map((page) =>
+                page.content.map((item, index) => (
+                  <div
+                    key={item.storeId}
+                    ref={
+                      index === page.content.length - 1 ? lastElementRef : null
+                    }
+                  >
+                    <BigRestarantsItem item={item} key={item.storeId} />
+                  </div>
+                )),
+              )}
+              {isFetchingNextPage && (
+                <Spinner
+                  color="var(--primary)"
+                  size="xl"
+                  thickness="4px"
+                  speed="0.65s"
+                  emptyColor="gray.200"
+                />
+              )}
+            </>
           ) : (
             <div>주문 가능한 가게가 없습니다.</div>
-          )}
-          {isFetchingNextPage && (
-            <Spinner
-              color="var(--primary)"
-              size="xl"
-              thickness="4px"
-              speed="0.65s"
-              emptyColor="gray.200"
-            />
           )}
         </>
       )}
