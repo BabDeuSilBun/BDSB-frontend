@@ -17,7 +17,8 @@ interface ModalProps {
   address1?: string;
   address2?: string;
   openTime?: string;
-  openDay?: string;
+  closeTime?: string;
+  closeDay?: string;
   buttonText?: string;
   buttonText1?: string;
   buttonText2?: string;
@@ -144,7 +145,8 @@ const Modal: React.FC<ModalProps> = ({
   address1,
   address2,
   openTime,
-  openDay,
+  closeTime,
+  closeDay,
   buttonText,
   buttonText1,
   buttonText2,
@@ -170,11 +172,13 @@ const Modal: React.FC<ModalProps> = ({
             </tr>
             <tr>
               <th>운영시간</th>
-              <td>{openTime}</td>
+              <td>
+                {openTime} ~ {closeTime}
+              </td>
             </tr>
             <tr>
               <th>영업일</th>
-              <td>{openDay}</td>
+              <td>{closeDay}</td>
             </tr>
           </tbody>
         </Table>
