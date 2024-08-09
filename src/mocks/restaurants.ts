@@ -1084,11 +1084,8 @@ export const paginatedStores = Array.from(
       },
       last: index === totalPages - 1, // 마지막 페이지 여부
       totalPages, // 전체 페이지 수
-      totalElements: stores.length, // 전체 데이터 개수
       size: pageSize, // 페이지당 데이터 개수
       number: index, // 현재 페이지 번호
-      first: index === 0, // 첫 페이지 여부
-      numberOfElements: stores.slice(start, end).length, // 현재 페이지의 데이터 개수
     };
   },
 );

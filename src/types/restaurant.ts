@@ -41,7 +41,6 @@ export interface RestaurantsResponse {
   };
   last: boolean;
   totalPages: number;
-  totalElements: number;
 }
 
 export interface GetRestaurantsListParams {

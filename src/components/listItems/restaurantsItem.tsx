@@ -69,19 +69,29 @@ const RestaurantsItem: React.FC<{ item: RestaurantSummary }> = ({ item }) => {
           src={item.image[0].url}
           alt="restaurant Image"
           fill
-          sizes="50vw"
           style={{ objectFit: 'cover' }}
-          priority
         />
       </ImageContainer>
       <InfoSection>
         <RestaurantName>{item.name}</RestaurantName>
         <InfoItem>
-          <Image src="./timer.svg" alt="Delivery Time" width="18" height="18" />
+          <Image
+            src="./timer.svg"
+            alt="Delivery Time"
+            width="18"
+            height="18"
+            priority
+          />
           <span>{item.deliveryTime}</span>
         </InfoItem>
         <InfoItem>
-          <Image src="./fee.svg" alt="Delivery Fee" width="18" height="18" />
+          <Image
+            src="./fee.svg"
+            alt="Delivery Fee"
+            width="18"
+            height="18"
+            priority
+          />
           <span>{deliveryPrice}</span>
         </InfoItem>
         <InfoItem>

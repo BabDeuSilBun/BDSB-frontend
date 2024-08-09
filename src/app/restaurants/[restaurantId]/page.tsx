@@ -145,9 +145,9 @@ const RestaurantPage = () => {
           {activeModal === 'leaderOder' && (
             <Modal
               type="image"
-              title1={selectedMenu.name}
-              description={selectedMenu.description}
-              imageUrl={selectedMenu.imageUrl}
+              title1={selectedMenu?.name}
+              description={selectedMenu?.description}
+              imageUrl={selectedMenu?.imageUrl}
               buttonText1="공통메뉴"
               buttonText2="개별메뉴"
               onButtonClick1={() => console.log('Leader order')}
@@ -158,9 +158,9 @@ const RestaurantPage = () => {
           {activeModal === 'participantOder' && (
             <Modal
               type="image"
-              title1={selectedMenu.name}
-              description={selectedMenu.description}
-              imageUrl={selectedMenu.imageUrl}
+              title1={selectedMenu?.name}
+              description={selectedMenu?.description}
+              imageUrl={selectedMenu?.imageUrl}
               buttonText1="개별메뉴"
               buttonText2="닫기"
               onButtonClick1={() => console.log('Participant order')}

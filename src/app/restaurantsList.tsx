@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 
 import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { Spinner } from '@chakra-ui/react';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
 import BigRestarantsItem from '@/components/listItems/bigRestarantItem';
 import CategoryItem from '@/components/listItems/categoryItem';
@@ -129,15 +128,6 @@ function RestarantsList() {
                     <BigRestarantsItem item={item} key={item.storeId} />
                   </div>
                 )),
-              )}
-              {isFetchingNextPage && (
-                <Spinner
-                  color="var(--primary)"
-                  size="xl"
-                  thickness="4px"
-                  speed="0.65s"
-                  emptyColor="gray.200"
-                />
               )}
             </>
           ) : (
