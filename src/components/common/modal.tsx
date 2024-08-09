@@ -41,6 +41,13 @@ const ModalContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
+  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+    max-width: 25rem; /* Slightly larger modal for tablets */
+  }
+
+  @media (min-width: var(--breakpoint-desktop)) {
+    max-width: 30rem; /* Larger modal for desktops */
+  }
 `;
 
 const Image = styled.img`
@@ -48,26 +55,45 @@ const Image = styled.img`
   max-width: 18rem; /* 288px in 360px mobile screen */
   height: auto;
   border-radius: var(--border-radius-lg);
+  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+    max-width: 22rem; /* Slightly larger image for tablets */
+  }
+
+  @media (min-width: var(--breakpoint-desktop)) {
+    max-width: 26rem; /* Larger image for desktops */
+  }
 `;
 
 const Title1 = styled.h2`
   margin-top: var(--spacing-md);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-lg); /* 20px */
   font-weight: var(--font-semi-bold);
   color: var(--text);
+  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+    font-size: var(--font-size-xl); /* 22px */
+  }
+
+  @media (min-width: var(--breakpoint-desktop)) {
+    font-size: var(--font-size-xxl); /* 24px */
+  }
 `;
 
-const Title2 = styled.h2`
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-semi-bold);
-  color: var(--text);
+const Title2 = styled(BaseTitle)`
+  margin-top: 0;
 `;
 
 const Description = styled.p`
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-sm); /* 14px */
   color: var(--text);
   margin-top: var(--spacing-sm);
   margin-bottom: var(--spacing-lg);
+  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+    font-size: var(--font-size-md); /* 16px */
+  }
+
+  @media (min-width: var(--breakpoint-desktop)) {
+    font-size: var(--font-size-lg); /* 20px */
+  }
 `;
 
 const Table = styled.table`
@@ -77,7 +103,7 @@ const Table = styled.table`
   table-layout: fixed;
   th,
   td {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-sm); /* 14px */
     color: var(--text);
     padding: var(--spacing-xs);
     text-align: left;
@@ -91,6 +117,19 @@ const Table = styled.table`
   td {
     word-wrap: break-word;
     padding-right: 0;
+  }
+  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+    th,
+    td {
+      font-size: var(--font-size-md); /* 16px */
+    }
+  }
+
+  @media (min-width: var(--breakpoint-desktop)) {
+    th,
+    td {
+      font-size: var(--font-size-lg); /* 20px */
+    }
   }
 `;
 
