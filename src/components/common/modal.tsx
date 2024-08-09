@@ -114,7 +114,7 @@ const Table = styled.table`
     vertical-align: top;
   }
   th {
-    width: 40%;
+    width: 30%;
     padding-left: 0;
     font-weight: var(--font-semi-bold);
   }
@@ -165,10 +165,7 @@ const Modal: React.FC<ModalProps> = ({
           <tbody>
             <tr>
               <th>주소</th>
-              <td>
-                {address1}
-                {address2}
-              </td>
+              <td>{`${address1} ${address2}`}</td>
             </tr>
             <tr>
               <th>운영시간</th>
