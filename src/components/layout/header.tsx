@@ -2,7 +2,6 @@
 
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
-
 import HamburgerIcon from '@/components/svg/hamburger';
 import BackIcon from '@/components/svg/arrowLeft';
 import HomeIcon from '@/components/svg/home';
