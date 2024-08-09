@@ -25,6 +25,11 @@ interface ModalProps {
   onButtonClick3?: () => void;
 }
 
+const mediaQueries = {
+  tablet: `@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max))`,
+  desktop: `@media (min-width: var(--breakpoint-desktop))`,
+};
+
 const ModalContainer = styled.div`
   width: 90%;
   max-width: 20.5rem; /* 328px in 360px mobile screen */
@@ -41,11 +46,10 @@ const ModalContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
-  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+  ${mediaQueries.tablet} {
     max-width: 25rem; /* Slightly larger modal for tablets */
   }
-
-  @media (min-width: var(--breakpoint-desktop)) {
+  ${mediaQueries.desktop} {
     max-width: 30rem; /* Larger modal for desktops */
   }
 `;
@@ -69,16 +73,15 @@ const Title1 = styled.h2`
   font-size: var(--font-size-lg); /* 20px */
   font-weight: var(--font-semi-bold);
   color: var(--text);
-  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+  ${mediaQueries.tablet} {
     font-size: var(--font-size-xl); /* 22px */
   }
-
-  @media (min-width: var(--breakpoint-desktop)) {
+  ${mediaQueries.desktop} {
     font-size: var(--font-size-xxl); /* 24px */
   }
 `;
 
-const Title2 = styled(BaseTitle)`
+const Title2 = styled(Title1)`
   margin-top: 0;
 `;
 
@@ -87,11 +90,10 @@ const Description = styled.p`
   color: var(--text);
   margin-top: var(--spacing-sm);
   margin-bottom: var(--spacing-lg);
-  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+  ${mediaQueries.tablet} {
     font-size: var(--font-size-md); /* 16px */
   }
-
-  @media (min-width: var(--breakpoint-desktop)) {
+  ${mediaQueries.desktop} {
     font-size: var(--font-size-lg); /* 20px */
   }
 `;
@@ -118,14 +120,13 @@ const Table = styled.table`
     word-wrap: break-word;
     padding-right: 0;
   }
-  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+  ${mediaQueries.tablet} {
     th,
     td {
       font-size: var(--font-size-md); /* 16px */
     }
   }
-
-  @media (min-width: var(--breakpoint-desktop)) {
+  ${mediaQueries.desktop} {
     th,
     td {
       font-size: var(--font-size-lg); /* 20px */
