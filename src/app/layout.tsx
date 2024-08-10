@@ -15,7 +15,7 @@ const font = localFont({
 
 export const metadata: Metadata = {
   title: '밥드실분',
-  description: 'delievery group app for university students',
+  description: 'delivery group app for university students',
   icons: {
     icon: '/favicon.ico',
   },
