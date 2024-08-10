@@ -1,6 +1,6 @@
-import { RestarantDetail } from '@/types/restaurant';
+import { RestaurantDetail } from '@/types/restaurant';
 
-export const stores: RestarantDetail[] = [
+export const stores: RestaurantDetail[] = [
   {
     storeId: 1,
     entrepreneur_id: 101,

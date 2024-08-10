@@ -15,7 +15,7 @@ interface MenuItem {
   imageUrl: string;
 }
 
-export interface RestarantDetail extends RestaurantSummary {
+export interface RestaurantDetail extends RestaurantSummary {
   entrepreneur_id: number;
   description: string;
   postal: string;

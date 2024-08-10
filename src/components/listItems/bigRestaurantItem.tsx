@@ -41,7 +41,7 @@ const StoreTitle = styled.h4`
 
 const InfoContainer = styled.div`
   display: flex;
-  justify-content: space-betwwen;
+  justify-content: space-between;
   gap: 0.8rem;
   font-size: var(--font-size-xs);
   & div {
@@ -55,7 +55,9 @@ const InfoTitle = styled.span`
   margin-right: 0.3rem;
 `;
 
-const BigRestarantsItem: React.FC<{ item: RestaurantSummary }> = ({ item }) => {
+const BigRestaurantsItem: React.FC<{ item: RestaurantSummary }> = ({
+  item,
+}) => {
   const router = useRouter();
 
   const deliveryPrice = formatCurrency(item.deliveryPrice);
@@ -105,4 +107,4 @@ const BigRestarantsItem: React.FC<{ item: RestaurantSummary }> = ({ item }) => {
   );
 };
 
-export default BigRestarantsItem;
+export default BigRestaurantsItem;

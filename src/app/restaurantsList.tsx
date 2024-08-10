@@ -5,9 +5,9 @@ import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
-import BigRestarantsItem from '@/components/listItems/bigRestarantItem';
 import CategoryItem from '@/components/listItems/categoryItem';
 import { getRestaurantsList } from '@/services/restaurantService';
+import BigRestaurantsItem from '@/components/listItems/bigRestaurantItem';
 
 import Loading from './loading';
 
@@ -33,7 +33,7 @@ const options = [
   { id: 4, value: 'delivery-time', name: '배송시간이 짧은 순' },
 ];
 
-function RestarantsList() {
+function RestaurantsList() {
   const [selectedSort, setSelectedSort] = useState<string>('deadline');
   const [isOpen, setIsOpen] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
@@ -125,7 +125,7 @@ function RestarantsList() {
                       index === page.content.length - 1 ? lastElementRef : null
                     }
                   >
-                    <BigRestarantsItem item={item} key={item.storeId} />
+                    <BigRestaurantsItem item={item} key={item.storeId} />
                   </div>
                 )),
               )}
@@ -139,4 +139,4 @@ function RestarantsList() {
   );
 }
 
-export default RestarantsList;
+export default RestaurantsList;
