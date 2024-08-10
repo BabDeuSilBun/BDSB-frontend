@@ -9,7 +9,9 @@ export const getTeamOrderList = async () => {
     return response.data;
   } catch (error) {
     console.error('Error fetching team orders:', error);
-    throw error;
+    throw new Error(
+      '팀 주문 목록을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
   }
 };
 

@@ -1,0 +1,48 @@
+import { MeetingDetail } from '@/types/meeting';
+
+const meetings: MeetingDetail[] = [
+  {
+    meetingId: 1,
+    leaderId: 101,
+    storeId: 1,
+    storeName: '푸라닭',
+    orderType: '각자 식사',
+    participantMin: 2,
+    participantMax: 10,
+    isEarlyPaymentAvailable: true,
+    paymentAvailableDt: '2024-08-06T10:00:00',
+    deliveredAt: '2024-08-06T10:00:00',
+    deliveredPostal: '12345',
+    deliveredStreetAddress: '서울시 강남구 테헤란로 123',
+    deliveredDetailAddress: '12층 1201호',
+    meetedPostal: '12345',
+    meetedStreetAddress: '서울시 강남구 테헤란로 123',
+    meetedDetailAddress: '12층 1201호',
+    status: '확정',
+    createdAt: '2024-08-06T09:00:00',
+    updatedAt: '2024-08-06T09:00:00',
+  },
+  {
+    meetingId: 2,
+    leaderId: 102,
+    storeId: 2,
+    storeName: '교촌 치킨',
+    orderType: '함께 식사',
+    participantMin: 1,
+    participantMax: 6,
+    isEarlyPaymentAvailable: false,
+    paymentAvailableDt: '2024-08-06T12:00:00',
+    deliveredAt: '2024-08-06T12:00:00',
+    deliveredPostal: '67890',
+    deliveredStreetAddress: '서울시 종로구 종로 45',
+    deliveredDetailAddress: '3층 305호',
+    meetedPostal: '67890',
+    meetedStreetAddress: '서울시 종로구 종로 45',
+    meetedDetailAddress: '3층 305호',
+    status: '대기 중',
+    createdAt: '2024-08-06T11:00:00',
+    updatedAt: '2024-08-06T11:00:00',
+  },
+];
+
+export default meetings;

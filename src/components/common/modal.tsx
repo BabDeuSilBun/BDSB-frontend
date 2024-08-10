@@ -156,7 +156,9 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   return (
     <ModalContainer>
-      {type === 'image' && imageUrl && <Image src={imageUrl} alt={title1} />}
+      {type === 'image' && imageUrl && (
+        <Image src={imageUrl} alt={title1} sizes="50vw" />
+      )}
       <Title1>{title1}</Title1>
       <Title2>{title2}</Title2>
       <Description>{description}</Description>

@@ -9,6 +9,12 @@ export interface RestaurantSummary {
   minOrderPrice: number;
 }
 
+interface MenuItem {
+  name: string;
+  description: string;
+  imageUrl: string;
+}
+
 export interface RestarantDetail extends RestaurantSummary {
   entrepreneur_id: number;
   description: string;
@@ -19,4 +25,28 @@ export interface RestarantDetail extends RestaurantSummary {
   openTime: string;
   closeTime: string;
   closeDay: string;
+  menuItems: MenuItem[];
+}
+
+export interface RestaurantsResponse {
+  content: RestaurantSummary[];
+  pageable: {
+    pageNumber: number;
+    pageSize: number;
+    sort: {
+      empty: boolean;
+      unsorted: boolean;
+      sorted: boolean;
+    };
+  };
+  last: boolean;
+  totalPages: number;
+}
+
+export interface GetRestaurantsListParams {
+  pageParam?: number;
+  campusFilter?: string;
+  sortCriteria?: string | null;
+  foodCategoryFilter?: string;
+  searchMenu?: string;
 }

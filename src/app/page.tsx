@@ -17,9 +17,17 @@ export default async function Home() {
     queryFn: getTeamOrderList,
   });
 
-  await queryClient.prefetchQuery({
-    queryKey: ['restaurantsList'],
-    queryFn: getRestaurantsList,
+  const initialPageParam = 0;
+  const selectedSort = 'deadline';
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['restaurantsList', selectedSort],
+    queryFn: ({ pageParam = 0 }) =>
+      getRestaurantsList({
+        pageParam,
+        sortCriteria: selectedSort,
+      }),
+    initialPageParam,
   });
 
   return (

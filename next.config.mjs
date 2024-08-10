@@ -4,7 +4,7 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ['avatars.githubusercontent.com'],
+    domains: ['via.placeholder.com'],
   },
 };
 

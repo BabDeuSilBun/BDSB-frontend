@@ -7,12 +7,13 @@ import styled from 'styled-components';
 interface DropdownOption {
   id: number;
   name: string;
+  value: string;
 }
 
 interface SmallCustomDropdownProps {
   options: DropdownOption[];
-  selectedValue: number | null;
-  onSelect: (value: number | null) => void;
+  selectedValue: string | null;
+  onSelect: (value: string | null) => void;
   isOpen: boolean;
   onToggle: () => void;
 }
@@ -176,7 +177,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   isOpen,
   onToggle,
 }) => {
-  const handleSelect = (value: number | null) => {
+  const handleSelect = (value: string | null) => {
     onSelect(value);
     onToggle();
   };
@@ -185,7 +186,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
     <DropdownContainer>
       <DropdownToggle selected={!!selectedValue} onClick={onToggle}>
         {selectedValue
-          ? options.find((option) => option.id === selectedValue)?.name
+          ? options.find((option) => option.value === selectedValue)?.name
           : placeholder}
         <Arrow selected={!!selectedValue} isOpen={isOpen} />
       </DropdownToggle>
@@ -193,9 +194,9 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
         <DropdownMenu>
           {options.map((option) => (
             <DropdownItem
-              key={option.id}
-              selected={selectedValue === option.id}
-              onClick={() => handleSelect(option.id)}
+              key={option.value}
+              selected={selectedValue === option.value}
+              onClick={() => handleSelect(option.value)}
             >
               {option.name}
             </DropdownItem>
@@ -215,11 +216,11 @@ const SmallCustomDropdown: React.FC<SmallCustomDropdownProps> = ({
 }) => {
   useEffect(() => {
     if (selectedValue === null && options.length > 0) {
-      onSelect(options[0]?.id ?? null); // Set the first option as selected by default
+      onSelect(options[0]?.value ?? null); // Set the first option as selected by default
     }
   }, [selectedValue, options, onSelect]);
 
-  const handleSelect = (value: number | null) => {
+  const handleSelect = (value: string | null) => {
     onSelect(value);
     onToggle();
   };
@@ -228,7 +229,7 @@ const SmallCustomDropdown: React.FC<SmallCustomDropdownProps> = ({
     <SmallDropdownContainer>
       <SmallDropdownToggle selected={!!selectedValue} onClick={onToggle}>
         {selectedValue
-          ? options.find((option) => option.id === selectedValue)?.name
+          ? options.find((option) => option.value === selectedValue)?.name
           : options[0].name}{' '}
         {/* Show the first option's name instead of placeholder */}
         <Arrow selected={!!selectedValue} isOpen={isOpen} />
@@ -237,9 +238,9 @@ const SmallCustomDropdown: React.FC<SmallCustomDropdownProps> = ({
         <SmallDropdownMenu>
           {options.map((option) => (
             <SmallDropdownItem
-              key={option.id}
-              selected={selectedValue === option.id}
-              onClick={() => handleSelect(option.id)}
+              key={option.value}
+              selected={selectedValue === option.value}
+              onClick={() => handleSelect(option.value)}
             >
               {option.name}
             </SmallDropdownItem>

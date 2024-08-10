@@ -1,16 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
-import { Divider } from '@chakra-ui/react';
-import { RestaurantSummary } from '@/types/restaurant';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
 import BigRestarantsItem from '@/components/listItems/bigRestarantItem';
-import RestaurantsItem from '@/components/listItems/restaurantsItem';
 import CategoryItem from '@/components/listItems/categoryItem';
 import { getRestaurantsList } from '@/services/restaurantService';
+
+import Loading from './loading';
 
 const ListContainer = styled.section`
   margin: 124px 0 20px;
@@ -21,59 +20,120 @@ const DropDownWrapper = styled.div`
   justify-content: right;
 `;
 
+const LoaderContainer = styled.div`
+  display: flex;
+  height: 650px;
+  align-items: center;
+`;
+
 const options = [
-  { id: 1, name: '주문이 임박한 순' },
-  { id: 2, name: '배달비가 낮은 순' },
-  { id: 3, name: '최소주문금액이 낮은 순' },
-  { id: 4, name: '배송시간이 짧은 순' },
+  { id: 1, value: 'deadline', name: '주문이 임박한 순' },
+  { id: 2, value: 'delivery-fee', name: '배달비가 낮은 순' },
+  { id: 3, value: 'min-price', name: '최소주문금액이 낮은 순' },
+  { id: 4, value: 'delivery-time', name: '배송시간이 짧은 순' },
 ];
 
 function RestarantsList() {
-  const [selectedValue, setSelectedValue] = useState<number | null>(null);
+  const [selectedSort, setSelectedSort] = useState<string>('deadline');
   const [isOpen, setIsOpen] = useState(false);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useRef<HTMLDivElement | null>(null);
 
-  const { data, isLoading, error } = useQuery<RestaurantSummary[]>({
-    queryKey: ['restaurantsList'],
-    queryFn: getRestaurantsList,
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ['restaurantsList', selectedSort],
+    queryFn: ({ pageParam = 0 }) =>
+      getRestaurantsList({ pageParam, sortCriteria: selectedSort }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
+    },
   });
 
-  if (isLoading) return <p>데이터를 로딩 중입니다...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  useEffect(() => {
+    if (isFetchingNextPage) return;
 
-  const handleSelect = (value: number | null) => {
-    setSelectedValue(value);
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    };
+
+    // Initialize IntersectionObserver
+    observer.current = new IntersectionObserver(handleIntersect, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    });
+
+    // Observe the last element
+    if (lastElementRef.current) {
+      observer.current.observe(lastElementRef.current);
+    }
+
+    // Cleanup function to unobserve the last element
+    return () => {
+      if (observer.current && lastElementRef.current) {
+        observer.current.unobserve(lastElementRef.current);
+      }
+    };
+  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+
+  const handleSelect = (value: string | null) => {
+    if (value !== null) {
+      setSelectedSort(value);
+    }
   };
 
   const handleToggle = () => {
-    setIsOpen((prev) => !prev);
+    setIsOpen(!isOpen);
   };
 
   return (
     <ListContainer>
-      <CategoryItem />
-      <DropDownWrapper>
-        <SmallCustomDropdown
-          options={options}
-          selectedValue={selectedValue}
-          onSelect={handleSelect}
-          isOpen={isOpen}
-          onToggle={handleToggle}
-        />
-      </DropDownWrapper>
-      {data ? (
-        data.map((item) => <BigRestarantsItem item={item} key={item.storeId} />)
+      {status === 'pending' ? (
+        <LoaderContainer>
+          <Loading />
+        </LoaderContainer>
+      ) : status === 'error' ? (
+        <p>Error: {error.message}</p>
       ) : (
-        <div>주문 가능한 가게가 없습니다.</div>
-      )}
-      {data ? (
-        data.map((item, index) => (
-          <div key={item.storeId}>
-            <RestaurantsItem item={item} />
-            {index < data.length - 1 && <Divider />}
-          </div>
-        ))
-      ) : (
-        <div>주문 가능한 가게가 없습니다.</div>
+        <>
+          <CategoryItem />
+          <DropDownWrapper>
+            <SmallCustomDropdown
+              options={options}
+              selectedValue={selectedSort}
+              onSelect={handleSelect}
+              isOpen={isOpen}
+              onToggle={handleToggle}
+            />
+          </DropDownWrapper>
+          {data ? (
+            <>
+              {data.pages.map((page) =>
+                page.content.map((item, index) => (
+                  <div
+                    key={item.storeId}
+                    ref={
+                      index === page.content.length - 1 ? lastElementRef : null
+                    }
+                  >
+                    <BigRestarantsItem item={item} key={item.storeId} />
+                  </div>
+                )),
+              )}
+            </>
+          ) : (
+            <div>주문 가능한 가게가 없습니다.</div>
+          )}
+        </>
       )}
     </ListContainer>
   );
