@@ -7,6 +7,7 @@ import Modal from '@/components/common/modal';
 import { useQuery } from '@tanstack/react-query';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import Loading from '@/app/loading';
+import InfoButton from '@/components/customButton/infoButton';
 
 const RestaurantPage = () => {
   const router = useRouter();
@@ -66,9 +67,7 @@ const RestaurantPage = () => {
           {/* {context === 'leaderBefore' && ( */}
           {/* <> */}
           <div>
-            <button type="button" onClick={() => openModal('infoModal')}>
-              Show Restaurant Info
-            </button>
+            <InfoButton onClick={() => openModal('infoModal')} />
           </div>
           {restaurantData.menuItems.map((menuItem) => (
             <div>
