@@ -48,7 +48,7 @@ export interface MeetingType {
   storeName: string;
   purchaseType: string;
   participantMax: number;
-  paymentAvailableDt: string;
+  paymentAvailableAt: string;
   deliveryFee: string;
   participantMin?: number; // optional field for detail field
   isEarlyPaymentAvailable?: boolean; // optional field for detail field

@@ -9,7 +9,7 @@ export const getTeamOrderList = async ({
   page = 0,
   schoolId = undefined,
   size = 10,
-  sortCriteria = 'deadline',
+  sortCriteria = 'delivery-fee',
   searchMenu = undefined,
 }: GetListParams): Promise<MeetingsResponse> => {
   try {

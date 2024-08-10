@@ -64,8 +64,8 @@ export function applyFiltersAndSorting(
         const meetingB = b as MeetingType;
 
         if (sortCriteria === 'deadline') {
-          return meetingA.paymentAvailableDt.localeCompare(
-            meetingB.paymentAvailableDt,
+          return meetingA.paymentAvailableAt.localeCompare(
+            meetingB.paymentAvailableAt,
           );
         }
         return 0; // 'deadline' 외의 정렬 기준은 적용하지 않음

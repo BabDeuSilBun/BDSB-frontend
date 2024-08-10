@@ -4,6 +4,7 @@ import { RESTAURANT_LIST_API_URL } from '@/services/restaurantService';
 
 import { applyFiltersAndSorting } from './filteringAndSorting';
 import { paginatedStores, stores } from './mockData/restaurants';
+import { paginatedMeetings } from './mockData/meetings';
 
 export const handler = [
   http.get(RESTAURANT_LIST_API_URL, (req) => {
@@ -54,7 +55,7 @@ export const handler = [
       const size = Number(url.searchParams.get('size'));
       const foodCategoryFilter = url.searchParams.get('foodCategoryFilter');
 
-      const paginatedResponse = paginatedStores[pageParam];
+      const paginatedResponse = paginatedMeetings[pageParam];
 
       if (!paginatedResponse) {
         return HttpResponse.json({ message: 'Page not found' });

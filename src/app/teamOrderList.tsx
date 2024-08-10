@@ -36,7 +36,7 @@ const CardContainer = styled.div`
 
 const DropDownWrapper = styled.div`
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
 `;
 
 const GroupTitle = styled.h3`
@@ -46,7 +46,7 @@ const GroupTitle = styled.h3`
 
 const LoaderContainer = styled.div`
   display: flex;
-  height: 650px;
+  width: 100%;
   align-items: center;
 `;
 
@@ -71,9 +71,9 @@ function TeamOrderList() {
     status: imminentStatus,
     error: imminentError,
   } = useQuery<MeetingsResponse>({
-    queryKey: ['imminentTeamOrders', selectedSort],
+    queryKey: ['imminentTeamOrders'],
     queryFn: () =>
-      getTeamOrderList({ page: 0, size: 4, sortCriteria: selectedSort }),
+      getTeamOrderList({ page: 0, size: 4, sortCriteria: 'deadline' }),
   });
 
   // Fetch paginated team orders
@@ -141,14 +141,20 @@ function TeamOrderList() {
               <Loading />
             </LoaderContainer>
           )}
-          {imminentStatus === 'error' && <p>Error: {imminentError.message}</p>}
-          {imminentStatus === 'success' && imminentData ? (
-            imminentData.content.map((item) => (
-              <ImminentOrderItem key={item.meetingId} item={item} />
-            ))
-          ) : (
-            <div>모집 중인 모임이 없습니다.</div>
+          {imminentStatus === 'error' && (
+            <p>
+              Error:{' '}
+              {imminentError?.message || '알 수 없는 오류가 발생했습니다.'}
+            </p>
           )}
+          {imminentStatus === 'success' &&
+            (imminentData?.content.length > 0 ? (
+              imminentData.content.map((item) => (
+                <ImminentOrderItem key={item.meetingId} item={item} />
+              ))
+            ) : (
+              <div>모집 중인 모임이 없습니다.</div>
+            ))}
         </CardContainer>
       </SectionContainer>
 
@@ -156,8 +162,8 @@ function TeamOrderList() {
 
       {/* 모임 모아보기 섹션 */}
       <SectionContainer>
-        <GroupTitle>모임 모아보기</GroupTitle>
         <DropDownWrapper>
+          <GroupTitle>모임 모아보기</GroupTitle>
           <SmallCustomDropdown
             options={options}
             selectedValue={selectedSort}
@@ -189,7 +195,7 @@ function TeamOrderList() {
                 </div>
               )),
             )}
-            {!hasNextPage && <div>모든 데이터를 불러왔습니다.</div>}
+            {/* {!hasNextPage && <div>all fetched</div>} */}
           </>
         )}
         {status === 'success' && !data && <div>모집 중인 모임이 없습니다.</div>}

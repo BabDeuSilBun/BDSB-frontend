@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
-import { MeetingType, RestaurantType } from '@/types/coreTypes';
-import { getRestaurantInfo } from '@/services/restaurantService';
+import { MeetingType } from '@/types/coreTypes';
 import { getCurrentHeadCount } from '@/services/teamOrderService';
+import useRemainingTime from '@/hook/useRemainingTime';
 
 import GroupIcon from '../svg/group';
 
@@ -74,8 +74,9 @@ const StoreTitle = styled.h4`
   overflow: hidden;
 `;
 
-const Information = styled.p`
-  font-size: var(--font-size-xs);
+const Information = styled.p<{ isCritical: boolean }>`
+  font-size: var(--font-size-sm);
+  color: ${({ isCritical }) => isCritical && 'var(--warning)'};
 `;
 
 // 주문 타입
@@ -87,13 +88,10 @@ const OrderTypeText = styled.p`
 `;
 
 const ImminentItem: React.FC<{ item: MeetingType }> = ({ item }) => {
+  const { time: remainingTime, isCritical } = useRemainingTime(
+    item.paymentAvailableAt,
+  );
   const router = useRouter();
-
-  const { data: storeData } = useQuery<RestaurantType>({
-    queryKey: ['restaurantInfo', item.storeId],
-    queryFn: () => getRestaurantInfo(item.storeId),
-    enabled: !!item.storeId,
-  });
 
   const { data: headCountData } = useQuery<{ currentHeadCount: number }>({
     queryKey: ['headCount', item.meetingId],
@@ -108,10 +106,10 @@ const ImminentItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   return (
     <CardContainer>
       <ImageSection onClick={handleClick}>
-        {storeData?.image[0] && (
+        {item.image[0] && (
           <ImageWrapper>
             <Image
-              src={storeData.image[0].url}
+              src={item.image[0].url}
               alt="Store Image"
               fill
               sizes="50vw"
@@ -121,7 +119,7 @@ const ImminentItem: React.FC<{ item: MeetingType }> = ({ item }) => {
           </ImageWrapper>
         )}
         <InfoOverlay>
-          <Information>4분 뒤 마감</Information>
+          <Information isCritical={isCritical}>{remainingTime}</Information>
           <ParticipantCount>
             <GroupIcon color="white" width={16} height={18} />
             <Information>{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</Information>
@@ -129,7 +127,7 @@ const ImminentItem: React.FC<{ item: MeetingType }> = ({ item }) => {
         </InfoOverlay>
       </ImageSection>
       <InfoSection>
-        <StoreTitle>{storeData?.name}</StoreTitle>
+        <StoreTitle>{item.storeName}</StoreTitle>
         <OrderTypeText>{item.purchaseType}</OrderTypeText>
       </InfoSection>
     </CardContainer>
