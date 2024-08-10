@@ -27,14 +27,13 @@ const LoaderContainer = styled.div`
 `;
 
 const options = [
-  { id: 1, value: 'deadline', name: '주문이 임박한 순' },
-  { id: 2, value: 'delivery-fee', name: '배달비가 낮은 순' },
-  { id: 3, value: 'min-price', name: '최소주문금액이 낮은 순' },
-  { id: 4, value: 'delivery-time', name: '배송시간이 짧은 순' },
+  { id: 1, value: 'delivery-fee', name: '배달비가 낮은 순' },
+  { id: 2, value: 'min-price', name: '최소주문금액이 낮은 순' },
+  { id: 3, value: 'delivery-time', name: '배송시간이 짧은 순' },
 ];
 
 function RestaurantsList() {
-  const [selectedSort, setSelectedSort] = useState<string>('deadline');
+  const [selectedSort, setSelectedSort] = useState<string>('delivery-fee');
   const [isOpen, setIsOpen] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
   const lastElementRef = useRef<HTMLDivElement | null>(null);
@@ -49,7 +48,7 @@ function RestaurantsList() {
   } = useInfiniteQuery({
     queryKey: ['restaurantsList', selectedSort],
     queryFn: ({ pageParam = 0 }) =>
-      getRestaurantsList({ pageParam, sortCriteria: selectedSort }),
+      getRestaurantsList({ page: pageParam, sortCriteria: selectedSort }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;

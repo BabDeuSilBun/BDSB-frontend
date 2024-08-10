@@ -4,8 +4,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
-import { MeetingSummary } from '@/types/meeting';
-import { RestaurantSummary } from '@/types/restaurant';
+import { MeetingType, RestaurantType } from '@/types/coreTypes';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getCurrentHeadCount } from '@/services/teamOrderService';
 
@@ -87,10 +86,10 @@ const OrderTypeText = styled.p`
   color: var(--primary);
 `;
 
-const ImminentItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
+const ImminentItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   const router = useRouter();
 
-  const { data: storeData } = useQuery<RestaurantSummary>({
+  const { data: storeData } = useQuery<RestaurantType>({
     queryKey: ['restaurantInfo', item.storeId],
     queryFn: () => getRestaurantInfo(item.storeId),
     enabled: !!item.storeId,
@@ -131,7 +130,7 @@ const ImminentItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
       </ImageSection>
       <InfoSection>
         <StoreTitle>{storeData?.name}</StoreTitle>
-        <OrderTypeText>{item.orderType}</OrderTypeText>
+        <OrderTypeText>{item.purchaseType}</OrderTypeText>
       </InfoSection>
     </CardContainer>
   );

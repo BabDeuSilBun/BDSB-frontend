@@ -4,11 +4,9 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
-import { MeetingSummary } from '@/types/meeting';
-import { RestaurantSummary } from '@/types/restaurant';
+import { MeetingType, RestaurantType } from '@/types/coreTypes';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getCurrentHeadCount } from '@/services/teamOrderService';
-import { formatCurrency } from '@/utils/currencyFormatter';
 
 import GroupIcon from '../svg/group';
 
@@ -82,10 +80,10 @@ const OrderTypeLabel = styled.p`
   color: var(--primary);
 `;
 
-const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
+const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   const router = useRouter();
 
-  const { data: restaurantData } = useQuery<RestaurantSummary>({
+  const { data: restaurantData } = useQuery<RestaurantType>({
     queryKey: ['restaurantInfo', item.storeId],
     queryFn: () => getRestaurantInfo(item.storeId),
     enabled: !!item.storeId,
@@ -128,7 +126,7 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
         </InfoItem>
         <InfoItem>
           <Image src="./fee.svg" alt="Delivery Fee" width="18" height="18" />
-          <span>{deliveryPrice}</span>
+          <span>{item.deliveryFee}</span>
         </InfoItem>
       </InfoSection>
       <AdditionalInfo>
@@ -136,7 +134,7 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
           <GroupIcon color="var(--primary)" width={18} height={18} />
           <Information>{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</Information>
         </ParticipantCount>
-        <OrderTypeLabel>{item.orderType}</OrderTypeLabel>
+        <OrderTypeLabel>{item.purchaseType}</OrderTypeLabel>
       </AdditionalInfo>
     </CardContainer>
   );

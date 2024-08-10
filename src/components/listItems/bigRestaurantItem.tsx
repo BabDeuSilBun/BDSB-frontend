@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
-import { RestaurantSummary } from '@/types/restaurant';
+import { RestaurantType } from '@/types/coreTypes';
 import { formatCurrency } from '@/utils/currencyFormatter';
 
 // 카드 레이아웃 컨테이너
@@ -55,13 +55,11 @@ const InfoTitle = styled.span`
   margin-right: 0.3rem;
 `;
 
-const BigRestaurantsItem: React.FC<{ item: RestaurantSummary }> = ({
-  item,
-}) => {
+const BigRestaurantsItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
   const router = useRouter();
 
   const deliveryPrice = formatCurrency(item.deliveryPrice);
-  const minOrderPrice = formatCurrency(item.minOrderPrice);
+  const minPurchasePrice = formatCurrency(item.minPurchasePrice);
 
   const handleClick = () => {
     router.push(`/restaurants/id=${item.storeId}`);
@@ -99,7 +97,7 @@ const BigRestaurantsItem: React.FC<{ item: RestaurantSummary }> = ({
           </div>
           <div>
             <InfoTitle>최소주문</InfoTitle>
-            <span>{minOrderPrice}</span>
+            <span>{minPurchasePrice}</span>
           </div>
         </InfoContainer>
       </InfoSection>
