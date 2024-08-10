@@ -50,18 +50,19 @@ const SmallDropdownContainer = styled(DropdownContainer)`
   }
 `;
 
-const DropdownToggle = styled.div<{ selected: boolean }>`
+const DropdownToggle = styled.div<{ $selected: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem;
   font-size: var(--font-size-md); /* 16px */
-  font-weight: ${({ selected }) =>
-    selected ? 'var(--font-regular)' : 'var(--font-light)'};
-  color: ${({ selected }) => (selected ? 'var(--primary)' : 'var(--gray400)')};
+  font-weight: ${({ $selected }) =>
+    $selected ? 'var(--font-regular)' : 'var(--font-light)'};
+  color: ${({ $selected }) =>
+    $selected ? 'var(--primary)' : 'var(--gray400)'};
   border: solid
-    ${({ selected }) =>
-      selected ? '2px var(--primary)' : '1.5px var(--gray200)'};
+    ${({ $selected }) =>
+      $selected ? '2px var(--primary)' : '1.5px var(--gray200)'};
   border-radius: var(--border-radius-lg);
   cursor: pointer;
   background-color: var(--background);
@@ -92,16 +93,16 @@ const SmallDropdownToggle = styled(DropdownToggle)`
   }
 `;
 
-const Arrow = styled.span<{ isOpen: boolean; selected: boolean }>`
+const Arrow = styled.span<{ $isOpen: boolean; $selected: boolean }>`
   width: 1.5rem;
   height: 1.5rem;
   display: inline-block;
-  background: ${({ selected }) =>
-    selected
+  background: ${({ $selected }) =>
+    $selected
       ? "url(\"data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%236f6cf6'%3E%3Cpath d='M480-376q-5 0-10-1.5t-9-5.5L284-568q-7-7-7-18t7-18q7-7 18-7t18 7l160 160 160-160q7-7 18-7t18 7q7 7 7 18t-7 18L500-383q-4 4-9 5.5t-10 1.5Z'/%3E%3C/svg%3E\") no-repeat center"
       : "url(\"data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%23757880'%3E%3Cpath d='M480-376q-5 0-10-1.5t-9-5.5L284-568q-7-7-7-18t7-18q7-7 18-7t18 7l160 160 160-160q7-7 18-7t18 7q7 7 7 18t-7 18L500-383q-4 4-9 5.5t-10 1.5Z'/%3E%3C/svg%3E\") no-repeat center"};
   background-size: contain;
-  transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
+  transform: ${({ $isOpen }) => ($isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
   transition: transform 0.3s ease;
   ${mediaQueries.tablet} {
     width: 2rem;
@@ -137,11 +138,12 @@ const SmallDropdownMenu = styled(DropdownMenu)`
   box-shadow: 0px 4px 8px var(--shadow);
 `;
 
-const DropdownItem = styled.div<{ selected: boolean }>`
+const DropdownItem = styled.div<{ $selected: boolean }>`
   font-size: var(--font-size-md); /* 16px */
   padding: 0.5rem 1rem;
   cursor: pointer;
-  color: ${({ selected }) => (selected ? 'var(--primary)' : 'var(--gray400)')};
+  color: ${({ $selected }) =>
+    $selected ? 'var(--primary)' : 'var(--gray400)'};
 
   &:hover {
     background-color: var(--gray100);
@@ -184,11 +186,11 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
 
   return (
     <DropdownContainer>
-      <DropdownToggle selected={!!selectedValue} onClick={onToggle}>
+      <DropdownToggle $selected={!!selectedValue} onClick={onToggle}>
         {selectedValue
           ? options.find((option) => option.value === selectedValue)?.name
           : placeholder}
-        <Arrow selected={!!selectedValue} isOpen={isOpen} />
+        <Arrow $selected={!!selectedValue} $isOpen={isOpen} />
       </DropdownToggle>
       {isOpen && (
         <DropdownMenu>
@@ -232,7 +234,7 @@ const SmallCustomDropdown: React.FC<SmallCustomDropdownProps> = ({
           ? options.find((option) => option.value === selectedValue)?.name
           : options[0].name}{' '}
         {/* Show the first option's name instead of placeholder */}
-        <Arrow selected={!!selectedValue} isOpen={isOpen} />
+        <Arrow $selected={!!selectedValue} $isOpen={isOpen} />
       </SmallDropdownToggle>
       {isOpen && (
         <SmallDropdownMenu>
