@@ -12,10 +12,10 @@ const ListContainer = styled.section`
   margin: 124px 0 20px;
 `;
 
-const SectionContainer = styled.section<{ additional?: string }>`
+const SectionContainer = styled.section<{ $additional?: string }>`
   padding: 1rem;
-  padding-right: ${(props) => props.additional || '1rem'};
-  padding-bottom: ${(props) => props.additional || '1rem'};
+  padding-right: ${(props) => props.$additional || '1rem'};
+  padding-bottom: ${(props) => props.$additional || '1rem'};
 `;
 
 // 터치 스크롤 구현 필요
@@ -55,7 +55,7 @@ function TeamOrderList() {
 
   return (
     <ListContainer>
-      <SectionContainer additional="0">
+      <SectionContainer $additional="0">
         <GroupTitle>임박한 모임</GroupTitle>
         <CardContainer>
           {imminentItems.length > 0 ? (
