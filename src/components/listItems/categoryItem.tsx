@@ -23,11 +23,10 @@ const Wrapper = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  width: 42px;
-  height: 42px;
-  margin-bottom: 0.5rem;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.8rem;
   position: relative;
-  background-color: var(--gray200);
   border-radius: 50%;
   cursor: pointer;
 `;
@@ -47,13 +46,13 @@ function CategoryItem() {
   return (
     <Container>
       {Object.keys(RESTAURANT_CATEGORIES).map((category) => (
-        <Wrapper key={category}>
-          <ImageWrapper onClick={handleClick}>
+        <Wrapper key={category} onClick={handleClick}>
+          <ImageWrapper>
             <Image
               src={RESTAURANT_CATEGORIES[category as RestaurantCategory]}
               alt={category}
-              fill
-              style={{ objectFit: 'cover' }}
+              width="40"
+              height="40"
               priority
             />
           </ImageWrapper>

@@ -1,61 +1,80 @@
-import { RestaurantSummary } from '@/types/restaurant';
+import { MeetingType, RestaurantType } from '@/types/coreTypes';
 
 export function applyFiltersAndSorting(
-  content: RestaurantSummary[],
+  content: (RestaurantType | MeetingType)[],
   filters: {
-    campusFilter?: string;
-    foodCategoryFilter?: string;
+    size?: number;
     searchMenu?: string;
   },
   sortCriteria?: string,
 ) {
   let filteredContent = content;
 
-  // 필터링 적용
-  if (filters.campusFilter) {
-    filteredContent = filteredContent.filter(
-      (item) => item.campus === filters.campusFilter,
-    );
-  }
-
-  if (filters.foodCategoryFilter) {
-    filteredContent = filteredContent.filter(
-      (item) => item.foodCategory === filters.foodCategoryFilter,
-    );
-  }
-
   if (filters.searchMenu) {
-    filteredContent = filteredContent.filter((item) =>
-      item.menuItems.some(
-        (menuItem) =>
-          menuItem.name.includes(filters.searchMenu) ||
-          menuItem.description.includes(filters.searchMenu),
-      ),
-    );
+    const searchTerms = filters.searchMenu
+      .split(' ')
+      .map((term) => term.trim())
+      .filter((term) => term);
+
+    filteredContent = filteredContent.filter((item) => {
+      if ('name' in item) {
+        // item이 RestaurantType인 경우
+        const matchesName = searchTerms.some((term) =>
+          item.name.includes(term),
+        );
+
+        const matchesDescription = item.description
+          ? searchTerms.some((term) => item.description?.includes(term))
+          : false;
+
+        return matchesName || matchesDescription;
+      }
+
+      // item이 MeetingType인 경우
+      return searchTerms.some((term) => item.storeName.includes(term));
+    });
   }
 
-  // 정렬 적용
   if (sortCriteria) {
-    switch (sortCriteria) {
-      case 'deadline':
-        filteredContent.sort((a, b) =>
-          a.deliveryTime.localeCompare(b.deliveryTime),
-        );
-        break;
-      case 'delivery-fee':
-        filteredContent.sort((a, b) => a.deliveryPrice - b.deliveryPrice);
-        break;
-      case 'min-price':
-        filteredContent.sort((a, b) => a.minOrderPrice - b.minOrderPrice);
-        break;
-      case 'delivery-time':
-        filteredContent.sort((a, b) =>
-          a.deliveryTime.localeCompare(b.deliveryTime),
-        );
-        break;
-      default:
-        break;
-    }
+    filteredContent.sort((a, b) => {
+      if ('name' in a) {
+        // item이 RestaurantType인 경우
+        const restaurantA = a as RestaurantType;
+        const restaurantB = b as RestaurantType;
+
+        switch (sortCriteria) {
+          case 'deadline':
+            return restaurantA.deliveryTime.localeCompare(
+              restaurantB.deliveryTime,
+            );
+          case 'delivery-fee':
+            return restaurantA.deliveryPrice - restaurantB.deliveryPrice;
+          case 'min-price':
+            return restaurantA.minPurchasePrice - restaurantB.minPurchasePrice;
+          case 'delivery-time':
+            return restaurantA.deliveryTime.localeCompare(
+              restaurantB.deliveryTime,
+            );
+          default:
+            return 0; // 기본 정렬
+        }
+      } else {
+        // item이 MeetingType인 경우
+        const meetingA = a as MeetingType;
+        const meetingB = b as MeetingType;
+
+        if (sortCriteria === 'deadline') {
+          return meetingA.paymentAvailableAt.localeCompare(
+            meetingB.paymentAvailableAt,
+          );
+        }
+        return 0; // 'deadline' 외의 정렬 기준은 적용하지 않음
+      }
+    });
+  }
+
+  if (filters.size) {
+    filteredContent = filteredContent.slice(0, filters.size);
   }
 
   return filteredContent;

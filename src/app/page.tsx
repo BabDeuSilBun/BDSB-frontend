@@ -11,20 +11,30 @@ import ClientComponent from './clientComponent';
 
 export default async function Home() {
   const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({
-    queryKey: ['teamOrderList'],
-    queryFn: getTeamOrderList,
-  });
-
   const initialPageParam = 0;
   const selectedSort = 'deadline';
+
+  await queryClient.prefetchQuery({
+    queryKey: ['imminentTeamOrders', selectedSort],
+    queryFn: () =>
+      getTeamOrderList({ page: 0, size: 4, sortCriteria: selectedSort }),
+  });
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['teamOrderList', selectedSort],
+    queryFn: ({ pageParam = 0 }) =>
+      getTeamOrderList({
+        page: pageParam,
+        sortCriteria: selectedSort,
+      }),
+    initialPageParam,
+  });
 
   await queryClient.prefetchInfiniteQuery({
     queryKey: ['restaurantsList', selectedSort],
     queryFn: ({ pageParam = 0 }) =>
       getRestaurantsList({
-        pageParam,
+        page: pageParam,
         sortCriteria: selectedSort,
       }),
     initialPageParam,

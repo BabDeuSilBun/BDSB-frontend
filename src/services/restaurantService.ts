@@ -1,36 +1,22 @@
-import axios from 'axios';
-import qs from 'qs';
+import { GetListParams, RestaurantsResponse } from '@/types/coreTypes';
 
-import {
-  GetRestaurantsListParams,
-  RestaurantsResponse,
-} from '@/types/restaurant';
+import apiClient from './apiClient';
 
 export const RESTAURANT_LIST_API_URL = '/api/stores';
 const RESTAURANT_API_URL = '/api/stores/{storeId}';
 
 export const getRestaurantsList = async ({
-  pageParam = 0,
-  campusFilter,
-  sortCriteria,
-  foodCategoryFilter,
-  searchMenu,
-}: GetRestaurantsListParams): Promise<RestaurantsResponse> => {
+  page = 0,
+  schoolId = undefined,
+  size = 10,
+  sortCriteria = 'deadline',
+  searchMenu = undefined,
+}: GetListParams): Promise<RestaurantsResponse> => {
   try {
-    const response = await axios.get<RestaurantsResponse>(
+    const response = await apiClient.get<RestaurantsResponse>(
       RESTAURANT_LIST_API_URL,
       {
-        params: {
-          campusFilter: campusFilter || undefined,
-          sortCriteria: sortCriteria || undefined,
-          foodCategoryFilter: foodCategoryFilter || undefined,
-          searchMenu: searchMenu || undefined,
-          size: 10,
-          page: pageParam,
-        },
-        paramsSerializer: (params) => {
-          return qs.stringify(params, { arrayFormat: 'brackets' });
-        },
+        params: { schoolId, sortCriteria, searchMenu, size, page },
       },
     );
     return response.data;
@@ -44,7 +30,7 @@ export const getRestaurantsList = async ({
 
 export const getRestaurantInfo = async (storeId: number) => {
   try {
-    const response = await axios.get(
+    const response = await apiClient.get(
       RESTAURANT_API_URL.replace('{storeId}', storeId.toString()),
     );
     return response.data;

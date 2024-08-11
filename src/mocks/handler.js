@@ -1,10 +1,10 @@
 import { http, HttpResponse } from 'msw';
-import { TEAM_ORDERLIST_API_URL } from '@/services/teamOrderService';
+import { TEAM_ORDER_LIST_API_URL } from '@/services/teamOrderService';
 import { RESTAURANT_LIST_API_URL } from '@/services/restaurantService';
 
 import { applyFiltersAndSorting } from './filteringAndSorting';
-import { paginatedStores, stores } from './restaurants';
-import meetings from './meetings';
+import { paginatedStores, stores } from './mockData/restaurants';
+import { paginatedMeetings } from './mockData/meetings';
 
 export const handler = [
   http.get(RESTAURANT_LIST_API_URL, (req) => {
@@ -13,11 +13,12 @@ export const handler = [
 
     try {
       const url = new URL(urlString);
-      const pageParam = Number(url.searchParams.get('page')) || 0;
-      const sortCriteria = url.searchParams.get('sortCriteria');
-      const campusFilter = url.searchParams.get('campusFilter');
-      const foodCategoryFilter = url.searchParams.get('foodCategoryFilter');
       const searchMenu = url.searchParams.get('searchMenu');
+      // const schoolId = url.searchParams.get('schoolId');
+      const sortCriteria = url.searchParams.get('sortCriteria');
+      const pageParam = Number(url.searchParams.get('page')) || 0;
+      const size = Number(url.searchParams.get('size'));
+      const foodCategoryFilter = url.searchParams.get('foodCategoryFilter');
 
       const paginatedResponse = paginatedStores[pageParam];
 
@@ -27,7 +28,7 @@ export const handler = [
 
       const filteredContent = applyFiltersAndSorting(
         paginatedResponse.content,
-        { campusFilter, foodCategoryFilter, searchMenu },
+        { foodCategoryFilter, searchMenu, size },
         sortCriteria,
       );
 
@@ -41,8 +42,39 @@ export const handler = [
     }
   }),
 
-  http.get(TEAM_ORDERLIST_API_URL, () => {
-    return HttpResponse.json(meetings);
+  http.get(TEAM_ORDER_LIST_API_URL, (req) => {
+    const { request } = req;
+    const urlString = request.url.toString();
+
+    try {
+      const url = new URL(urlString);
+      const searchMenu = url.searchParams.get('searchMenu');
+      // const schoolId = url.searchParams.get('schoolId');
+      const sortCriteria = url.searchParams.get('sortCriteria');
+      const pageParam = Number(url.searchParams.get('page')) || 0;
+      const size = Number(url.searchParams.get('size'));
+      const foodCategoryFilter = url.searchParams.get('foodCategoryFilter');
+
+      const paginatedResponse = paginatedMeetings[pageParam];
+
+      if (!paginatedResponse) {
+        return HttpResponse.json({ message: 'Page not found' });
+      }
+
+      const filteredContent = applyFiltersAndSorting(
+        paginatedResponse.content,
+        { foodCategoryFilter, searchMenu, size },
+        sortCriteria,
+      );
+
+      return HttpResponse.json({
+        ...paginatedResponse,
+        content: filteredContent,
+      });
+    } catch (error) {
+      console.error('Error parsing URL:', error);
+      return HttpResponse.status(500).json({ message: 'Error parsing URL' });
+    }
   }),
 
   http.get('/api/stores/:storeId', (req) => {
@@ -54,8 +86,8 @@ export const handler = [
     return HttpResponse.status(404).json({ message: 'Store not found' });
   }),
 
-  http.get('/api/users/meetings/:meetingId/headcount', (req) => {
-    const meetingId = Number(req.params.meetingId);
+  http.get('/api/users/meetings/:meetingId/headcount', () => {
+    // const meetingId = Number(req.params.meetingId);
     const headcount = {
       currentHeadCount: 5,
     };

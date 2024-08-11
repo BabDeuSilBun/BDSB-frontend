@@ -1,14 +1,11 @@
-'use client';
-
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
-import { MeetingSummary } from '@/types/meeting';
-import { RestaurantSummary } from '@/types/restaurant';
+import { MeetingType, RestaurantType } from '@/types/coreTypes';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getCurrentHeadCount } from '@/services/teamOrderService';
-import { formatCurrency } from '@/utils/currencyFormatter';
+import useRemainingTime from '@/hook/useRemainingTime';
 
 import GroupIcon from '../svg/group';
 
@@ -72,8 +69,9 @@ const InfoItem = styled.p`
   gap: 0.3rem;
 `;
 
-const Information = styled.p`
+const Information = styled.p<{ isCritical: boolean }>`
   font-size: var(--font-size-sm);
+  color: ${({ isCritical }) => isCritical && 'var(--warning)'};
 `;
 
 // 주문 타입
@@ -82,36 +80,44 @@ const OrderTypeLabel = styled.p`
   color: var(--primary);
 `;
 
-const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
+const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   const router = useRouter();
+  const { time: remainingTime, isCritical } = useRemainingTime(
+    item.paymentAvailableAt,
+  );
 
-  const { data: restaurantData } = useQuery<RestaurantSummary>({
-    queryKey: ['restaurantInfo', item.storeId],
-    queryFn: () => getRestaurantInfo(item.storeId),
-    enabled: !!item.storeId,
-  });
+  const { data: restaurantData, status: restaurantStatus } =
+    useQuery<RestaurantType>({
+      queryKey: ['restaurantInfo', item.storeId],
+      queryFn: () => getRestaurantInfo(item.storeId),
+    });
 
-  const { data: headCountData } = useQuery<{ currentHeadCount: number }>({
+  const { data: headCountData, status: headCountStatus } = useQuery<{
+    currentHeadCount: number;
+  }>({
     queryKey: ['headCount', item.meetingId],
     queryFn: () => getCurrentHeadCount(item.meetingId),
-    enabled: !!item.meetingId,
   });
-
-  const deliveryPrice = restaurantData
-    ? formatCurrency(restaurantData.deliveryPrice)
-    : 0;
 
   const handleClick = () => {
     router.push(`/teamOrder/id=${item.storeId}`);
   };
 
+  if (restaurantStatus === 'pending' || headCountStatus === 'pending') {
+    return <div>Loading...</div>;
+  }
+
+  if (restaurantStatus === 'error') {
+    return <div>Error loading data</div>;
+  }
+
   return (
     <CardContainer>
       <ImageContainer onClick={handleClick}>
-        {restaurantData?.image[0] && (
+        {item.image[0] && (
           <Image
-            src={restaurantData.image[0].url}
-            alt="restaurant Image"
+            src={item.image[0].url}
+            alt="Restaurant Image"
             fill
             sizes="50vw"
             style={{ objectFit: 'cover' }}
@@ -120,15 +126,15 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
         )}
       </ImageContainer>
       <InfoSection>
-        <Information>4분 뒤 마감</Information>
-        <RestaurantName>{restaurantData?.name}</RestaurantName>
+        <Information isCritical={isCritical}>{remainingTime}</Information>
+        <RestaurantName>{item.storeName}</RestaurantName>
         <InfoItem>
           <Image src="./timer.svg" alt="Delivery Time" width="18" height="18" />
           <span>{restaurantData?.deliveryTime}</span>
         </InfoItem>
         <InfoItem>
           <Image src="./fee.svg" alt="Delivery Fee" width="18" height="18" />
-          <span>{deliveryPrice}</span>
+          <span>{item.deliveryFee}</span>
         </InfoItem>
       </InfoSection>
       <AdditionalInfo>
@@ -136,7 +142,7 @@ const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
           <GroupIcon color="var(--primary)" width={18} height={18} />
           <Information>{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</Information>
         </ParticipantCount>
-        <OrderTypeLabel>{item.orderType}</OrderTypeLabel>
+        <OrderTypeLabel>{item.purchaseType}</OrderTypeLabel>
       </AdditionalInfo>
     </CardContainer>
   );
