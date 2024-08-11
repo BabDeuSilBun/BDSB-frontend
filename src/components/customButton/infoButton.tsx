@@ -22,7 +22,7 @@ export default function InfoButton({ onClick }) {
         color: 'black',
       }}
       sx={{
-        padding: 'var(--spacing-xs) var(--spacing-lg) var(--spacing-xs) var(--spacing-md)',
+        padding: '0.3rem var(--spacing-lg) 0.3rem var(--spacing-md)',
         borderWidth: '1.3px',
       }}
       onClick={onClick}
