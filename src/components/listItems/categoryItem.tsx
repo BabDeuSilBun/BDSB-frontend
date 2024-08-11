@@ -36,23 +36,23 @@ const CategoryName = styled.p`
 `;
 
 function CategoryItem() {
-  const cat = null;
   const router = useRouter();
 
-  const handleClick = () => {
-    router.push(`/restaurants/category=${cat}`);
+  const handleClick = (category: string) => {
+    router.push(`/restaurants/category=${category}`);
   };
 
   return (
     <Container>
       {Object.keys(RESTAURANT_CATEGORIES).map((category) => (
-        <Wrapper key={category} onClick={handleClick}>
+        <Wrapper key={category} onClick={() => handleClick(category)}>
           <ImageWrapper>
             <Image
               src={RESTAURANT_CATEGORIES[category as RestaurantCategory]}
               alt={category}
-              width="40"
-              height="40"
+              fill
+              sizes="50vw"
+              style={{ objectFit: 'contain' }}
               priority
             />
           </ImageWrapper>

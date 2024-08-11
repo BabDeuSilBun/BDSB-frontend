@@ -132,7 +132,6 @@ function TeamOrderList() {
 
   return (
     <ListContainer>
-      {/* 임박한 모임 섹션 */}
       <SectionContainer $additional="0">
         <GroupTitle>임박한 모임</GroupTitle>
         <CardContainer>
@@ -160,7 +159,6 @@ function TeamOrderList() {
 
       <Divider />
 
-      {/* 모임 모아보기 섹션 */}
       <SectionContainer>
         <DropDownWrapper>
           <GroupTitle>모임 모아보기</GroupTitle>
@@ -173,7 +171,6 @@ function TeamOrderList() {
           />
         </DropDownWrapper>
 
-        {/* 상태에 따라 렌더링 */}
         {status === 'pending' && (
           <LoaderContainer>
             <Loading />

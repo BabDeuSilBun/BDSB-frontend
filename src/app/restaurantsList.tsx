@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { Divider } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
@@ -17,6 +18,7 @@ const ListContainer = styled.section`
 
 const DropDownWrapper = styled.div`
   display: flex;
+  padding: 1rem 1rem 0 0;
   justify-content: right;
 `;
 
@@ -105,6 +107,7 @@ function RestaurantsList() {
       ) : (
         <>
           <CategoryItem />
+          <Divider />
           <DropDownWrapper>
             <SmallCustomDropdown
               options={options}
