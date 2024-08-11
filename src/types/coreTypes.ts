@@ -20,6 +20,7 @@ interface MetAddress {
 
 export interface MenuType {
   menuId: number;
+  storeId: number;
   name: string;
   image: string;
   description: string;
@@ -74,6 +75,11 @@ interface Response {
 
 export interface RestaurantsResponse extends Response {
   content: RestaurantType[];
+}
+
+export interface MenusResponse {
+  content: MenuType[];
+  storeId: number;
 }
 
 export interface MeetingsResponse extends Response {
