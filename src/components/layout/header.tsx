@@ -6,12 +6,24 @@ import HamburgerIcon from '@/components/svg/hamburger';
 import BackIcon from '@/components/svg/arrowLeft';
 import HomeIcon from '@/components/svg/home';
 import ExitIcon from '@/components/svg/exit';
+import CartIcon from '@/components/svg/cart';
 
 const Icons = {
-  hamburger: <HamburgerIcon color="var(--gray500)" width={24} height={24} />,
-  back: <BackIcon color="var(--gray500)" width={24} height={24} />,
-  home: <HomeIcon color="var(--gray500)" width={24} height={24} />,
-  exit: <ExitIcon color="var(--gray500)" width={24} height={24} />,
+  hamburger: (color: string, size: number) => (
+    <HamburgerIcon color={color} width={size} height={size} />
+  ),
+  back: (color: string, size: number) => (
+    <BackIcon color={color} width={size} height={size} />
+  ),
+  home: (color: string, size: number) => (
+    <HomeIcon color={color} width={size} height={size} />
+  ),
+  exit: (color: string, size: number) => (
+    <ExitIcon color={color} width={size} height={size} />
+  ),
+  cart: (color: string, size: number) => (
+    <CartIcon color={color} width={size} height={size} />
+  ),
 };
 
 const HeaderContainer = styled.header`
@@ -27,17 +39,29 @@ const HeaderContainer = styled.header`
   padding: 1.5rem;
 `;
 
+const RightButtonsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+`;
+
 interface HeaderProps {
   buttonLeft?: 'hamburger' | 'back' | undefined;
   buttonRight?: 'home' | 'exit' | undefined;
+  buttonRightSecondary?: 'cart' | undefined;
+  iconColor?: string;
+  iconSize?: number;
   text?: string;
   onExit?: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
   buttonLeft,
-  text,
   buttonRight,
+  buttonRightSecondary,
+  iconColor = 'var(--gray500)', // Default color
+  iconSize = 24, // Default size
+  text,
   onExit,
 }) => {
   const router = useRouter();
@@ -58,15 +82,30 @@ const Header: React.FC<HeaderProps> = ({
     }
   };
 
+  const handleRightSecondaryButtonClick = () => {
+    if (buttonRightSecondary === 'cart') {
+      router.push('/cart');
+    }
+  };
+
   return (
     <HeaderContainer>
       <button type="button" onClick={handleLeftButtonClick}>
-        {buttonLeft && Icons[buttonLeft]}
+        {buttonLeft && Icons[buttonLeft](iconColor, iconSize)}
       </button>
       <h1>{text}</h1>
-      <button type="button" onClick={handleRightButtonClick}>
-        {buttonRight && Icons[buttonRight]}
-      </button>
+      <RightButtonsContainer>
+        {buttonRight && (
+          <button type="button" onClick={handleRightButtonClick}>
+            {Icons[buttonRight](iconColor, iconSize)}
+          </button>
+        )}
+        {buttonRightSecondary && (
+          <button type="button" onClick={handleRightSecondaryButtonClick}>
+            {Icons[buttonRightSecondary](iconColor, iconSize)}
+          </button>
+        )}
+      </RightButtonsContainer>
     </HeaderContainer>
   );
 };
