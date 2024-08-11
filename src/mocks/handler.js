@@ -1,10 +1,11 @@
 import { http, HttpResponse } from 'msw';
 import { TEAM_ORDER_LIST_API_URL } from '@/services/teamOrderService';
 import { RESTAURANT_LIST_API_URL } from '@/services/restaurantService';
-
+import { MENU_LIST_API_URL } from '@/services/menuService';
 import { applyFiltersAndSorting } from './filteringAndSorting';
 import { paginatedStores, stores } from './mockData/restaurants';
 import { paginatedMeetings } from './mockData/meetings';
+import { mockMenus } from './mockData/menus';
 
 export const handler = [
   http.get(RESTAURANT_LIST_API_URL, (req) => {
@@ -92,5 +93,18 @@ export const handler = [
       currentHeadCount: 5,
     };
     return HttpResponse.json(headcount);
+  }),
+
+  http.get(MENU_LIST_API_URL.replace('{storeId}', ':storeId'), (req) => {
+    const storeId = Number(req.params.storeId);
+    const menusForStore = mockMenus.filter((menu) => menu.storeId === storeId);
+
+    if (menusForStore.length > 0) {
+      return HttpResponse.json({
+        content: menusForStore,
+      });
+    }
+
+    return HttpResponse.status(404).json({ message: 'Menus not found for this store' });
   }),
 ];
