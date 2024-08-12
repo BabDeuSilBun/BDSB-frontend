@@ -74,7 +74,7 @@ const StoreTitle = styled.h4`
   overflow: hidden;
 `;
 
-const Information = styled.p<{ isCritical: boolean }>`
+const Information = styled.p<{ isCritical?: boolean }>`
   font-size: var(--font-size-sm);
   color: ${({ isCritical }) => isCritical && 'var(--warning)'};
 `;
