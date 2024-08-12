@@ -9,6 +9,7 @@ export const getTeamOrderList = async ({
   page = 0,
   schoolId = undefined,
   size = 10,
+  foodCategoryFilter = undefined,
   sortCriteria = 'delivery-fee',
   searchMenu = undefined,
 }: GetListParams): Promise<MeetingsResponse> => {
@@ -16,7 +17,14 @@ export const getTeamOrderList = async ({
     const response = await apiClient.get<MeetingsResponse>(
       TEAM_ORDER_LIST_API_URL,
       {
-        params: { schoolId, sortCriteria, searchMenu, size, page },
+        params: {
+          schoolId,
+          sortCriteria,
+          foodCategoryFilter,
+          searchMenu,
+          size,
+          page,
+        },
       },
     );
     return response.data;

@@ -3,8 +3,9 @@ import { MeetingType, RestaurantType } from '@/types/coreTypes';
 export function applyFiltersAndSorting(
   content: (RestaurantType | MeetingType)[],
   filters: {
-    size?: number;
+    foodCategoryFilter?: string;
     searchMenu?: string;
+    size?: number;
   },
   sortCriteria?: string,
 ) {
@@ -35,41 +36,86 @@ export function applyFiltersAndSorting(
     });
   }
 
+  if (filters.foodCategoryFilter) {
+    const decodedCategory = decodeURIComponent(filters.foodCategoryFilter);
+    filteredContent = filteredContent.filter((item) => {
+      return item.category === decodedCategory;
+    });
+  }
   if (sortCriteria) {
+    // 첫 번째 숫자를 추출하는 함수
+    const extractFirstNumber = (stringValue: string) => {
+      const match = stringValue.match(/(\d+)/);
+      return match ? parseInt(match[0], 10) : 0;
+    };
+
+    // 두 번째 숫자를 추출하는 함수
+    const extractSecondNumber = (stringValue: string) => {
+      const matches = stringValue.match(/(\d+)/g);
+      return matches && matches.length > 1 ? parseInt(matches[1], 10) : 0;
+    };
+
+    // 숫자를 비교하는 함수
+    const compareByNumbers = (valueA: string, valueB: string) => {
+      const firstNumberDiff =
+        extractFirstNumber(valueA) - extractFirstNumber(valueB);
+      if (firstNumberDiff !== 0) {
+        return firstNumberDiff;
+      }
+      return extractSecondNumber(valueA) - extractSecondNumber(valueB);
+    };
+
     filteredContent.sort((a, b) => {
-      if ('name' in a) {
-        // item이 RestaurantType인 경우
+      let comparisonResult = 0;
+
+      if ('name' in a && 'name' in b) {
+        // RestaurantType
         const restaurantA = a as RestaurantType;
         const restaurantB = b as RestaurantType;
 
         switch (sortCriteria) {
-          case 'deadline':
-            return restaurantA.deliveryTime.localeCompare(
-              restaurantB.deliveryTime,
-            );
           case 'delivery-fee':
-            return restaurantA.deliveryPrice - restaurantB.deliveryPrice;
+            comparisonResult =
+              restaurantA.deliveryPrice - restaurantB.deliveryPrice;
+            break;
           case 'min-price':
-            return restaurantA.minPurchasePrice - restaurantB.minPurchasePrice;
+            comparisonResult =
+              restaurantA.minPurchasePrice - restaurantB.minPurchasePrice;
+            break;
           case 'delivery-time':
-            return restaurantA.deliveryTime.localeCompare(
+            comparisonResult = compareByNumbers(
+              restaurantA.deliveryTime,
               restaurantB.deliveryTime,
             );
-          default:
-            return 0; // 기본 정렬
+            break;
         }
       } else {
-        // item이 MeetingType인 경우
+        // MeetingType
         const meetingA = a as MeetingType;
         const meetingB = b as MeetingType;
 
-        if (sortCriteria === 'deadline') {
-          return meetingA.paymentAvailableAt.localeCompare(
-            meetingB.paymentAvailableAt,
-          );
+        switch (sortCriteria) {
+          case 'deadline':
+            comparisonResult = meetingA.paymentAvailableAt.localeCompare(
+              meetingB.paymentAvailableAt,
+            );
+            break;
+          case 'delivery-fee':
+            comparisonResult = compareByNumbers(
+              meetingA.deliveryFee,
+              meetingB.deliveryFee,
+            );
+            break;
+          case 'delivery-time':
+            comparisonResult = compareByNumbers(
+              meetingA.deliveryTime,
+              meetingB.deliveryTime,
+            );
+            break;
         }
-        return 0; // 'deadline' 외의 정렬 기준은 적용하지 않음
       }
+
+      return comparisonResult;
     });
   }
 

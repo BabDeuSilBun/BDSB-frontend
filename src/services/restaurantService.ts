@@ -9,6 +9,7 @@ export const getRestaurantsList = async ({
   page = 0,
   schoolId = undefined,
   size = 10,
+  foodCategoryFilter = undefined,
   sortCriteria = 'deadline',
   searchMenu = undefined,
 }: GetListParams): Promise<RestaurantsResponse> => {
@@ -16,7 +17,14 @@ export const getRestaurantsList = async ({
     const response = await apiClient.get<RestaurantsResponse>(
       RESTAURANT_LIST_API_URL,
       {
-        params: { schoolId, sortCriteria, searchMenu, size, page },
+        params: {
+          schoolId,
+          sortCriteria,
+          foodCategoryFilter,
+          searchMenu,
+          size,
+          page,
+        },
       },
     );
     return response.data;
