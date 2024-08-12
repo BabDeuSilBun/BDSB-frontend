@@ -30,7 +30,7 @@ export interface MenuType {
 export interface RestaurantType {
   storeId: number;
   name: string;
-  image: Image[];
+  images: Image[]; 
   deliveryTime: string;
   deliveryPrice: number;
   minPurchasePrice: number;
@@ -45,7 +45,7 @@ export interface RestaurantType {
 export interface MeetingType {
   meetingId: number;
   storeId: number;
-  image: Image[];
+  images: Image[];
   deliveryTime: string;
   storeName: string;
   purchaseType: string;
