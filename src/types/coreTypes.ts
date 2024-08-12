@@ -40,6 +40,7 @@ export interface RestaurantType {
   phoneNumber?: string; // optional field for detail field
   openTime?: string; // optional field for detail field
   closeTime?: string; // optional field for detail field
+  dayOfWeek?: string; // optional field for detail field
 }
 
 export interface MeetingType {
