@@ -57,7 +57,7 @@ const ButtonContainer = styled.div`
 
 const InfoContainer = styled.div`
   width: 100%;
-  margin: var(--spacing-xs) 0;
+  margin: var(--spacing-xs) var(--spacing-xs);
   background-color: var(--background);
   position: relative;
 `;
