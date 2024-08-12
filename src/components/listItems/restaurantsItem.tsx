@@ -62,15 +62,22 @@ const RestaurantsItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
     router.push(`/restaurants/id=${item.storeId}`);
   };
 
+// Find the representative image or use the first one
+const imageToShow = item.images && item.images.length > 0
+  ? item.images.find(img => img.isRepresentative) || item.images[0]
+  : null;
+
   return (
     <CardContainer>
       <ImageContainer onClick={handleClick}>
-        <Image
-          src={item.image[0].url}
-          alt="restaurant Image"
-          fill
-          style={{ objectFit: 'cover' }}
-        />
+        {imageToShow && (
+          <Image
+            src={imageToShow.url}
+            alt="restaurant Image"
+            fill
+            style={{ objectFit: 'cover' }}
+          />
+        )}
       </ImageContainer>
       <InfoSection>
         <RestaurantName>{item.name}</RestaurantName>
