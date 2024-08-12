@@ -323,7 +323,7 @@ const StorePage = () => {
           description={selectedMenu?.description}
           buttonText1="개별메뉴"
           buttonText2="닫기"
-          onButtonClick1={() => console.log('individual menu')}
+          onButtonClick1={() => console.log('Participant order')}
           onButtonClick2={closeModal}
         />
       )}

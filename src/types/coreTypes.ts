@@ -79,7 +79,7 @@ export interface RestaurantsResponse extends Response {
   content: RestaurantType[];
 }
 
-export interface MenusResponse {
+export interface MenusResponse extends Response {
   content: MenuType[];
   storeId: number;
 }

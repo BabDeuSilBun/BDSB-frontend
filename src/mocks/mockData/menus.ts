@@ -1,6 +1,6 @@
 import { MenuType, MenusResponse } from '@/types/coreTypes';
 
-export const mockMenus: MenuType[] = [
+export const Menus: MenuType[] = [
   // Menus for storeId 1
   {
     menuId: 1,
@@ -2440,7 +2440,7 @@ export const mockMenus: MenuType[] = [
   },
 ];
 
-export const groupedMenus = mockMenus.reduce((acc, menu) => {
+export const groupedMenus = Menus.reduce((acc, menu) => {
   if (!acc[menu.storeId]) {
     acc[menu.storeId] = [];
   }
