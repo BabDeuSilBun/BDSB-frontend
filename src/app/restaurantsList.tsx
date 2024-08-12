@@ -9,8 +9,7 @@ import { SmallCustomDropdown } from '@/components/common/dropdown';
 import CategoryItem from '@/components/listItems/categoryItem';
 import { getRestaurantsList } from '@/services/restaurantService';
 import BigRestaurantsItem from '@/components/listItems/bigRestaurantItem';
-
-import Loading from './loading';
+import BigRestaurantItemSkeleton from '@/components/listItems/bigRestaurantItemSkeleton';
 
 const ListContainer = styled.section`
   margin: 124px 0 20px;
@@ -20,12 +19,6 @@ const DropDownWrapper = styled.div`
   display: flex;
   padding: 1rem 1rem 0 0;
   justify-content: right;
-`;
-
-const LoaderContainer = styled.div`
-  display: flex;
-  height: 650px;
-  align-items: center;
 `;
 
 const options = [
@@ -98,44 +91,42 @@ function RestaurantsList() {
 
   return (
     <ListContainer>
+      {/* 항상 렌더링되는 컴포넌트들 */}
+      <CategoryItem />
+      <Divider />
+      <DropDownWrapper>
+        <SmallCustomDropdown
+          options={options}
+          selectedValue={selectedSort}
+          onSelect={handleSelect}
+          isOpen={isOpen}
+          onToggle={handleToggle}
+        />
+      </DropDownWrapper>
+
+      {/* 상태에 따른 조건부 렌더링 */}
       {status === 'pending' ? (
-        <LoaderContainer>
-          <Loading />
-        </LoaderContainer>
+        <>
+          <BigRestaurantItemSkeleton />
+          <BigRestaurantItemSkeleton />
+        </>
       ) : status === 'error' ? (
         <p>Error: {error.message}</p>
-      ) : (
+      ) : data && data.pages.length > 0 ? (
         <>
-          <CategoryItem />
-          <Divider />
-          <DropDownWrapper>
-            <SmallCustomDropdown
-              options={options}
-              selectedValue={selectedSort}
-              onSelect={handleSelect}
-              isOpen={isOpen}
-              onToggle={handleToggle}
-            />
-          </DropDownWrapper>
-          {data ? (
-            <>
-              {data.pages.map((page) =>
-                page.content.map((item, index) => (
-                  <div
-                    key={item.storeId}
-                    ref={
-                      index === page.content.length - 1 ? lastElementRef : null
-                    }
-                  >
-                    <BigRestaurantsItem item={item} key={item.storeId} />
-                  </div>
-                )),
-              )}
-            </>
-          ) : (
-            <div>주문 가능한 가게가 없습니다.</div>
+          {data.pages.map((page) =>
+            page.content.map((item, index) => (
+              <div
+                key={item.storeId}
+                ref={index === page.content.length - 1 ? lastElementRef : null}
+              >
+                <BigRestaurantsItem item={item} key={item.storeId} />
+              </div>
+            )),
           )}
         </>
+      ) : (
+        <div>주문 가능한 가게가 없습니다.</div>
       )}
     </ListContainer>
   );

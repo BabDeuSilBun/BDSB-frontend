@@ -3,7 +3,6 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
 import { MeetingType, RestaurantType } from '@/types/coreTypes';
-import { getRestaurantInfo } from '@/services/restaurantService';
 import { getCurrentHeadCount } from '@/services/teamOrderService';
 import useRemainingTime from '@/hook/useRemainingTime';
 
@@ -69,7 +68,7 @@ const InfoItem = styled.p`
   gap: 0.3rem;
 `;
 
-const Information = styled.p<{ isCritical: boolean }>`
+const Information = styled.p<{ isCritical?: boolean }>`
   font-size: var(--font-size-sm);
   color: ${({ isCritical }) => isCritical && 'var(--warning)'};
 `;
@@ -86,30 +85,17 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
     item.paymentAvailableAt,
   );
 
-  const { data: restaurantData, status: restaurantStatus } =
-    useQuery<RestaurantType>({
-      queryKey: ['restaurantInfo', item.storeId],
-      queryFn: () => getRestaurantInfo(item.storeId),
-    });
-
   const { data: headCountData, status: headCountStatus } = useQuery<{
     currentHeadCount: number;
   }>({
     queryKey: ['headCount', item.meetingId],
     queryFn: () => getCurrentHeadCount(item.meetingId),
+    initialData: { currentHeadCount: 0 },
   });
 
   const handleClick = () => {
     router.push(`/teamOrder/${item.storeId}`);
   };
-
-  if (restaurantStatus === 'pending' || headCountStatus === 'pending') {
-    return <div>Loading...</div>;
-  }
-
-  if (restaurantStatus === 'error') {
-    return <div>Error loading data</div>;
-  }
 
   return (
     <CardContainer>
@@ -130,7 +116,7 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
         <RestaurantName>{item.storeName}</RestaurantName>
         <InfoItem>
           <Image src="./timer.svg" alt="Delivery Time" width="18" height="18" />
-          <span>{restaurantData?.deliveryTime}</span>
+          <span>{item.deliveryTime}</span>
         </InfoItem>
         <InfoItem>
           <Image src="./fee.svg" alt="Delivery Fee" width="18" height="18" />
