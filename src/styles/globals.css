@@ -137,44 +137,21 @@ input:disabled {
   margin: 0;
 }
 
-html {
-  height: 100%;
-}
-
-body {
-  color: var(--text);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  border-radius: 2px;
-}
-
-#layout-wrapper {
-  width: 360px;
-  height: 815px;
-  display: flex;
-  flex-direction: column;
-}
-
 #main-content {
+  color: var(--text);
   flex: 1;
   display: flex;
-  position: relative;
   flex-direction: column;
-  width: 360px;
-  max-width: 360px;
-  height: 100%;
-  color: var(--text);
+  width: 100vw;
+  height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
   background-color: var(--background);
-  box-shadow: 1.48px 1.48px 7px var(--shadow);
 }
 
 /* 스크롤바 스타일 (Webkit 기반 브라우저) */
 ::-webkit-scrollbar {
-  width: 10px; /* 스크롤바의 너비 */
+  width: 8px; /* 스크롤바의 너비 */
   height: 6px; /* 스크롤바의 높이 (수평 스크롤바) */
 }
 

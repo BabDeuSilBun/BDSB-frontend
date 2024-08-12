@@ -43,12 +43,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <MswComponent />
-        <div id="layout-wrapper">
-          <div id="main-content">
-            <Providers>
-              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-            </Providers>
-          </div>
+        <div id="main-content">
+          <Providers>
+            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          </Providers>
         </div>
       </body>
     </html>

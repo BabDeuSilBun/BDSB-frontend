@@ -4,23 +4,16 @@ import styled from 'styled-components';
 import { BaseBtn, BaseBtnInactive, BtnGroup } from '@/styles/button';
 
 const FooterContainer = styled.footer`
-  width: 360px;
-  max-width: 360px;
-  position: absolute;
-  bottom: 100px;
+  width: 100vw;
+  position: fixed;
+  bottom: 0px;
   z-index: 1000;
-`;
-
-const Child = styled.div`
-  width: inherit;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100px;
-  background-color: var(--background);
   box-shadow: 1.48px 1.48px 7px var(--shadow);
+  background-color: var(--background);
   padding: 1.5rem;
-  position: fixed;
 `;
 
 interface FooterProps {
@@ -44,22 +37,20 @@ const Footer: React.FC<FooterProps> = ({
 }) => {
   return (
     <FooterContainer>
-      <Child>
-        {type === 'button' && (
-          <BaseBtn onClick={onButtonClick}>{buttonText}</BaseBtn>
-        )}
-        {type === 'inactiveButton' && (
-          <BaseBtnInactive>{buttonText}</BaseBtnInactive>
-        )}
-        {type === 'buttonGroup' && (
-          <BtnGroup>
-            <BaseBtn onClick={onButtonClick1}>{buttonText1}</BaseBtn>
-            <BaseBtnInactive onClick={onButtonClick2}>
-              {buttonText2}
-            </BaseBtnInactive>
-          </BtnGroup>
-        )}
-      </Child>
+      {type === 'button' && (
+        <BaseBtn onClick={onButtonClick}>{buttonText}</BaseBtn>
+      )}
+      {type === 'inactiveButton' && (
+        <BaseBtnInactive>{buttonText}</BaseBtnInactive>
+      )}
+      {type === 'buttonGroup' && (
+        <BtnGroup>
+          <BaseBtn onClick={onButtonClick1}>{buttonText1}</BaseBtn>
+          <BaseBtnInactive onClick={onButtonClick2}>
+            {buttonText2}
+          </BaseBtnInactive>
+        </BtnGroup>
+      )}
     </FooterContainer>
   );
 };

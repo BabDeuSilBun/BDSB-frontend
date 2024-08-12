@@ -46,6 +46,7 @@ export interface MeetingType {
   meetingId: number;
   storeId: number;
   image: Image[];
+  deliveryTime: string;
   storeName: string;
   purchaseType: string;
   participantMax: number;
