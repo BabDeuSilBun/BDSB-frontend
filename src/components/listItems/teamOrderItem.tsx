@@ -100,7 +100,7 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   });
 
   const handleClick = () => {
-    router.push(`/teamOrder/id=${item.storeId}`);
+    router.push(`/teamOrder/${item.storeId}`);
   };
 
   if (restaurantStatus === 'pending' || headCountStatus === 'pending') {

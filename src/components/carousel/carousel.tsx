@@ -27,7 +27,7 @@ export default function Carousel({ images }) {
   };
 
   return (
-    <Box position="relative" height="324px" width="360px" overflow="hidden">
+    <Box position="relative" height="324px" overflow="hidden">
       <link
         rel="stylesheet"
         type="text/css"
@@ -133,7 +133,7 @@ export default function Carousel({ images }) {
         color="white"
       >
         <Text fontSize="var(--font-size-sm)" fontWeight="var(--font-regular)">
-          {currentSlide}/{images.length}
+          {currentSlide} / {images.length}
         </Text>
       </Box>
     </Box>

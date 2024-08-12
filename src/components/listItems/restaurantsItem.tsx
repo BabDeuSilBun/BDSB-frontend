@@ -59,7 +59,7 @@ const RestaurantsItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
   const minPurchasePrice = formatCurrency(item.minPurchasePrice);
 
   const handleClick = () => {
-    router.push(`/restaurants/id=${item.storeId}`);
+    router.push(`/restaurants/${item.storeId}`);
   };
 
 // Find the representative image or use the first one

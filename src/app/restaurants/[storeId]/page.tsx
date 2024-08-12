@@ -23,7 +23,7 @@ import { Divider } from '@chakra-ui/react';
 import { formatCurrency } from '@/utils/currencyFormatter';
 
 const HeaderContainer = styled.div`
-  width: 360px;
+  width: 100vw;
   margin: 0 auto;
   header {
     background-color: transparent;
@@ -68,19 +68,16 @@ const InfoRow = styled.div`
 `;
 
 const InfoTitle = styled.div`
-  flex: 1;
+  width: 8.5rem;
   font-size: var(--font-size-xs);
   font-weight: var(--font-semi-bold);
   color: var(--gray400);
-  text-align: left;
 `;
 
 const InfoDescription = styled.div`
-  flex: 2;
   font-size: var(--font-size-xs);
   font-weight: var(--font-regular);
   color: var(--text);
-  text-align: left;
   margin-left: -3rem;
 `;
 
@@ -215,7 +212,6 @@ const StorePage = () => {
         </InfoRow>
       </InfoContainer>
       <Divider 
-        orientation="horizontal" 
         sx={{ 
           borderWidth: '5px',
           borderColor: 'var(--gray100)'
@@ -226,7 +222,7 @@ const StorePage = () => {
       <div>
         {context === 'leaderBefore' && (
           <div>
-            {menus.content.map((menuItem, index) => (
+            {menus?.content.map((menuItem, index) => (
               <MenuItem
                 key={menuItem.menuId}
                 menuName={menuItem.name}
@@ -242,7 +238,7 @@ const StorePage = () => {
 
         {context === 'leaderAfter' && (
           <div>
-            {menus.content.map((menuItem, index) => (
+            {menus?.content.map((menuItem, index) => (
               <MenuItem
                 key={menuItem.menuId}
                 menuName={menuItem.name}
@@ -258,7 +254,7 @@ const StorePage = () => {
 
         {context === 'participant' && (
           <div>
-            {menus.content.map((menuItem, index) => (
+            {menus?.content.map((menuItem, index) => (
               <MenuItem
                 key={menuItem.menuId}
                 menuName={menuItem.name}
