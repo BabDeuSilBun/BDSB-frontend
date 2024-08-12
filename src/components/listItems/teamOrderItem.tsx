@@ -111,12 +111,17 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
     return <div>Error loading data</div>;
   }
 
+// Find the representative image or use the first one
+const imageToShow = item.images && item.images.length > 0
+  ? item.images.find(img => img.isRepresentative) || item.images[0]
+  : null;
+
   return (
     <CardContainer>
       <ImageContainer onClick={handleClick}>
-        {item.image[0] && (
+        {imageToShow && (
           <Image
-            src={item.image[0].url}
+            src={imageToShow.url}
             alt="Restaurant Image"
             fill
             sizes="50vw"
