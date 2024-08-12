@@ -38,6 +38,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-1234-5678',
     openTime: '11:00',
     closeTime: '22:00',
+    dayOfWeek: '월요일', //휴무일
   },
   {
     storeId: 2,
@@ -76,6 +77,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-2345-6789',
     openTime: '10:00',
     closeTime: '21:00',
+    dayOfWeek: '일요일',
   },
   {
     storeId: 3,
@@ -113,6 +115,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-3456-7890',
     openTime: '09:00',
     closeTime: '22:00',
+    dayOfWeek: '월요일',
   },
   {
     storeId: 4,
@@ -151,6 +154,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-4567-8901',
     openTime: '07:00',
     closeTime: '19:00',
+    dayOfWeek: '일요일',
   },
   {
     storeId: 5,
@@ -188,6 +192,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-5678-9012',
     openTime: '10:00',
     closeTime: '22:00',
+    dayOfWeek: '월요일',
   },
   {
     storeId: 6,
@@ -225,6 +230,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-6789-0123',
     openTime: '11:00',
     closeTime: '23:00',
+    dayOfWeek: '일요일',
   },
   {
     storeId: 7,
@@ -263,6 +269,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-7890-1234',
     openTime: '10:00',
     closeTime: '22:00',
+    dayOfWeek: '월요일',
   },
   {
     storeId: 8,
@@ -300,6 +307,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-8901-2345',
     openTime: '11:00',
     closeTime: '21:00',
+    dayOfWeek: '일요일',
   },
   {
     storeId: 9,
@@ -337,6 +345,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-9012-3456',
     openTime: '10:00',
     closeTime: '22:00',
+    dayOfWeek: '월요일',
   },
   {
     storeId: 10,
@@ -374,6 +383,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-0123-4567',
     openTime: '08:00',
     closeTime: '20:00',
+    dayOfWeek: '일요일',
   },
   {
     storeId: 11,
@@ -411,6 +421,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-1234-5678',
     openTime: '10:00',
     closeTime: '23:00',
+    dayOfWeek: '월요일',
   },
   {
     storeId: 12,
@@ -448,6 +459,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-2345-6789',
     openTime: '12:00',
     closeTime: '22:00',
+    dayOfWeek: '일요일',
   },
   {
     storeId: 13,
@@ -485,6 +497,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-3456-7890',
     openTime: '09:00',
     closeTime: '21:00',
+    dayOfWeek: '월요일',
   },
   {
     storeId: 14,
@@ -522,6 +535,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-4567-8901',
     openTime: '10:00',
     closeTime: '22:00',
+    dayOfWeek: '일요일',
   },
   {
     storeId: 15,
@@ -559,6 +573,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-5678-9012',
     openTime: '11:00',
     closeTime: '23:00',
+    dayOfWeek: '월요일',
   },
   {
     storeId: 16,
@@ -596,6 +611,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-6789-0123',
     openTime: '11:00',
     closeTime: '22:00',
+    dayOfWeek: '일요일',
   },
   {
     storeId: 17,
@@ -633,6 +649,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-7890-1234',
     openTime: '10:00',
     closeTime: '22:00',
+    dayOfWeek: '월요일',
   },
   {
     storeId: 18,
@@ -670,6 +687,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-8901-2345',
     openTime: '10:00',
     closeTime: '22:00',
+    dayOfWeek: '일요일',
   },
   {
     storeId: 19,
@@ -707,6 +725,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-9012-3456',
     openTime: '11:00',
     closeTime: '23:00',
+    dayOfWeek: '월요일',
   },
   {
     storeId: 20,
@@ -744,6 +763,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-0123-4567',
     openTime: '09:00',
     closeTime: '21:00',
+    dayOfWeek: '일요일',
   },
 ];
 
