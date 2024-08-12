@@ -15,7 +15,6 @@ const MenuListWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 22.5rem;  /* 360px */
   height: 6.3125rem;  /* 101px */
   background-color: var(--background);
   padding: var(--spacing-sm);

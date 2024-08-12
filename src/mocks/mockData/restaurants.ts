@@ -38,7 +38,7 @@ export const stores: RestaurantType[] = [
     description:
       '정통 일본식 스시와 사시미를 제공합니다. 신선한 재료와 정성이 담긴 요리.',
     minPurchasePrice: 20000,
-    deliveryTime: '20 ~ 40분',
+    deliveryTime: '20~40분',
     deliveryPrice: 4000,
     address: {
       postal: '54321',
@@ -108,7 +108,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '버거와 프라이, 음료를 제공하는 패스트푸드 레스토랑.',
     minPurchasePrice: 10000,
-    deliveryTime: '20 ~ 45분',
+    deliveryTime: '20~45분',
     deliveryPrice: 2000,
     address: {
       postal: '34567',
@@ -155,7 +155,7 @@ export const stores: RestaurantType[] = [
     description:
       '신선한 해산물 요리를 제공합니다. 해산물 애호가를 위한 최고의 선택.',
     minPurchasePrice: 25000,
-    deliveryTime: '40분 ~ 60분',
+    deliveryTime: '40분~60분',
     deliveryPrice: 4000,
     address: {
       postal: '56789',
