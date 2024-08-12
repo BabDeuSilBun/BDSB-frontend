@@ -65,12 +65,17 @@ const BigRestaurantsItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
     router.push(`/restaurants/id=${item.storeId}`);
   };
 
+// Find the representative image or use the first one
+const imageToShow = item.image && item.image.length > 0
+  ? item.image.find(img => img.isRepresentative) || item.image[0]
+  : null;
+
   return (
     <CardContainer onClick={handleClick}>
       <ImageContainer>
-        {item.image[0] && (
+        {imageToShow && (
           <Image
-            src={item.image[0].url}
+            src={imageToShow.url}
             alt="Store Image"
             fill
             sizes="50vw"
