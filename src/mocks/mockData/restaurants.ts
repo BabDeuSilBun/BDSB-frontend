@@ -5,10 +5,24 @@ export const stores: RestaurantType[] = [
     storeId: 1,
     entrepreneur_id: 101,
     name: '맛있는 피자 집',
-    image: [
+    images: [
       {
         imageId: 201,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 202,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 203,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description:
@@ -29,10 +43,24 @@ export const stores: RestaurantType[] = [
     storeId: 2,
     entrepreneur_id: 102,
     name: '스시 마스터',
-    image: [
+    images: [
       {
-        imageId: 202,
+        imageId: 204,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 205,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 206,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description:
@@ -53,10 +81,24 @@ export const stores: RestaurantType[] = [
     storeId: 3,
     entrepreneur_id: 103,
     name: '한식의 정석',
-    image: [
+    images: [
       {
-        imageId: 203,
+        imageId: 207,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 208,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 209,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '전통 한식을 현대적으로 재해석한 메뉴를 제공합니다.',
@@ -76,10 +118,24 @@ export const stores: RestaurantType[] = [
     storeId: 4,
     entrepreneur_id: 104,
     name: '베이커리 하우스',
-    image: [
+    images: [
       {
-        imageId: 204,
+        imageId: 210,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 211,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 212,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description:
@@ -100,10 +156,24 @@ export const stores: RestaurantType[] = [
     storeId: 5,
     entrepreneur_id: 105,
     name: '패스트푸드 천국',
-    image: [
+    images: [
       {
-        imageId: 205,
+        imageId: 213,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 214,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 215,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '버거와 프라이, 음료를 제공하는 패스트푸드 레스토랑.',
@@ -123,10 +193,24 @@ export const stores: RestaurantType[] = [
     storeId: 6,
     entrepreneur_id: 106,
     name: '중국집 대왕',
-    image: [
+    images: [
       {
-        imageId: 206,
+        imageId: 216,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 217,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 218,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '중국 전통 요리를 현대적으로 변형하여 제공합니다.',
@@ -146,10 +230,24 @@ export const stores: RestaurantType[] = [
     storeId: 7,
     entrepreneur_id: 107,
     name: '해산물 왕국',
-    image: [
+    images: [
       {
-        imageId: 207,
+        imageId: 219,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 220,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 221,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description:
@@ -170,10 +268,24 @@ export const stores: RestaurantType[] = [
     storeId: 8,
     entrepreneur_id: 108,
     name: '떡볶이 명가',
-    image: [
+    images: [
       {
-        imageId: 208,
+        imageId: 222,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 223,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 224,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '매콤한 떡볶이와 다양한 길거리 음식을 제공합니다.',
@@ -193,10 +305,24 @@ export const stores: RestaurantType[] = [
     storeId: 9,
     entrepreneur_id: 109,
     name: '퓨전 한식',
-    image: [
+    images: [
       {
-        imageId: 209,
+        imageId: 225,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 226,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 227,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '한식을 퓨전 스타일로 재해석한 요리들을 제공합니다.',
@@ -216,10 +342,24 @@ export const stores: RestaurantType[] = [
     storeId: 10,
     entrepreneur_id: 110,
     name: '브런치 카페',
-    image: [
+    images: [
       {
-        imageId: 210,
+        imageId: 228,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 229,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 230,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '다양한 브런치 메뉴와 커피를 제공합니다.',
@@ -239,10 +379,24 @@ export const stores: RestaurantType[] = [
     storeId: 11,
     entrepreneur_id: 111,
     name: '아메리칸 BBQ',
-    image: [
+    images: [
       {
-        imageId: 211,
+        imageId: 231,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 232,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 233,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '진정한 미국식 바비큐를 경험하세요.',
@@ -262,10 +416,24 @@ export const stores: RestaurantType[] = [
     storeId: 12,
     entrepreneur_id: 112,
     name: '프랑스 레스토랑',
-    image: [
+    images: [
       {
-        imageId: 212,
+        imageId: 234,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 235,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 236,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '정통 프랑스 요리를 제공합니다.',
@@ -285,10 +453,24 @@ export const stores: RestaurantType[] = [
     storeId: 13,
     entrepreneur_id: 113,
     name: '비건 카페',
-    image: [
+    images: [
       {
-        imageId: 213,
+        imageId: 237,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 238,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 239,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '비건 및 채식 메뉴를 제공합니다.',
@@ -308,10 +490,24 @@ export const stores: RestaurantType[] = [
     storeId: 14,
     entrepreneur_id: 114,
     name: '디저트 카페',
-    image: [
+    images: [
       {
-        imageId: 214,
+        imageId: 240,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 241,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 242,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '다양한 디저트와 음료를 제공합니다.',
@@ -331,10 +527,24 @@ export const stores: RestaurantType[] = [
     storeId: 15,
     entrepreneur_id: 115,
     name: '갈비집',
-    image: [
+    images: [
       {
-        imageId: 215,
+        imageId: 243,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 244,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 245,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '정통 한우 갈비를 제공합니다.',
@@ -354,10 +564,24 @@ export const stores: RestaurantType[] = [
     storeId: 16,
     entrepreneur_id: 116,
     name: '파스타 하우스',
-    image: [
+    images: [
       {
-        imageId: 216,
+        imageId: 246,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 247,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 248,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '다양한 종류의 파스타를 제공합니다.',
@@ -377,10 +601,24 @@ export const stores: RestaurantType[] = [
     storeId: 17,
     entrepreneur_id: 117,
     name: '커리 전문점',
-    image: [
+    images: [
       {
-        imageId: 217,
+        imageId: 249,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 250,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 251,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '인도 및 일본식 커리를 제공합니다.',
@@ -400,10 +638,24 @@ export const stores: RestaurantType[] = [
     storeId: 18,
     entrepreneur_id: 118,
     name: '아시아 요리',
-    image: [
+    images: [
       {
-        imageId: 218,
+        imageId: 252,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 253,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 254,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '동남아시아의 다양한 요리를 제공합니다.',
@@ -423,10 +675,24 @@ export const stores: RestaurantType[] = [
     storeId: 19,
     entrepreneur_id: 119,
     name: '스테이크 하우스',
-    image: [
+    images: [
       {
-        imageId: 219,
+        imageId: 255,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 256,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 257,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '프리미엄 스테이크와 사이드 메뉴를 제공합니다.',
@@ -446,10 +712,24 @@ export const stores: RestaurantType[] = [
     storeId: 20,
     entrepreneur_id: 120,
     name: '샐러드 바',
-    image: [
+    images: [
       {
-        imageId: 220,
+        imageId: 258,
         url: 'https://via.placeholder.com/300x200',
+        sequence: 1,
+        isRepresentative: true,
+      },
+      {
+        imageId: 259,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 2,
+        isRepresentative: false,
+      },
+      {
+        imageId: 260,
+        url: 'https://via.placeholder.com/300x200',
+        sequence: 3,
+        isRepresentative: false,
       },
     ],
     description: '다양한 샐러드와 건강식을 제공합니다.',
