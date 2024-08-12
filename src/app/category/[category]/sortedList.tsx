@@ -12,7 +12,7 @@ import { SmallCustomDropdown } from '@/components/common/dropdown';
 import TeamOrderSkeletonItem from '@/components/listItems/teamOrderSkeletonItem';
 
 const ListContainer = styled.section`
-  margin: 124px 0 20px;
+  margin: 100px 0 20px;
 `;
 
 const DropDownWrapper = styled.div`

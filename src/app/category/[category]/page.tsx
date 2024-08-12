@@ -1,4 +1,5 @@
 import Header from '@/components/layout/header';
+import AccordionTabs from '@/components/layout/accordionTabs';
 import {
   dehydrate,
   HydrationBoundary,
@@ -27,6 +28,7 @@ export default async function Home() {
   return (
     <>
       <Header buttonLeft="hamburger" buttonRight="home" />
+      <AccordionTabs />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <SortedList />
       </HydrationBoundary>
