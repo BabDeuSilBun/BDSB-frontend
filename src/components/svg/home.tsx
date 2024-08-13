@@ -1,7 +1,7 @@
 const HomeIcon = ({
   color = 'var(--primary)',
-  width = 18,
-  height = 18,
+  width = 24,
+  height = 24,
   'aria-label': ariaLabel = 'Home Icon',
   ...props
 }: React.SVGProps<SVGSVGElement> & {

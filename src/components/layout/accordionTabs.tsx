@@ -12,7 +12,7 @@ const Container = styled.div.attrs({ className: 'scroll-x' })`
   top: 60px;
   z-index: 1000;
   width: inherit;
-  box-shadow: 1.48px 1.48px 7px var(--shadow);
+  box-shadow: 0px 5px 5px var(--shadow);
   padding: 0.3rem 1rem 0 1rem;
   overflow-x: auto;
 `;
