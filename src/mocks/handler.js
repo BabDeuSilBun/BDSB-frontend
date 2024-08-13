@@ -94,4 +94,17 @@ export const handler = [
     };
     return HttpResponse.json(headcount);
   }),
-]
+
+  http.get(MENU_LIST_API_URL.replace('{storeId}', ':storeId'), (req) => {
+    const storeId = Number(req.params.storeId);
+    const menusForStore = mockMenus.filter((menu) => menu.storeId === storeId);
+
+    if (menusForStore.length > 0) {
+      return HttpResponse.json({
+        content: menusForStore,
+      });
+    }
+
+    return HttpResponse.status(404).json({ message: 'Menus not found for this store' });
+  }),
+];
