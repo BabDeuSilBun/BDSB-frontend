@@ -29,7 +29,6 @@ export interface MenuType {
 
 export interface CommonType {
   storeId: number;
-  name: string;
   images: Image[]; 
   deliveryTime: string;
   category: string;
