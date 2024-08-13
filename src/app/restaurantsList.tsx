@@ -12,7 +12,7 @@ import BigRestaurantItem from '@/components/listItems/bigRestaurantItem';
 import BigRestaurantItemSkeleton from '@/components/listItems/bigRestaurantSkeleton';
 
 const ListContainer = styled.section`
-  margin: 124px 0 20px;
+  margin: 110px 0 20px;
 `;
 
 const DropDownWrapper = styled.div`

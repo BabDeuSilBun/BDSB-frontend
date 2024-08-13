@@ -9,7 +9,7 @@ const Container = styled.div.attrs({ className: 'scroll-x' })`
   display: flex;
   background-color: var(--background);
   position: fixed;
-  top: 48px;
+  top: 60px;
   z-index: 1000;
   width: inherit;
   box-shadow: 1.48px 1.48px 7px var(--shadow);
@@ -65,7 +65,11 @@ const AccordionTabs = () => {
           key={category}
           selected={selectedMenu === category}
           onClick={() => handleTabClick(category as RestaurantCategory)}
-          ref={(el) => (menuRefs.current[category] = el)}
+          ref={(el) => {
+            if (el) {
+              menuRefs.current[category] = el;
+            }
+          }}
         >
           {category}
         </MenuButton>

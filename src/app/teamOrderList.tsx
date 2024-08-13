@@ -16,7 +16,7 @@ import TeamOrderSkeleton from '@/components/listItems/teamOrderSkeleton';
 
 // Styled Components
 const ListContainer = styled.section`
-  margin: 124px 0 20px;
+  margin: 110px 0 20px;
 `;
 
 const SectionContainer = styled.section<{ $additional?: string }>`
