@@ -21,7 +21,7 @@
 
   /* Additional colors */
   --warning: #fe4e39; /* Red */
-  --shadow: rgba(91, 99, 116, 0.2); /* Shadow color */
+  --shadow: rgba(91, 99, 116, 0.15); /* Shadow color */
 
   /* Font sizes */
   --font-size-xs: 0.75rem; /* 12px */

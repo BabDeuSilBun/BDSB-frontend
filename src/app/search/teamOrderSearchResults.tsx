@@ -1,8 +1,4 @@
-interface Props {
-  value: string;
-}
-
-const TeamOrderSearchResults = ({ value }: Props) => {
+const TeamOrderSearchResults = () => {
   return (
     <>
       <div>team</div>

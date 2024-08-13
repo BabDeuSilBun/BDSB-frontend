@@ -1,20 +1,13 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ExitIcon from '@/components/svg/exit';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 
 interface keyInterface {
   id: number;
   text: string;
-}
-
-interface RecentKeywordsProps {
-  menu: string;
-  keywords: keyInterface[];
-  setKeywords: React.Dispatch<React.SetStateAction<keyInterface[]>>;
-  setValue: (keyword: string) => void;
-  setIsValue: (value: boolean) => void;
 }
 
 const FlexBox = styled.div`
@@ -44,14 +37,17 @@ const Keyword = styled.li`
   margin-bottom: 1rem;
 `;
 
-const RecentKeywords: React.FC<RecentKeywordsProps> = ({
-  menu,
-  keywords,
-  setKeywords,
-  setValue,
-  setIsValue,
-}) => {
+const RecentKeywords: React.FC = () => {
   const router = useRouter();
+  const { type } = useParams();
+  const [keywords, setKeywords] = useState<keyInterface[]>([]);
+
+  useEffect(() => {
+    const savedKeywords = localStorage.getItem('keywords');
+    if (savedKeywords) {
+      setKeywords(JSON.parse(savedKeywords));
+    }
+  }, []);
 
   const handleRemoveKeyword = (id: number) => {
     const nextKeyword = keywords.filter((keyword) => keyword.id !== id);
@@ -62,13 +58,10 @@ const RecentKeywords: React.FC<RecentKeywordsProps> = ({
   const handleClearKeywords = () => {
     setKeywords([]);
     localStorage.removeItem('keywords');
-    setIsValue(false);
   };
 
   const handleSearchButtonClick = (k: keyInterface) => {
-    setIsValue(true);
-    setValue(k.text);
-    router.push(`/search/${menu}?q=${k.text}`);
+    router.replace(`/search/${type}?q=${k.text}`);
   };
 
   return (
@@ -89,7 +82,7 @@ const RecentKeywords: React.FC<RecentKeywordsProps> = ({
             </Keyword>
           ))
         ) : (
-          <p>{`새로운 ${menu === 'teamOrder' ? '모임을' : '가게를'} 찾아보세요.`}</p>
+          <p>새로운 {type === 'teamOrder' ? '모임을' : '가게를'} 찾아보세요.</p>
         )}
       </List>
     </>

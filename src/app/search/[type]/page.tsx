@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import BackIcon from '@/components/svg/arrowLeft';
 import SearchIcon from '@/components/svg/search';
 import RecentKeywords from '../recentKeywords';
@@ -24,7 +24,6 @@ const HeaderContainer = styled.header`
   z-index: 1000;
   height: 60px;
   width: inherit;
-  box-shadow: 1.48px 1.48px 7px var(--shadow);
   padding: 1rem;
 `;
 
@@ -37,10 +36,32 @@ const ListContainer = styled.section`
   padding: 1rem;
 `;
 
+const TypeSelector = styled.div`
+  width: 100vw;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  padding-left: 1rem;
+  z-index: 1400;
+  background-color: var(--background);
+  box-shadow: 0px 5px 5px var(--shadow);
+`;
+
+const TypeButton = styled.button<{ selected: boolean }>`
+  padding: 0.6rem;
+  border: none;
+  border-bottom: 0.4rem solid
+    ${(props) => (props.selected ? 'var(--purple200)' : 'transparent')};
+  font-weight: ${(props) =>
+    props.selected ? 'var(--font-semi-bold)' : 'var(--font-regular)'};
+  transition: border-bottom-color 0.5s ease-out;
+`;
+
 const Search = () => {
   const params = useParams();
   const router = useRouter();
-  const menu = params.menu as string;
+  const searchParams = useSearchParams();
+  const type = params.type as string;
   const [value, setValue] = useState<string>('');
   const [isValue, setIsValue] = useState<boolean>(false);
   const [keywords, setKeywords] = useState<keyInterface[]>([]);
@@ -52,8 +73,16 @@ const Search = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const query = searchParams.get('q');
+    if (query) {
+      setValue(query);
+      setIsValue(true);
+    }
+  }, [searchParams]);
+
   const handleBackButtonClick = () => {
-    router.push('/');
+    router.push('/', { scroll: false });
   };
 
   const handleSearchButtonClick = () => {
@@ -72,7 +101,7 @@ const Search = () => {
       setIsValue(true);
       setKeywords(updatedKeywords);
       localStorage.setItem('keywords', JSON.stringify(updatedKeywords));
-      router.push(`/search/${menu}?q=${value}`);
+      router.replace(`/search/${type}?q=${value}`, { scroll: false });
     }
   };
 
@@ -85,6 +114,10 @@ const Search = () => {
     if (e.key === 'Enter') {
       handleSearchButtonClick();
     }
+  };
+
+  const handleTypeClick = (selected: string) => {
+    router.replace(`/search/${selected}?q=${value}`, { scroll: false });
   };
 
   return (
@@ -106,19 +139,29 @@ const Search = () => {
       </HeaderContainer>
       <ListContainer>
         {isValue ? (
-          menu === 'restaurants' ? (
-            <RestaurantSearchResults value={value} />
-          ) : menu === 'teamOrders' ? (
-            <TeamOrderSearchResults value={value} />
-          ) : null
+          <>
+            <TypeSelector>
+              <TypeButton
+                selected={type === 'teamOrder'}
+                onClick={() => handleTypeClick('teamOrder')}
+              >
+                모집 중
+              </TypeButton>
+              <TypeButton
+                selected={type === 'restaurant'}
+                onClick={() => handleTypeClick('restaurant')}
+              >
+                맛집 탐색
+              </TypeButton>
+            </TypeSelector>
+            {type === 'restaurant' ? (
+              <RestaurantSearchResults />
+            ) : type === 'teamOrder' ? (
+              <TeamOrderSearchResults />
+            ) : null}
+          </>
         ) : (
-          <RecentKeywords
-            menu={menu}
-            keywords={keywords}
-            setKeywords={setKeywords}
-            setValue={setValue}
-            setIsValue={setIsValue}
-          />
+          <RecentKeywords type={type} />
         )}
       </ListContainer>
     </>

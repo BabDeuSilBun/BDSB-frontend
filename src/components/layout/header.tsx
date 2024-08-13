@@ -34,7 +34,7 @@ const HeaderContainer = styled.header`
   z-index: 1000;
   height: 60px;
   width: inherit;
-  box-shadow: 1.48px 1.48px 7px var(--shadow);
+  box-shadow: 0px 5px 5px var(--shadow);
   padding: 1.5rem;
 `;
 
@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({
   buttonRight,
   buttonRightSecondary,
   iconColor = 'var(--gray500)', // Default color
-  iconSize, // Default size
+  iconSize = 20, // Default size
   text,
   onExit,
 }) => {

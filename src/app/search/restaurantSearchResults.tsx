@@ -1,13 +1,9 @@
-interface Props {
-  value: string;
-}
-
-const SearchResults = ({ value }: Props) => {
+const RestaurantSearchResults = () => {
   return (
     <>
-      <div>search</div>
+      <div>restaurant</div>
     </>
   );
 };
 
-export default SearchResults;
+export default RestaurantSearchResults;
