@@ -5,9 +5,10 @@ import { MENU_LIST_API_URL } from '@/services/menuService';
 import { applyFiltersAndSorting } from './filteringAndSorting';
 import { paginatedStores, stores } from './mockData/restaurants';
 import { paginatedMeetings } from './mockData/meetings';
-import { mockMenus } from './mockData/menus';
+import { paginatedMenus, menus } from './mockData/menus';
 
 export const handler = [
+  // Handler for restaurant list
   http.get(RESTAURANT_LIST_API_URL, (req) => {
     const { request } = req;
     const urlString = request.url.toString();
@@ -43,6 +44,17 @@ export const handler = [
     }
   }),
 
+  // Handler for getting store details by storeId
+  http.get('/api/stores/:storeId', (req) => {
+    const storeId = Number(req.params.storeId);
+    const store = stores.find((s) => s.storeId === storeId);
+    if (store) {
+      return HttpResponse.json(store);
+    }
+    return HttpResponse.status(404).json({ message: 'Store not found' });
+  }),
+
+  // Handler for team order list
   http.get(TEAM_ORDER_LIST_API_URL, (req) => {
     const { request } = req;
     const urlString = request.url.toString();
@@ -78,15 +90,7 @@ export const handler = [
     }
   }),
 
-  http.get('/api/stores/:storeId', (req) => {
-    const storeId = Number(req.params.storeId);
-    const store = stores.find((s) => s.storeId === storeId);
-    if (store) {
-      return HttpResponse.json(store);
-    }
-    return HttpResponse.status(404).json({ message: 'Store not found' });
-  }),
-
+  // Handler for fetching meeting headcount
   http.get('/api/users/meetings/:meetingId/headcount', () => {
     // const meetingId = Number(req.params.meetingId);
     const headcount = {
@@ -95,16 +99,44 @@ export const handler = [
     return HttpResponse.json(headcount);
   }),
 
-  http.get(MENU_LIST_API_URL.replace('{storeId}', ':storeId'), (req) => {
+  // Handler for menu list
+  http.get('/api/stores/:storeId/menus', (req) => {
+    const { request } = req;
     const storeId = Number(req.params.storeId);
-    const menusForStore = mockMenus.filter((menu) => menu.storeId === storeId);
+    const urlString = request.url.toString();
 
-    if (menusForStore.length > 0) {
+    try {
+      const url = new URL(urlString);
+      // const schoolId = url.searchParams.get('schoolId');
+      const pageParam = Number(url.searchParams.get('page')) || 0;
+      const size = Number(url.searchParams.get('size'));
+
+      const paginatedResponse = paginatedMenus[storeId]?.[pageParam];
+
+      if (!paginatedResponse) {
+        return HttpResponse.json({ message: 'Page not found' });
+      }
+
       return HttpResponse.json({
-        content: menusForStore,
+        ...paginatedResponse,
       });
+    } catch (error) {
+      console.error('Error parsing URL:', error);
+      return HttpResponse.status(500).json({ message: 'Error parsing URL' });
+    }
+  }),
+  // Handler for getting menu details by storeId and menuId
+  http.get('/api/stores/:storeId/menus/:menuId', (req) => {
+    const storeId = Number(req.params.storeId);
+    const menuId = Number(req.params.menuId);
+
+    const storeMenus = menus.filter((menu) => menu.storeId === storeId);
+    const menu = storeMenus.find((m) => m.menuId === menuId);
+
+    if (menu) {
+      return HttpResponse.json(menu);
     }
 
-    return HttpResponse.status(404).json({ message: 'Menus not found for this store' });
+    return HttpResponse.status(404).json({ message: 'Menu not found' });
   }),
 ];

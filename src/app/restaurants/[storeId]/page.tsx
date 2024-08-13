@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { getRestaurantInfo } from '@/services/restaurantService';
-import { getMenusForStore } from '@/services/menuService';
-import { MenuType } from '@/types/coreTypes';
+import { getMenuInfo } from '@/services/menuService';
+import { getMenuList } from '@/services/menuService';
 import Loading from '@/app/loading';
 import Header from '@/components/layout/header';
 import Carousel from '@/components/carousel/carousel';
@@ -57,7 +57,7 @@ const ButtonContainer = styled.div`
 
 const InfoContainer = styled.div`
   width: 100%;
-  margin: var(--spacing-xs) 0;
+  margin: var(--spacing-xs) var(--spacing-xs);
   background-color: var(--background);
   position: relative;
 `;
@@ -83,27 +83,32 @@ const InfoDescription = styled.div`
 
 const InfoBoxContainer = styled.div`
   position: absolute;
-  top: 44px;
-  left: 145px;
+  top: 2.75rem;
+  left: 10rem;
   z-index: 10;
 `;
 
 const MenuItemContainer = styled.div`
-  padding-bottom: 110px;
+  padding-bottom: 6.875rem;
 `;
 
 const StorePage = () => {
-  // const router = useRouter();
-  // const searchParams = useSearchParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { storeId } = useParams();
-  // const [activeModal, setActiveModal] = useState<string | null>(null);
-  // const [context, setContext] = useState<string | null>(null);
-  // const [selectedMenu, setSelectedMenu] = useState<{
-  //   name: string;
-  //   description: string;
-  //   imageUrl: string;
-  // } | null>(null);
+  const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [context, setContext] = useState<string | null>(null);
+  const [selectedMenu, setSelectedMenu] = useState<{
+    menuId: number;
+    name: string;
+    description: string;
+    imageUrl: string;
+  } | null>(null);
 
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useRef<HTMLDivElement | null>(null);
+  
+  // Fetch store information
   const {
     data: store,
     isLoading: isLoadingStore,
@@ -113,49 +118,99 @@ const StorePage = () => {
     queryFn: () => getRestaurantInfo(Number(storeId)),
   });
 
+  // Fetch menu list with pagination
   const {
     data: menus,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isLoading: isLoadingMenus,
     isError: isErrorMenus,
-  } = useQuery({
-    queryKey: ['storeMenus', storeId],
-    queryFn: () => getMenusForStore(Number(storeId)),
+  } = useInfiniteQuery({
+    queryKey: ['menuList', storeId],
+    queryFn: ({ pageParam = 0 }) => 
+      getMenuList({ storeId: Number(storeId), page: pageParam }),
+    getNextPageParam: (lastPage) => {
+      return lastPage.last ? undefined : lastPage.pageable?.pageNumber + 1;
+    },
   });
 
-  // useEffect(() => {
-  //   const contextParam = searchParams.get('context');
-  //   setContext(contextParam);
-  // }, [searchParams]);
+  useEffect(() => {
+    if (isFetchingNextPage) return;
 
-  // const openModal = (
-  //   modalName: string,
-  //   menuItem?: { name: string; description: string; imageUrl: string },
-  // ) => {
-  //   setActiveModal(modalName);
-  //   if (menuItem) {
-  //     setSelectedMenu(menuItem);
-  //   } else {
-  //     setSelectedMenu(null);
-  //   }
-  // };
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    };
 
-  // const closeModal = () => {
-  //   setActiveModal(null);
-  //   setSelectedMenu(null);
-  // };
+    // Initialize IntersectionObserver
+    observer.current = new IntersectionObserver(handleIntersect, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    });
+
+    // Observe the last element
+    if (lastElementRef.current) {
+      observer.current.observe(lastElementRef.current);
+    }
+
+    // Cleanup function to unobserve the last element
+    return () => {
+      if (observer.current && lastElementRef.current) {
+        observer.current.unobserve(lastElementRef.current);
+      }
+    };
+  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+
+  // Fetch Menu Information on Modal Open
+  const { data: selectedMenuInfo, isLoading: isLoadingMenuInfo } = useQuery({
+    queryKey: ['menuInfo', selectedMenu?.menuId],
+    queryFn: () => getMenuInfo(Number(storeId), Number(selectedMenu.menuId)),
+    enabled: !!selectedMenu?.menuId, // Only fetch when menuId is available
+  });
+
+  // Modal and context handling
+  const openModal = (
+    modalName: string,
+    menuItem?: { name: string; description: string; imageUrl: string },
+  ) => {
+    setActiveModal(modalName);
+    if (menuItem) {
+      setSelectedMenu(menuItem);
+    } else {
+      setSelectedMenu(null);
+    }
+  };
+  
+  const closeModal = () => {
+    setActiveModal(null);
+    setSelectedMenu(null);
+  };
+  
+  const handleInfoButtonClick = () => {
+    setActiveModal('infoModal');
+  };
+  
+  useEffect(() => {
+    const contextParam = searchParams.get('context');
+    setContext(contextParam);
+  }, [searchParams]);
 
   if (isLoadingStore || isLoadingMenus) {
     return <Loading />;
   }
-
+  
   if (isErrorStore) {
     return <p>Error loading restaurant data</p>;
   }
-
+  
   if (isErrorMenus) {
     return <p>Error loading menu data</p>;
   }
-
+  
   return (
     <div>
       <HeaderContainer>
@@ -167,13 +222,13 @@ const StorePage = () => {
           iconSize={24}
         />
       </HeaderContainer>
-      <Carousel />
+      <Carousel images={store.images} />
       <TitleContainer>
           <Title>{store.name}</Title>
       </TitleContainer>
       <ButtonContainer>
         <CallButton phoneNumber={store.phoneNumber || 'N/A'} />
-        <InfoButton />
+        <InfoButton onClick={handleInfoButtonClick} />
       </ButtonContainer>
       <Divider 
         orientation="horizontal" 
@@ -189,7 +244,7 @@ const StorePage = () => {
         </InfoRow>
         <InfoRow>
           <InfoTitle>배달 시간</InfoTitle>
-          <InfoDescription>{store.deliveryTime}</InfoDescription>
+          <InfoDescription>{store.deliveryTimeRange}</InfoDescription>
         </InfoRow>
         <InfoBoxContainer>
           <InfoBox
@@ -199,7 +254,7 @@ const StorePage = () => {
                 $textStyle: 'CenteredText',
               }
             ]}
-            width="163px"
+            width="10rem"
           />
         </InfoBoxContainer>
         <InfoRow>
@@ -213,127 +268,149 @@ const StorePage = () => {
           borderColor: 'var(--gray100)'
         }} 
       />
-      <MenuItemContainer>
-        {menus?.content.map((menu: MenuType, index: number) => (
-          <MenuItem 
-            key={menu.menuId}
-            menuName={menu.name}
-            price={menu.price}
-            imageUrl={menu.image}
-            hasDivider={index !== menus.content.length - 1}
-          />
-        ))}
-      </MenuItemContainer>
-      <Footer type="button" buttonText="모임 만들기" />
+
+      {/* Context-specific code */}
+      <div>
+        {context === 'leaderBefore' && (
+          <div>
+            <MenuItemContainer>
+              {menus.pages.map((page, pageIndex) =>
+                page.content.map((menuItem, index) => (
+                  <div
+                    key={menuItem.menuId}
+                    ref={
+                      pageIndex === menus.pages.length - 1 && index === page.content.length - 1 && hasNextPage
+                        ? lastElementRef
+                        : null
+                    }
+                  >
+                    <MenuItem
+                      menuName={menuItem.name}
+                      price={menuItem.price}
+                      imageUrl={menuItem.image}
+                      hasDivider={index !== page.content.length - 1}
+                      onClick={() => openModal('startModal', menuItem)}
+                    />
+                  </div>
+                )),
+            )}
+            </MenuItemContainer>
+            <Footer type="button" buttonText="모임 만들기" />
+          </div>
+        )}
+
+        {context === 'leaderAfter' && (
+          <div>
+            <MenuItemContainer>
+              {menus.pages.map((page, pageIndex) =>
+                page.content.map((menuItem, index) => (
+                  <div
+                    key={menuItem.menuId}
+                    ref={
+                      pageIndex === menus.pages.length - 1 && index === page.content.length - 1 && hasNextPage
+                        ? lastElementRef
+                        : null
+                    }
+                  >
+                    <MenuItem
+                      menuName={menuItem.name}
+                      price={menuItem.price}
+                      imageUrl={menuItem.image}
+                      hasDivider={index !== page.content.length - 1}
+                      onClick={() => openModal('leaderOder', menuItem)}
+                    />
+                  </div>
+                )),
+              )}
+            </MenuItemContainer>
+            <Footer type="button" buttonText="모임 만들기" />
+          </div>
+        )}
+
+        {context === 'participant' && (
+          <div>
+            <MenuItemContainer>
+              {menus.pages.map((page, pageIndex) =>
+                page.content.map((menuItem, index) => (
+                  <div
+                    key={menuItem.menuId}
+                    ref={
+                      pageIndex === menus.pages.length - 1 && index === page.content.length - 1 && hasNextPage
+                        ? lastElementRef
+                        : null
+                    }
+                  >
+                    <MenuItem
+                      menuName={menuItem.name}
+                      price={menuItem.price}
+                      imageUrl={menuItem.image}
+                      hasDivider={index !== page.content.length - 1}
+                      onClick={() => openModal('participantOder', menuItem)}
+                    />
+                  </div>
+                )),
+              )}
+            </MenuItemContainer>
+            <Footer type="button" buttonText="장바구니로 이동" />
+          </div>
+        )}
+      </div>
+
+      {/* Modal handling */}
+      {activeModal === 'infoModal' && (
+        <Modal
+          type="info"
+          title1={store.name}
+          description={store.description}
+          address1={store.address.streetAddress}
+          address2={store.address.detailAddress}
+          openTime={store.openTime}
+          closeTime={store.closeTime}
+          dayOfWeek={store.dayOfWeek}
+          buttonText="닫기"
+          onButtonClick3={closeModal}
+        />
+      )}
+
+      {activeModal === 'startModal' && selectedMenu && (
+        <Modal
+          type="image"
+          imageUrl={selectedMenu.image}
+          title1={selectedMenu.name}
+          description={selectedMenu.description}
+          buttonText1="모임 만들기"
+          buttonText2="닫기"
+          onButtonClick1={() => console.log('Start team order')}
+          onButtonClick2={closeModal}
+        />
+      )}
+
+      {activeModal === 'leaderOrder' && (
+        <Modal
+          type="image"
+          imageUrl={selectedMenu.image}
+          title1={selectedMenu.name}
+          description={selectedMenu.description}
+          buttonText1="공통메뉴"
+          buttonText2="개별메뉴"
+          onButtonClick1={() => console.log('Team menu')}
+          onButtonClick2={() => console.log('Individual menu')}
+        />
+      )}
+
+      {activeModal === 'participantOrder' && (
+        <Modal
+          type="image"
+          imageUrl={selectedMenu.image}
+          title1={selectedMenu.name}
+          description={selectedMenu.description}
+          buttonText1="개별메뉴"
+          buttonText2="닫기"
+          onButtonClick1={() => console.log('Participant order')}
+          onButtonClick2={closeModal}
+        />
+      )}
     </div>
-    // <div>
-    //   {restaurantData && (
-    //     <>
-    //       {/* {context === 'leaderBefore' && ( */}
-    //       {/* <> */}
-    //       <div>
-    //         <InfoButton onClick={() => openModal('infoModal')} />
-    //       </div>
-    //       {restaurantData.menuItems.map((menuItem) => (
-    //         <div>
-    //           <button
-    //             key={menuItem.id}
-    //             type="button"
-    //             onClick={() => openModal('startModal', menuItem)}
-    //           >
-    //             {menuItem.name}
-    //           </button>
-    //         </div>
-    //       ))}
-    //       {/* </> */}
-    //       {/* )} */}
-
-    //       {/* {context === 'leaderAfter' && ( */}
-    //       <div>
-    //         {restaurantData.menuItems.map((menuItem) => (
-    //           <div key={menuItem.id}>
-    //             <button
-    //               type="button"
-    //               onClick={() => openModal('leaderOder', menuItem)}
-    //             >
-    //               Leader Add {menuItem.name}
-    //             </button>
-    //           </div>
-    //         ))}
-    //       </div>
-    //       {/* )} */}
-
-    //       {/* {context === 'participant' && ( */}
-    //       <div>
-    //         {restaurantData.menuItems.map((menuItem) => (
-    //           <div key={menuItem.name}>
-    //             <button
-    //               type="button"
-    //               onClick={() => openModal('participantOder', menuItem)}
-    //             >
-    //               Participant Add {menuItem.name}
-    //             </button>
-    //           </div>
-    //         ))}
-    //       </div>
-    //       {/* )} */}
-
-    //       {activeModal === 'infoModal' && (
-    //         <Modal
-    //           type="info"
-    //           title1={restaurantData.name}
-    //           description={restaurantData.description}
-    //           address1={restaurantData.streetAddress}
-    //           address2={restaurantData.detailAddress}
-    //           openTime={restaurantData.openTime}
-    //           closeTime={restaurantData.closeTime}
-    //           closeDay={restaurantData.closeDay}
-    //           buttonText="닫기"
-    //           onButtonClick3={closeModal}
-    //         />
-    //       )}
-
-    //       {activeModal === 'startModal' && selectedMenu && (
-    //         <Modal
-    //           type="image"
-    //           title1={selectedMenu.name}
-    //           description={selectedMenu.description}
-    //           imageUrl={selectedMenu.imageUrl}
-    //           buttonText1="모임 만들기"
-    //           buttonText2="닫기"
-    //           onButtonClick1={() => console.log('Start team order')}
-    //           onButtonClick2={closeModal}
-    //         />
-    //       )}
-
-    //       {activeModal === 'leaderOder' && (
-    //         <Modal
-    //           type="image"
-    //           title1={selectedMenu?.name}
-    //           description={selectedMenu?.description}
-    //           imageUrl={selectedMenu?.imageUrl}
-    //           buttonText1="공통메뉴"
-    //           buttonText2="개별메뉴"
-    //           onButtonClick1={() => console.log('Leader order')}
-    //           onButtonClick2={closeModal}
-    //         />
-    //       )}
-
-    //       {activeModal === 'participantOder' && (
-    //         <Modal
-    //           type="image"
-    //           title1={selectedMenu?.name}
-    //           description={selectedMenu?.description}
-    //           imageUrl={selectedMenu?.imageUrl}
-    //           buttonText1="개별메뉴"
-    //           buttonText2="닫기"
-    //           onButtonClick1={() => console.log('Participant order')}
-    //           onButtonClick2={closeModal}
-    //         />
-    //       )}
-    //     </>
-    //   )}
-    // </div>
   );
 };
 

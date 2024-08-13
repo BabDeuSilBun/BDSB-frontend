@@ -9,6 +9,7 @@ interface MenuItemProps {
   price: number;
   imageUrl: string;
   hasDivider?: boolean;
+  onClick?: () => void;
 }
 
 const MenuListWrapper = styled.div`
@@ -56,10 +57,10 @@ const MenuImage = styled.img`
   object-fit: cover;
 `;
 
-export default function MenuItem({ menuName, price, imageUrl, hasDivider = true }: MenuItemProps) {
+export default function MenuItem({ menuName, price, imageUrl, hasDivider = true, onClick }: MenuItemProps) {
   return (
     <>
-      <MenuListWrapper>
+      <MenuListWrapper onClick={onClick}>
         <TextWrapper>
           <MenuName>{menuName}</MenuName>
           <Price>{formatCurrency(price)}</Price>
