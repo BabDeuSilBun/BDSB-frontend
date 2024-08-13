@@ -27,37 +27,38 @@ export interface MenuType {
   price: number;
 }
 
-export interface RestaurantType {
+export interface CommonType {
   storeId: number;
-  name: string;
   image: Image[];
   deliveryTime: string;
-  deliveryPrice: number;
-  minPurchasePrice: number;
-  description?: string; // optional field for detail field
-  entrepreneur_id?: number; // optional field for detail field
-  address?: Address; // optional field for detail field
-  phoneNumber?: string; // optional field for detail field
-  openTime?: string; // optional field for detail field
-  closeTime?: string; // optional field for detail field
+  category: string;
 }
 
-export interface MeetingType {
+export interface RestaurantType extends CommonType {
+  name: string;
+  deliveryPrice: number;
+  minPurchasePrice: number;
+  description?: string;
+  entrepreneur_id?: number;
+  address?: Address;
+  phoneNumber?: string;
+  openTime?: string;
+  closeTime?: string;
+}
+
+export interface MeetingType extends CommonType {
   meetingId: number;
-  storeId: number;
-  image: Image[];
-  deliveryTime: string;
   storeName: string;
   purchaseType: string;
   participantMax: number;
   paymentAvailableAt: string;
   deliveryFee: string;
-  participantMin?: number; // optional field for detail field
-  isEarlyPaymentAvailable?: boolean; // optional field for detail field
-  deliveryAddress?: DeliveryAddress; // optional field for detail field
-  metAddress?: MetAddress; // optional field for detail field
-  deliveredAt?: string; // optional field for detail field
-  status?: string; // optional field for detail field
+  participantMin?: number;
+  isEarlyPaymentAvailable?: boolean;
+  deliveryAddress?: DeliveryAddress;
+  metAddress?: MetAddress;
+  deliveredAt?: string;
+  status?: string;
 }
 
 interface Response {

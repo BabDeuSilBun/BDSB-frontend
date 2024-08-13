@@ -14,7 +14,7 @@ export const stores: RestaurantType[] = [
     description:
       '신선한 재료로 만든 정통 피자를 제공합니다. 다양한 토핑과 사이드 메뉴가 준비되어 있습니다.',
     minPurchasePrice: 15000,
-    deliveryTime: '30분',
+    deliveryTime: '30분~45분',
     deliveryPrice: 3000,
     address: {
       postal: '12345',
@@ -24,6 +24,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-1234-5678',
     openTime: '11:00',
     closeTime: '22:00',
+    category: '피자',
   },
   {
     storeId: 2,
@@ -38,7 +39,7 @@ export const stores: RestaurantType[] = [
     description:
       '정통 일본식 스시와 사시미를 제공합니다. 신선한 재료와 정성이 담긴 요리.',
     minPurchasePrice: 20000,
-    deliveryTime: '20~40분',
+    deliveryTime: '20분~40분',
     deliveryPrice: 4000,
     address: {
       postal: '54321',
@@ -48,6 +49,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-2345-6789',
     openTime: '10:00',
     closeTime: '21:00',
+    category: '일식',
   },
   {
     storeId: 3,
@@ -61,7 +63,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '전통 한식을 현대적으로 재해석한 메뉴를 제공합니다.',
     minPurchasePrice: 18000,
-    deliveryTime: '35분',
+    deliveryTime: '35분~50분',
     deliveryPrice: 3500,
     address: {
       postal: '67890',
@@ -71,6 +73,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-3456-7890',
     openTime: '09:00',
     closeTime: '22:00',
+    category: '찜·탕·찌개',
   },
   {
     storeId: 4,
@@ -85,7 +88,7 @@ export const stores: RestaurantType[] = [
     description:
       '다양한 빵과 디저트를 제공합니다. 아침 식사와 간식으로 좋은 선택.',
     minPurchasePrice: 8000,
-    deliveryTime: '25분',
+    deliveryTime: '25분~40분',
     deliveryPrice: 2500,
     address: {
       postal: '23456',
@@ -95,6 +98,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-4567-8901',
     openTime: '07:00',
     closeTime: '19:00',
+    category: '카페·디저트',
   },
   {
     storeId: 5,
@@ -108,7 +112,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '버거와 프라이, 음료를 제공하는 패스트푸드 레스토랑.',
     minPurchasePrice: 10000,
-    deliveryTime: '20~45분',
+    deliveryTime: '20분~45분',
     deliveryPrice: 2000,
     address: {
       postal: '34567',
@@ -118,6 +122,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-5678-9012',
     openTime: '10:00',
     closeTime: '22:00',
+    category: '패스트푸드',
   },
   {
     storeId: 6,
@@ -131,7 +136,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '중국 전통 요리를 현대적으로 변형하여 제공합니다.',
     minPurchasePrice: 15000,
-    deliveryTime: '30분',
+    deliveryTime: '30분~40분',
     deliveryPrice: 3000,
     address: {
       postal: '45678',
@@ -141,6 +146,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-6789-0123',
     openTime: '11:00',
     closeTime: '23:00',
+    category: '중식',
   },
   {
     storeId: 7,
@@ -165,6 +171,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-7890-1234',
     openTime: '10:00',
     closeTime: '22:00',
+    category: '돈까스·회·일식',
   },
   {
     storeId: 8,
@@ -178,7 +185,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '매콤한 떡볶이와 다양한 길거리 음식을 제공합니다.',
     minPurchasePrice: 10000,
-    deliveryTime: '25분',
+    deliveryTime: '20분~40분',
     deliveryPrice: 2000,
     address: {
       postal: '67890',
@@ -188,29 +195,31 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-8901-2345',
     openTime: '11:00',
     closeTime: '21:00',
+    category: '분식',
   },
   {
     storeId: 9,
     entrepreneur_id: 109,
-    name: '퓨전 한식',
+    name: '파스타 하우스',
     image: [
       {
         imageId: 209,
         url: 'https://via.placeholder.com/300x200',
       },
     ],
-    description: '한식을 퓨전 스타일로 재해석한 요리들을 제공합니다.',
-    minPurchasePrice: 20000,
-    deliveryTime: '30분',
-    deliveryPrice: 3500,
+    description: '다양한 종류의 파스타를 제공합니다.',
+    minPurchasePrice: 15000,
+    deliveryTime: '30분~50분',
+    deliveryPrice: 3000,
     address: {
-      postal: '78901',
-      streetAddress: '서울시 동작구 노량진로 200',
+      postal: '45670',
+      streetAddress: '서울시 중구 퇴계로 222',
       detailAddress: '2층 205호',
     },
-    phoneNumber: '02-9012-3456',
-    openTime: '10:00',
+    phoneNumber: '02-6789-0123',
+    openTime: '11:00',
     closeTime: '22:00',
+    category: '기타',
   },
   {
     storeId: 10,
@@ -224,7 +233,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '다양한 브런치 메뉴와 커피를 제공합니다.',
     minPurchasePrice: 12000,
-    deliveryTime: '20~30분',
+    deliveryTime: '20분~30분',
     deliveryPrice: 2000,
     address: {
       postal: '89012',
@@ -234,6 +243,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-0123-4567',
     openTime: '08:00',
     closeTime: '20:00',
+    category: '카페·디저트',
   },
   {
     storeId: 11,
@@ -247,7 +257,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '진정한 미국식 바비큐를 경험하세요.',
     minPurchasePrice: 25000,
-    deliveryTime: '45분',
+    deliveryTime: '45분~50분',
     deliveryPrice: 5000,
     address: {
       postal: '90123',
@@ -257,6 +267,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-1234-5678',
     openTime: '10:00',
     closeTime: '23:00',
+    category: '고기·구이',
   },
   {
     storeId: 12,
@@ -270,7 +281,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '정통 프랑스 요리를 제공합니다.',
     minPurchasePrice: 30000,
-    deliveryTime: '50분',
+    deliveryTime: '50분~60분',
     deliveryPrice: 6000,
     address: {
       postal: '01234',
@@ -280,6 +291,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-2345-6789',
     openTime: '12:00',
     closeTime: '22:00',
+    category: '기타',
   },
   {
     storeId: 13,
@@ -293,7 +305,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '비건 및 채식 메뉴를 제공합니다.',
     minPurchasePrice: 15000,
-    deliveryTime: '30분',
+    deliveryTime: '30분~50분',
     deliveryPrice: 3000,
     address: {
       postal: '12340',
@@ -303,6 +315,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-3456-7890',
     openTime: '09:00',
     closeTime: '21:00',
+    category: '카페·디저트',
   },
   {
     storeId: 14,
@@ -316,7 +329,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '다양한 디저트와 음료를 제공합니다.',
     minPurchasePrice: 10000,
-    deliveryTime: '25분',
+    deliveryTime: '25분~60분',
     deliveryPrice: 2500,
     address: {
       postal: '23450',
@@ -326,6 +339,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-4567-8901',
     openTime: '10:00',
     closeTime: '22:00',
+    category: '카페·디저트',
   },
   {
     storeId: 15,
@@ -339,7 +353,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '정통 한우 갈비를 제공합니다.',
     minPurchasePrice: 30000,
-    deliveryTime: '50분',
+    deliveryTime: '50분~75분',
     deliveryPrice: 5000,
     address: {
       postal: '34560',
@@ -349,29 +363,31 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-5678-9012',
     openTime: '11:00',
     closeTime: '23:00',
+    category: '고기·구이',
   },
   {
     storeId: 16,
     entrepreneur_id: 116,
-    name: '파스타 하우스',
+    name: '퓨전 한식',
     image: [
       {
         imageId: 216,
         url: 'https://via.placeholder.com/300x200',
       },
     ],
-    description: '다양한 종류의 파스타를 제공합니다.',
-    minPurchasePrice: 15000,
-    deliveryTime: '30분',
-    deliveryPrice: 3000,
+    description: '한식을 퓨전 스타일로 재해석한 요리들을 제공합니다.',
+    minPurchasePrice: 20000,
+    deliveryTime: '30분~35분',
+    deliveryPrice: 3500,
     address: {
-      postal: '45670',
-      streetAddress: '서울시 중구 퇴계로 222',
+      postal: '78901',
+      streetAddress: '서울시 동작구 노량진로 200',
       detailAddress: '2층 205호',
     },
-    phoneNumber: '02-6789-0123',
-    openTime: '11:00',
+    phoneNumber: '02-9012-3456',
+    openTime: '10:00',
     closeTime: '22:00',
+    category: '찜·탕·찌개',
   },
   {
     storeId: 17,
@@ -385,7 +401,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '인도 및 일본식 커리를 제공합니다.',
     minPurchasePrice: 16000,
-    deliveryTime: '35분',
+    deliveryTime: '35분~50분',
     deliveryPrice: 3500,
     address: {
       postal: '56780',
@@ -395,6 +411,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-7890-1234',
     openTime: '10:00',
     closeTime: '22:00',
+    category: '기타',
   },
   {
     storeId: 18,
@@ -408,7 +425,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '동남아시아의 다양한 요리를 제공합니다.',
     minPurchasePrice: 17000,
-    deliveryTime: '40분',
+    deliveryTime: '40분~60분',
     deliveryPrice: 4000,
     address: {
       postal: '67891',
@@ -418,6 +435,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-8901-2345',
     openTime: '10:00',
     closeTime: '22:00',
+    category: '아시안',
   },
   {
     storeId: 19,
@@ -431,7 +449,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '프리미엄 스테이크와 사이드 메뉴를 제공합니다.',
     minPurchasePrice: 25000,
-    deliveryTime: '45분',
+    deliveryTime: '45분~75분',
     deliveryPrice: 5000,
     address: {
       postal: '78912',
@@ -441,6 +459,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-9012-3456',
     openTime: '11:00',
     closeTime: '23:00',
+    category: '고기·구이',
   },
   {
     storeId: 20,
@@ -454,7 +473,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '다양한 샐러드와 건강식을 제공합니다.',
     minPurchasePrice: 12000,
-    deliveryTime: '20분',
+    deliveryTime: '20분~40분',
     deliveryPrice: 2000,
     address: {
       postal: '89013',
@@ -464,6 +483,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-0123-4567',
     openTime: '09:00',
     closeTime: '21:00',
+    category: '기타',
   },
 ];
 
@@ -475,9 +495,11 @@ export const paginatedStores: RestaurantsResponse[] = Array.from(
   (_, index) => {
     const start = index * pageSize; // 현재 페이지의 시작 인덱스
     const end = start + pageSize; // 현재 페이지의 끝 인덱스
+    const content = stores.slice(start, end);
+    const isLastPage = index === totalPages - 1;
 
     return {
-      content: stores.slice(start, end), // 현재 페이지에 해당하는 데이터
+      content, // 현재 페이지에 해당하는 데이터
       pageable: {
         pageNumber: index, // 현재 페이지 번호
         pageSize, // 페이지당 데이터 개수
@@ -487,7 +509,7 @@ export const paginatedStores: RestaurantsResponse[] = Array.from(
           sorted: false, // 정렬되지 않은 경우이므로 false
         },
       },
-      last: index === totalPages - 1, // 마지막 페이지 여부
+      last: isLastPage, // 마지막 페이지 여부
       totalPages, // 전체 페이지 수
       size: pageSize, // 페이지당 데이터 개수
       first: index === 0, // 첫 페이지 여부
