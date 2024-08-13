@@ -29,7 +29,8 @@ export interface MenuType {
 
 export interface CommonType {
   storeId: number;
-  image: Image[];
+  name: string;
+  images: Image[]; 
   deliveryTime: string;
   category: string;
 }
@@ -38,16 +39,20 @@ export interface RestaurantType extends CommonType {
   name: string;
   deliveryPrice: number;
   minPurchasePrice: number;
-  description?: string;
-  entrepreneur_id?: number;
-  address?: Address;
-  phoneNumber?: string;
-  openTime?: string;
-  closeTime?: string;
+  description?: string; // optional field for detail field
+  entrepreneur_id?: number; // optional field for detail field
+  address?: Address; // optional field for detail field
+  phoneNumber?: string; // optional field for detail field
+  openTime?: string; // optional field for detail field
+  closeTime?: string; // optional field for detail field
+  dayOfWeek?: string; // optional field for detail field
 }
 
 export interface MeetingType extends CommonType {
   meetingId: number;
+  storeId: number;
+  images: Image[];
+  deliveryTime: string;
   storeName: string;
   purchaseType: string;
   participantMax: number;
@@ -65,7 +70,7 @@ interface Response {
   pageable: {
     pageNumber: number;
     pageSize: number;
-    sort: {
+    sort?: {
       empty: boolean;
       unsorted: boolean;
       sorted: boolean;
@@ -79,7 +84,7 @@ export interface RestaurantsResponse extends Response {
   content: RestaurantType[];
 }
 
-export interface MenusResponse {
+export interface MenusResponse extends Response {
   content: MenuType[];
   storeId: number;
 }

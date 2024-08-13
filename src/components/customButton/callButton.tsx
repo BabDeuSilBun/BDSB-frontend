@@ -13,7 +13,7 @@ export default function CallButton({ phoneNumber }) {
       fontWeight="var(--font-regular)"
       leftIcon={<PhoneIcon width={20} height={20} />}
       aria-label="Call"
-      color="black"
+      color="--text"
       borderColor="var(--gray300)"
       _hover={{
         bg: 'var(--gray100)',

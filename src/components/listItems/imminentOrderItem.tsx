@@ -103,20 +103,25 @@ const ImminentItem: React.FC<{ item: MeetingType }> = ({ item }) => {
     router.push(`/teamOrder/${item.storeId}`);
   };
 
+// Safely access the first image if available
+const imageToShow = item.image && item.image.length > 0 ? item.image[0] : null;
+
   return (
     <CardContainer>
       <ImageSection onClick={handleClick}>
-        {item.image[0] && (
-          <ImageWrapper>
-            <Image
-              src={item.image[0].url}
-              alt="Store Image"
-              fill
-              sizes="50vw"
-              style={{ objectFit: 'cover' }}
-              priority
-            />
-          </ImageWrapper>
+      {imageToShow ? (
+        <ImageWrapper>
+          <Image
+            src={imageToShow.url}
+            alt="Store Image"
+            fill
+            sizes="50vw"
+            style={{ objectFit: 'cover' }}
+            priority
+          />
+        </ImageWrapper>
+        ) : (
+          <div>No Image Available</div>
         )}
         <InfoOverlay>
           <Information isCritical={isCritical}>{remainingTime}</Information>
