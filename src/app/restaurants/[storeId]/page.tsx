@@ -168,7 +168,7 @@ const StorePage = () => {
   // Fetch Menu Information on Modal Open
   const { data: selectedMenuInfo, isLoading: isLoadingMenuInfo } = useQuery({
     queryKey: ['menuInfo', selectedMenu?.menuId],
-    queryFn: () => getMenuInfo(Number(storeId), Number(selectedMenu?.menuId)),
+    queryFn: () => getMenuInfo(Number(storeId), Number(selectedMenu.menuId)),
     enabled: !!selectedMenu?.menuId, // Only fetch when menuId is available
   });
 
@@ -244,7 +244,7 @@ const StorePage = () => {
         </InfoRow>
         <InfoRow>
           <InfoTitle>배달 시간</InfoTitle>
-          <InfoDescription>{store.deliveryTime}</InfoDescription>
+          <InfoDescription>{store.deliveryTimeRange}</InfoDescription>
         </InfoRow>
         <InfoBoxContainer>
           <InfoBox

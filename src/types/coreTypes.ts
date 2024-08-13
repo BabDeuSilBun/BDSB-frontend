@@ -30,7 +30,7 @@ export interface MenuType {
 export interface CommonType {
   storeId: number;
   images: Image[]; 
-  deliveryTime: string;
+  deliveryTimeRange: string;
   category: string;
 }
 
@@ -53,7 +53,7 @@ export interface MeetingType extends CommonType {
   purchaseType: string;
   participantMax: number;
   paymentAvailableAt: string;
-  deliveryFee: string;
+  deliveryFeeRange: string;
   participantMin?: number;
   isEarlyPaymentAvailable?: boolean;
   deliveryAddress?: DeliveryAddress;

@@ -89,7 +89,7 @@ const imageToShow = item.images && item.images.length > 0
             height="18"
             priority
           />
-          <span>{item.deliveryTime}</span>
+          <span>{item.deliveryTimeRange}</span>
         </InfoItem>
         <InfoItem>
           <Image

@@ -94,7 +94,7 @@ const imageToShow = item.image && item.image.length > 0
               width="18"
               height="18"
             />
-            <span>{item.deliveryTime}</span>
+            <span>{item.deliveryTimeRange}</span>
           </div>
           <div>
             <Image src="./fee.svg" alt="Delivery Fee" width="18" height="18" />
