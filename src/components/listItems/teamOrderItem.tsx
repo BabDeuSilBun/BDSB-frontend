@@ -97,6 +97,10 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
     router.push(`/teamOrder/${item.storeId}`);
   };
 
+  const imageToShow = item.images && item.images.length > 0
+  ? item.images.find(img => img.isRepresentative) || item.images[0]
+  : null;
+
   return (
     <CardContainer>
       <ImageContainer onClick={handleClick}>

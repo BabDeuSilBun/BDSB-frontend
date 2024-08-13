@@ -49,9 +49,6 @@ export interface RestaurantType extends CommonType {
 
 export interface MeetingType extends CommonType {
   meetingId: number;
-  storeId: number;
-  images: Image[];
-  deliveryTime: string;
   storeName: string;
   purchaseType: string;
   participantMax: number;
