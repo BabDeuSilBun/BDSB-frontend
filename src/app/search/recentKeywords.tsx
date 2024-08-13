@@ -14,6 +14,8 @@ const FlexBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 70px;
+  padding: 1rem;
 
   h1 {
     font-weight: var(--font-semi-bold);
@@ -27,7 +29,8 @@ const FlexBox = styled.div`
 `;
 
 const List = styled.ul`
-  margin-top: 1.5rem;
+  margin-top: 1rem;
+  padding: 1rem;
 `;
 
 const Keyword = styled.li`
@@ -61,7 +64,7 @@ const RecentKeywords: React.FC = () => {
   };
 
   const handleSearchButtonClick = (k: keyInterface) => {
-    router.replace(`/search/${type}?q=${k.text}`);
+    router.push(`/search/${type}?q=${k.text}`);
   };
 
   return (
@@ -75,7 +78,7 @@ const RecentKeywords: React.FC = () => {
         {keywords.length ? (
           keywords.map((k) => (
             <Keyword key={k.id}>
-              <p onClick={() => handleSearchButtonClick(k)}>{k.text}</p>
+              <button onClick={() => handleSearchButtonClick(k)}>{k.text}</button>
               <button onClick={() => handleRemoveKeyword(k.id)}>
                 <ExitIcon color="var(--gray300)" width={18} height={18} />
               </button>

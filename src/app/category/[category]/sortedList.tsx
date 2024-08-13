@@ -9,7 +9,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getRestaurantsList } from '@/services/restaurantService';
 import RestaurantsItem from '@/components/listItems/restaurantItem';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
-import TeamOrderSkeletonItem from '@/components/listItems/restaurantSkeleton';
+import RestaurantSkeleton from '@/components/listItems/restaurantSkeleton';
 
 const ListContainer = styled.section`
   margin: 120px 0 20px;
@@ -107,10 +107,10 @@ function SortedList() {
 
       {status === 'pending' ? (
         <>
-          <TeamOrderSkeletonItem />
-          <TeamOrderSkeletonItem />
-          <TeamOrderSkeletonItem />
-          <TeamOrderSkeletonItem />
+          <RestaurantSkeleton />
+          <RestaurantSkeleton />
+          <RestaurantSkeleton />
+          <RestaurantSkeleton />
         </>
       ) : status === 'error' ? (
         <p>Error: {error.message}</p>

@@ -31,11 +31,6 @@ const Input = styled.input`
   padding: 0.4rem !important;
 `;
 
-const ListContainer = styled.section`
-  margin-top: 70px;
-  padding: 1rem;
-`;
-
 const TypeSelector = styled.div`
   width: 100vw;
   position: fixed;
@@ -137,33 +132,31 @@ const Search = () => {
           <SearchIcon color="var(--gray500)" width={24} height={24} />
         </button>
       </HeaderContainer>
-      <ListContainer>
-        {isValue ? (
-          <>
-            <TypeSelector>
-              <TypeButton
-                selected={type === 'teamOrder'}
-                onClick={() => handleTypeClick('teamOrder')}
-              >
-                모집 중
-              </TypeButton>
-              <TypeButton
-                selected={type === 'restaurant'}
-                onClick={() => handleTypeClick('restaurant')}
-              >
-                맛집 탐색
-              </TypeButton>
-            </TypeSelector>
-            {type === 'restaurant' ? (
-              <RestaurantSearchResults />
-            ) : type === 'teamOrder' ? (
-              <TeamOrderSearchResults />
-            ) : null}
-          </>
-        ) : (
-          <RecentKeywords type={type} />
-        )}
-      </ListContainer>
+      {isValue ? (
+        <>
+          <TypeSelector>
+            <TypeButton
+              selected={type === 'teamOrder'}
+              onClick={() => handleTypeClick('teamOrder')}
+            >
+              모집 중
+            </TypeButton>
+            <TypeButton
+              selected={type === 'restaurant'}
+              onClick={() => handleTypeClick('restaurant')}
+            >
+              맛집 탐색
+            </TypeButton>
+          </TypeSelector>
+          {type === 'restaurant' ? (
+            <RestaurantSearchResults />
+          ) : type === 'teamOrder' ? (
+            <TeamOrderSearchResults />
+          ) : null}
+        </>
+      ) : (
+        <RecentKeywords />
+      )}
     </>
   );
 };
