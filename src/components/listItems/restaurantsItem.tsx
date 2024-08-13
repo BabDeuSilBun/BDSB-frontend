@@ -82,7 +82,7 @@ const RestaurantsItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
             height="18"
             priority
           />
-          <span>{item.deliveryTime}</span>
+          <span>{item.deliveryTimeRange}</span>
         </InfoItem>
         <InfoItem>
           <Image
