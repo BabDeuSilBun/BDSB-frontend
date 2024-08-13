@@ -55,7 +55,7 @@ const InfoTitle = styled.span`
   margin-right: 0.3rem;
 `;
 
-const BigRestaurantsItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
+const BigRestaurantItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
   const router = useRouter();
 
   const deliveryPrice = formatCurrency(item.deliveryPrice);
@@ -105,4 +105,4 @@ const BigRestaurantsItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
   );
 };
 
-export default BigRestaurantsItem;
+export default BigRestaurantItem;

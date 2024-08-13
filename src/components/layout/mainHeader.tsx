@@ -15,7 +15,7 @@ const HeaderContainer = styled.header`
   z-index: 1000;
   width: inherit;
   box-shadow: 1.48px 1.48px 7px var(--shadow);
-  padding: 0.4rem 1rem 0 1rem;
+  padding: 0rem 1rem;
 `;
 
 const UpperContainer = styled.div`
@@ -40,7 +40,6 @@ const Chat = styled.div`
 `;
 
 const MenuButton = styled.button<{ selected: boolean }>`
-  margin-top: 0.3rem;
   padding: 0.6rem;
   border: none;
   border-bottom: 0.4rem solid
@@ -52,7 +51,7 @@ const MenuButton = styled.button<{ selected: boolean }>`
 
 const PortalButtonWrapper = styled.div`
   position: fixed;
-  top: 1.9rem;
+  top: 1.4rem;
   left: 1rem;
   z-index: 2000;
 `;
