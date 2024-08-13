@@ -1,4 +1,4 @@
-import { Drawer, DrawerContent } from '@chakra-ui/react';
+import { Drawer, DrawerContent, DrawerOverlay } from '@chakra-ui/react';
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -37,6 +37,7 @@ interface Props {
 export default function HeaderDrawer({ onToggle, $isOpen }: Props) {
   return (
     <Drawer isOpen={$isOpen} placement="left" onClose={onToggle} size="full">
+      <DrawerOverlay />
       <DrawerContent>
         <DrawerBody>
           <Link href="/notifications">
