@@ -83,13 +83,13 @@ const InfoDescription = styled.div`
 
 const InfoBoxContainer = styled.div`
   position: absolute;
-  top: 44px;
-  left: 145px;
+  top: 2.75rem;
+  left: 10rem;
   z-index: 10;
 `;
 
 const MenuItemContainer = styled.div`
-  padding-bottom: 110px;
+  padding-bottom: 6.875rem;
 `;
 
 const StorePage = () => {
@@ -254,7 +254,7 @@ const StorePage = () => {
                 $textStyle: 'CenteredText',
               }
             ]}
-            width="163px"
+            width="10rem"
           />
         </InfoBoxContainer>
         <InfoRow>
