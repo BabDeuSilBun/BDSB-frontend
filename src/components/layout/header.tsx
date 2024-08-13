@@ -27,7 +27,7 @@ const Icons = {
 
 const HeaderContainer = styled.header`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   background-color: var(--background);
   align-items: center;
   position: fixed;
@@ -36,6 +36,15 @@ const HeaderContainer = styled.header`
   width: inherit;
   box-shadow: 1.48px 1.48px 7px var(--shadow);
   padding: 1.5rem;
+`;
+
+const SideContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  ${({ side }) => side}: 1.5rem;
+  display: flex;
+  align-items: center;
 `;
 
 const RightButtonsContainer = styled.div`
@@ -49,6 +58,13 @@ const PortalButtonWrapper = styled.div`
   top: 1.4rem;
   left: 1rem;
   z-index: 2000;
+`;
+
+const Title = styled.h1`
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-semi-bold);
+  color: var(--text);
 `;
 
 interface HeaderProps {
@@ -96,14 +112,15 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <>
       <HeaderContainer>
-        <HeaderDrawer onToggle={onToggle} $isOpen={isOpen} />
-        <button type="button" onClick={handleLeftButtonClick}>
-          {buttonLeft &&
-            buttonLeft !== 'hamburger' &&
-            Icons[buttonLeft](iconColor, iconSize)}
-        </button>
-        <h1>{text}</h1>
-        <RightButtonsContainer>
+        <SideContainer side="left">
+          {buttonLeft && (
+            <button type="button" onClick={handleLeftButtonClick}>
+              {Icons[buttonLeft](iconColor, iconSize)}
+            </button>
+          )}
+        </SideContainer>
+        <Title>{text}</Title>
+        <SideContainer side="right">
           {buttonRight && (
             <button type="button" onClick={handleRightButtonClick}>
               {Icons[buttonRight](iconColor, iconSize)}
@@ -114,7 +131,7 @@ const Header: React.FC<HeaderProps> = ({
               {Icons[buttonRightSecondary](iconColor, iconSize)}
             </button>
           )}
-        </RightButtonsContainer>
+        </SideContainer>
       </HeaderContainer>
       {buttonLeft === 'hamburger' && (
         <Portal>
