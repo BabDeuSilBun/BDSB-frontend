@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { getRestaurantInfo } from '@/services/restaurantService';
+import { getMenuInfo } from '@/services/menuService';
 import { getMenuList } from '@/services/menuService';
 import Loading from '@/app/loading';
 import Header from '@/components/layout/header';
@@ -98,6 +99,7 @@ const StorePage = () => {
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [context, setContext] = useState<string | null>(null);
   const [selectedMenu, setSelectedMenu] = useState<{
+    menuId: number;
     name: string;
     description: string;
     imageUrl: string;
@@ -106,6 +108,7 @@ const StorePage = () => {
   const observer = useRef<IntersectionObserver | null>(null);
   const lastElementRef = useRef<HTMLDivElement | null>(null);
   
+  // Fetch store information
   const {
     data: store,
     isLoading: isLoadingStore,
@@ -114,9 +117,11 @@ const StorePage = () => {
     queryKey: ['storeInfo', storeId],
     queryFn: () => getRestaurantInfo(Number(storeId)),
   });
-  
+
+  // Fetch menu list with pagination
   const {
     data: menus,
+    error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -124,9 +129,11 @@ const StorePage = () => {
     isError: isErrorMenus,
   } = useInfiniteQuery({
     queryKey: ['menuList', storeId],
-    queryFn: ({ pageParam = 0 }) => getMenuList({ storeId: Number(storeId), page: pageParam }),
-    getNextPageParam: (lastPage) =>
-      lastPage.last ? undefined : lastPage.pageable.pageNumber + 1,
+    queryFn: ({ pageParam = 0 }) => 
+      getMenuList({ storeId: Number(storeId), page: pageParam }),
+    getNextPageParam: (lastPage) => {
+      return lastPage.last ? undefined : lastPage.pageable?.pageNumber + 1;
+    },
   });
 
   useEffect(() => {
@@ -138,23 +145,34 @@ const StorePage = () => {
       }
     };
 
+    // Initialize IntersectionObserver
     observer.current = new IntersectionObserver(handleIntersect, {
       root: null,
       rootMargin: '0px',
       threshold: 1.0,
     });
 
+    // Observe the last element
     if (lastElementRef.current) {
       observer.current.observe(lastElementRef.current);
     }
 
+    // Cleanup function to unobserve the last element
     return () => {
       if (observer.current && lastElementRef.current) {
         observer.current.unobserve(lastElementRef.current);
       }
     };
   }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
-  
+
+  // Fetch Menu Information on Modal Open
+  const { data: selectedMenuInfo, isLoading: isLoadingMenuInfo } = useQuery({
+    queryKey: ['menuInfo', selectedMenu?.menuId],
+    queryFn: () => getMenuInfo(Number(storeId), Number(selectedMenu?.menuId)),
+    enabled: !!selectedMenu?.menuId, // Only fetch when menuId is available
+  });
+
+  // Modal and context handling
   const openModal = (
     modalName: string,
     menuItem?: { name: string; description: string; imageUrl: string },
@@ -255,78 +273,84 @@ const StorePage = () => {
       <div>
         {context === 'leaderBefore' && (
           <div>
-            {menus?.pages.map((page) =>
-              page.content.map((menuItem, index) => (
-                <div
-                  key={menuItem.menuId}
-                  ref={
-                    index === page.content.length - 1 && hasNextPage
-                      ? lastElementRef
-                      : null
-                  }
-                >
-                  <MenuItem
-                    menuName={menuItem.name}
-                    price={menuItem.price}
-                    imageUrl={menuItem.image}
-                    hasDivider={index !== page.content.length - 1}
-                    onClick={() => openModal('startModal', menuItem)}
-                  />
-                </div>
-              )),
+            <MenuItemContainer>
+              {menus.pages.map((page, pageIndex) =>
+                page.content.map((menuItem, index) => (
+                  <div
+                    key={menuItem.menuId}
+                    ref={
+                      pageIndex === menus.pages.length - 1 && index === page.content.length - 1 && hasNextPage
+                        ? lastElementRef
+                        : null
+                    }
+                  >
+                    <MenuItem
+                      menuName={menuItem.name}
+                      price={menuItem.price}
+                      imageUrl={menuItem.image}
+                      hasDivider={index !== page.content.length - 1}
+                      onClick={() => openModal('startModal', menuItem)}
+                    />
+                  </div>
+                )),
             )}
+            </MenuItemContainer>
             <Footer type="button" buttonText="모임 만들기" />
           </div>
         )}
 
         {context === 'leaderAfter' && (
           <div>
-            {menus?.pages.map((page) =>
-              page.content.map((menuItem, index) => (
-                <div
-                  key={menuItem.menuId}
-                  ref={
-                    index === page.content.length - 1 && hasNextPage
-                      ? lastElementRef
-                      : null
-                  }
-                >
-                  <MenuItem
-                    menuName={menuItem.name}
-                    price={menuItem.price}
-                    imageUrl={menuItem.image}
-                    hasDivider={index !== page.content.length - 1}
-                    onClick={() => openModal('leaderOder', menuItem)}
-                  />
-                </div>
-              )),
-            )}
+            <MenuItemContainer>
+              {menus.pages.map((page, pageIndex) =>
+                page.content.map((menuItem, index) => (
+                  <div
+                    key={menuItem.menuId}
+                    ref={
+                      pageIndex === menus.pages.length - 1 && index === page.content.length - 1 && hasNextPage
+                        ? lastElementRef
+                        : null
+                    }
+                  >
+                    <MenuItem
+                      menuName={menuItem.name}
+                      price={menuItem.price}
+                      imageUrl={menuItem.image}
+                      hasDivider={index !== page.content.length - 1}
+                      onClick={() => openModal('leaderOder', menuItem)}
+                    />
+                  </div>
+                )),
+              )}
+            </MenuItemContainer>
             <Footer type="button" buttonText="모임 만들기" />
           </div>
         )}
 
         {context === 'participant' && (
           <div>
-            {menus?.pages.map((page) =>
-              page.content.map((menuItem, index) => (
-                <div
-                  key={menuItem.menuId}
-                  ref={
-                    index === page.content.length - 1 && hasNextPage
-                      ? lastElementRef
-                      : null
-                  }
-                >
-                  <MenuItem
-                    menuName={menuItem.name}
-                    price={menuItem.price}
-                    imageUrl={menuItem.image}
-                    hasDivider={index !== page.content.length - 1}
-                    onClick={() => openModal('participantOder', menuItem)}
-                  />
-                </div>
-              )),
-            )}
+            <MenuItemContainer>
+              {menus.pages.map((page, pageIndex) =>
+                page.content.map((menuItem, index) => (
+                  <div
+                    key={menuItem.menuId}
+                    ref={
+                      pageIndex === menus.pages.length - 1 && index === page.content.length - 1 && hasNextPage
+                        ? lastElementRef
+                        : null
+                    }
+                  >
+                    <MenuItem
+                      menuName={menuItem.name}
+                      price={menuItem.price}
+                      imageUrl={menuItem.image}
+                      hasDivider={index !== page.content.length - 1}
+                      onClick={() => openModal('participantOder', menuItem)}
+                    />
+                  </div>
+                )),
+              )}
+            </MenuItemContainer>
             <Footer type="button" buttonText="장바구니로 이동" />
           </div>
         )}
@@ -351,7 +375,7 @@ const StorePage = () => {
       {activeModal === 'startModal' && selectedMenu && (
         <Modal
           type="image"
-          imageUrl={selectedMenu?.image}
+          imageUrl={selectedMenu.image}
           title1={selectedMenu.name}
           description={selectedMenu.description}
           buttonText1="모임 만들기"
@@ -361,12 +385,12 @@ const StorePage = () => {
         />
       )}
 
-      {activeModal === 'leaderOder' && (
+      {activeModal === 'leaderOrder' && (
         <Modal
           type="image"
-          imageUrl={selectedMenu?.image}
-          title1={selectedMenu?.name}
-          description={selectedMenu?.description}
+          imageUrl={selectedMenu.image}
+          title1={selectedMenu.name}
+          description={selectedMenu.description}
           buttonText1="공통메뉴"
           buttonText2="개별메뉴"
           onButtonClick1={() => console.log('Team menu')}
@@ -374,12 +398,12 @@ const StorePage = () => {
         />
       )}
 
-      {activeModal === 'participantOder' && (
+      {activeModal === 'participantOrder' && (
         <Modal
           type="image"
-          imageUrl={selectedMenu?.image}
-          title1={selectedMenu?.name}
-          description={selectedMenu?.description}
+          imageUrl={selectedMenu.image}
+          title1={selectedMenu.name}
+          description={selectedMenu.description}
           buttonText1="개별메뉴"
           buttonText2="닫기"
           onButtonClick1={() => console.log('Participant order')}
