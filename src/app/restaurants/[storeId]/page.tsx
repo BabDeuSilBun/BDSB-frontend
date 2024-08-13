@@ -1,11 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { getRestaurantInfo } from '@/services/restaurantService';
-import { getMenusForStore } from '@/services/menuService';
-import { MenuType } from '@/types/coreTypes';
+import { getMenuList } from '@/services/menuService';
 import Loading from '@/app/loading';
 import Header from '@/components/layout/header';
 import Carousel from '@/components/carousel/carousel';
@@ -103,6 +102,9 @@ const StorePage = () => {
     description: string;
     imageUrl: string;
   } | null>(null);
+
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useRef<HTMLDivElement | null>(null);
   
   const {
     data: store,
@@ -115,12 +117,43 @@ const StorePage = () => {
   
   const {
     data: menus,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isLoading: isLoadingMenus,
     isError: isErrorMenus,
-  } = useQuery({
-    queryKey: ['storeMenus', storeId],
-    queryFn: () => getMenusForStore(Number(storeId)),
+  } = useInfiniteQuery({
+    queryKey: ['menuList', storeId],
+    queryFn: ({ pageParam = 0 }) => getMenuList({ storeId: Number(storeId), page: pageParam }),
+    getNextPageParam: (lastPage) =>
+      lastPage.last ? undefined : lastPage.pageable.pageNumber + 1,
   });
+
+  useEffect(() => {
+    if (isFetchingNextPage) return;
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    };
+
+    observer.current = new IntersectionObserver(handleIntersect, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    });
+
+    if (lastElementRef.current) {
+      observer.current.observe(lastElementRef.current);
+    }
+
+    return () => {
+      if (observer.current && lastElementRef.current) {
+        observer.current.unobserve(lastElementRef.current);
+      }
+    };
+  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
   
   const openModal = (
     modalName: string,
@@ -222,48 +255,78 @@ const StorePage = () => {
       <div>
         {context === 'leaderBefore' && (
           <div>
-            {menus?.content.map((menuItem, index) => (
-              <MenuItem
-                key={menuItem.menuId}
-                menuName={menuItem.name}
-                price={menuItem.price}
-                imageUrl={menuItem.image}
-                hasDivider={index !== menus.content.length - 1}
-                onClick={() => openModal('startModal', menuItem)}
-              />
-            ))}
+            {menus?.pages.map((page) =>
+              page.content.map((menuItem, index) => (
+                <div
+                  key={menuItem.menuId}
+                  ref={
+                    index === page.content.length - 1 && hasNextPage
+                      ? lastElementRef
+                      : null
+                  }
+                >
+                  <MenuItem
+                    menuName={menuItem.name}
+                    price={menuItem.price}
+                    imageUrl={menuItem.image}
+                    hasDivider={index !== page.content.length - 1}
+                    onClick={() => openModal('startModal', menuItem)}
+                  />
+                </div>
+              )),
+            )}
             <Footer type="button" buttonText="모임 만들기" />
           </div>
         )}
 
         {context === 'leaderAfter' && (
           <div>
-            {menus?.content.map((menuItem, index) => (
-              <MenuItem
-                key={menuItem.menuId}
-                menuName={menuItem.name}
-                price={menuItem.price}
-                imageUrl={menuItem.image}
-                hasDivider={index !== menus.content.length - 1}
-                onClick={() => openModal('leaderOder', menuItem)}
-              />
-            ))}
+            {menus?.pages.map((page) =>
+              page.content.map((menuItem, index) => (
+                <div
+                  key={menuItem.menuId}
+                  ref={
+                    index === page.content.length - 1 && hasNextPage
+                      ? lastElementRef
+                      : null
+                  }
+                >
+                  <MenuItem
+                    menuName={menuItem.name}
+                    price={menuItem.price}
+                    imageUrl={menuItem.image}
+                    hasDivider={index !== page.content.length - 1}
+                    onClick={() => openModal('leaderOder', menuItem)}
+                  />
+                </div>
+              )),
+            )}
             <Footer type="button" buttonText="모임 만들기" />
           </div>
         )}
 
         {context === 'participant' && (
           <div>
-            {menus?.content.map((menuItem, index) => (
-              <MenuItem
-                key={menuItem.menuId}
-                menuName={menuItem.name}
-                price={menuItem.price}
-                imageUrl={menuItem.image}
-                hasDivider={index !== menus.content.length - 1}
-                onClick={() => openModal('participantOder', menuItem)}
-              />
-            ))}
+            {menus?.pages.map((page) =>
+              page.content.map((menuItem, index) => (
+                <div
+                  key={menuItem.menuId}
+                  ref={
+                    index === page.content.length - 1 && hasNextPage
+                      ? lastElementRef
+                      : null
+                  }
+                >
+                  <MenuItem
+                    menuName={menuItem.name}
+                    price={menuItem.price}
+                    imageUrl={menuItem.image}
+                    hasDivider={index !== page.content.length - 1}
+                    onClick={() => openModal('participantOder', menuItem)}
+                  />
+                </div>
+              )),
+            )}
             <Footer type="button" buttonText="장바구니로 이동" />
           </div>
         )}
