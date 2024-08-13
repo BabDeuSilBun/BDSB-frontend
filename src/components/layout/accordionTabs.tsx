@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter, useParams } from 'next/navigation';
 import { RESTAURANT_CATEGORIES, RestaurantCategory } from '@/constant/category';
@@ -13,7 +13,7 @@ const Container = styled.div.attrs({ className: 'scroll-x' })`
   z-index: 1000;
   width: inherit;
   box-shadow: 1.48px 1.48px 7px var(--shadow);
-  padding: 0.4rem 1rem 0 1rem;
+  padding: 0.3rem 1rem 0 1rem;
   overflow-x: auto;
 `;
 
@@ -34,6 +34,7 @@ const AccordionTabs = () => {
   const router = useRouter();
   const params = useParams();
   const [selectedMenu, setSelectedMenu] = useState<string>('');
+  const menuRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
 
   useEffect(() => {
     const cat = decodeURIComponent(params.category as RestaurantCategory);
@@ -41,6 +42,16 @@ const AccordionTabs = () => {
       setSelectedMenu(cat);
     }
   }, [params]);
+
+  useEffect(() => {
+    if (selectedMenu && menuRefs.current[selectedMenu]) {
+      menuRefs.current[selectedMenu]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center',
+      });
+    }
+  }, [selectedMenu]);
 
   const handleTabClick = (category: RestaurantCategory) => {
     setSelectedMenu(category);
@@ -54,6 +65,7 @@ const AccordionTabs = () => {
           key={category}
           selected={selectedMenu === category}
           onClick={() => handleTabClick(category as RestaurantCategory)}
+          ref={(el) => (menuRefs.current[category] = el)}
         >
           {category}
         </MenuButton>

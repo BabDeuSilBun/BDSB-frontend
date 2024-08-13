@@ -109,6 +109,8 @@ function SortedList() {
         <>
           <TeamOrderSkeletonItem />
           <TeamOrderSkeletonItem />
+          <TeamOrderSkeletonItem />
+          <TeamOrderSkeletonItem />
         </>
       ) : status === 'error' ? (
         <p>Error: {error.message}</p>

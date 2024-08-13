@@ -1,4 +1,4 @@
-import { Skeleton, Box } from '@chakra-ui/react';
+import { Skeleton } from '@chakra-ui/react';
 import styled from 'styled-components';
 
 const Flexbox = styled.div`

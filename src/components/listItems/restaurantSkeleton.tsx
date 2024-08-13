@@ -1,4 +1,4 @@
-import { Skeleton, Box } from '@chakra-ui/react';
+import { Skeleton } from '@chakra-ui/react';
 import styled from 'styled-components';
 
 const Flexbox = styled.div`
@@ -13,18 +13,12 @@ const FlexItem = styled.div`
 const RestaurantSkeleton = () => {
   return (
     <Flexbox>
-      <Skeleton width="80px" height="96px" my="4" mr="3" borderRadius="lg" />
+      <Skeleton width="92px" height="92px" my="4" mr="3" ml="4" borderRadius="lg" />
       <FlexItem>
-        <Flexbox>
-          <Skeleton mt="4" width="100px" height="16px" />
-          <Skeleton mt="4" width="80px" height="16px" />
-        </Flexbox>
-        <Skeleton mt="2" width="140px" height="20px" />
+        <Skeleton mt="4" width="140px" height="20px" />
         <Skeleton mt="2" width="100px" height="16px" />
-        <Flexbox>
-          <Skeleton mt="2" width="100px" height="16px" />
-          <Skeleton mt="2" width="80px" height="16px" />
-        </Flexbox>
+        <Skeleton mt="2" width="100px" height="16px" />
+        <Skeleton mt="2" width="100px" height="16px" />
       </FlexItem>
     </Flexbox>
   );
