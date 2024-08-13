@@ -117,20 +117,7 @@ input:disabled {
   text-indent: -9999px;
 }
 
-.scroll-x {
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.scroll-x::-webkit-scrollbar {
-  display: none;
-}
-
-/* Global Css Styles */
+/* Global CSS Styles */
 * {
   box-sizing: border-box;
   padding: 0;
@@ -147,25 +134,6 @@ input:disabled {
   overflow-y: auto;
   overflow-x: hidden;
   background-color: var(--background);
-}
-
-/* 스크롤바 스타일 (Webkit 기반 브라우저) */
-::-webkit-scrollbar {
-  width: 8px; /* 스크롤바의 너비 */
-  height: 6px; /* 스크롤바의 높이 (수평 스크롤바) */
-}
-
-::-webkit-scrollbar-track {
-  background: var(--gray200); /* 트랙 배경 색상 */
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--gray300); /* 핸들의 배경 색상 */
-  border-radius: var(--border-radius-default); /* 모서리 둥글게 */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--gray400); /* 핸들 마우스 오버 시 색상 */
 }
 
 a {
@@ -233,6 +201,40 @@ button {
 
 button:focus {
   outline: none;
+}
+
+/* Scroll Styles */
+
+/* 스크롤바 스타일 (Webkit 기반 브라우저) */
+::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+  height: 6px; /* 스크롤바의 높이 (수평 스크롤바) */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray200); /* 트랙 배경 색상 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray300); /* 핸들의 배경 색상 */
+  border-radius: var(--border-radius-default); /* 모서리 둥글게 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray400); /* 핸들 마우스 오버 시 색상 */
+}
+
+.scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scroll-x::-webkit-scrollbar {
+  display: none;
 }
 
 /* Media Queries */

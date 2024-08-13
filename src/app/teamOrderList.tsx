@@ -11,7 +11,8 @@ import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
 import { getTeamOrderList } from '@/services/teamOrderService';
 import { MeetingsResponse } from '@/types/coreTypes';
 
-import Loading from './loading';
+import ImminentOrderSkeleton from '@/components/listItems/imminentOrderSkeletonItem';
+import TeamOrderSkeletonItem from '@/components/listItems/teamOrderSkeletonItem';
 
 // Styled Components
 const ListContainer = styled.section`
@@ -42,12 +43,6 @@ const DropDownWrapper = styled.div`
 const GroupTitle = styled.h3`
   font-weight: var(--font-semi-bold);
   font-size: var(--font-size-xl);
-`;
-
-const LoaderContainer = styled.div`
-  display: flex;
-  width: 100%;
-  align-items: center;
 `;
 
 // Sort options
@@ -136,9 +131,12 @@ function TeamOrderList() {
         <GroupTitle>임박한 모임</GroupTitle>
         <CardContainer>
           {imminentStatus === 'pending' && (
-            <LoaderContainer>
-              <Loading />
-            </LoaderContainer>
+            <>
+              <ImminentOrderSkeleton />
+              <ImminentOrderSkeleton />
+              <ImminentOrderSkeleton />
+              <ImminentOrderSkeleton />
+            </>
           )}
           {imminentStatus === 'error' && (
             <p>
@@ -172,9 +170,13 @@ function TeamOrderList() {
         </DropDownWrapper>
 
         {status === 'pending' && (
-          <LoaderContainer>
-            <Loading />
-          </LoaderContainer>
+          <>
+            <TeamOrderSkeletonItem />
+            <TeamOrderSkeletonItem />
+            <TeamOrderSkeletonItem />
+            <TeamOrderSkeletonItem />
+            <TeamOrderSkeletonItem />
+          </>
         )}
         {status === 'error' && <p>Error: {error.message}</p>}
         {status === 'success' && data && (

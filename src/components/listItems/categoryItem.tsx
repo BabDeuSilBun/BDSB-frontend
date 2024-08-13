@@ -39,7 +39,7 @@ function CategoryItem() {
   const router = useRouter();
 
   const handleClick = (category: string) => {
-    router.push(`/restaurants/category=${category}`);
+    router.push(`/category/${category}`);
   };
 
   return (

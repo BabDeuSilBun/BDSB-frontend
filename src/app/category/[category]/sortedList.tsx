@@ -1,18 +1,18 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-
+import { useParams } from 'next/navigation';
+import { RestaurantCategory } from '@/constant/category';
 import { Divider } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { SmallCustomDropdown } from '@/components/common/dropdown';
-import CategoryItem from '@/components/listItems/categoryItem';
 import { getRestaurantsList } from '@/services/restaurantService';
-import BigRestaurantsItem from '@/components/listItems/bigRestaurantItem';
-import BigRestaurantItemSkeleton from '@/components/listItems/bigRestaurantItemSkeleton';
+import RestaurantsItem from '@/components/listItems/restaurantsItem';
+import { SmallCustomDropdown } from '@/components/common/dropdown';
+import TeamOrderSkeletonItem from '@/components/listItems/teamOrderSkeletonItem';
 
 const ListContainer = styled.section`
-  margin: 124px 0 20px;
+  margin: 100px 0 20px;
 `;
 
 const DropDownWrapper = styled.div`
@@ -27,7 +27,10 @@ const options = [
   { id: 3, value: 'delivery-time', name: '배송시간이 짧은 순' },
 ];
 
-function RestaurantsList() {
+function SortedList() {
+  const params = useParams();
+  const category = (params.category as RestaurantCategory) || '치킨';
+
   const [selectedSort, setSelectedSort] = useState<string>('delivery-fee');
   const [isOpen, setIsOpen] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
@@ -41,9 +44,13 @@ function RestaurantsList() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ['restaurantsList', selectedSort],
+    queryKey: ['sortedList', selectedSort, category],
     queryFn: ({ pageParam = 0 }) =>
-      getRestaurantsList({ page: pageParam, sortCriteria: selectedSort }),
+      getRestaurantsList({
+        page: pageParam,
+        sortCriteria: selectedSort,
+        foodCategoryFilter: category,
+      }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
@@ -59,19 +66,16 @@ function RestaurantsList() {
       }
     };
 
-    // Initialize IntersectionObserver
     observer.current = new IntersectionObserver(handleIntersect, {
       root: null,
       rootMargin: '0px',
       threshold: 1.0,
     });
 
-    // Observe the last element
     if (lastElementRef.current) {
       observer.current.observe(lastElementRef.current);
     }
 
-    // Cleanup function to unobserve the last element
     return () => {
       if (observer.current && lastElementRef.current) {
         observer.current.unobserve(lastElementRef.current);
@@ -91,9 +95,6 @@ function RestaurantsList() {
 
   return (
     <ListContainer>
-      {/* 항상 렌더링되는 컴포넌트들 */}
-      <CategoryItem />
-      <Divider />
       <DropDownWrapper>
         <SmallCustomDropdown
           options={options}
@@ -104,15 +105,14 @@ function RestaurantsList() {
         />
       </DropDownWrapper>
 
-      {/* 상태에 따른 조건부 렌더링 */}
       {status === 'pending' ? (
         <>
-          <BigRestaurantItemSkeleton />
-          <BigRestaurantItemSkeleton />
+          <TeamOrderSkeletonItem />
+          <TeamOrderSkeletonItem />
         </>
       ) : status === 'error' ? (
         <p>Error: {error.message}</p>
-      ) : data && data.pages.length > 0 ? (
+      ) : data?.pages.length > 0 ? (
         <>
           {data.pages.map((page) =>
             page.content.map((item, index) => (
@@ -120,7 +120,8 @@ function RestaurantsList() {
                 key={item.storeId}
                 ref={index === page.content.length - 1 ? lastElementRef : null}
               >
-                <BigRestaurantsItem item={item} key={item.storeId} />
+                <RestaurantsItem item={item} key={item.storeId} />
+                <Divider />
               </div>
             )),
           )}
@@ -132,4 +133,4 @@ function RestaurantsList() {
   );
 }
 
-export default RestaurantsList;
+export default SortedList;

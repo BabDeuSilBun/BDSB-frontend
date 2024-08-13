@@ -9,7 +9,7 @@ const formatRemainingTime = (
   const timeDifference = targetDate.getTime() - now.getTime();
 
   if (timeDifference <= 0) {
-    return { time: '이미 지나갔습니다', isCritical: false };
+    return { time: '시간 초과', isCritical: false };
   }
 
   const seconds = Math.floor(timeDifference / 1000);
