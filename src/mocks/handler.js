@@ -97,14 +97,23 @@ export const handler = [
 
   http.get(MENU_LIST_API_URL.replace('{storeId}', ':storeId'), (req) => {
     const storeId = Number(req.params.storeId);
-    const menusForStore = Menus.filter((menu) => menu.storeId === storeId);
+    const urlString = request.url.toString();
 
-    if (menusForStore.length > 0) {
-      return HttpResponse.json({
-        content: menusForStore,
-      });
+    try {
+      const url = new URL(urlString);
+      const pageParam = Number(url.searchParams.get('page')) || 0;
+      const size = Number(url.searchParams.get('size')) || 10;
+
+      const paginatedResponse = getPaginatedMenus(storeId, size)[pageParam];
+
+      if (!paginatedResponse) {
+        return HttpResponse.status(404).json({ message: 'Page not found' });
+      }
+
+      return HttpResponse.json(paginatedResponse);
+    } catch (error) {
+      console.error('Error parsing URL:', error);
+      return HttpResponse.status(500).json({ message: 'Error parsing URL' });
     }
-
-    return HttpResponse.status(404).json({ message: 'Menus not found for this store' });
   }),
 ];

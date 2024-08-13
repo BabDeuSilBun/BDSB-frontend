@@ -65,7 +65,7 @@ interface Response {
   pageable: {
     pageNumber: number;
     pageSize: number;
-    sort: {
+    sort?: {
       empty: boolean;
       unsorted: boolean;
       sorted: boolean;

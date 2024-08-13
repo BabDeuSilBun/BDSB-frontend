@@ -1,6 +1,6 @@
 import { MenuType, MenusResponse } from '@/types/coreTypes';
 
-export const Menus: MenuType[] = [
+export const menus: MenuType[] = [
   // Menus for storeId 1
   {
     menuId: 1,
@@ -2440,10 +2440,30 @@ export const Menus: MenuType[] = [
   },
 ];
 
-export const groupedMenus = Menus.reduce((acc, menu) => {
-  if (!acc[menu.storeId]) {
-    acc[menu.storeId] = [];
-  }
-  acc[menu.storeId].push(menu);
-  return acc;
-}, {});
+const pageSize = 10;
+const totalPages = Math.ceil(menus.length / pageSize);
+
+export const paginatedStores: RestaurantsResponse[] = Array.from(
+  { length: totalPages },
+  (_, index) => {
+    const start = index * pageSize; // 현재 페이지의 시작 인덱스
+    const end = start + pageSize; // 현재 페이지의 끝 인덱스
+
+    return {
+      content: stores.slice(start, end), // 현재 페이지에 해당하는 데이터
+      pageable: {
+        pageNumber: index, // 현재 페이지 번호
+        pageSize, // 페이지당 데이터 개수
+        sort: {
+          empty: true, // 정렬 정보는 없는 경우이므로 true
+          unsorted: true, // 정렬이 되어 있지 않으므로 true
+          sorted: false, // 정렬되지 않은 경우이므로 false
+        },
+      },
+      last: index === totalPages - 1, // 마지막 페이지 여부
+      totalPages, // 전체 페이지 수
+      size: pageSize, // 페이지당 데이터 개수
+      first: index === 0, // 첫 페이지 여부
+    };
+  },
+);
