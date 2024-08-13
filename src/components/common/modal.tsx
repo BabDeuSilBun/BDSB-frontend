@@ -7,6 +7,7 @@ import {
   HalfBtnLight,
   HalfBtnPurple,
 } from '@/styles/button';
+import { limitWordsPerLine } from '@/utils/descriptionFormatter';
 
 interface ModalProps {
   type: 'image' | 'text' | 'info';
@@ -18,7 +19,7 @@ interface ModalProps {
   address2?: string;
   openTime?: string;
   closeTime?: string;
-  closeDay?: string;
+  dayOfWeek?: string;
   buttonText?: string;
   buttonText1?: string;
   buttonText2?: string;
@@ -146,7 +147,7 @@ const Modal: React.FC<ModalProps> = ({
   address2,
   openTime,
   closeTime,
-  closeDay,
+  dayOfWeek,
   buttonText,
   buttonText1,
   buttonText2,
@@ -154,6 +155,8 @@ const Modal: React.FC<ModalProps> = ({
   onButtonClick2,
   onButtonClick3,
 }) => {
+  const formattedDescription = description ? limitWordsPerLine(description, 18) : '';
+  
   return (
     <ModalContainer>
       {type === 'image' && imageUrl && (
@@ -161,7 +164,7 @@ const Modal: React.FC<ModalProps> = ({
       )}
       <Title1>{title1}</Title1>
       <Title2>{title2}</Title2>
-      <Description>{description}</Description>
+      <Description dangerouslySetInnerHTML={{ __html: formattedDescription }} />
       {type === 'info' && (
         <Table>
           <tbody>
@@ -176,8 +179,8 @@ const Modal: React.FC<ModalProps> = ({
               </td>
             </tr>
             <tr>
-              <th>영업일</th>
-              <td>{closeDay}</td>
+              <th>휴무일</th>
+              <td>{dayOfWeek}</td>
             </tr>
           </tbody>
         </Table>

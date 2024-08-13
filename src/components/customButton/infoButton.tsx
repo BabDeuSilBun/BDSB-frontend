@@ -11,7 +11,7 @@ export default function InfoButton({ onClick }) {
       fontWeight="var(--font-regular)"
       leftIcon={<InfoIcon width={20} height={20} />}
       aria-label="Info"
-      color="black"
+      color="--text"
       borderColor="var(--gray300)"
       _hover={{
         bg: 'var(--gray100)',
