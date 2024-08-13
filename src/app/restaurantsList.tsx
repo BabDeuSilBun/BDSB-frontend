@@ -8,8 +8,8 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
 import CategoryItem from '@/components/listItems/categoryItem';
 import { getRestaurantsList } from '@/services/restaurantService';
-import BigRestaurantsItem from '@/components/listItems/bigRestaurantItem';
-import BigRestaurantItemSkeleton from '@/components/listItems/bigRestaurantItemSkeleton';
+import BigRestaurantItem from '@/components/listItems/bigRestaurantItem';
+import BigRestaurantItemSkeleton from '@/components/listItems/bigRestaurantSkeleton';
 
 const ListContainer = styled.section`
   margin: 124px 0 20px;
@@ -120,7 +120,7 @@ function RestaurantsList() {
                 key={item.storeId}
                 ref={index === page.content.length - 1 ? lastElementRef : null}
               >
-                <BigRestaurantsItem item={item} key={item.storeId} />
+                <BigRestaurantItem item={item} key={item.storeId} />
               </div>
             )),
           )}

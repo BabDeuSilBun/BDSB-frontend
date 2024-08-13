@@ -11,8 +11,8 @@ import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
 import { getTeamOrderList } from '@/services/teamOrderService';
 import { MeetingsResponse } from '@/types/coreTypes';
 
-import ImminentOrderSkeleton from '@/components/listItems/imminentOrderSkeletonItem';
-import TeamOrderSkeletonItem from '@/components/listItems/teamOrderSkeletonItem';
+import ImminentOrderSkeleton from '@/components/listItems/imminentOrderSkeleton';
+import TeamOrderSkeleton from '@/components/listItems/teamOrderSkeleton';
 
 // Styled Components
 const ListContainer = styled.section`
@@ -171,11 +171,11 @@ function TeamOrderList() {
 
         {status === 'pending' && (
           <>
-            <TeamOrderSkeletonItem />
-            <TeamOrderSkeletonItem />
-            <TeamOrderSkeletonItem />
-            <TeamOrderSkeletonItem />
-            <TeamOrderSkeletonItem />
+            <TeamOrderSkeleton />
+            <TeamOrderSkeleton />
+            <TeamOrderSkeleton />
+            <TeamOrderSkeleton />
+            <TeamOrderSkeleton />
           </>
         )}
         {status === 'error' && <p>Error: {error.message}</p>}

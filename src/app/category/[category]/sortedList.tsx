@@ -7,9 +7,9 @@ import { Divider } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getRestaurantsList } from '@/services/restaurantService';
-import RestaurantsItem from '@/components/listItems/restaurantsItem';
+import RestaurantsItem from '@/components/listItems/restaurantItem';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
-import TeamOrderSkeletonItem from '@/components/listItems/teamOrderSkeletonItem';
+import TeamOrderSkeletonItem from '@/components/listItems/restaurantSkeleton';
 
 const ListContainer = styled.section`
   margin: 100px 0 20px;

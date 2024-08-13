@@ -10,7 +10,7 @@ const FlexItem = styled.div`
   flex: 1;
 `;
 
-const TeamOrderSkeletonItem = () => {
+const RestaurantSkeleton = () => {
   return (
     <Flexbox>
       <Skeleton width="80px" height="96px" my="4" mr="3" borderRadius="lg" />
@@ -30,4 +30,4 @@ const TeamOrderSkeletonItem = () => {
   );
 };
 
-export default TeamOrderSkeletonItem;
+export default RestaurantSkeleton;
