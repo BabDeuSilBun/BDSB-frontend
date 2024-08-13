@@ -14,7 +14,7 @@ export const stores: RestaurantType[] = [
     description:
       '신선한 재료로 만든 정통 피자를 제공합니다. 다양한 토핑과 사이드 메뉴가 준비되어 있습니다.',
     minPurchasePrice: 15000,
-    deliveryTime: '30분~45분',
+    deliveryTimeRange: '30분~45분',
     deliveryPrice: 3000,
     address: {
       postal: '12345',
@@ -39,7 +39,7 @@ export const stores: RestaurantType[] = [
     description:
       '정통 일본식 스시와 사시미를 제공합니다. 신선한 재료와 정성이 담긴 요리.',
     minPurchasePrice: 20000,
-    deliveryTime: '20분~40분',
+    deliveryTimeRange: '20분~40분',
     deliveryPrice: 4000,
     address: {
       postal: '54321',
@@ -63,7 +63,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '전통 한식을 현대적으로 재해석한 메뉴를 제공합니다.',
     minPurchasePrice: 18000,
-    deliveryTime: '35분~50분',
+    deliveryTimeRange: '35분~50분',
     deliveryPrice: 3500,
     address: {
       postal: '67890',
@@ -88,7 +88,7 @@ export const stores: RestaurantType[] = [
     description:
       '다양한 빵과 디저트를 제공합니다. 아침 식사와 간식으로 좋은 선택.',
     minPurchasePrice: 8000,
-    deliveryTime: '25분~40분',
+    deliveryTimeRange: '25분~40분',
     deliveryPrice: 2500,
     address: {
       postal: '23456',
@@ -112,7 +112,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '버거와 프라이, 음료를 제공하는 패스트푸드 레스토랑.',
     minPurchasePrice: 10000,
-    deliveryTime: '20분~45분',
+    deliveryTimeRange: '20분~45분',
     deliveryPrice: 2000,
     address: {
       postal: '34567',
@@ -136,7 +136,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '중국 전통 요리를 현대적으로 변형하여 제공합니다.',
     minPurchasePrice: 15000,
-    deliveryTime: '30분~40분',
+    deliveryTimeRange: '30분~40분',
     deliveryPrice: 3000,
     address: {
       postal: '45678',
@@ -161,7 +161,7 @@ export const stores: RestaurantType[] = [
     description:
       '신선한 해산물 요리를 제공합니다. 해산물 애호가를 위한 최고의 선택.',
     minPurchasePrice: 25000,
-    deliveryTime: '40분~60분',
+    deliveryTimeRange: '40분~60분',
     deliveryPrice: 4000,
     address: {
       postal: '56789',
@@ -185,7 +185,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '매콤한 떡볶이와 다양한 길거리 음식을 제공합니다.',
     minPurchasePrice: 10000,
-    deliveryTime: '20분~40분',
+    deliveryTimeRange: '20분~40분',
     deliveryPrice: 2000,
     address: {
       postal: '67890',
@@ -209,7 +209,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '다양한 종류의 파스타를 제공합니다.',
     minPurchasePrice: 15000,
-    deliveryTime: '30분~50분',
+    deliveryTimeRange: '30분~50분',
     deliveryPrice: 3000,
     address: {
       postal: '45670',
@@ -233,7 +233,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '다양한 브런치 메뉴와 커피를 제공합니다.',
     minPurchasePrice: 12000,
-    deliveryTime: '20분~30분',
+    deliveryTimeRange: '20분~30분',
     deliveryPrice: 2000,
     address: {
       postal: '89012',
@@ -257,7 +257,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '진정한 미국식 바비큐를 경험하세요.',
     minPurchasePrice: 25000,
-    deliveryTime: '45분~50분',
+    deliveryTimeRange: '45분~50분',
     deliveryPrice: 5000,
     address: {
       postal: '90123',
@@ -281,7 +281,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '정통 프랑스 요리를 제공합니다.',
     minPurchasePrice: 30000,
-    deliveryTime: '50분~60분',
+    deliveryTimeRange: '50분~60분',
     deliveryPrice: 6000,
     address: {
       postal: '01234',
@@ -305,7 +305,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '비건 및 채식 메뉴를 제공합니다.',
     minPurchasePrice: 15000,
-    deliveryTime: '30분~50분',
+    deliveryTimeRange: '30분~50분',
     deliveryPrice: 3000,
     address: {
       postal: '12340',
@@ -329,7 +329,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '다양한 디저트와 음료를 제공합니다.',
     minPurchasePrice: 10000,
-    deliveryTime: '25분~60분',
+    deliveryTimeRange: '25분~60분',
     deliveryPrice: 2500,
     address: {
       postal: '23450',
@@ -353,7 +353,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '정통 한우 갈비를 제공합니다.',
     minPurchasePrice: 30000,
-    deliveryTime: '50분~75분',
+    deliveryTimeRange: '50분~75분',
     deliveryPrice: 5000,
     address: {
       postal: '34560',
@@ -377,7 +377,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '한식을 퓨전 스타일로 재해석한 요리들을 제공합니다.',
     minPurchasePrice: 20000,
-    deliveryTime: '30분~35분',
+    deliveryTimeRange: '30분~35분',
     deliveryPrice: 3500,
     address: {
       postal: '78901',
@@ -401,7 +401,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '인도 및 일본식 커리를 제공합니다.',
     minPurchasePrice: 16000,
-    deliveryTime: '35분~50분',
+    deliveryTimeRange: '35분~50분',
     deliveryPrice: 3500,
     address: {
       postal: '56780',
@@ -425,7 +425,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '동남아시아의 다양한 요리를 제공합니다.',
     minPurchasePrice: 17000,
-    deliveryTime: '40분~60분',
+    deliveryTimeRange: '40분~60분',
     deliveryPrice: 4000,
     address: {
       postal: '67891',
@@ -449,7 +449,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '프리미엄 스테이크와 사이드 메뉴를 제공합니다.',
     minPurchasePrice: 25000,
-    deliveryTime: '45분~75분',
+    deliveryTimeRange: '45분~75분',
     deliveryPrice: 5000,
     address: {
       postal: '78912',
@@ -473,7 +473,7 @@ export const stores: RestaurantType[] = [
     ],
     description: '다양한 샐러드와 건강식을 제공합니다.',
     minPurchasePrice: 12000,
-    deliveryTime: '20분~40분',
+    deliveryTimeRange: '20분~40분',
     deliveryPrice: 2000,
     address: {
       postal: '89013',
