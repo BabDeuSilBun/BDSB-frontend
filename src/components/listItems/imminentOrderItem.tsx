@@ -87,7 +87,7 @@ const OrderTypeText = styled.p`
   color: var(--primary);
 `;
 
-const ImminentItem: React.FC<{ item: MeetingType }> = ({ item }) => {
+const ImminentOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   const { time: remainingTime, isCritical } = useRemainingTime(
     item.paymentAvailableAt,
   );
@@ -139,4 +139,4 @@ const imageToShow = item.image && item.image.length > 0 ? item.image[0] : null;
   );
 };
 
-export default ImminentItem;
+export default ImminentOrderItem;

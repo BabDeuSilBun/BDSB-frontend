@@ -52,7 +52,7 @@ const InfoTitle = styled.span`
   margin-right: 0.3rem;
 `;
 
-const RestaurantsItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
+const RestaurantItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
   const router = useRouter();
 
   const deliveryPrice = formatCurrency(item.deliveryPrice);
@@ -110,4 +110,4 @@ const imageToShow = item.images && item.images.length > 0
   );
 };
 
-export default RestaurantsItem;
+export default RestaurantItem;

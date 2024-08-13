@@ -1,4 +1,4 @@
-import { Skeleton, Box } from '@chakra-ui/react';
+import { Skeleton } from '@chakra-ui/react';
 import styled from 'styled-components';
 
 const Flexbox = styled.div`
@@ -10,7 +10,7 @@ const FlexItem = styled.div`
   flex: 1;
 `;
 
-const TeamOrderSkeletonItem = () => {
+const TeamOrderSkeleton = () => {
   return (
     <Flexbox>
       <Skeleton width="80px" height="96px" my="4" mr="3" borderRadius="lg" />
@@ -30,4 +30,4 @@ const TeamOrderSkeletonItem = () => {
   );
 };
 
-export default TeamOrderSkeletonItem;
+export default TeamOrderSkeleton;

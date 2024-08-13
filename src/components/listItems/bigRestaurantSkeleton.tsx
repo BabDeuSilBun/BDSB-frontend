@@ -1,7 +1,7 @@
 import { Skeleton } from '@chakra-ui/react';
 import { Box } from '@chakra-ui/react';
 
-const BigRestaurantItemSkeleton = () => {
+const BigRestaurantSkeleton = () => {
   return (
     <>
       <Skeleton height="140px" m="4" mb="0" borderTopRadius="lg" />
@@ -19,4 +19,4 @@ const BigRestaurantItemSkeleton = () => {
   );
 };
 
-export default BigRestaurantItemSkeleton;
+export default BigRestaurantSkeleton;
