@@ -15,7 +15,7 @@ const HeaderContainer = styled.header`
   z-index: 1000;
   width: inherit;
   box-shadow: 1.48px 1.48px 7px var(--shadow);
-  padding: 0rem 1rem;
+  padding: 0 1rem;
 `;
 
 const UpperContainer = styled.div`
@@ -74,7 +74,7 @@ const MainHeader = () => {
   };
 
   const handleSearchButtonClick = () => {
-    console.log('Search button clicked');
+    router.push(`/search/${selectedMenu}`);
   };
 
   const handleMenuClick = (menu: string) => {

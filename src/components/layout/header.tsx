@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({
   buttonRight,
   buttonRightSecondary,
   iconColor = 'var(--gray500)', // Default color
-  iconSize = 24, // Default size
+  iconSize, // Default size
   text,
   onExit,
 }) => {
