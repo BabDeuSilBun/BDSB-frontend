@@ -56,37 +56,7 @@
   --breakpoint-desktop: 1024px; /* min-width for desktops */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Main colors */
-    --primary: #6f6cf6; /* Same as purple400 */
-    --secondary: #141414; /* Same as purple100 */
-    --background: #2c3138; /* Same as gray100 */
-    --text: #f8f8f8;
 
-    /* Grayscale */
-    --gray100: #2c3138;
-    --gray200: #363841;
-    --gray300: #757880;
-    --gray400: #b4bac6;
-    --gray500: #dde1e8;
-
-    /* Purple scale */
-    --purple100: #141414;
-    --purple200: #282828;
-    --purple300: #8d8bfb;
-    --purple400: #6f6cf6;
-    --purple500: #6851f5;
-
-    /* Additional colors */
-    --error: #ff6a62; /* Red */
-    --shadow: rgba(255, 255, 255, 0.3); /* Shadow color */
-  }
-
-  html {
-    color-scheme: dark;
-  }
-}
 
 @font-face {
   font-family: 'SUIT';
