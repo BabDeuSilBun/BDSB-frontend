@@ -45,19 +45,11 @@ const SideContainer = styled.div`
   ${({ side }) => side}: 1.5rem;
   display: flex;
   align-items: center;
-`;
-
-const RightButtonsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-`;
-
-const PortalButtonWrapper = styled.div`
-  position: fixed;
-  top: 1.4rem;
-  left: 1rem;
-  z-index: 2000;
+  gap: 1rem;
+  white-space: nowrap;
+  button {
+  flex-shrink: 0;
+  }
 `;
 
 const Title = styled.h1`
@@ -65,6 +57,9 @@ const Title = styled.h1`
   font-size: var(--font-size-md);
   font-weight: var(--font-semi-bold);
   color: var(--text);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 interface HeaderProps {
@@ -73,6 +68,7 @@ interface HeaderProps {
   buttonRightSecondary?: 'cart' | undefined;
   iconColor?: string;
   iconSize?: number;
+  rightIconSize?: number; 
   text?: string;
   onExit?: () => void;
 }
@@ -82,7 +78,8 @@ const Header: React.FC<HeaderProps> = ({
   buttonRight,
   buttonRightSecondary,
   iconColor = 'var(--gray500)', // Default color
-  iconSize = 20, // Default size
+  iconSize = 18, // Default size
+  rightIconSize = 24, // Default size
   text,
   onExit,
 }) => {
@@ -123,12 +120,12 @@ const Header: React.FC<HeaderProps> = ({
         <SideContainer side="right">
           {buttonRight && (
             <button type="button" onClick={handleRightButtonClick}>
-              {Icons[buttonRight](iconColor, iconSize)}
+              {Icons[buttonRight](iconColor, rightIconSize)}
             </button>
           )}
           {buttonRightSecondary && (
             <button type="button" onClick={handleRightSecondaryButtonClick}>
-              {Icons[buttonRightSecondary](iconColor, iconSize)}
+              {Icons[buttonRightSecondary](iconColor, rightIconSize)}
             </button>
           )}
         </SideContainer>
