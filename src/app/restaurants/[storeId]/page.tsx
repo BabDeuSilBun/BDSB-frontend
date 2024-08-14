@@ -36,7 +36,7 @@ const TitleContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding: var(--spacing-sm) 0 0 0;
+  padding-top: var(--spacing-sm);
 `;
 
 const Title = styled.h1`
@@ -219,7 +219,7 @@ const StorePage = () => {
           buttonRight="home" 
           buttonRightSecondary="cart"
           iconColor="white"
-          iconSize={24}
+          iconSize={18}
         />
       </HeaderContainer>
       <Carousel images={store.images} />
