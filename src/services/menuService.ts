@@ -1,6 +1,6 @@
 import { GetListParams, MenusResponse, MenuType } from '@/types/coreTypes';
 
-import apiClient from './apiClient';
+import { apiClient } from './apiClient';
 
 export const MENU_LIST_API_URL = '/api/stores/{storeId}/menus';
 const MENU_API_URL = '/api/stores/{storeId}/menus/{menuId}';
@@ -31,12 +31,12 @@ export const getMenuList = async ({
 
 export const getMenuInfo = async (
   storeId: number,
-  menuId: number
+  menuId: number,
 ): Promise<MenuType> => {
   try {
     const url = MENU_API_URL.replace('{storeId}', storeId.toString()).replace(
       '{menuId}',
-      menuId.toString()
+      menuId.toString(),
     );
     const response = await apiClient.get<MenuType>(url);
     return response.data;

@@ -6,6 +6,9 @@ import Link from 'next/link';
 import { useState, FormEvent } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { setAuthToken } from '@/services/apiClient';
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const Form = styled.form`
   margin-top: 1.2rem;
@@ -50,6 +53,9 @@ export default function SignInForm() {
     if (email.trim() === '') {
       setError('이메일을 입력해주세요.');
       return;
+    } else if (!emailRegex.test(email)) {
+      setError('유효한 이메일 주소를 입력해주세요.');
+      return;
     } else if (password.trim() === '') {
       setError('비밀번호를 입력해주세요.');
       return;
@@ -57,32 +63,23 @@ export default function SignInForm() {
       setError('');
     }
 
-    // 나중에 활성할 부분 (백엔드에게 보냄)
-    // try {
-    //   const response = await axios.post('/api/auth/signin', {
-    //     email: email,
-    //     password: password,
-    //   });
-
-    //   const { accessToken, refreshToken } = response.data;
-
-    //   localStorage.setItem('accessToken', accessToken);
-    //   localStorage.setItem('refreshToken', refreshToken);
-    //   router.push('/');
-    // } catch (error) {
-    //   console.error('로그인 오류:', error);
-    // }
-
     // 임시로 사용할 토큰 값 설정
     const accessToken = 'dummyAccessToken123';
-    const refreshToken = 'dummyRefreshToken456';
 
-    // JWT 토큰을 로컬 스토리지에 저장
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
+    try {
+      // const response = await axios.post('/api/auth/signin', {
+      //   email: email,
+      //   password: password,
+      // });
 
-    // 로그인 성공 후, 리디렉션
-    router.push('/');
+      // 나중에 활성할 부분 (백엔드에게 보냄)
+      // const { accessToken } = response.data;
+      setAuthToken(accessToken);
+
+      router.push('/');
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -90,16 +87,18 @@ export default function SignInForm() {
       <Form>
         {Error && <ErrorMessage>{Error}</ErrorMessage>}
         <input
-          type="text"
+          type="email"
           placeholder="이메일"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
         <input
           type="password"
           placeholder="비밀번호"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
         <BaseBtn onClick={handleBtnClick}>로그인</BaseBtn>
       </Form>
