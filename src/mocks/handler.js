@@ -4,7 +4,7 @@ import { RESTAURANT_LIST_API_URL } from '@/services/restaurantService';
 import { MENU_LIST_API_URL } from '@/services/menuService';
 import { applyFiltersAndSorting } from './filteringAndSorting';
 import { paginatedStores, stores } from './mockData/restaurants';
-import { paginatedMeetings } from './mockData/meetings';
+import { paginatedMeetings, meetings } from './mockData/meetings';
 import { paginatedMenus, menus } from './mockData/menus';
 
 export const handler = [
@@ -88,6 +88,16 @@ export const handler = [
       console.error('Error parsing URL:', error);
       return HttpResponse.status(500).json({ message: 'Error parsing URL' });
     }
+  }),
+
+  // Handler for fetching specific team order info by meetingId
+  http.get('/api/users/meetings/:meetingId', (req) => {
+    const meetingId = Number(req.params.meetingId);
+    const meeting = meetings.find((m) => m.meetingId === meetingId);
+    if (meeting) {
+      return HttpResponse.json(meeting);
+    }
+    return HttpResponse.status(404).json({ message: 'Meeting not found' });
   }),
 
   // Handler for fetching meeting headcount
