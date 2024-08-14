@@ -52,7 +52,7 @@ export interface MeetingType extends CommonType {
   metAddress?: MetAddress;
   deliveredAt?: string;
   status?: string;
-  remarks?: string;
+  description?: string;
 }
 
 export interface MenuType extends CommonType {
