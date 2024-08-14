@@ -39,12 +39,6 @@ const ImageWrapper = styled.div`
   background-color: var(--gray200);
 `;
 
-const TitleImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
 const InfoContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -196,16 +190,16 @@ const TeamOrderPage = () => {
   return (
     <div>
       <HeaderContainer>
-        <Header buttonLeft="back" iconSize={18} text="교촌치킨 00동 1호점" />
+        <Header buttonLeft="back" text="교촌치킨 00동 1호점" />
       </HeaderContainer>
       <ImageContainer>
         <ImageWrapper>
-          <TitleImage
+          <Image
             src={meeting.images[0].url}
             alt={meeting.storeName}
-            layout="fill"
-            sizes="50vw"
-            priority="true"
+            fill
+            style={{ objectFit: 'cover' }}
+            priority
           />
         </ImageWrapper>
       </ImageContainer>

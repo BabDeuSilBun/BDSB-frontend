@@ -16,9 +16,6 @@ import MenuItem from '@/components/listItems/menuItem';
 import Footer from '@/components/layout/footer';
 import Modal from '@/components/common/modal';
 import styled from 'styled-components';
-import BackIconWhite from '@/components/svg/arrowLeftWhite';
-import HomeIconWhite from '@/components/svg/homeWhite';
-import CartIconWhite from '@/components/svg/cartWhite';
 import { Divider } from '@chakra-ui/react';
 import { formatCurrency } from '@/utils/currencyFormatter';
 
@@ -107,7 +104,7 @@ const StorePage = () => {
 
   const observer = useRef<IntersectionObserver | null>(null);
   const lastElementRef = useRef<HTMLDivElement | null>(null);
-  
+
   // Fetch store information
   const {
     data: store,
@@ -129,7 +126,7 @@ const StorePage = () => {
     isError: isErrorMenus,
   } = useInfiniteQuery({
     queryKey: ['menuList', storeId],
-    queryFn: ({ pageParam = 0 }) => 
+    queryFn: ({ pageParam = 0 }) =>
       getMenuList({ storeId: Number(storeId), page: pageParam }),
     getNextPageParam: (lastPage) => {
       return lastPage.last ? undefined : lastPage.pageable?.pageNumber + 1;
@@ -184,16 +181,16 @@ const StorePage = () => {
       setSelectedMenu(null);
     }
   };
-  
+
   const closeModal = () => {
     setActiveModal(null);
     setSelectedMenu(null);
   };
-  
+
   const handleInfoButtonClick = () => {
     setActiveModal('infoModal');
   };
-  
+
   useEffect(() => {
     const contextParam = searchParams.get('context');
     setContext(contextParam);
@@ -202,45 +199,46 @@ const StorePage = () => {
   if (isLoadingStore || isLoadingMenus) {
     return <Loading />;
   }
-  
+
   if (isErrorStore) {
     return <p>Error loading restaurant data</p>;
   }
-  
+
   if (isErrorMenus) {
     return <p>Error loading menu data</p>;
   }
-  
+
   return (
     <div>
       <HeaderContainer>
-        <Header 
-          buttonLeft="back" 
-          buttonRight="home" 
+        <Header
+          buttonLeft="back"
+          buttonRight="home"
           buttonRightSecondary="cart"
           iconColor="white"
-          iconSize={18}
         />
       </HeaderContainer>
       <Carousel images={store.images} />
       <TitleContainer>
-          <Title>{store.name}</Title>
+        <Title>{store.name}</Title>
       </TitleContainer>
       <ButtonContainer>
         <CallButton phoneNumber={store.phoneNumber || 'N/A'} />
         <InfoButton onClick={handleInfoButtonClick} />
       </ButtonContainer>
-      <Divider 
-        orientation="horizontal" 
-        sx={{ 
+      <Divider
+        orientation="horizontal"
+        sx={{
           borderWidth: '1px',
-          borderColor: 'var(--gray100)'
-        }} 
+          borderColor: 'var(--gray100)',
+        }}
       />
       <InfoContainer>
         <InfoRow>
           <InfoTitle>배달비</InfoTitle>
-          <InfoDescription>{formatCurrency(store.deliveryPrice)}</InfoDescription>
+          <InfoDescription>
+            {formatCurrency(store.deliveryPrice)}
+          </InfoDescription>
         </InfoRow>
         <InfoRow>
           <InfoTitle>배달 시간</InfoTitle>
@@ -249,24 +247,26 @@ const StorePage = () => {
         <InfoBoxContainer>
           <InfoBox
             textItems={[
-              { 
-                text: '평균 도착 시간으로, 실제 도착 시간과 차이가 생길 수 있어요.', 
+              {
+                text: '평균 도착 시간으로, 실제 도착 시간과 차이가 생길 수 있어요.',
                 $textStyle: 'CenteredText',
-              }
+              },
             ]}
             width="10rem"
           />
         </InfoBoxContainer>
         <InfoRow>
           <InfoTitle>최소주문금액</InfoTitle>
-          <InfoDescription>{formatCurrency(store.minPurchasePrice)}</InfoDescription>
+          <InfoDescription>
+            {formatCurrency(store.minPurchasePrice)}
+          </InfoDescription>
         </InfoRow>
       </InfoContainer>
-      <Divider 
-        sx={{ 
+      <Divider
+        sx={{
           borderWidth: '5px',
-          borderColor: 'var(--gray100)'
-        }} 
+          borderColor: 'var(--gray100)',
+        }}
       />
 
       {/* Context-specific code */}
@@ -279,7 +279,9 @@ const StorePage = () => {
                   <div
                     key={menuItem.menuId}
                     ref={
-                      pageIndex === menus.pages.length - 1 && index === page.content.length - 1 && hasNextPage
+                      pageIndex === menus.pages.length - 1 &&
+                      index === page.content.length - 1 &&
+                      hasNextPage
                         ? lastElementRef
                         : null
                     }
@@ -293,7 +295,7 @@ const StorePage = () => {
                     />
                   </div>
                 )),
-            )}
+              )}
             </MenuItemContainer>
             <Footer type="button" buttonText="모임 만들기" />
           </div>
@@ -307,7 +309,9 @@ const StorePage = () => {
                   <div
                     key={menuItem.menuId}
                     ref={
-                      pageIndex === menus.pages.length - 1 && index === page.content.length - 1 && hasNextPage
+                      pageIndex === menus.pages.length - 1 &&
+                      index === page.content.length - 1 &&
+                      hasNextPage
                         ? lastElementRef
                         : null
                     }
@@ -335,7 +339,9 @@ const StorePage = () => {
                   <div
                     key={menuItem.menuId}
                     ref={
-                      pageIndex === menus.pages.length - 1 && index === page.content.length - 1 && hasNextPage
+                      pageIndex === menus.pages.length - 1 &&
+                      index === page.content.length - 1 &&
+                      hasNextPage
                         ? lastElementRef
                         : null
                     }

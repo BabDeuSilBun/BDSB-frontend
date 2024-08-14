@@ -12,6 +12,7 @@ import GroupIcon from '../svg/group';
 const CardContainer = styled.div`
   display: flex;
   padding: 1rem 0;
+  cursor: pointer;
 `;
 
 // 이미지 컨테이너
@@ -98,8 +99,8 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   };
 
   return (
-    <CardContainer>
-      <ImageContainer onClick={handleClick}>
+    <CardContainer onClick={handleClick}>
+      <ImageContainer>
         {item.images[0] && (
           <Image
             src={item.images[0].url}
