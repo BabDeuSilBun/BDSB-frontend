@@ -18,24 +18,16 @@ interface MetAddress {
   metDetailAddress: string;
 }
 
-export interface MenuType {
-  menuId: number;
-  storeId: number;
-  name: string;
-  image: string;
-  description: string;
-  price: number;
-}
-
 export interface CommonType {
   storeId: number;
-  images: Image[]; 
+  image: string;
   deliveryTimeRange: string;
   category: string;
 }
 
 export interface RestaurantType extends CommonType {
   name: string;
+  images: Image[]; 
   deliveryPrice: number;
   minPurchasePrice: number;
   description?: string; // optional field for detail field
@@ -60,6 +52,15 @@ export interface MeetingType extends CommonType {
   metAddress?: MetAddress;
   deliveredAt?: string;
   status?: string;
+  description?: string;
+}
+
+export interface MenuType extends CommonType {
+  menuId: number;
+  storeId: number;
+  name: string;
+  description: string;
+  price: number;
 }
 
 interface Response {
