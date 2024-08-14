@@ -1,6 +1,7 @@
 'use client';
 
 import { ChakraProvider } from '@chakra-ui/react';
+import theme from '@/styles/theme';
 import {
   isServer,
   QueryClient,
@@ -38,7 +39,7 @@ function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ChakraProvider>{children}</ChakraProvider>
+      <ChakraProvider theme={theme}>{children}</ChakraProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

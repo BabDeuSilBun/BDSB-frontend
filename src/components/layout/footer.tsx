@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 import { BaseBtn, BaseBtnInactive, BtnGroup } from '@/styles/button';
 
-const FooterContainer = styled.footer`
+const FooterContainer = styled.footer<{ padding?: string }>`
   width: 100vw;
   position: fixed;
   bottom: 0px;
@@ -13,7 +13,8 @@ const FooterContainer = styled.footer`
   align-items: center;
   box-shadow: 1.48px 1.48px 7px var(--shadow);
   background-color: var(--background);
-  padding: ${({ padding }) => padding || '1.5rem'}; /* Default padding is 1.5rem */
+  padding: ${({ padding }) =>
+    padding || '1.5rem'}; /* Default padding is 1.5rem */
 `;
 
 interface FooterProps {
@@ -29,9 +30,9 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({
   type,
-  buttonText,
-  buttonText1,
-  buttonText2,
+  buttonText = 'Button', // 기본값 설정
+  buttonText1 = 'Button 1', // 기본값 설정
+  buttonText2 = 'Button 2', // 기본값 설정
   onButtonClick,
   onButtonClick1,
   onButtonClick2,
