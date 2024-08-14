@@ -3,7 +3,10 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { getTeamOrderInfo, getCurrentHeadCount } from '@/services/teamOrderService';
+import {
+  getTeamOrderInfo,
+  getCurrentHeadCount,
+} from '@/services/teamOrderService';
 import Loading from '@/app/loading';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -122,13 +125,13 @@ const MenuTable = styled.table`
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-  
+
   th,
   td {
     padding: var(--spacing-xs) var(--spacing-sm);
     vertical-align: top;
   }
-  
+
   th {
     font-size: var(--font-size-md); /* 16px */
     color: var(--text);
@@ -136,7 +139,7 @@ const MenuTable = styled.table`
     text-align: left;
     padding-left: var(--spacing-sm);
   }
-  
+
   td {
     font-size: var(--font-size-md); /* 16px */
     color: var(--text);
@@ -169,22 +172,23 @@ const TeamOrderPage = () => {
   });
 
   const {
-    data: headcount,
+    data: headCountData,
     isLoading: isLoadingHeadcount,
     isError: isErrorHeadcount,
   } = useQuery({
     queryKey: ['headcount', meetingId],
     queryFn: () => getCurrentHeadCount(Number(meetingId)),
+    initialData: { currentHeadCount: 0 },
   });
 
   const { time: remainingTime, $isCritical } = useRemainingTime(
-    meeting?.paymentAvailableAt || ''
+    meeting?.paymentAvailableAt || '',
   );
 
   if (isLoadingMeeting) {
     return <Loading />;
   }
-  
+
   if (isErrorMeeting) {
     return <p>Error loading meeting data</p>;
   }
@@ -192,16 +196,12 @@ const TeamOrderPage = () => {
   return (
     <div>
       <HeaderContainer>
-        <Header 
-          buttonLeft="back" 
-          iconSize={18}
-          text="교촌치킨 00동 1호점"
-        />
+        <Header buttonLeft="back" iconSize={18} text="교촌치킨 00동 1호점" />
       </HeaderContainer>
       <ImageContainer>
         <ImageWrapper>
           <TitleImage
-            src={meeting.image[0].url}
+            src={meeting.images[0].url}
             alt={meeting.storeName}
             layout="fill"
             sizes="50vw"
@@ -211,7 +211,9 @@ const TeamOrderPage = () => {
       </ImageContainer>
       <InfoContainer>
         <GroupIcon color="var(--primary)" width={18} height={18} />
-        <Text>{headcount.currentHeadCount}/{meeting.participantMax} (최소 {meeting.participantMin}명)</Text>
+        <Text>
+          {`${headCountData?.currentHeadCount}/${meeting.participantMax} (최소 ${meeting.participantMin}명)`}
+        </Text>
         <Divider
           orientation="vertical"
           sx={{
@@ -248,11 +250,16 @@ const TeamOrderPage = () => {
           <tbody>
             <tr>
               <th>배달 시기</th>
-              <td>{meeting.isEarlyPaymentAvailable ? '바로 주문' : '예약 주문'}</td>
+              <td>
+                {meeting.isEarlyPaymentAvailable ? '바로 주문' : '예약 주문'}
+              </td>
             </tr>
             <tr>
               <th>모임 장소</th>
-              <td>{meeting.metAddress.metStreetAddress} {meeting.metAddress.metDetailAddress}</td>
+              <td>
+                {meeting.metAddress.metStreetAddress}{' '}
+                {meeting.metAddress.metDetailAddress}
+              </td>
             </tr>
             <tr>
               <th>배송비</th>
@@ -291,8 +298,8 @@ const TeamOrderPage = () => {
       )}
 
       <FooterText>최소 주문 금액까지 0000원 남았어요!</FooterText>
-      <Footer 
-        type="button" 
+      <Footer
+        type="button"
         buttonText="모임 참여하기"
         padding="3rem 1.5rem 1.5rem"
       />

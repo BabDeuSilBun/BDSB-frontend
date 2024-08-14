@@ -20,23 +20,22 @@ interface MetAddress {
 
 export interface CommonType {
   storeId: number;
-  image: string;
+  images: Image[];
   deliveryTimeRange: string;
   category: string;
 }
 
 export interface RestaurantType extends CommonType {
   name: string;
-  images: Image[]; 
   deliveryPrice: number;
   minPurchasePrice: number;
-  description?: string; // optional field for detail field
-  entrepreneur_id?: number; // optional field for detail field
-  address?: Address; // optional field for detail field
-  phoneNumber?: string; // optional field for detail field
-  openTime?: string; // optional field for detail field
-  closeTime?: string; // optional field for detail field
-  dayOfWeek?: string; // optional field for detail field
+  description?: string;
+  entrepreneur_id?: number;
+  address?: Address;
+  phoneNumber?: string;
+  openTime?: string;
+  closeTime?: string;
+  dayOfWeek?: string;
 }
 
 export interface MeetingType extends CommonType {
