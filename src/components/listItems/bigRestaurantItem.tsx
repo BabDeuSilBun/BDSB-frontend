@@ -9,7 +9,7 @@ import { formatCurrency } from '@/utils/currencyFormatter';
 // 카드 레이아웃 컨테이너
 const CardContainer = styled.div`
   margin: 1rem;
-  background-color: white;
+  background-color: var(--background);
   box-shadow: 1.48px 1.48px 7px var(--shadow);
   border-radius: var(--border-radius-default);
   overflow: hidden;
@@ -65,18 +65,15 @@ const BigRestaurantItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
     router.push(`/restaurants/${item.storeId}?context=leaderBefore`);
   };
 
-// Find the representative image or use the first one
-const imageToShow = item.image && item.image.length > 0
-  ? item.image.find(img => img.isRepresentative) || item.image[0]
-  : null;
+  const representativeImage = item.images.find((img) => img.isRepresentative);
 
   return (
     <CardContainer onClick={handleClick}>
       <ImageContainer>
-        {imageToShow && (
+        {representativeImage && (
           <Image
-            src={imageToShow.url}
-            alt="Store Image"
+            src={representativeImage.url}
+            alt="Restaurant Image"
             fill
             sizes="50vw"
             style={{ objectFit: 'cover' }}

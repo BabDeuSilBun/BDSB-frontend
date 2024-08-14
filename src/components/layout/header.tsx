@@ -27,7 +27,7 @@ const Icons = {
 
 const HeaderContainer = styled.header`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   background-color: var(--background);
   align-items: center;
   position: fixed;
@@ -38,17 +38,28 @@ const HeaderContainer = styled.header`
   padding: 1.5rem;
 `;
 
-const RightButtonsContainer = styled.div`
+const SideContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  ${({ side }) => side}: 1.5rem;
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: 1rem;
+  white-space: nowrap;
+  button {
+  flex-shrink: 0;
+  }
 `;
 
-const PortalButtonWrapper = styled.div`
-  position: fixed;
-  top: 1.4rem;
-  left: 1rem;
-  z-index: 2000;
+const Title = styled.h1`
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-semi-bold);
+  color: var(--text);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 interface HeaderProps {
@@ -57,6 +68,7 @@ interface HeaderProps {
   buttonRightSecondary?: 'cart' | undefined;
   iconColor?: string;
   iconSize?: number;
+  rightIconSize?: number; 
   text?: string;
   onExit?: () => void;
 }
@@ -66,7 +78,8 @@ const Header: React.FC<HeaderProps> = ({
   buttonRight,
   buttonRightSecondary,
   iconColor = 'var(--gray500)', // Default color
-  iconSize = 20, // Default size
+  iconSize = 18, // Default size
+  rightIconSize = 24, // Default size
   text,
   onExit,
 }) => {
@@ -96,25 +109,26 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <>
       <HeaderContainer>
-        <HeaderDrawer onToggle={onToggle} $isOpen={isOpen} />
-        <button type="button" onClick={handleLeftButtonClick}>
-          {buttonLeft &&
-            buttonLeft !== 'hamburger' &&
-            Icons[buttonLeft](iconColor, iconSize)}
-        </button>
-        <h1>{text}</h1>
-        <RightButtonsContainer>
+        <SideContainer side="left">
+          {buttonLeft && (
+            <button type="button" onClick={handleLeftButtonClick}>
+              {Icons[buttonLeft](iconColor, iconSize)}
+            </button>
+          )}
+        </SideContainer>
+        <Title>{text}</Title>
+        <SideContainer side="right">
           {buttonRight && (
             <button type="button" onClick={handleRightButtonClick}>
-              {Icons[buttonRight](iconColor, iconSize)}
+              {Icons[buttonRight](iconColor, rightIconSize)}
             </button>
           )}
           {buttonRightSecondary && (
             <button type="button" onClick={handleRightSecondaryButtonClick}>
-              {Icons[buttonRightSecondary](iconColor, iconSize)}
+              {Icons[buttonRightSecondary](iconColor, rightIconSize)}
             </button>
           )}
-        </RightButtonsContainer>
+        </SideContainer>
       </HeaderContainer>
       {buttonLeft === 'hamburger' && (
         <Portal>

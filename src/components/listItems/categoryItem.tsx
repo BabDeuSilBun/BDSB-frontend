@@ -33,6 +33,7 @@ const ImageWrapper = styled.div`
 
 const CategoryName = styled.p`
   font-size: var(--font-size-xs);
+  color: var(--text);
 `;
 
 function CategoryItem() {

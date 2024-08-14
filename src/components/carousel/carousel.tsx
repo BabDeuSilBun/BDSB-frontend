@@ -13,6 +13,15 @@ export default function Carousel({ images }) {
   const top = '50%';
   const side = '10px';
 
+  const representativeImage = images.find((img) => img.isRepresentative);
+  const sortedImages = images
+    .filter((img) => !img.isRepresentative)
+    .sort((a, b) => a.imageId - b.imageId);
+  
+  const orderedImages = representativeImage
+  ? [representativeImage, ...sortedImages]
+  : sortedImages;
+
   const settings = {
     dots: false,
     arrows: false,
@@ -104,7 +113,7 @@ export default function Carousel({ images }) {
           beforeChange={settings.beforeChange}
           ref={(sliderRef) => setSlider(sliderRef)}
         >
-          {images.map((image) => (
+          {orderedImages.map((image) => (
             <Box
               key={image.imageId}
               height="324px"

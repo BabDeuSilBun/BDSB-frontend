@@ -59,23 +59,21 @@ const RestaurantItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
   const minPurchasePrice = formatCurrency(item.minPurchasePrice);
 
   const handleClick = () => {
-    router.push(`/restaurants/${item.storeId}`);
+    router.push(`/restaurants/${item.storeId}?context=leaderBefore`);
   };
 
-// Find the representative image or use the first one
-const imageToShow = item.images && item.images.length > 0
-  ? item.images.find(img => img.isRepresentative) || item.images[0]
-  : null;
+  const representativeImage = item.images.find(img => img.isRepresentative);
 
   return (
     <CardContainer>
       <ImageContainer onClick={handleClick}>
-        {imageToShow && (
+        {representativeImage && (
           <Image
-            src={imageToShow.url}
-            alt="restaurant Image"
+            src={representativeImage.url}
+            alt="Restaurant Image"
             fill
             style={{ objectFit: 'cover' }}
+            priority="true"
           />
         )}
       </ImageContainer>

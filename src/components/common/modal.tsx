@@ -33,6 +33,19 @@ const mediaQueries = {
   desktop: `@media (min-width: var(--breakpoint-desktop))`,
 };
 
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+`;
+
 const ModalContainer = styled.div`
   width: 90%;
   max-width: 20.5rem; /* 328px in 360px mobile screen */
@@ -48,7 +61,7 @@ const ModalContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1000;
+  z-index: 1002;
   ${mediaQueries.tablet} {
     max-width: 25rem; /* Slightly larger modal for tablets */
   }
@@ -158,44 +171,46 @@ const Modal: React.FC<ModalProps> = ({
   const formattedDescription = description ? limitWordsPerLine(description, 18) : '';
   
   return (
-    <ModalContainer>
-      {type === 'image' && imageUrl && (
-        <Image src={imageUrl} alt={title1} sizes="50vw" />
-      )}
-      <Title1>{title1}</Title1>
-      <Title2>{title2}</Title2>
-      <Description dangerouslySetInnerHTML={{ __html: formattedDescription }} />
-      {type === 'info' && (
-        <Table>
-          <tbody>
-            <tr>
-              <th>주소</th>
-              <td>{`${address1} ${address2}`}</td>
-            </tr>
-            <tr>
-              <th>운영시간</th>
-              <td>
-                {openTime} ~ {closeTime}
-              </td>
-            </tr>
-            <tr>
-              <th>휴무일</th>
-              <td>{dayOfWeek}</td>
-            </tr>
-          </tbody>
-        </Table>
-      )}
-      {type === 'text' || type === 'image' ? (
-        <BtnGroup>
-          <HalfBtnPurple onClick={onButtonClick1}>{buttonText1}</HalfBtnPurple>
-          <HalfBtnLight onClick={onButtonClick2}>{buttonText2}</HalfBtnLight>
-        </BtnGroup>
-      ) : (
-        <BaseBtn onClick={onButtonClick3} style={{ width: '17.625rem' }}>
-          {buttonText}
-        </BaseBtn> /* 282px in 360px mobile screen */
-      )}
-    </ModalContainer>
+    <ModalOverlay>
+      <ModalContainer>
+        {type === 'image' && imageUrl && (
+          <Image src={imageUrl} alt={title1} sizes="50vw" />
+        )}
+        <Title1>{title1}</Title1>
+        <Title2>{title2}</Title2>
+        <Description dangerouslySetInnerHTML={{ __html: formattedDescription }} />
+        {type === 'info' && (
+          <Table>
+            <tbody>
+              <tr>
+                <th>주소</th>
+                <td>{`${address1} ${address2}`}</td>
+              </tr>
+              <tr>
+                <th>운영시간</th>
+                <td>
+                  {openTime} ~ {closeTime}
+                </td>
+              </tr>
+              <tr>
+                <th>휴무일</th>
+                <td>{dayOfWeek}</td>
+              </tr>
+            </tbody>
+          </Table>
+        )}
+        {type === 'text' || type === 'image' ? (
+          <BtnGroup>
+            <HalfBtnPurple onClick={onButtonClick1}>{buttonText1}</HalfBtnPurple>
+            <HalfBtnLight onClick={onButtonClick2}>{buttonText2}</HalfBtnLight>
+          </BtnGroup>
+        ) : (
+          <BaseBtn onClick={onButtonClick3} style={{ width: '17.625rem' }}>
+            {buttonText}
+          </BaseBtn> /* 282px in 360px mobile screen */
+        )}
+      </ModalContainer>
+    </ModalOverlay>
   );
 };
 

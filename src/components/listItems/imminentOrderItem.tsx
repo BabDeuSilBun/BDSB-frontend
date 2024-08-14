@@ -74,9 +74,9 @@ const StoreTitle = styled.h4`
   overflow: hidden;
 `;
 
-const Information = styled.p<{ isCritical?: boolean }>`
+const Information = styled.p<{ $isCritical?: boolean }>`
   font-size: var(--font-size-sm);
-  color: ${({ isCritical }) => isCritical && 'var(--warning)'};
+  color: ${({ $isCritical }) => $isCritical && 'var(--warning)'};
 `;
 
 // 주문 타입
@@ -88,7 +88,7 @@ const OrderTypeText = styled.p`
 `;
 
 const ImminentOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
-  const { time: remainingTime, isCritical } = useRemainingTime(
+  const { time: remainingTime, $isCritical } = useRemainingTime(
     item.paymentAvailableAt,
   );
   const router = useRouter();
@@ -103,28 +103,23 @@ const ImminentOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
     router.push(`/teamOrder/${item.storeId}`);
   };
 
-// Safely access the first image if available
-const imageToShow = item.image && item.image.length > 0 ? item.image[0] : null;
-
   return (
     <CardContainer>
       <ImageSection onClick={handleClick}>
-      {imageToShow ? (
-        <ImageWrapper>
-          <Image
-            src={imageToShow.url}
-            alt="Store Image"
-            fill
-            sizes="50vw"
-            style={{ objectFit: 'cover' }}
-            priority
-          />
-        </ImageWrapper>
-        ) : (
-          <div>No Image Available</div>
+        {item.image[0] && (
+          <ImageWrapper>
+            <Image
+              src={item.image[0].url}
+              alt="Store Image"
+              fill
+              sizes="50vw"
+              style={{ objectFit: 'cover' }}
+              priority
+            />
+          </ImageWrapper>
         )}
         <InfoOverlay>
-          <Information isCritical={isCritical}>{remainingTime}</Information>
+          <Information $isCritical={$isCritical}>{remainingTime}</Information>
           <ParticipantCount>
             <GroupIcon color="white" width={16} height={18} />
             <Information>{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</Information>
