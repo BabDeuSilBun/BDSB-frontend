@@ -7,7 +7,6 @@ import SignInForm from './form';
 import { Tabs, TabList, Tab } from '@chakra-ui/react';
 import { useState } from 'react';
 
-// Styled components
 const LogoWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -157,7 +156,7 @@ const SignIn = () => {
       <Footer>
         <button>이용약관</button>
         <button>개인정보처리방침</button>
-        <button>문의하기</button>
+        <a href="mailto:bdsb@test.com">문의하기</a>
         <p>밥드실분</p>
       </Footer>
     </>
