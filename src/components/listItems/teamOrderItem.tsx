@@ -68,9 +68,9 @@ const InfoItem = styled.p`
   gap: 0.3rem;
 `;
 
-const Information = styled.p<{ isCritical?: boolean }>`
+const Information = styled.p<{ $isCritical?: boolean }>`
   font-size: var(--font-size-sm);
-  color: ${({ isCritical }) => isCritical && 'var(--warning)'};
+  color: ${({ $isCritical }) => $isCritical && 'var(--warning)'};
 `;
 
 // 주문 타입
@@ -81,7 +81,7 @@ const OrderTypeLabel = styled.p`
 
 const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   const router = useRouter();
-  const { time: remainingTime, isCritical } = useRemainingTime(
+  const { time: remainingTime, $isCritical } = useRemainingTime(
     item.paymentAvailableAt,
   );
 
@@ -97,16 +97,12 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
     router.push(`/teamOrder/${item.storeId}`);
   };
 
-  const imageToShow = item.images && item.images.length > 0
-  ? item.images.find(img => img.isRepresentative) || item.images[0]
-  : null;
-
   return (
     <CardContainer>
       <ImageContainer onClick={handleClick}>
-        {imageToShow && (
+        {item.image[0] && (
           <Image
-            src={imageToShow.url}
+            src={item.image[0].url}
             alt="Restaurant Image"
             fill
             sizes="50vw"
@@ -116,7 +112,7 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
         )}
       </ImageContainer>
       <InfoSection>
-        <Information isCritical={isCritical}>{remainingTime}</Information>
+        <Information $isCritical={$isCritical}>{remainingTime}</Information>
         <RestaurantName>{item.storeName}</RestaurantName>
         <InfoItem>
           <Image src="./timer.svg" alt="Delivery Time" width="18" height="18" />
