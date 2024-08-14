@@ -8,7 +8,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 201,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -48,7 +48,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 204,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -88,7 +88,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 207,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -127,7 +127,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 210,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -167,7 +167,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 213,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -206,7 +206,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 216,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -245,7 +245,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 219,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -285,7 +285,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 222,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -324,7 +324,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 225,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -363,7 +363,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 228,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -402,7 +402,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 231,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -441,7 +441,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 234,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -480,7 +480,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 237,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -519,7 +519,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 240,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -558,7 +558,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 243,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -597,7 +597,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 246,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -636,7 +636,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 249,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -675,7 +675,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 252,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -714,7 +714,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 255,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
@@ -753,7 +753,7 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 258,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
         sequence: 1,
         isRepresentative: true,
       },
