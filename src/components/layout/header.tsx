@@ -30,19 +30,21 @@ const HeaderContainer = styled.header`
   padding: 1.5rem;
 `;
 
-const Title = styled.h1`
-  margin: 0;
-  font-size: var(--font-size-md);
-  font-weight: var(--font-semi-bold);
-  color: var(--text);
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-`;
-
-const LeftBtnContainer = styled.div`
+const Flex = styled.div<{ side: 'left' | 'center' | 'right' }>`
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 50px;
+  justify-content: ${({ side }) =>
+    side === 'center' ? 'center' : side === 'left' ? 'flex-start' : 'flex-end'};
+  flex: ${({ side }) => (side === 'center' ? 1 : 0)};
+
+  h1 {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-semi-bold);
+    text-align: center;
+    flex: 1;
+  }
 `;
 
 const PortalButtonWrapper = styled.div`
@@ -68,9 +70,7 @@ const Header: React.FC<HeaderProps> = ({
   buttonRightSecondary,
   iconColor = 'var(--text)',
   text,
-  onBack = () => {
-    router.back();
-  },
+  onBack,
   onExit = () => {
     router.push('/');
   },
@@ -80,7 +80,7 @@ const Header: React.FC<HeaderProps> = ({
 
   const handleLeftButtonClick = () => {
     if (buttonLeft === 'back') {
-      onBack();
+      onBack ? onBack() : router.back();
     }
   };
 
@@ -102,13 +102,15 @@ const Header: React.FC<HeaderProps> = ({
     <>
       <HeaderContainer>
         <HeaderDrawer onToggle={onToggle} $isOpen={isOpen} />
-        {buttonLeft && buttonLeft !== 'hamburger' && (
-          <button type="button" onClick={handleLeftButtonClick}>
-            {Icons[buttonLeft](iconColor)}
-          </button>
-        )}
-        <Title>{text}</Title>
-        <LeftBtnContainer>
+        <Flex side="left">
+          {buttonLeft && buttonLeft !== 'hamburger' && (
+            <button type="button" onClick={handleLeftButtonClick}>
+              {Icons[buttonLeft](iconColor)}
+            </button>
+          )}
+        </Flex>
+        <Flex side="center">{text}</Flex>
+        <Flex side="right">
           {buttonRight && (
             <button type="button" onClick={handleRightButtonClick}>
               {Icons[buttonRight](iconColor)}
@@ -119,7 +121,7 @@ const Header: React.FC<HeaderProps> = ({
               {Icons[buttonRightSecondary](iconColor)}
             </button>
           )}
-        </LeftBtnContainer>
+        </Flex>
       </HeaderContainer>
       {buttonLeft === 'hamburger' && (
         <Portal>

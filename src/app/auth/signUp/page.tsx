@@ -35,11 +35,7 @@ const SignIn = () => {
         onExit={() => router.push('/auth/signIn')}
       />
       <SignUpForm />
-      <Footer
-        buttonText="다음"
-        type="button"
-        onButtonClick={handleNextpage}
-      />
+      <Footer buttonText="다음" type="button" onButtonClick={handleNextpage} />
     </>
   );
 };
