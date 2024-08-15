@@ -16,7 +16,7 @@ export default function Carousel({ images }) {
   const representativeImage = images.find((img) => img.isRepresentative);
   const sortedImages = images
     .filter((img) => !img.isRepresentative)
-    .sort((a, b) => a.imageId - b.imageId);
+    .sort((a, b) => a.sequence - b.sequence);
   
   const orderedImages = representativeImage
   ? [representativeImage, ...sortedImages]
