@@ -1,4 +1,4 @@
-import { Image } from './types';
+import { Image, ItemType } from './types';
 
 export interface Address {
   postal: string;
@@ -62,6 +62,17 @@ export interface MenuType extends CommonType {
   price: number;
 }
 
+export interface TeamMenuItemsResponse extends Response {
+  content: ItemType[];
+}
+
+export interface TeamMenuType extends CommonType {
+  meetingId: number;
+  teamPurchaseId: number;
+  totalFee: number;
+  items: TeamMenuItemsResponse;
+}
+
 interface Response {
   pageable: {
     pageNumber: number;
@@ -87,6 +98,11 @@ export interface MenusResponse extends Response {
 
 export interface MeetingsResponse extends Response {
   content: MeetingType[];
+}
+
+export interface TeamMenusResponse extends Response {
+  content: TeamMenuType[]
+  meetingId: number;
 }
 
 export interface GetListParams {

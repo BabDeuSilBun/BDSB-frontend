@@ -5,7 +5,7 @@ import { useState } from 'react';
 import InfoBoxIcon from '@/components/svg/infoBoxIcon';
 
 interface InfoBoxProps {
-  textItems: { text: string; $textStyle: 'CenteredText' | 'BoldTitle' | 'LeftAlignedText'; sameRow?: boolean }[];
+  textItems: { text: string; $textStyle: 'DescriptionOnly' | 'Title' | 'Description'; sameRow?: boolean }[];
   showIcon?: boolean;
   width?: string;
 }
@@ -13,16 +13,23 @@ interface InfoBoxProps {
 const InfoContainer = styled.div`
   display: flex;
   align-items: start;
+  position: relative;
 `;
 
-const InfoBoxWrapper = styled.div<{ width?: string }>`
+const InfoBoxWrapper = styled.div<{ width?: string; $zIndex?: number }>`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-color: var(--gray100);
   border: 1px solid var(--gray200);
   padding: var(--spacing-xs);
   border-radius: var(--border-radius-md);
   width: ${({ width }) => width || 'auto'};
+  position: absolute;
+  z-index: ${({ $zIndex }) => $zIndex || 0};
+  top: 0;
+  left: calc(100%); /* Position it to the right of the icon with some space */
 `;
 
 const IconWrapper = styled.div`
@@ -35,31 +42,28 @@ const IconWrapper = styled.div`
 const TextRow = styled.div`
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: center;
 `;
 
-const Text = styled.p<{ $textStyle: 'CenteredText' | 'BoldTitle' | 'LeftAlignedText' }>`
+const Text = styled.p<{ $textStyle: 'DescriptionOnly' | 'Title' | 'Description' }>`
   margin: 0;
   font-size: var(--font-size-xs);
   color: var(--gray400);
+  text-align: left;
 
   ${({ $textStyle }) => {
     switch ($textStyle) {
-      case 'CenteredText':
+      case 'DescriptionOnly':
         return `
-          text-align: center;
           font-weight: var(--font-regular);
-          width: 100%;
         `;
-      case 'BoldTitle':
+      case 'Title':
         return `
-          text-align: left;
           font-weight: var(--font-semi-bold);
           margin-right: var(--spacing-xs);
         `;
-      case 'LeftAlignedText':
+      case 'Description':
         return `
-          text-align: left;
           font-weight: var(--font-regular);
         `;
       default:
@@ -83,9 +87,9 @@ export default function InfoBox({ textItems = [], showIcon = true, width }: Info
         </IconWrapper>
       )}
       {isVisible && (
-        <InfoBoxWrapper width={width}>
+        <InfoBoxWrapper width={width} $zIndex={10}>
           {textItems.map((item, index) => {
-            if (item.$textStyle === 'CenteredText') {
+            if (item.$textStyle === 'DescriptionOnly') {
               return (
                 <Text key={index} $textStyle={item.$textStyle}>
                   {item.text}

@@ -11,7 +11,7 @@ import Header from '@/components/layout/header';
 import Carousel from '@/components/carousel/carousel';
 import CallButton from '@/components/customButton/callButton';
 import InfoButton from '@/components/customButton/infoButton';
-import InfoBox from '@/components/infoBox/infoBox';
+import InfoBox from '@/components/common/infoBox';
 import MenuItem from '@/components/listItems/menuItem';
 import Footer from '@/components/layout/footer';
 import Modal from '@/components/common/modal';
@@ -53,36 +53,42 @@ const ButtonContainer = styled.div`
 `;
 
 const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   margin: var(--spacing-xs) var(--spacing-xs);
-  background-color: var(--background);
-  position: relative;
 `;
 
 const InfoRow = styled.div`
   display: flex;
   padding: var(--spacing-xs);
+  align-items: flex-start;
+  justify-content: space-between;
+  font-size: var(--font-size-sm); /* 14px */
 `;
-
 const InfoTitle = styled.div`
-  width: 8.5rem;
-  font-size: var(--font-size-xs);
+  flex-basis: 25%;
   font-weight: var(--font-semi-bold);
+  text-align: left;
+  padding-left: 0;
   color: var(--gray400);
 `;
 
 const InfoDescription = styled.div`
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-regular);
+  display: flex;
+  flex-direction: row;
+  flex-basis: 75%;
+  word-wrap: break-word;
+  padding-left: 0;
+  text-align: left;
+  margin-left: var(--spacing-xs);
   color: var(--text);
-  margin-left: -3rem;
 `;
 
-const InfoBoxContainer = styled.div`
-  position: absolute;
-  top: 2.75rem;
-  left: 10rem;
-  z-index: 10;
+const InfoBoxWrapper = styled.div`
+  justify-content: center;
+  padding-top: 0.2rem;
+  padding-left: var(--spacing-xs);
 `;
 
 const MenuItemContainer = styled.div`
@@ -99,7 +105,7 @@ const StorePage = () => {
     menuId: number;
     name: string;
     description: string;
-    imageUrl: string;
+    image: string;
   } | null>(null);
 
   const observer = useRef<IntersectionObserver | null>(null);
@@ -242,19 +248,22 @@ const StorePage = () => {
         </InfoRow>
         <InfoRow>
           <InfoTitle>배달 시간</InfoTitle>
-          <InfoDescription>{store.deliveryTimeRange}</InfoDescription>
+          <InfoDescription>
+            {store.deliveryTimeRange}
+            <InfoBoxWrapper>
+              <InfoBox
+                textItems={[
+                  {
+                    text: '평균 도착 시간으로, 실제 도착 시간과 차이가 생길 수 있어요.',
+                    $textStyle: 'DescriptionOnly',
+                  },
+                ]}
+                width="9rem"
+                showIcon={true}
+              />
+            </InfoBoxWrapper>
+          </InfoDescription>
         </InfoRow>
-        <InfoBoxContainer>
-          <InfoBox
-            textItems={[
-              {
-                text: '평균 도착 시간으로, 실제 도착 시간과 차이가 생길 수 있어요.',
-                $textStyle: 'CenteredText',
-              },
-            ]}
-            width="10rem"
-          />
-        </InfoBoxContainer>
         <InfoRow>
           <InfoTitle>최소주문금액</InfoTitle>
           <InfoDescription>
@@ -375,6 +384,7 @@ const StorePage = () => {
           dayOfWeek={store.dayOfWeek}
           buttonText="닫기"
           onButtonClick3={closeModal}
+          onClose={closeModal}
         />
       )}
 
@@ -388,6 +398,7 @@ const StorePage = () => {
           buttonText2="닫기"
           onButtonClick1={() => console.log('Start team order')}
           onButtonClick2={closeModal}
+          onClose={closeModal}
         />
       )}
 
@@ -401,6 +412,7 @@ const StorePage = () => {
           buttonText2="개별메뉴"
           onButtonClick1={() => console.log('Team menu')}
           onButtonClick2={() => console.log('Individual menu')}
+          onClose={closeModal}
         />
       )}
 
@@ -414,6 +426,7 @@ const StorePage = () => {
           buttonText2="닫기"
           onButtonClick1={() => console.log('Participant order')}
           onButtonClick2={closeModal}
+          onClose={closeModal}
         />
       )}
     </div>
