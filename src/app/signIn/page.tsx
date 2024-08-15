@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import styled from 'styled-components';
 import SignInForm from './form';
-// import { Divider, Box, AbsoluteCenter } from '@chakra-ui/react';
 import { Tabs, TabList, Tab } from '@chakra-ui/react';
 import { useState } from 'react';
 
@@ -99,18 +98,11 @@ const Title = styled.h1`
 // `;
 
 const SignIn = () => {
-  const [userType, setUserType] = useState<string>('');
-  const [isAutoLogin, setIsAutoLogin] = useState<boolean>(false);
-
-  const handleUserType = (type: string) => {
-    setUserType(type);
-    console.log(`Selected user type: ${type}`);
-  };
-
-  const handleAutoLoginChange = () => {
-    setIsAutoLogin(!isAutoLogin);
-    console.log(`Auto login: ${!isAutoLogin}`);
-  };
+  const [userType, setUserType] = useState<'users' | 'businesses'>('users');
+  // const [isAutoLogin, setIsAutoLogin] = useState<boolean>(false);
+  // const handleAutoLoginChange = () => {
+  //   setIsAutoLogin(!isAutoLogin);
+  // };
 
   return (
     <>
@@ -118,10 +110,22 @@ const SignIn = () => {
         <Image src="/logo.svg" alt="Logo" width="72" height="90" priority />
         <Title>밥드실분</Title>
       </LogoWrapper>
-      <Tabs align="center" isFitted>
+      <Tabs align="center" isFitted aria-label="로그인 방식 선택">
         <TabList>
-          <Tab onClick={() => handleUserType('users')}>유저로 로그인</Tab>
-          <Tab onClick={() => handleUserType('businesses')}>점주로 로그인</Tab>
+          <Tab
+            onClick={() => setUserType('users')}
+            aria-selected={userType === 'users'}
+            role="tab"
+          >
+            유저로 로그인
+          </Tab>
+          <Tab
+            onClick={() => setUserType('businesses')}
+            aria-selected={userType === 'businesses'}
+            role="tab"
+          >
+            점주로 로그인
+          </Tab>
         </TabList>
       </Tabs>
       <SignInForm userType={userType} />
@@ -135,28 +139,13 @@ const SignIn = () => {
           <StyledP>자동 로그인</StyledP>
         </StyledLabel>
         <button>정보찾기</button>
-      </Additional>
-      <Box position="relative" padding="10">
-        <Divider />
-        <AbsoluteCenter bg="white" px="4">
-          회원가입
-        </AbsoluteCenter>
-      </Box>
-      <Flexbox>
-        <button>
-          <Image src="/google.svg" alt="Logo" width="36" height="36" priority />
-        </button>
-        <button>
-          <Image src="/kakao.svg" alt="Logo" width="36" height="36" priority />
-        </button>
-        <button>
-          <Image src="/google.svg" alt="Logo" width="36" height="36" priority />
-        </button>
-      </Flexbox> */}
-      <Footer>
-        <button>이용약관</button>
-        <button>개인정보처리방침</button>
-        <a href="mailto:bdsb@test.com">문의하기</a>
+      </Additional> */}
+      <Footer aria-label="페이지 하단 정보">
+        <button aria-label="이용약관">이용약관</button>
+        <button aria-label="개인정보처리방침">개인정보처리방침</button>
+        <a href="mailto:bdsb@test.com" aria-label="문의하기 이메일">
+          문의하기
+        </a>
         <p>밥드실분</p>
       </Footer>
     </>
@@ -165,4 +154,5 @@ const SignIn = () => {
 
 export default SignIn;
 
-// 주석 처리 된 부분은 후순위나 개발 예정 없음인데 이미 만들어서 놔둔 것입니다..
+// 주석 처리 된 부분은 백엔드 개발 후순위인데 이미 만들어서 놔둔 것입니다..
+// 체크 박스는 후기 작성 시 응용 가능할 것 같습니다~~

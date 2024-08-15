@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { setupInterceptors } from '@/services/apiClient';
+import { setupInterceptors } from '@/services/auth/authClient';
 
 function makeQueryClient() {
   return new QueryClient({
