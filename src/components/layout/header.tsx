@@ -5,51 +5,29 @@ import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
 import HamburgerBtn from '../common/hamburgerBtn';
 import HeaderDrawer from './headerDrawer';
-import BackIcon from '@/components/svg/arrowLeft';
+import ArrowLeft from '@/components/svg/arrowLeft';
 import HomeIcon from '@/components/svg/home';
 import ExitIcon from '@/components/svg/exit';
 import CartIcon from '@/components/svg/cart';
 
 const Icons = {
-  back: (color: string, size: number) => (
-    <BackIcon color={color} width={size} height={size} />
-  ),
-  home: (color: string, size: number) => (
-    <HomeIcon color={color} width={size} height={size} />
-  ),
-  exit: (color: string, size: number) => (
-    <ExitIcon color={color} width={size} height={size} />
-  ),
-  cart: (color: string, size: number) => (
-    <CartIcon color={color} width={size} height={size} />
-  ),
+  back: (color: string) => <ArrowLeft color={color} />,
+  home: (color: string) => <HomeIcon color={color} />,
+  exit: (color: string) => <ExitIcon color={color} />,
+  cart: (color: string) => <CartIcon color={color} />,
 };
 
 const HeaderContainer = styled.header`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   background-color: var(--background);
   align-items: center;
   position: fixed;
   z-index: 1000;
   height: 60px;
-  width: inherit;
+  width: 100%;
   box-shadow: 0px 5px 5px var(--shadow);
   padding: 1.5rem;
-`;
-
-const SideContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  ${({ side }) => side}: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  white-space: nowrap;
-  button {
-    flex-shrink: 0;
-  }
 `;
 
 const Title = styled.h1`
@@ -57,18 +35,25 @@ const Title = styled.h1`
   font-size: var(--font-size-md);
   font-weight: var(--font-semi-bold);
   color: var(--text);
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+`;
+
+const LeftBtnContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const PortalButtonWrapper = styled.div`
+  position: fixed;
+  top: 1.4rem;
+  left: 1rem;
+  z-index: 2000;
 `;
 
 interface HeaderProps {
-  buttonLeft?: 'hamburger' | 'back' | undefined;
-  buttonRight?: 'home' | 'exit' | undefined;
-  buttonRightSecondary?: 'cart' | undefined;
+  buttonLeft?: 'hamburger' | 'back';
+  buttonRight?: 'home' | 'exit';
+  buttonRightSecondary?: 'cart';
   iconColor?: string;
-  iconSize?: number;
-  rightIconSize?: number;
   text?: string;
   onBack?: () => void;
   onExit?: () => void;
@@ -78,9 +63,7 @@ const Header: React.FC<HeaderProps> = ({
   buttonLeft,
   buttonRight,
   buttonRightSecondary,
-  iconColor = 'var(--gray500)', // Default color
-  iconSize = 18, // Default size
-  rightIconSize = 24, // Default size
+  iconColor = 'var(--text)',
   text,
   onBack = () => {
     router.back();
@@ -115,26 +98,25 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <>
       <HeaderContainer>
-        <SideContainer side="left">
-          {buttonLeft && (
-            <button type="button" onClick={handleLeftButtonClick}>
-              {Icons[buttonLeft](iconColor, iconSize)}
-            </button>
-          )}
-        </SideContainer>
+        <HeaderDrawer onToggle={onToggle} $isOpen={isOpen} />
+        {buttonLeft && buttonLeft !== 'hamburger' && (
+          <button type="button" onClick={handleLeftButtonClick}>
+            {Icons[buttonLeft](iconColor)}
+          </button>
+        )}
         <Title>{text}</Title>
-        <SideContainer side="right">
+        <LeftBtnContainer>
           {buttonRight && (
             <button type="button" onClick={handleRightButtonClick}>
-              {Icons[buttonRight](iconColor, rightIconSize)}
+              {Icons[buttonRight](iconColor)}
             </button>
           )}
           {buttonRightSecondary && (
             <button type="button" onClick={handleRightSecondaryButtonClick}>
-              {Icons[buttonRightSecondary](iconColor, rightIconSize)}
+              {Icons[buttonRightSecondary](iconColor)}
             </button>
           )}
-        </SideContainer>
+        </LeftBtnContainer>
       </HeaderContainer>
       {buttonLeft === 'hamburger' && (
         <Portal>
