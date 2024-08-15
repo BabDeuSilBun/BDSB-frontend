@@ -120,11 +120,11 @@ const SignIn = () => {
       </LogoWrapper>
       <Tabs align="center" isFitted>
         <TabList>
-          <Tab onClick={() => handleUserType('user')}>유저로 로그인</Tab>
-          <Tab onClick={() => handleUserType('business')}>점주로 로그인</Tab>
+          <Tab onClick={() => handleUserType('users')}>유저로 로그인</Tab>
+          <Tab onClick={() => handleUserType('businesses')}>점주로 로그인</Tab>
         </TabList>
       </Tabs>
-      <SignInForm />
+      <SignInForm userType={userType} />
       {/* <Additional>
         <StyledInput
           type="checkbox"

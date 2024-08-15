@@ -41,7 +41,11 @@ const ErrorMessage = styled.p`
   top: -1.6rem;
 `;
 
-export default function SignInForm() {
+interface Props {
+  userType: string;
+}
+
+export default function SignInForm({ userType }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [Error, setError] = useState('');
@@ -67,10 +71,10 @@ export default function SignInForm() {
     const accessToken = 'dummyAccessToken123';
 
     try {
-      // const response = await axios.post('/api/auth/signin', {
-      //   email: email,
-      //   password: password,
-      // });
+      const response = await axios.post(`api/${userType}/signin`, {
+        email: email,
+        password: password,
+      });
 
       // 나중에 활성할 부분 (백엔드에게 보냄)
       // const { accessToken } = response.data;
