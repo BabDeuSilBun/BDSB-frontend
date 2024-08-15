@@ -57,7 +57,6 @@ const InfoContainer = styled.div`
   flex-direction: column;
   width: 100%;
   margin: var(--spacing-xs) var(--spacing-xs);
-  background-color: var(--background);
 `;
 
 const InfoRow = styled.div`
@@ -65,7 +64,7 @@ const InfoRow = styled.div`
   padding: var(--spacing-xs);
   align-items: flex-start;
   justify-content: space-between;
-  font-size: var(--font-size-xs); /* 12px */
+  font-size: var(--font-size-sm); /* 14px */
 `;
 const InfoTitle = styled.div`
   flex-basis: 25%;
@@ -88,7 +87,7 @@ const InfoDescription = styled.div`
 
 const InfoBoxWrapper = styled.div`
   justify-content: center;
-  padding-top: 0.1rem;
+  padding-top: 0.2rem;
   padding-left: var(--spacing-xs);
 `;
 
@@ -106,7 +105,7 @@ const StorePage = () => {
     menuId: number;
     name: string;
     description: string;
-    imageUrl: string;
+    image: string;
   } | null>(null);
 
   const observer = useRef<IntersectionObserver | null>(null);
@@ -256,10 +255,10 @@ const StorePage = () => {
                 textItems={[
                   {
                     text: '평균 도착 시간으로, 실제 도착 시간과 차이가 생길 수 있어요.',
-                    $textStyle: 'CenteredText',
+                    $textStyle: 'DescriptionOnly',
                   },
                 ]}
-                width="10rem"
+                width="9rem"
                 showIcon={true}
               />
             </InfoBoxWrapper>
