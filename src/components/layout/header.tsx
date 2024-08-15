@@ -48,7 +48,7 @@ const SideContainer = styled.div`
   gap: 1rem;
   white-space: nowrap;
   button {
-  flex-shrink: 0;
+    flex-shrink: 0;
   }
 `;
 
@@ -68,8 +68,9 @@ interface HeaderProps {
   buttonRightSecondary?: 'cart' | undefined;
   iconColor?: string;
   iconSize?: number;
-  rightIconSize?: number; 
+  rightIconSize?: number;
   text?: string;
+  onBack?: () => void;
   onExit?: () => void;
 }
 
@@ -81,14 +82,19 @@ const Header: React.FC<HeaderProps> = ({
   iconSize = 18, // Default size
   rightIconSize = 24, // Default size
   text,
-  onExit,
+  onBack = () => {
+    router.back();
+  },
+  onExit = () => {
+    router.push('/');
+  },
 }) => {
   const router = useRouter();
   const { isOpen, onToggle } = useDisclosure();
 
   const handleLeftButtonClick = () => {
     if (buttonLeft === 'back') {
-      router.back();
+      onBack();
     }
   };
 
