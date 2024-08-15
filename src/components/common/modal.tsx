@@ -26,6 +26,7 @@ interface ModalProps {
   onButtonClick1?: () => void;
   onButtonClick2?: () => void;
   onButtonClick3?: () => void;
+  onClose?: () => void;
 }
 
 const mediaQueries = {
@@ -48,7 +49,6 @@ const ModalOverlay = styled.div`
 
 const ModalContainer = styled.div`
   width: 90%;
-  max-width: 20.5rem; /* 328px in 360px mobile screen */
   background-color: var(--background);
   box-shadow: 0px 4px 8px var(--shadow);
   border-radius: var(--border-radius-lg);
@@ -70,9 +70,8 @@ const ModalContainer = styled.div`
   }
 `;
 
-const Image = styled.img`
-  width: 90%;
-  max-width: 18rem; /* 288px in 360px mobile screen */
+const ModalImage = styled.img`
+  width: 100%;
   height: auto;
   border-radius: var(--border-radius-lg);
   @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
@@ -114,40 +113,42 @@ const Description = styled.p`
   }
 `;
 
-const Table = styled.table`
+const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   margin-bottom: var(--spacing-lg);
-  border-collapse: collapse;
-  table-layout: fixed;
-  th,
-  td {
-    font-size: var(--font-size-sm); /* 14px */
-    color: var(--text);
-    padding: var(--spacing-xs);
-    text-align: left;
-    vertical-align: top;
-  }
-  th {
-    width: 30%;
-    padding-left: 0;
-    font-weight: var(--font-semi-bold);
-  }
-  td {
-    word-wrap: break-word;
-    padding-right: 0;
-  }
+`;
+
+const InfoRow = styled.div`
+  display: flex;
+  padding: var(--spacing-xs);
+  align-items: flex-start;
+  justify-content: space-between;
+  font-size: var(--font-size-sm); /* 14px */
+  color: var(--text);
+
   ${mediaQueries.tablet} {
-    th,
-    td {
-      font-size: var(--font-size-md); /* 16px */
-    }
+    font-size: var(--font-size-md); /* 16px */
   }
+
   ${mediaQueries.desktop} {
-    th,
-    td {
-      font-size: var(--font-size-lg); /* 20px */
-    }
+    font-size: var(--font-size-lg); /* 20px */
   }
+`;
+
+const InfoTitle = styled.div`
+  flex-basis: 30%;
+  font-weight: var(--font-semi-bold);
+  padding-left: 0;
+  text-align: left;
+`;
+
+const InfoDescription = styled.div`
+  flex-basis: 70%;
+  word-wrap: break-word;
+  padding-right: 0;
+  text-align: left;
 `;
 
 const Modal: React.FC<ModalProps> = ({
@@ -167,37 +168,37 @@ const Modal: React.FC<ModalProps> = ({
   onButtonClick1,
   onButtonClick2,
   onButtonClick3,
+  onClose = () => {},
 }) => {
-  const formattedDescription = description ? limitWordsPerLine(description, 18) : '';
   
+  const formattedDescription = description ? limitWordsPerLine(description, 18) : '';
+
   return (
-    <ModalOverlay>
+    <ModalOverlay onClick={onClose}>
       <ModalContainer>
         {type === 'image' && imageUrl && (
-          <Image src={imageUrl} alt={title1} sizes="50vw" />
+          <ModalImage src={imageUrl} alt={title1} sizes="50vw" />
         )}
         <Title1>{title1}</Title1>
         <Title2>{title2}</Title2>
         <Description dangerouslySetInnerHTML={{ __html: formattedDescription }} />
         {type === 'info' && (
-          <Table>
-            <tbody>
-              <tr>
-                <th>주소</th>
-                <td>{`${address1} ${address2}`}</td>
-              </tr>
-              <tr>
-                <th>운영시간</th>
-                <td>
-                  {openTime} ~ {closeTime}
-                </td>
-              </tr>
-              <tr>
-                <th>휴무일</th>
-                <td>{dayOfWeek}</td>
-              </tr>
-            </tbody>
-          </Table>
+          <InfoContainer>
+          <InfoRow>
+            <InfoTitle>주소</InfoTitle>
+            <InfoDescription>{`${address1} ${address2}`}</InfoDescription>
+          </InfoRow>
+          <InfoRow>
+            <InfoTitle>운영시간</InfoTitle>
+            <InfoDescription>
+              {openTime} ~ {closeTime}
+            </InfoDescription>
+          </InfoRow>
+          <InfoRow>
+            <InfoTitle>휴무일</InfoTitle>
+            <InfoDescription>{dayOfWeek}</InfoDescription>
+          </InfoRow>
+          </InfoContainer>
         )}
         {type === 'text' || type === 'image' ? (
           <BtnGroup>

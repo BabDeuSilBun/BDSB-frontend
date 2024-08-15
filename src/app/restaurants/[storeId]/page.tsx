@@ -375,6 +375,7 @@ const StorePage = () => {
           dayOfWeek={store.dayOfWeek}
           buttonText="닫기"
           onButtonClick3={closeModal}
+          onClose={closeModal}
         />
       )}
 
@@ -388,6 +389,7 @@ const StorePage = () => {
           buttonText2="닫기"
           onButtonClick1={() => console.log('Start team order')}
           onButtonClick2={closeModal}
+          onClose={closeModal}
         />
       )}
 
@@ -401,6 +403,7 @@ const StorePage = () => {
           buttonText2="개별메뉴"
           onButtonClick1={() => console.log('Team menu')}
           onButtonClick2={() => console.log('Individual menu')}
+          onClose={closeModal}
         />
       )}
 
@@ -414,6 +417,7 @@ const StorePage = () => {
           buttonText2="닫기"
           onButtonClick1={() => console.log('Participant order')}
           onButtonClick2={closeModal}
+          onClose={closeModal}
         />
       )}
     </div>
