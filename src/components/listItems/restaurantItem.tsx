@@ -65,15 +65,15 @@ const RestaurantItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
   const representativeImage = item.images.find(img => img.isRepresentative);
 
   return (
-    <CardContainer>
-      <ImageContainer onClick={handleClick}>
+    <CardContainer onClick={handleClick}>
+      <ImageContainer>
         {representativeImage && (
           <Image
             src={representativeImage.url}
             alt="Restaurant Image"
             fill
             style={{ objectFit: 'cover' }}
-            priority="true"
+            priority
           />
         )}
       </ImageContainer>

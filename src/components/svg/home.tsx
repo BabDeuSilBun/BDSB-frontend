@@ -1,5 +1,5 @@
 const HomeIcon = ({
-  color = 'var(--primary)',
+  color = 'var(--text)',
   width = 24,
   height = 24,
   'aria-label': ariaLabel = 'Home Icon',

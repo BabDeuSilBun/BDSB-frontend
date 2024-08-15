@@ -104,8 +104,8 @@ const ImminentOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   };
 
   return (
-    <CardContainer>
-      <ImageSection onClick={handleClick}>
+    <CardContainer onClick={handleClick}>
+      <ImageSection>
         {item.images[0] && (
           <ImageWrapper>
             <Image
