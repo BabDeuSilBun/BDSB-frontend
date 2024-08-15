@@ -35,6 +35,9 @@ const Title = styled.h1`
   font-size: var(--font-size-md);
   font-weight: var(--font-semi-bold);
   color: var(--text);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const LeftBtnContainer = styled.div`
