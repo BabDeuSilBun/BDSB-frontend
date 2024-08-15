@@ -2,16 +2,12 @@
 
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@/styles/theme';
-import {
-  isServer,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import useSilentRefresh from '@/hook/useSlientRefresh';
 import { useEffect } from 'react';
-import { httpClientForCredentials } from '@/services/apiClient';
 import { useRouter } from 'next/navigation';
+import { setupInterceptors } from '@/services/apiClient';
+
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
@@ -28,7 +24,7 @@ function makeQueryClient() {
 let browserQueryClient: QueryClient | undefined;
 
 function getQueryClient() {
-  if (isServer) {
+  if (typeof window === 'undefined') {
     return makeQueryClient();
   }
   if (!browserQueryClient) {
@@ -41,19 +37,9 @@ function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
   const router = useRouter();
 
-  useSilentRefresh();
-
   useEffect(() => {
-    // 초기 렌더링 시 인증 상태를 확인
-    const checkAuth = async () => {
-      try {
-        await httpClientForCredentials.get('/api/check-auth'); // 예시 API 엔드포인트
-      } catch {
-        router.push('/auth/signIn');
-      }
-    };
-
-    checkAuth();
+    // 인터셉터를 애플리케이션이 시작될 때 한 번만 설정
+    setupInterceptors(router);
   }, [router]);
 
   return (

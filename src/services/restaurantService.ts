@@ -13,6 +13,7 @@ export const getRestaurantsList = async ({
   sortCriteria = 'deadline',
   searchMenu = undefined,
 }: GetListParams): Promise<RestaurantsResponse> => {
+  
   try {
     const response = await apiClient.get<RestaurantsResponse>(
       RESTAURANT_LIST_API_URL,
