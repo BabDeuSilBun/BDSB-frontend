@@ -1,6 +1,6 @@
 import { GetListParams, MeetingsResponse } from '@/types/coreTypes';
 
-import apiClient from './apiClient';
+import { apiClient } from './apiClient';
 
 export const TEAM_ORDER_LIST_API_URL = '/api/users/meetings';
 const HEADCOUNT_API_URL = '/api/users/meetings/{meetingId}/headcount';
@@ -37,10 +37,12 @@ export const getTeamOrderList = async ({
   }
 };
 
-export const getTeamOrderInfo = async (meetingId: number): Promise<MeetingType> => {
+export const getTeamOrderInfo = async (
+  meetingId: number,
+): Promise<MeetingType> => {
   try {
     const response = await apiClient.get(
-      TEAM_ORDER_API_URL.replace('{meetingId}', meetingId.toString())
+      TEAM_ORDER_API_URL.replace('{meetingId}', meetingId.toString()),
     );
     return response.data;
   } catch (error) {
