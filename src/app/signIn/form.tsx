@@ -36,7 +36,7 @@ const ErrorMessage = styled.p`
 `;
 
 interface Props {
-  userType: string;
+  userType: 'users' | 'businesses';
 }
 
 export default function SignInForm({ userType }: Props) {

@@ -1,19 +1,18 @@
 import { useSignUpStore } from '@/state/authStore';
 
-const Step4Campus = () => {
+const Step3Campus = () => {
   const { campus, setCampus, setStep } = useSignUpStore();
 
   return (
     <div>
-      <h2>캠퍼스 입력</h2>
       <input
-        type="campus"
+        type="text"
         value={campus}
         onChange={(e) => setCampus(e.target.value)}
+        placeholder='재학 중인 대학교와 캠퍼스 입력'
       />
-      <button onClick={() => setStep(2)}>다음</button>
     </div>
   );
 };
 
-export default Step4Campus;
+export default Step3Campus;

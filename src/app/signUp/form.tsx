@@ -1,27 +1,59 @@
+'use client';
+
 import { useSignUpStore } from '@/state/authStore';
-import Step1Name from './steps/step1Name';
-import Step2Phone from './steps/step2Phone';
-import Step3Email from './steps/step3Email';
-import Step4Campus from './steps/step4Campus';
-import Step5Department from './steps/step5Department';
-import Step6Address from './steps/step6Address';
-import Step7Password from './steps/step7Password';
+import Step0Name from './steps/step0Name';
+import Step1Phone from './steps/step1Phone';
+import Step2Email from './steps/step2Email';
+import Step3Campus from './steps/step3Campus';
+import Step4Department from './steps/step4Department';
+import Step5Address from './steps/step5Address';
+import Step6Password from './steps/step6Password';
+import styled from 'styled-components';
+
+const Container = styled.section`
+  margin-top: 90px;
+  padding: 1rem;
+`;
+
+const Title = styled.h2`
+  font-size: var(--font-size-xxl);
+  font-weight: var(--font-semi-bold);
+  margin-bottom: 1.2rem;
+  white-space: pre-line;
+`;
 
 const steps = [
-  Step1Name,
-  Step2Phone,
-  Step3Email,
-  Step4Campus,
-  Step5Department,
-  Step6Address,
-  Step7Password,
+  Step0Name,
+  Step1Phone,
+  Step2Email,
+  Step3Campus,
+  Step4Department,
+  Step5Address,
+  Step6Password,
+];
+
+const titles = [
+  '이름을 알려주세요',
+  '휴대 전화번호를 알려주세요',
+  '사용하실 이메일을 알려주세요',
+  `다니시는 학교 명과 
+  주로 이용하는 캠퍼스를 골라주세요`,
+  '소속 학과를 선택해주세요',
+  '기본 배송지를 입력해주세요',
+  `이제 다 왔어요. 
+  마지막으로 비밀번호를 입력해주세요`,
 ];
 
 const SignUpForm = () => {
   const { currentStep } = useSignUpStore();
-  const CurrentStepComponent = steps[currentStep - 1];
+  const CurrentStepComponent = steps[currentStep];
 
-  return <CurrentStepComponent />;
+  return (
+    <Container>
+      <Title>{titles[currentStep]}</Title>
+      <CurrentStepComponent />
+    </Container>
+  );
 };
 
 export default SignUpForm;

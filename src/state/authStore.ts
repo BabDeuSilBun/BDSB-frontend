@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 
 interface SignUpState {
   currentStep: number;
@@ -9,6 +9,8 @@ interface SignUpState {
   department: string;
   address: string;
   password: string;
+  isButtonActive: boolean;
+  buttonText: string;
   setStep: (step: number) => void;
   setName: (name: string) => void;
   setPhone: (phone: string) => void;
@@ -17,10 +19,12 @@ interface SignUpState {
   setDepartment: (department: string) => void;
   setAddress: (address: string) => void;
   setPassword: (password: string) => void;
+  setButtonActive: (isActive: boolean) => void;
+  setButtonText: (buttonText: string) => void;
 }
 
 export const useSignUpStore = create<SignUpState>((set) => ({
-  currentStep: 1,
+  currentStep: 0,
   name: '',
   phone: '',
   email: '',
@@ -28,6 +32,8 @@ export const useSignUpStore = create<SignUpState>((set) => ({
   department: '',
   address: '',
   password: '',
+  isButtonActive: false,
+  buttonText: '다음',
   setStep: (step) => set({ currentStep: step }),
   setName: (name) => set({ name }),
   setPhone: (phone) => set({ phone }),
@@ -36,4 +42,6 @@ export const useSignUpStore = create<SignUpState>((set) => ({
   setDepartment: (department) => set({ department }),
   setAddress: (address) => set({ address }),
   setPassword: (password) => set({ password }),
+  setButtonActive: (isActive) => set({ isButtonActive: isActive }),
+  setButtonText: (buttonText) => set({ buttonText }),
 }));

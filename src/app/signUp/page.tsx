@@ -2,15 +2,13 @@
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import Image from 'next/image';
-import styled from 'styled-components';
 import SignUpForm from './form';
 import { useRouter } from 'next/navigation';
 import { useSignUpStore } from '@/state/authStore';
 
-const SignIn = () => {
+const SignUp = () => {
   const router = useRouter();
-  const { currentStep, setStep } = useSignUpStore();
+  const { currentStep, setStep, isButtonActive, buttonText } = useSignUpStore();
 
   const titles = [
     '이름 입력',
@@ -29,15 +27,24 @@ const SignIn = () => {
   return (
     <>
       <Header
-        buttonLeft="back"
+        text={titles[currentStep]}
+        buttonLeft={currentStep > 0 ? 'back' : undefined}
         buttonRight="exit"
         onBack={() => setStep(currentStep - 1)}
-        onExit={() => router.push('/auth/signIn')}
+        onExit={() => router.push('/signIn')}
       />
       <SignUpForm />
-      <Footer buttonText="다음" type="button" onButtonClick={handleNextpage} />
+      {isButtonActive ? (
+        <Footer
+          buttonText={buttonText}
+          type="button"
+          onButtonClick={handleNextpage}
+        />
+      ) : (
+        <Footer buttonText={buttonText} type="inactiveButton" />
+      )}
     </>
   );
 };
 
-export default SignIn;
+export default SignUp;
