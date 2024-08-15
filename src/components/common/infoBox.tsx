@@ -13,9 +13,10 @@ interface InfoBoxProps {
 const InfoContainer = styled.div`
   display: flex;
   align-items: start;
+  position: relative;
 `;
 
-const InfoBoxWrapper = styled.div<{ width?: string }>`
+const InfoBoxWrapper = styled.div<{ width?: string; $zIndex?: number }>`
   display: flex;
   flex-direction: column;
   background-color: var(--gray100);
@@ -23,6 +24,10 @@ const InfoBoxWrapper = styled.div<{ width?: string }>`
   padding: var(--spacing-xs);
   border-radius: var(--border-radius-md);
   width: ${({ width }) => width || 'auto'};
+  position: absolute;
+  z-index: ${({ $zIndex }) => $zIndex || 0};
+  top: 0;
+  left: calc(100%); /* Position it to the right of the icon with some space */
 `;
 
 const IconWrapper = styled.div`
@@ -83,7 +88,7 @@ export default function InfoBox({ textItems = [], showIcon = true, width }: Info
         </IconWrapper>
       )}
       {isVisible && (
-        <InfoBoxWrapper width={width}>
+        <InfoBoxWrapper width={width} zIndex={10}>
           {textItems.map((item, index) => {
             if (item.$textStyle === 'CenteredText') {
               return (
