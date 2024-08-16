@@ -1,5 +1,6 @@
 import { Image, ItemType } from './types';
 
+// Address interfaces
 export interface Address {
   postal: string;
   streetAddress: string;
@@ -18,6 +19,7 @@ interface MetAddress {
   metDetailAddress: string;
 }
 
+// Common interface for shared fields across different types
 export interface CommonType {
   storeId: number;
   images: Image[];
@@ -25,6 +27,7 @@ export interface CommonType {
   category: string;
 }
 
+// Restaurant type definition
 export interface RestaurantType extends CommonType {
   name: string;
   deliveryPrice: number;
@@ -38,6 +41,7 @@ export interface RestaurantType extends CommonType {
   dayOfWeek?: string;
 }
 
+// Meeting type definition
 export interface MeetingType extends CommonType {
   meetingId: number;
   storeName: string;
@@ -54,6 +58,7 @@ export interface MeetingType extends CommonType {
   description?: string;
 }
 
+// Menu type definition
 export interface MenuType extends CommonType {
   menuId: number;
   storeId: number;
@@ -62,16 +67,23 @@ export interface MenuType extends CommonType {
   price: number;
 }
 
-export interface TeamMenuItemsResponse extends Response {
-  content: ItemType[];
-}
-
+// Team menu type definition
 export interface TeamMenuType extends CommonType {
   meetingId: number;
   teamPurchaseId: number;
   totalFee: number;
-  items: TeamMenuItemsResponse;
+  items: ItemType[];
 }
+
+// Individual order type definition
+export interface IndividualOrderType extends CommonType {
+  meetingId: number;
+  individualPurchaseId: number;
+  totalFee: number;
+  items: ItemType[];
+}
+
+// Response interface for paginated data
 
 interface Response {
   pageable: {
@@ -85,6 +97,10 @@ interface Response {
   };
   last: boolean;
   totalPages: number;
+}
+
+export interface IndividualOrderItems extends Response {
+  content: ItemType[];;
 }
 
 export interface RestaurantsResponse extends Response {
@@ -101,8 +117,11 @@ export interface MeetingsResponse extends Response {
 }
 
 export interface TeamMenusResponse extends Response {
-  content: TeamMenuType[]
-  meetingId: number;
+  content: TeamMenuType[];
+}
+
+export interface IndividualOrdersResponse extends Response {
+  content: IndividualOrderType[];;
 }
 
 export interface GetListParams {

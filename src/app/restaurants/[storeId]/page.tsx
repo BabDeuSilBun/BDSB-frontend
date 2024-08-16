@@ -255,7 +255,7 @@ const StorePage = () => {
                 textItems={[
                   {
                     text: '평균 도착 시간으로, 실제 도착 시간과 차이가 생길 수 있어요.',
-                    $textStyle: 'DescriptionOnly',
+                    $textStyle: 'withIcon',
                   },
                 ]}
                 width="9rem"

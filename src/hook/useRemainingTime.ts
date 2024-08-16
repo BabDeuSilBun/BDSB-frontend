@@ -44,6 +44,9 @@ const useRemainingTime = (
   }>(formatRemainingTime(targetDateStr));
 
   useEffect(() => {
+    // Immediately check the remaining time to avoid any delays
+    setRemainingTime(formatRemainingTime(targetDateStr));
+    
     const intervalId = setInterval(() => {
       setRemainingTime(formatRemainingTime(targetDateStr));
     }, 1000);
