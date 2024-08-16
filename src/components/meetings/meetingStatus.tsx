@@ -31,24 +31,16 @@ const TimerIcon = styled(Image)`
 `;
 
 interface MeetingStatusProps {
-  currentHeadCount: number;
-  participantMax: number;
-  participantMin: number;
-  purchaseType: string;
+  headCountData: { currentHeadCount: number } | null;
+  meeting: any;
   remainingTime: string;
 }
 
-const MeetingStatus: React.FC<MeetingStatusProps> = ({
-  currentHeadCount,
-  participantMax,
-  participantMin,
-  purchaseType,
-  remainingTime,
-}) => (
+const MeetingStatus: React.FC<MeetingStatusProps> = ({ headCountData, meeting, remainingTime }) => (
   <StatusContainer>
     <GroupIcon color="var(--primary)" width={18} height={18} aria-hidden="true" />
-    <Text>
-      {`${currentHeadCount}/${participantMax} (최소 ${participantMin}명)`}
+    <Text aria-label="Current and maximum participants">
+      {`${headCountData?.currentHeadCount}/${meeting.participantMax} (최소 ${meeting.participantMin}명)`}
     </Text>
     <Divider orientation="vertical" sx={{ height: '1.3125rem', backgroundColor: 'var(--gray300)' }} />
     <Badge
@@ -62,9 +54,9 @@ const MeetingStatus: React.FC<MeetingStatusProps> = ({
         alignItems: 'center',
         justifyContent: 'center',
       }}
-      aria-label={`Purchase type: ${purchaseType}`}
+      aria-label={`Purchase type: ${meeting.purchaseType}`}
     >
-      {purchaseType}
+      {meeting.purchaseType}
     </Badge>
     <Divider orientation="vertical" sx={{ height: '1.3125rem', backgroundColor: 'var(--gray300)' }} />
     <TimerIcon src="/timer.svg" alt="Timer Icon" width={18} height={18} />

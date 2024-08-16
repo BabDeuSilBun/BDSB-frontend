@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getTeamOrderInfo, getCurrentHeadCount } from '@/services/teamOrderService';
@@ -14,11 +14,7 @@ import MeetingStatus from '@/components/meetings/meetingStatus';
 import MeetingInfo from '@/components/meetings/meetingInfo';
 import TeamOrderItems from '@/components/meetings/teamOrderItems';
 import Footer from '@/components/layout/footer';
-import InfoBox from '@/components/common/infoBox';
 import styled from 'styled-components';
-import { Divider, Badge } from '@chakra-ui/react';
-import GroupIcon from '@/components/svg/group';
-import Image from 'next/image';
 import { formatCurrency } from '@/utils/currencyFormatter';
 import useRemainingTime from '@/hook/useRemainingTime';
 
@@ -36,6 +32,7 @@ const RemainingAmountText = styled.div`
 
 const TeamOrderPage = () => {
   const { meetingId } = useParams();
+  const router = useRouter();
 
   // State for storing team menu and individual order details
   const [teamMenu, setTeamMenu] = useState(null);
@@ -46,6 +43,10 @@ const TeamOrderPage = () => {
 
   // Ref to track the last element for infinite scrolling
   const lastElementRef = useRef<HTMLDivElement | null>(null);
+
+  const handleClick = () => {
+    router.push(`/restaurants/${meeting.storeId}?context=participant`);
+  };
 
   // Queries for fetching data
   const {
@@ -59,7 +60,6 @@ const TeamOrderPage = () => {
 
   const {
     data: headCountData,
-    status: headCountStatus,
     isLoading: isLoadingHeadcount,
     isError: isErrorHeadcount,
   } = useQuery<{
@@ -67,7 +67,6 @@ const TeamOrderPage = () => {
   }>({
     queryKey: ['headCount', meetingId],
     queryFn: () => getCurrentHeadCount(Number(meetingId)),
-    initialData: { currentHeadCount: 0 },
   });
   
   const { time: remainingTime, $isCritical } = useRemainingTime(
@@ -155,12 +154,9 @@ const TeamOrderPage = () => {
       <Header buttonLeft="back" text={meeting.storeName} />
       <MainImage src={meeting.images[0].url} alt={meeting.storeName} />
       <MeetingStatus 
-        currentHeadCount={headCountData.currentHeadCount} 
-        participantMax={meeting.participantMax} 
-        participantMin={meeting.participantMin} 
-        purchaseType={meeting.purchaseType}
-        remainingTime={remainingTime} 
-      />
+        headCountData={headCountData} 
+        meeting={meeting} 
+        remainingTime={remainingTime} />
       <MeetingInfo meeting={meeting} />
 
       {meeting.purchaseType === '함께 식사' && (
@@ -176,6 +172,7 @@ const TeamOrderPage = () => {
         type="button"
         buttonText="모임 참여하기"
         padding="3rem 1.5rem 1.5rem"
+        onButtonClick={handleClick}
       />
     </div>
   );
