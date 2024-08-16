@@ -4,14 +4,10 @@ import { BaseBtn, BaseBtnLight } from '@/styles/button';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { useState, FormEvent } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { setAuthToken } from '@/services/apiClient';
-
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { handleSignIn } from '@/services/auth/signInService';
 
 const Form = styled.form`
-  margin-top: 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -37,12 +33,10 @@ const Container = styled.section`
 const ErrorMessage = styled.p`
   color: red;
   font-size: var(--font-size-xs);
-  position: absolute;
-  top: -1.6rem;
 `;
 
 interface Props {
-  userType: string;
+  userType: 'users' | 'businesses';
 }
 
 export default function SignInForm({ userType }: Props) {
@@ -51,63 +45,45 @@ export default function SignInForm({ userType }: Props) {
   const [Error, setError] = useState('');
   const router = useRouter();
 
-  const handleBtnClick = async (e: FormEvent<HTMLButtonElement>) => {
+  const handleBtnClick = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
-    if (email.trim() === '') {
-      setError('이메일을 입력해주세요.');
-      return;
-    } else if (!emailRegex.test(email)) {
-      setError('유효한 이메일 주소를 입력해주세요.');
-      return;
-    } else if (password.trim() === '') {
-      setError('비밀번호를 입력해주세요.');
-      return;
-    } else {
-      setError('');
-    }
-
-    // 임시로 사용할 토큰 값 설정
-    const accessToken = 'dummyAccessToken123';
-
-    try {
-      const response = await axios.post(`api/${userType}/signin`, {
-        email: email,
-        password: password,
-      });
-
-      // 나중에 활성할 부분 (백엔드에게 보냄)
-      // const { accessToken } = response.data;
-      setAuthToken(accessToken);
-
-      router.push('/');
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    handleSignIn(email, password, userType, setError, router);
   };
 
   return (
     <Container>
       <Form>
-        {Error && <ErrorMessage>{Error}</ErrorMessage>}
+        {Error && <ErrorMessage aria-live="assertive">{Error}</ErrorMessage>}
         <input
+          id="email"
           type="email"
           placeholder="이메일"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          aria-required="true"
         />
         <input
+          id="password"
           type="password"
           placeholder="비밀번호"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          aria-required="true"
         />
-        <BaseBtn onClick={handleBtnClick}>로그인</BaseBtn>
+        <BaseBtn
+          type="submit"
+          onClick={handleBtnClick}
+          aria-label="로그인 버튼"
+        >
+          로그인
+        </BaseBtn>
       </Form>
       <Link href="./signUp">
-        <BaseBtnLight>회원가입</BaseBtnLight>
+        <BaseBtnLight aria-label="회원가입 페이지로 이동">
+          회원가입
+        </BaseBtnLight>
       </Link>
     </Container>
   );

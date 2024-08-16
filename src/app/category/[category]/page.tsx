@@ -27,7 +27,7 @@ export default async function Home() {
 
   return (
     <>
-      <Header buttonLeft="hamburger" buttonRight="home" />
+      <Header buttonLeft="hamburger" buttonRight="home" text="카테고리별 보기"/>
       <AccordionTabs />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <SortedList />

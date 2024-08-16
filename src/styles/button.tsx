@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 // 미디어 쿼리 설정
 const mediaQueries = {

@@ -82,6 +82,7 @@ const InfoRow = styled.div`
   justify-content: space-between;
   font-size: var(--font-size-sm); /* 14px */
 `;
+
 const InfoTitle = styled.div`
   flex-basis: 20%;
   font-weight: var(--font-semi-bold);
@@ -91,7 +92,7 @@ const InfoTitle = styled.div`
 
 const InfoDescription = styled.div`
   display: flex;
-  flex-basis: 70%;
+  flex-basis: 75%;
   word-wrap: break-word;
   text-align: justify;
   padding: 0 var(--font-size-md);
@@ -114,11 +115,10 @@ const InfoBoxWrapper = styled.div`
 `;
 
 const MenuContainer = styled.div`
-  width: 95%;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
-  padding-bottom: 6.875rem;
+  padding-bottom: 8rem;
 `;
 
 const MenuItemRow = styled.div`
@@ -211,9 +211,6 @@ const TeamOrderPage = () => {
     },
   });
 
-  console.log('meetingId:', meetingId);
-  console.log('teamMenus:', teamMenus);
-
   useEffect(() => {
     if (isFetchingNextPage) return;
 
@@ -243,11 +240,13 @@ const TeamOrderPage = () => {
     };
   }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
 
-  const { data: selectedTeamMenuInfo, isLoading: isLoadingTeamMenuInfo } = useQuery({
-    queryKey: ['teamMenuInfo', selectedTeamMenu?.purchaseId],
-    queryFn: () => getTeamMenuInfo(Number(meetingId), Number(selectedTeamMenu.purchaseId)),
-    enabled: !!selectedTeamMenu?.purchaseId, // Only fetch when teamPurchaseId is available
-  });
+  const { data: selectedTeamMenuInfo, isLoading: isLoadingTeamMenuInfo } =
+    useQuery({
+      queryKey: ['teamMenuInfo', selectedTeamMenu?.purchaseId],
+      queryFn: () =>
+        getTeamMenuInfo(Number(meetingId), Number(selectedTeamMenu.purchaseId)),
+      enabled: !!selectedTeamMenu?.purchaseId, // Only fetch when teamPurchaseId is available
+    });
 
   if (isLoadingMeeting || isLoadingTeamMenus) {
     return <Loading />;
@@ -353,26 +352,26 @@ const TeamOrderPage = () => {
 
       {meeting.purchaseType === '함께 식사' && (
         <>
-        <Divider
-        orientation="horizontal"
-        sx={{
-          borderWidth: '3px',
-          borderColor: 'var(--gray100)',
-        }}
-        />
-        <MenuTypeTitle>공통 메뉴</MenuTypeTitle>
-        <MenuContainer>
-          {teamMenus?.pages?.map((page, pageIndex) => (
-            page.content.map((item) => (
-              <MenuItemRow key={`${pageIndex}-${item.menuId}`}>
-                <MenuItemName>{item.name}</MenuItemName>
-                <MenuItemPrice>{formatCurrency(item.price)}</MenuItemPrice>
-              </MenuItemRow>
-            ))
-          ))}
-        </MenuContainer>
-      </>
-    )}
+          <Divider
+            orientation="horizontal"
+            sx={{
+              borderWidth: '3px',
+              borderColor: 'var(--gray100)',
+            }}
+          />
+          <MenuTypeTitle>공통 메뉴</MenuTypeTitle>
+          <MenuContainer>
+            {teamMenus?.pages.map((page, pageIndex) =>
+              page.content.map((item) => (
+                <MenuItemRow key={`${pageIndex}-${item.menuId}`}>
+                  <MenuItemName>{item.name}</MenuItemName>
+                  <MenuItemPrice>{formatCurrency(item.price)}</MenuItemPrice>
+                </MenuItemRow>
+              )),
+            )}
+          </MenuContainer>
+        </>
+      )}
 
       <FooterText>최소 주문 금액까지 0000원 남았어요!</FooterText>
       <Footer
