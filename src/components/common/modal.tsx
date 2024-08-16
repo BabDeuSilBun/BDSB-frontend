@@ -238,7 +238,7 @@ const Modal: React.FC<ModalProps> = ({
               <InfoContainer>
                 <InfoRow>
                   <InfoTitle>주소</InfoTitle>
-                  <InfoDescription>{`${address1} ${address2}`}</InfoDescription>
+                  <InfoDescription>{address1}<br />{address2}</InfoDescription>
                 </InfoRow>
                 <InfoRow>
                   <InfoTitle>운영시간</InfoTitle>
