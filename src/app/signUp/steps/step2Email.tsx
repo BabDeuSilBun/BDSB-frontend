@@ -22,20 +22,27 @@ const Form = styled.div`
 `;
 
 const Step2Email = () => {
-  const { userType, email, setEmail, setButtonActive } = useSignUpStore();
+  const {
+    userType,
+    email,
+    setEmail,
+    setButtonActive,
+    isEmailVerified,
+    setEmailVerified,
+  } = useSignUpStore();
   const [tempEmail, setTempEmail] = useState(email);
   const [verifiedEmail, setVerifiedEmail] = useState(email);
   const [code, setCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [codeButtonActive, setCodeButtonActive] = useState(false);
-  const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
-    if (email) {
+    if (isEmailVerified) {
+      setTempEmail(email);
       setButtonActive(true);
     }
-    setTempEmail(email);
-  }, [isVerified, setButtonActive]);
+    setButtonActive(false);
+  }, [isEmailVerified, setButtonActive]);
 
   const emailMutation = useMutation({
     mutationFn: async (email: string) => {
@@ -54,7 +61,7 @@ const Step2Email = () => {
         setErrorMessage('');
       } catch (error) {
         setErrorMessage('이메일 전송 중 오류가 발생했습니다.');
-        setIsVerified(false);
+        setEmailVerified(false);
         throw error;
       }
     },
@@ -69,6 +76,7 @@ const Step2Email = () => {
 
       if (!codeCheck.result) {
         setButtonActive(false);
+        setEmailVerified(false);
         return;
       }
       setButtonActive(true);
@@ -76,6 +84,7 @@ const Step2Email = () => {
     },
     onError: () => {
       setButtonActive(false);
+      setEmailVerified(false);
     },
   });
 
