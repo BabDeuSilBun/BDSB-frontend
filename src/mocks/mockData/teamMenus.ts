@@ -14,7 +14,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '페퍼로니가 듬뿍 들어간 맛있는 피자',
         price: 15000,
-        quantity: 2
+        quantity: 2,
       },
       {
         purchaseId: 102,
@@ -23,7 +23,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '부드러운 치즈가 가득한 피자',
         price: 14000,
-        quantity: 2
+        quantity: 2,
       },
       {
         purchaseId: 103,
@@ -32,9 +32,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '바삭하고 향긋한 갈릭 브레드',
         price: 5000,
-        quantity: 3
-      }
-    ]
+        quantity: 3,
+      },
+    ],
   },
   {
     teamPurchaseId: 2,
@@ -49,7 +49,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '신선한 생선이 들어간 스시 세트',
         price: 30000,
-        quantity: 2
+        quantity: 2,
       },
       {
         purchaseId: 105,
@@ -58,7 +58,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '다양한 생선이 포함된 사시미 세트',
         price: 35000,
-        quantity: 1
+        quantity: 1,
       },
       {
         purchaseId: 106,
@@ -67,9 +67,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '따뜻하고 진한 국물이 일품인 우동',
         price: 8000,
-        quantity: 3
-      }
-    ]
+        quantity: 3,
+      },
+    ],
   },
   {
     teamPurchaseId: 3,
@@ -84,7 +84,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '신선한 야채와 고추장이 어우러진 비빔밥',
         price: 18000,
-        quantity: 2
+        quantity: 2,
       },
       {
         purchaseId: 108,
@@ -93,7 +93,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '매콤한 김치가 듬뿍 들어간 찌개',
         price: 12000,
-        quantity: 3
+        quantity: 3,
       },
       {
         purchaseId: 109,
@@ -102,9 +102,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '달콤한 간장 소스에 재운 불고기',
         price: 15000,
-        quantity: 2
-      }
-    ]
+        quantity: 2,
+      },
+    ],
   },
   {
     teamPurchaseId: 4,
@@ -119,7 +119,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '바삭한 크러스트와 달콤한 필링이 어우러진 파이',
         price: 4500,
-        quantity: 6
+        quantity: 6,
       },
       {
         purchaseId: 111,
@@ -128,7 +128,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '달콤한 에그 필링이 들어간 타르트',
         price: 3000,
-        quantity: 5
+        quantity: 5,
       },
       {
         purchaseId: 112,
@@ -137,9 +137,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '부드러운 우유 거품이 올라간 커피',
         price: 4000,
-        quantity: 2
-      }
-    ]
+        quantity: 2,
+      },
+    ],
   },
   {
     teamPurchaseId: 5,
@@ -154,7 +154,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '두툼한 패티와 치즈가 들어간 햄버거',
         price: 8500,
-        quantity: 3
+        quantity: 3,
       },
       {
         purchaseId: 114,
@@ -163,7 +163,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '바삭한 감자튀김',
         price: 4000,
-        quantity: 3
+        quantity: 3,
       },
       {
         purchaseId: 115,
@@ -172,9 +172,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '시원한 탄산음료',
         price: 2000,
-        quantity: 4
-      }
-    ]
+        quantity: 4,
+      },
+    ],
   },
   {
     teamPurchaseId: 6,
@@ -189,7 +189,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '매콤한 고추와 잡채의 조화',
         price: 17000,
-        quantity: 3
+        quantity: 3,
       },
       {
         purchaseId: 117,
@@ -198,7 +198,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '매콤한 국물과 해물이 어우러진 짬뽕',
         price: 8000,
-        quantity: 4
+        quantity: 4,
       },
       {
         purchaseId: 118,
@@ -207,9 +207,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '달콤한 소스에 버무린 탕수육',
         price: 15000,
-        quantity: 2
-      }
-    ]
+        quantity: 2,
+      },
+    ],
   },
   {
     teamPurchaseId: 7,
@@ -224,7 +224,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '신선한 회 한 접시',
         price: 50000,
-        quantity: 2
+        quantity: 2,
       },
       {
         purchaseId: 120,
@@ -233,7 +233,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '바삭한 새우튀김',
         price: 12000,
-        quantity: 3
+        quantity: 3,
       },
       {
         purchaseId: 121,
@@ -242,9 +242,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '고소한 참치와 마요네즈가 어우러진 덮밥',
         price: 9000,
-        quantity: 4
-      }
-    ]
+        quantity: 4,
+      },
+    ],
   },
   {
     teamPurchaseId: 8,
@@ -259,7 +259,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '매콤달콤한 떡볶이',
         price: 8000,
-        quantity: 4
+        quantity: 4,
       },
       {
         purchaseId: 123,
@@ -268,7 +268,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '쫄깃한 순대',
         price: 7000,
-        quantity: 5
+        quantity: 5,
       },
       {
         purchaseId: 124,
@@ -277,9 +277,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '따뜻한 국물과 함께하는 어묵',
         price: 4000,
-        quantity: 6
-      }
-    ]
+        quantity: 6,
+      },
+    ],
   },
   {
     teamPurchaseId: 9,
@@ -294,7 +294,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '달콤한 불고기가 듬뿍 올라간 덮밥',
         price: 12000,
-        quantity: 5
+        quantity: 5,
       },
       {
         purchaseId: 126,
@@ -303,7 +303,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '매콤한 제육볶음',
         price: 14000,
-        quantity: 4
+        quantity: 4,
       },
       {
         purchaseId: 127,
@@ -312,9 +312,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '구수한 된장찌개',
         price: 10000,
-        quantity: 3
-      }
-    ]
+        quantity: 3,
+      },
+    ],
   },
   {
     teamPurchaseId: 10,
@@ -329,7 +329,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '아침을 든든하게 시작할 수 있는 브런치 세트',
         price: 15000,
-        quantity: 3
+        quantity: 3,
       },
       {
         purchaseId: 129,
@@ -338,7 +338,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '부드럽고 달콤한 팬케이크',
         price: 9000,
-        quantity: 4
+        quantity: 4,
       },
       {
         purchaseId: 130,
@@ -347,9 +347,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '향긋한 아메리카노',
         price: 4500,
-        quantity: 4
-      }
-    ]
+        quantity: 4,
+      },
+    ],
   },
   {
     teamPurchaseId: 11,
@@ -364,7 +364,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '다양한 고기와 함께 즐기는 바비큐 플래터',
         price: 25000,
-        quantity: 2
+        quantity: 2,
       },
       {
         purchaseId: 132,
@@ -373,7 +373,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '부드러운 훈제 치킨',
         price: 18000,
-        quantity: 3
+        quantity: 3,
       },
       {
         purchaseId: 133,
@@ -382,9 +382,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '고소한 코울슬로 샐러드',
         price: 5000,
-        quantity: 4
-      }
-    ]
+        quantity: 4,
+      },
+    ],
   },
   {
     teamPurchaseId: 12,
@@ -399,7 +399,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '프랑스 전통 요리 비프 부르기뇽',
         price: 25000,
-        quantity: 2
+        quantity: 2,
       },
       {
         purchaseId: 135,
@@ -408,7 +408,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '향긋한 허브 버터 소스를 곁들인 에스카르고',
         price: 15000,
-        quantity: 3
+        quantity: 3,
       },
       {
         purchaseId: 136,
@@ -417,9 +417,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '바삭한 바게트',
         price: 6000,
-        quantity: 3
-      }
-    ]
+        quantity: 3,
+      },
+    ],
   },
   {
     teamPurchaseId: 13,
@@ -434,7 +434,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '신선한 채소와 비건 치즈가 올라간 피자',
         price: 16000,
-        quantity: 3
+        quantity: 3,
       },
       {
         purchaseId: 138,
@@ -443,7 +443,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '건강한 비건 버거',
         price: 15000,
-        quantity: 3
+        quantity: 3,
       },
       {
         purchaseId: 139,
@@ -452,9 +452,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '신선한 비건 샐러드',
         price: 10000,
-        quantity: 3
-      }
-    ]
+        quantity: 3,
+      },
+    ],
   },
   {
     teamPurchaseId: 14,
@@ -469,7 +469,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '다양한 맛의 마카롱 세트',
         price: 15000,
-        quantity: 3
+        quantity: 3,
       },
       {
         purchaseId: 141,
@@ -478,7 +478,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '부드럽고 달콤한 케이크',
         price: 18000,
-        quantity: 2
+        quantity: 2,
       },
       {
         purchaseId: 142,
@@ -487,9 +487,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '향긋한 밀크티',
         price: 5000,
-        quantity: 4
-      }
-    ]
+        quantity: 4,
+      },
+    ],
   },
   {
     teamPurchaseId: 15,
@@ -504,7 +504,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '최고급 한우 스테이크',
         price: 40000,
-        quantity: 2
+        quantity: 2,
       },
       {
         purchaseId: 144,
@@ -513,7 +513,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '부드러운 양념 갈비',
         price: 35000,
-        quantity: 2
+        quantity: 2,
       },
       {
         purchaseId: 145,
@@ -522,9 +522,9 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '시원한 물냉면',
         price: 8000,
-        quantity: 3
-      }
-    ]
+        quantity: 3,
+      },
+    ],
   },
   {
     teamPurchaseId: 16,
@@ -539,7 +539,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '올리브 오일과 마늘의 풍미가 가득한 파스타',
         price: 15000,
-        quantity: 4
+        quantity: 4,
       },
       {
         purchaseId: 147,
@@ -548,7 +548,7 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '크림이 가득한 까르보나라 파스타',
         price: 16000,
-        quantity: 3
+        quantity: 3,
       },
       {
         purchaseId: 148,
@@ -557,38 +557,39 @@ export const teamMenus: TeamMenuType[] = [
         image: 'https://via.placeholder.com/100x100',
         description: '바삭한 바게트와 신선한 토마토가 어우러진 브루스케타',
         price: 9000,
-        quantity: 4
-      }
-    ]
-  }
+        quantity: 4,
+      },
+    ],
+  },
 ];
 
 const pageSize = 10;
 
-export const paginatedTeamMenus: { [key: number]: TeamMenusResponse[] } = teamMenus.reduce(
-  (acc, menu) => {
-    const totalPages = Math.ceil(menu.items.length / pageSize);
-    const paginatedItems = Array.from({ length: totalPages }, (_, index) => {
-      const start = index * pageSize;
-      const end = start + pageSize;
-      const content = menu.items.slice(start, end);
-      const isLastPage = index === totalPages - 1;
+export const paginatedTeamMenus: { [key: number]: TeamMenusResponse[] } =
+  teamMenus.reduce(
+    (acc, menu) => {
+      const totalPages = Math.ceil(menu.items.length / pageSize);
+      const paginatedItems = Array.from({ length: totalPages }, (_, index) => {
+        const start = index * pageSize;
+        const end = start + pageSize;
+        const content = menu.items.slice(start, end);
+        const isLastPage = index === totalPages - 1;
 
-      return {
-        content, // 현재 페이지에 해당하는 데이터
-        pageable: {
-          pageNumber: index, // 현재 페이지 번호
-          pageSize, // 페이지당 데이터 개수
-        },
-        last: isLastPage, // 마지막 페이지 여부
-        totalPages, // 전체 페이지 수
-        size: pageSize, // 페이지당 데이터 개수
-        first: index === 0, // 첫 페이지 여부
-      };
-    });
+        return {
+          content, // 현재 페이지에 해당하는 데이터
+          pageable: {
+            pageNumber: index, // 현재 페이지 번호
+            pageSize, // 페이지당 데이터 개수
+          },
+          last: isLastPage, // 마지막 페이지 여부
+          totalPages, // 전체 페이지 수
+          size: pageSize, // 페이지당 데이터 개수
+          first: index === 0, // 첫 페이지 여부
+        };
+      });
 
-    acc[menu.meetingId] = paginatedItems;
-    return acc;
-  },
-  {} as { [key: number]: TeamMenusResponse[] }
-);
+      acc[menu.meetingId] = paginatedItems;
+      return acc;
+    },
+    {} as { [key: number]: TeamMenusResponse[] },
+  );

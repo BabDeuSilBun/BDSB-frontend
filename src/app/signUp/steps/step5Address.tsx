@@ -1,8 +1,8 @@
 'use client';
 
+import { useEffect, ChangeEvent } from 'react';
 import { useSignUpStore } from '@/state/authStore';
 import styled from 'styled-components';
-import Image from 'next/image';
 import SearchIcon from '@/components/svg/search';
 
 const Caption = styled.p`
@@ -42,8 +42,10 @@ const AddressBtn = styled.button`
 `;
 
 const Step5Address = () => {
-  const { address, setAddress, setStep } = useSignUpStore();
+  const { address, setAddress, setButtonActive } = useSignUpStore();
 
+  useEffect(() => {}, []);
+  
   return (
     <div>
       <Flex>

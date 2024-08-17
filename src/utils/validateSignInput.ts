@@ -9,9 +9,9 @@ export const validateSignInput = (type: string, value: string) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       isValid = emailRegex.test(value);
       break;
-    case 'number':
-      const numberRegex = /^010\d{8}$/;
-      isValid = numberRegex.test(value);
+    case 'phone':
+      const phoneRegex = /^010\d{8}$/;
+      isValid = phoneRegex.test(value);
       break;
     default:
       break;
