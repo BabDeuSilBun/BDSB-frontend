@@ -27,6 +27,7 @@ interface ModalProps {
   onButtonClick2?: () => void;
   onButtonClick3?: () => void;
   onClose?: () => void;
+  context?: 'leaderBefore' | 'leaderAfter' | 'participant';
 }
 
 const mediaQueries = {
@@ -169,50 +170,95 @@ const Modal: React.FC<ModalProps> = ({
   onButtonClick2,
   onButtonClick3,
   onClose = () => {},
+  context,
 }) => {
   
-  const formattedDescription = description ? limitWordsPerLine(description, 18) : '';
+  const formattedDescription = description
+    ? limitWordsPerLine(description, 18)
+    : '';
 
-  return (
-    <ModalOverlay onClick={onClose}>
-      <ModalContainer>
-        {type === 'image' && imageUrl && (
-          <ModalImage src={imageUrl} alt={title1} sizes="50vw" />
-        )}
-        <Title1>{title1}</Title1>
-        <Title2>{title2}</Title2>
-        <Description dangerouslySetInnerHTML={{ __html: formattedDescription }} />
-        {type === 'info' && (
-          <InfoContainer>
-          <InfoRow>
-            <InfoTitle>주소</InfoTitle>
-            <InfoDescription>{`${address1} ${address2}`}</InfoDescription>
-          </InfoRow>
-          <InfoRow>
-            <InfoTitle>운영시간</InfoTitle>
-            <InfoDescription>
-              {openTime} ~ {closeTime}
-            </InfoDescription>
-          </InfoRow>
-          <InfoRow>
-            <InfoTitle>휴무일</InfoTitle>
-            <InfoDescription>{dayOfWeek}</InfoDescription>
-          </InfoRow>
-          </InfoContainer>
-        )}
-        {type === 'text' || type === 'image' ? (
-          <BtnGroup>
-            <HalfBtnPurple onClick={onButtonClick1}>{buttonText1}</HalfBtnPurple>
-            <HalfBtnLight onClick={onButtonClick2}>{buttonText2}</HalfBtnLight>
-          </BtnGroup>
-        ) : (
-          <BaseBtn onClick={onButtonClick3} style={{ width: '17.625rem' }}>
-            {buttonText}
-          </BaseBtn> /* 282px in 360px mobile screen */
-        )}
-      </ModalContainer>
-    </ModalOverlay>
-  );
-};
-
-export default Modal;
+    const renderButtons = () => {
+      switch (context) {
+        case 'leaderBefore':
+          return (
+            <BtnGroup>
+              <HalfBtnPurple onClick={onButtonClick1}>
+                {buttonText1 || '모임 만들기'}
+              </HalfBtnPurple>
+              <HalfBtnLight onClick={onButtonClick2}>
+                {buttonText2 || '닫기'}
+              </HalfBtnLight>
+            </BtnGroup>
+          );
+        case 'leaderAfter':
+          return (
+            <BtnGroup>
+              <HalfBtnPurple onClick={onButtonClick1}>
+                {buttonText1 || '공통메뉴'}
+              </HalfBtnPurple>
+              <HalfBtnLight onClick={onButtonClick2}>
+                {buttonText2 || '개별메뉴'}
+              </HalfBtnLight>
+            </BtnGroup>
+          );
+        case 'participant':
+          return (
+            <BtnGroup>
+              <HalfBtnPurple onClick={onButtonClick1}>
+                {buttonText1 || '개별메뉴'}
+              </HalfBtnPurple>
+              <HalfBtnLight onClick={onButtonClick2}>
+                {buttonText2 || '닫기'}
+              </HalfBtnLight>
+            </BtnGroup>
+          );
+        default:
+          return (
+            <BaseBtn onClick={onButtonClick3} style={{ width: '17.625rem' }}>
+              {buttonText || '닫기'}
+            </BaseBtn>
+          );
+      }
+    };
+  
+    return (
+      <ModalOverlay onClick={onClose}>
+        <ModalContainer onClick={(e) => e.stopPropagation()}>
+          {/* Modal Content */}
+          {type === 'image' && imageUrl && (
+            <ModalImage src={imageUrl} alt={title1} sizes="50vw" />
+          )}
+          <Title1>{title1}</Title1>
+          <Title2>{title2}</Title2>
+          <Description
+            dangerouslySetInnerHTML={{ __html: formattedDescription }}
+          />
+          {type === 'info' ? (
+            <>
+              <InfoContainer>
+                <InfoRow>
+                  <InfoTitle>주소</InfoTitle>
+                  <InfoDescription>{address1}<br />{address2}</InfoDescription>
+                </InfoRow>
+                <InfoRow>
+                  <InfoTitle>운영시간</InfoTitle>
+                  <InfoDescription>
+                    {openTime} ~ {closeTime}
+                  </InfoDescription>
+                </InfoRow>
+                <InfoRow>
+                  <InfoTitle>휴무일</InfoTitle>
+                  <InfoDescription>{dayOfWeek}</InfoDescription>
+                </InfoRow>
+              </InfoContainer>
+              {renderButtons()}
+            </>
+          ) : (
+            renderButtons()
+          )}
+        </ModalContainer>
+      </ModalOverlay>        
+    );
+  };
+  
+  export default Modal;

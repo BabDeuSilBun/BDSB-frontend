@@ -5,7 +5,7 @@ import { useState } from 'react';
 import InfoBoxIcon from '@/components/svg/infoBoxIcon';
 
 interface InfoBoxProps {
-  textItems: { text: string; $textStyle: 'DescriptionOnly' | 'Title' | 'Description'; sameRow?: boolean }[];
+  textItems: { text: string; $textStyle: 'withIcon' | 'Title' | 'Description'; sameRow?: boolean }[];
   showIcon?: boolean;
   width?: string;
 }
@@ -45,7 +45,7 @@ const TextRow = styled.div`
   justify-content: center;
 `;
 
-const Text = styled.p<{ $textStyle: 'DescriptionOnly' | 'Title' | 'Description' }>`
+const Text = styled.p<{ $textStyle: 'withIcon' | 'Title' | 'Description' }>`
   margin: 0;
   font-size: var(--font-size-xs);
   color: var(--gray400);
@@ -53,7 +53,7 @@ const Text = styled.p<{ $textStyle: 'DescriptionOnly' | 'Title' | 'Description' 
 
   ${({ $textStyle }) => {
     switch ($textStyle) {
-      case 'DescriptionOnly':
+      case 'withIcon':
         return `
           font-weight: var(--font-regular);
         `;
@@ -72,11 +72,25 @@ const Text = styled.p<{ $textStyle: 'DescriptionOnly' | 'Title' | 'Description' 
   }}
 `;
 
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1003;
+`;
+
 export default function InfoBox({ textItems = [], showIcon = true, width }: InfoBoxProps) {
   const [isVisible, setIsVisible] = useState(!showIcon);
 
   const handleIconClick = () => {
     setIsVisible((prev) => !prev);
+  };
+
+  const handleClose = () => {
+    setIsVisible(false);
   };
 
   return (
@@ -87,33 +101,36 @@ export default function InfoBox({ textItems = [], showIcon = true, width }: Info
         </IconWrapper>
       )}
       {isVisible && (
-        <InfoBoxWrapper width={width} $zIndex={10}>
-          {textItems.map((item, index) => {
-            if (item.$textStyle === 'DescriptionOnly') {
-              return (
-                <Text key={index} $textStyle={item.$textStyle}>
-                  {item.text}
-                </Text>
-              );
-            }
+        <>
+          <Overlay onClick={handleClose} />
+          <InfoBoxWrapper width={width} $zIndex={1004}>
+            {textItems.map((item, index) => {
+              if (item.$textStyle === 'withIcon') {
+                return (
+                  <Text key={index} $textStyle={item.$textStyle}>
+                    {item.text}
+                  </Text>
+                );
+              }
 
-            if (item.sameRow && index < textItems.length - 1) {
-              return (
-                <TextRow key={index}>
-                  <Text $textStyle={item.$textStyle}>{item.text}</Text>
-                  <Text $textStyle={textItems[index + 1].$textStyle}>{textItems[index + 1].text}</Text>
-                </TextRow>
-              );
-            } else if (!item.sameRow && (index === 0 || !textItems[index - 1].sameRow)) {
-              return (
-                <Text key={index} $textStyle={item.$textStyle}>
-                  {item.text}
-                </Text>
-              );
-            }
-            return null;
-          })}
-        </InfoBoxWrapper>
+              if (item.sameRow && index < textItems.length - 1) {
+                return (
+                  <TextRow key={index}>
+                    <Text $textStyle={item.$textStyle}>{item.text}</Text>
+                    <Text $textStyle={textItems[index + 1].$textStyle}>{textItems[index + 1].text}</Text>
+                  </TextRow>
+                );
+              } else if (!item.sameRow && (index === 0 || !textItems[index - 1].sameRow)) {
+                return (
+                  <Text key={index} $textStyle={item.$textStyle}>
+                    {item.text}
+                  </Text>
+                );
+              }
+              return null;
+            })}
+          </InfoBoxWrapper>
+        </>
       )}
     </InfoContainer>
   );

@@ -7,7 +7,7 @@ export default function CallButton({ phoneNumber }) {
   return (
     <Button
       as="a" // Use the button as an anchor tag
-      href={`tel:${phoneNumber}`} // Tel link with the phone number
+      href={`tel:${phoneNumber}`}
       variant="outline"
       fontSize="var(--font-size-md)"
       fontWeight="var(--font-regular)"
