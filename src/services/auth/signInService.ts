@@ -33,17 +33,38 @@ export async function handleSignIn(
     });
 
     const jwtToken = res.headers['Authorization'];
-    const refreshToken = res.headers['Refresh'];
-
-    Cookies.set('jwtToken', jwtToken);
-    Cookies.set('refreshToken', refreshToken);
-
+    Cookies.set('jwtToken', jwtToken, {
+      secure: true,
+      sameSite: 'Strict',
+    });
     setAuthToken(jwtToken);
     router.push('/');
   } catch (error) {
-    console.error('Error:', error);
-    setError(
-      "로그인에 실패했습니다. 만약 문제가 지속될 경우 하단 '문의하기'를 이용해주세요.",
-    );
+    if (axios.isAxiosError(error)) {
+      const status = error.response?.status;
+      const data = error.response?.data;
+
+      if (status === 401 && data && data.errorCode) {
+        switch (data.errorCode) {
+          case 'JWT_EXPIRED':
+            setError('로그인에 실패했습니다. 다시 로그인해 주세요.'); //JWT 만료
+            break;
+          case 'PASSWORD_NOT_MATCH':
+            setError('이메일 혹은 비밀번호가 일치하지 않습니다.');
+            break;
+          // 다른 에러 코드 처리
+          default:
+            setError('로그인에 실패했습니다. 다시 시도해 주세요.');
+        }
+      } else {
+        setError(
+          "로그인에 실패했습니다. 만약 문제가 지속될 경우 하단 '문의하기'를 이용해주세요.",
+        );
+      }
+    } else {
+      setError(
+        "로그인에 실패했습니다. 만약 문제가 지속될 경우 하단 '문의하기'를 이용해주세요.",
+      );
+    }
   }
 }
