@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import MswComponent from '@/components/msw.component';
 import StyledComponentsRegistry from '@/lib/registry';
 
-import Providers from './providers';
+import Providers from '@/providers/provider';
 
 const font = localFont({
   src: 'fonts/SF-Pro.ttf',
