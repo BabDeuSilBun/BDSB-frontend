@@ -15,6 +15,18 @@ export const setAuthToken = (token: string) => {
     `Bearer ${token}`;
 };
 
+// 토큰 갱신 함수
+export const onSilentRefresh = async () => {
+  try {
+    const res = await httpClientForCredentials.post('/api/refresh-token');
+    const newToken = res.headers['Authorization'];
+    Cookies.set('jwtToken', newToken);
+    setAuthToken(newToken);
+  } catch (error) {
+    console.error('Token refresh failed:', error);
+  }
+};
+
 interface NextRouter {
   push: (path: string) => void;
 }
@@ -33,19 +45,11 @@ export const setupInterceptors = (router: NextRouter) => {
 
         if (refreshToken) {
           try {
-            const res = await apiClient.post('/api/refresh-token', {
-              token: refreshToken,
-            });
-
+            const res = await httpClientForCredentials.post('/api/refresh-token');
             const newJwtToken = res.headers['Authorization'];
-            const newRefreshToken = res.headers['Refresh'];
 
-            // 새로 발급받은 토큰을 쿠키에 저장
-            Cookies.set('jwtToken', newJwtToken);
-            Cookies.set('refreshToken', newRefreshToken);
-
-            // 새로운 JWT로 원래 요청 재시도
             setAuthToken(newJwtToken);
+            Cookies.set('jwtToken', newJwtToken);
             return httpClientForCredentials(originalRequest);
           } catch (refreshError) {
             console.error('Token refresh failed:', refreshError);
