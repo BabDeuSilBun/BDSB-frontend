@@ -1,16 +1,17 @@
 'use client';
 
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import { BaseBtnInactive, BaseBtn } from '@/styles/button';
 import { validateSignInput } from '@/utils/validateSignInput';
 import { useSignUpStore } from '@/state/authStore';
 import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 
-const Caption = styled.p`
+const Caption = styled.p<{ warning?: boolean }>`
   font-size: var(--font-size-xs);
-  color: var(--gray400);
+  color: ${({ warning }) => warning && 'var(--warning)'};
+  margin-bottom: ${({ warning }) => (warning ? '-0.7rem' : '1rem')};
 `;
 
 const Form = styled.div`
@@ -21,74 +22,117 @@ const Form = styled.div`
 `;
 
 const Step2Email = () => {
-  const { email, setEmail, setButtonActive } = useSignUpStore();
+  const { userType, email, setEmail, setButtonActive } = useSignUpStore();
+  const [tempEmail, setTempEmail] = useState(email);
+  const [verifiedEmail, setVerifiedEmail] = useState(email);
   const [code, setCode] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [codeButtonActive, setCodeButtonActive] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (email) {
+      setButtonActive(true);
+    }
+    setTempEmail(email);
+  }, [isVerified, setButtonActive]);
 
   const emailMutation = useMutation({
     mutationFn: async (email: string) => {
-      return axios.post('/api/signup/email-verify', { email });
-    },
-    onSuccess: () => {
-      console.log('이메일이 성공적으로 전송되었습니다.');
-    },
-    onError: (error) => {
-      console.error('이메일 전송 중 오류가 발생했습니다:', error);
+      const { data: duplicationCheck } = await axios.post(
+        `/api/${userType}/email-duplicated`,
+        { email },
+      );
+
+      if (!duplicationCheck.usable) {
+        setErrorMessage('중복된 이메일입니다.');
+        return;
+      }
+
+      try {
+        await axios.post('/api/signup/email-verify', { email });
+        setErrorMessage('');
+      } catch (error) {
+        setErrorMessage('이메일 전송 중 오류가 발생했습니다.');
+        setIsVerified(false);
+        throw error;
+      }
     },
   });
 
   const codeMutation = useMutation({
-    mutationFn: async (data: { email: string; code: string }) => {
-      return axios.post('/api/signup/verify-code', data);
-    },
-    onSuccess: () => {
+    mutationFn: async ({ email, code }: { email: string; code: string }) => {
+      const { data: codeCheck } = await axios.post('/api/signup/verify-code', {
+        email,
+        code,
+      });
+
+      if (!codeCheck.result) {
+        setButtonActive(false);
+        return;
+      }
       setButtonActive(true);
-      console.log('코드 검증이 성공적으로 완료되었습니다.');
+      setEmail(verifiedEmail);
     },
-    onError: (error) => {
-      console.error('코드 검증 중 오류가 발생했습니다:', error);
+    onError: () => {
+      setButtonActive(false);
     },
   });
 
   const handleEmailSend = () => {
-    if (validateSignInput('email', email)) {
-      emailMutation.mutate(email);
+    if (validateSignInput('email', tempEmail)) {
+      emailMutation.mutate(tempEmail);
+      setVerifiedEmail(tempEmail);
+    } else {
+      setErrorMessage('유효한 이메일 주소를 입력해주세요.');
     }
   };
 
   const handleCodeVerify = () => {
-    codeMutation.mutate({ email, code });
+    if (code) {
+      codeMutation.mutate({ email: tempEmail, code });
+    } else {
+      setErrorMessage('인증 번호를 입력해주세요.');
+    }
+  };
+
+  const handleCodeBtnActive = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value.trim();
+    setCode(inputValue);
+    setCodeButtonActive(!!inputValue);
   };
 
   return (
-    <div>
-      <Form>
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="이메일 주소"
-          aria-label="이메일 주소 입력"
-          aria-required="true"
-        />
-        {!validateSignInput('email', email) ? (
-          <BaseBtnInactive>메일 전송하기</BaseBtnInactive>
-        ) : (
-          <BaseBtn onClick={handleEmailSend}>메일 전송하기</BaseBtn>
-        )}
-        <Caption>메일이 오지 않았을 경우, 스팸 메일함을 확인해주세요.</Caption>
-      </Form>
+    <Form>
+      <input
+        type="text"
+        value={tempEmail}
+        onChange={(e) => setTempEmail(e.target.value)}
+        placeholder="이메일 주소"
+        aria-label="이메일 주소 입력"
+        aria-required="true"
+      />
+      {validateSignInput('email', tempEmail) ? (
+        <BaseBtn onClick={handleEmailSend}>메일 전송하기</BaseBtn>
+      ) : (
+        <BaseBtnInactive>메일 전송하기</BaseBtnInactive>
+      )}
+      {errorMessage && <Caption warning>{errorMessage}</Caption>}
+      <Caption>메일이 오지 않았을 경우, 스팸 메일함을 확인해주세요.</Caption>
       <input
         type="text"
         value={code}
-        onChange={(e) => setCode(e.target.value)}
+        onChange={handleCodeBtnActive}
         placeholder="인증 번호 입력"
         aria-label="이메일 인증번호 입력"
         aria-required="true"
       />
-      <BaseBtn onClick={handleCodeVerify}>코드 검증하기</BaseBtn>
-    </div>
+      {codeButtonActive ? (
+        <BaseBtn onClick={handleCodeVerify}>코드 검증하기</BaseBtn>
+      ) : (
+        <BaseBtnInactive>코드 검증하기</BaseBtnInactive>
+      )}
+    </Form>
   );
 };
 

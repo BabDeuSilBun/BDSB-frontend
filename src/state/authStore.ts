@@ -1,23 +1,33 @@
 import { create } from 'zustand';
 
+interface Address {
+  postal: string;
+  streetAddress: string;
+  detailAddress: string;
+}
+
 interface SignUpState {
+  userType: 'users' | 'businesses';
   currentStep: number;
   name: string;
-  phone: string;
+  phoneNumber: string;
+  businessNumber?: string;
   email: string;
-  campus: string;
-  department: string;
-  address: string;
+  campus?: string;
+  department?: string;
+  address: Address;
   password: string;
   isButtonActive: boolean;
   buttonText: string;
+  setUserType: (userType: 'users' | 'businesses') => void;
   setStep: (step: number) => void;
   setName: (name: string) => void;
-  setPhone: (phone: string) => void;
+  setPhoneNumber: (phoneNumber: string) => void;
+  setBusinessNumber?: (businessNumber: string) => void;
   setEmail: (email: string) => void;
-  setCampus: (campus: string) => void;
-  setDepartment: (department: string) => void;
-  setAddress: (address: string) => void;
+  setCampus?: (campus: string) => void;
+  setDepartment?: (department: string) => void;
+  setAddress?: (address: Address) => void;
   setPassword: (password: string) => void;
   setButtonActive: (isActive: boolean) => void;
   setButtonText: (buttonText: string) => void;
@@ -25,18 +35,26 @@ interface SignUpState {
 
 export const useSignUpStore = create<SignUpState>((set) => ({
   currentStep: 0,
+  userType: 'users',
   name: '',
-  phone: '',
+  phoneNumber: '',
+  businessNumber: '',
   email: '',
   campus: '',
   department: '',
-  address: '',
+  address: {
+    postal: '',
+    streetAddress: '',
+    detailAddress: '',
+  },
   password: '',
   isButtonActive: false,
   buttonText: '다음',
+  setUserType: (userType) => set({ userType }),
   setStep: (step) => set({ currentStep: step }),
   setName: (name) => set({ name }),
-  setPhone: (phone) => set({ phone }),
+  setPhoneNumber: (phoneNumber) => set({ phoneNumber }),
+  setBusinessNumber: (businessNumber) => set({ businessNumber }),
   setEmail: (email) => set({ email }),
   setCampus: (campus) => set({ campus }),
   setDepartment: (department) => set({ department }),
