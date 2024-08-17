@@ -86,12 +86,11 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
     item.paymentAvailableAt,
   );
 
-  const { data: headCountData, status: headCountStatus } = useQuery<{
+  const { data: headCountData, isLoading } = useQuery<{
     currentHeadCount: number;
   }>({
     queryKey: ['headCount', item.meetingId],
     queryFn: () => getCurrentHeadCount(item.meetingId),
-    initialData: { currentHeadCount: 0 },
   });
 
   const handleClick = () => {
@@ -127,7 +126,11 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
       <AdditionalInfo>
         <ParticipantCount>
           <GroupIcon color="var(--primary)" width={18} height={18} />
-          <Information>{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</Information>
+          <Information>
+            {isLoading
+              ? '0'
+              : `${headCountData?.currentHeadCount ?? 0} / ${item.participantMax}`}
+          </Information>
         </ParticipantCount>
         <OrderTypeLabel>{item.purchaseType}</OrderTypeLabel>
       </AdditionalInfo>
