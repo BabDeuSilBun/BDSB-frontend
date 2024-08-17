@@ -179,6 +179,10 @@ selector::placeholder {
   color: var(--gray300);
 }
 
+textarea::placeholder {
+  font-size: var(--font-size-sm);
+}
+
 input[type='text']:disabled,
 input[type='search']:disabled,
 input[type='email']:disabled,

@@ -14,22 +14,31 @@ const InfoContainer = styled.div`
   display: flex;
   align-items: start;
   position: relative;
+  width: 100%;
 `;
 
-const InfoBoxWrapper = styled.div<{ width?: string; $zIndex?: number }>`
+const InfoBoxWrapper = styled.div<{ width?: string; $isAbsolute?: boolean }>`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   justify-content: center;
   background-color: var(--gray100);
   border: 1px solid var(--gray200);
   padding: var(--spacing-xs);
+  margin: var(--spacing-xs) 0;
   border-radius: var(--border-radius-md);
-  width: ${({ width }) => width || 'auto'};
-  position: absolute;
-  z-index: ${({ $zIndex }) => $zIndex || 0};
-  top: 0;
-  left: calc(100%); /* Position it to the right of the icon with some space */
+  width: ${({ width }) => width || '100%'};
+
+  ${({ $isAbsolute }) =>
+    $isAbsolute &&
+    `
+      position: absolute;
+      align-items: center;
+      margin: 0;
+      z-index: 1005;
+      top: 0;
+      left: calc(100%);
+    `}
 `;
 
 const IconWrapper = styled.div`
@@ -49,7 +58,6 @@ const Text = styled.p<{ $textStyle: 'withIcon' | 'Title' | 'Description' }>`
   margin: 0;
   font-size: var(--font-size-xs);
   color: var(--gray400);
-  text-align: left;
 
   ${({ $textStyle }) => {
     switch ($textStyle) {
@@ -79,7 +87,7 @@ const Overlay = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1003;
+  z-index: 1004;
 `;
 
 export default function InfoBox({ textItems = [], showIcon = true, width }: InfoBoxProps) {
@@ -102,8 +110,8 @@ export default function InfoBox({ textItems = [], showIcon = true, width }: Info
       )}
       {isVisible && (
         <>
-          <Overlay onClick={handleClose} />
-          <InfoBoxWrapper width={width} $zIndex={1004}>
+          {showIcon && <Overlay onClick={handleClose} />}
+          <InfoBoxWrapper width={width} $isAbsolute={showIcon}>
             {textItems.map((item, index) => {
               if (item.$textStyle === 'withIcon') {
                 return (
