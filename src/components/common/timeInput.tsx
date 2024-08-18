@@ -2,7 +2,15 @@
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { CustomDropdown } from '@/components/common/dropdown';
+import { CustomDropdown, DropdownToggle, DropdownItem } from '@/components/common/dropdown';
+
+const CustomDropdownToggle = styled(DropdownToggle)`
+  padding: var(--spacing-sm) var(--spacing-md);
+`;
+
+const CustomDropdownItem = styled(DropdownItem)`
+  padding: var(--spacing-xs) var(--spacing-sm);
+`;
 
 const TimeInputContainer = styled.div`
   display: flex;
@@ -75,6 +83,8 @@ const TimeInput = () => {
           isOpen={isDropdownOpen}
           onToggle={handleDropdownToggle}
           placeholder="오전/오후"
+          Toggle={CustomDropdownToggle}
+          Item={CustomDropdownItem} 
         />
       </DropdownWrapper>
       <InputGroup>

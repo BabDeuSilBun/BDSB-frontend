@@ -253,4 +253,4 @@ const SmallCustomDropdown: React.FC<SmallCustomDropdownProps> = ({
   );
 };
 
-export { CustomDropdown, SmallCustomDropdown };
+export { DropdownToggle, DropdownItem, CustomDropdown, SmallCustomDropdown };

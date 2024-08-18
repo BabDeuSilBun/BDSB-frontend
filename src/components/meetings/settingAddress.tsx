@@ -55,8 +55,10 @@ const SettingAddress = () => {
         </Wrapper>
         <input
           type="text"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
+          value={address.detailAddress}
+          onChange={(e) =>
+            setAddress({ ...address, detailAddress: e.target.value })
+          }
           placeholder="상세 주소"
         />
         <Caption>
