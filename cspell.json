@@ -10,7 +10,9 @@
     "zustand",
     "chakra",
     "restaurants",
-    "pageable"
+    "pageable",
+    "signup",
+    "signin"
   ],
   "ignoreWords": ["bdsb"],
   // flagWords - list of words to be always considered incorrect
