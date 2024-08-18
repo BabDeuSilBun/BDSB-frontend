@@ -84,8 +84,8 @@ export function applyFiltersAndSorting(
             break;
           case 'delivery-time':
             comparisonResult = compareByNumbers(
-              restaurantA.deliveryTime,
-              restaurantB.deliveryTime,
+              restaurantA.deliveryTimeRange,
+              restaurantB.deliveryTimeRange,
             );
             break;
         }
@@ -102,14 +102,14 @@ export function applyFiltersAndSorting(
             break;
           case 'delivery-fee':
             comparisonResult = compareByNumbers(
-              meetingA.deliveryFee,
-              meetingB.deliveryFee,
+              meetingA.deliveryFeeRange,
+              meetingB.deliveryFeeRange,
             );
             break;
           case 'delivery-time':
             comparisonResult = compareByNumbers(
-              meetingA.deliveryTime,
-              meetingB.deliveryTime,
+              meetingA.deliveryTimeRange,
+              meetingB.deliveryTimeRange,
             );
             break;
         }

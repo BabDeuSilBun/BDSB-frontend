@@ -15,3 +15,28 @@ export interface ItemType {
   price: number;
   quantity: number;
 }
+
+// Response interface for paginated data
+export interface Response {
+  pageable: {
+    pageNumber: number;
+    pageSize: number;
+    sort?: {
+      empty: boolean;
+      unsorted: boolean;
+      sorted: boolean;
+    };
+  };
+  last: boolean;
+  totalPages: number;
+}
+
+export interface GetListParams {
+  schoolId?: string;
+  sortCriteria?: string | null;
+  page?: number;
+  size?: number;
+  foodCategoryFilter?: string;
+  searchMenu?: string;
+  schoolName?: string;
+}
