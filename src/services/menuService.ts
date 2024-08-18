@@ -1,5 +1,5 @@
-import { GetListParams, MenusResponse, MenuType } from '@/types/coreTypes';
-
+import { MenusResponse, MenuType } from '@/types/coreTypes';
+import { GetListParams } from '@/types/types';
 import { apiClient } from './apiClient';
 
 export const MENU_LIST_API_URL = '/api/stores/{storeId}/menus';

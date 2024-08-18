@@ -2443,13 +2443,16 @@ export const menus: MenuType[] = [
 const pageSize = 10;
 
 // Group menus by storeId
-const menusByStore = menus.reduce((acc: { [key: number]: MenuType[] }, menu) => {
-  if (!acc[menu.storeId]) {
-    acc[menu.storeId] = [];
-  }
-  acc[menu.storeId].push(menu);
-  return acc;
-}, {});
+const menusByStore = menus.reduce(
+  (acc: { [key: number]: MenuType[] }, menu) => {
+    if (!acc[menu.storeId]) {
+      acc[menu.storeId] = [];
+    }
+    acc[menu.storeId].push(menu);
+    return acc;
+  },
+  {},
+);
 
 // Create paginated menus
 export const paginatedMenus: { [storeId: number]: MenusResponse[] } = {};
@@ -2458,27 +2461,30 @@ Object.keys(menusByStore).forEach((storeId) => {
   const storeMenus = menusByStore[Number(storeId)];
   const totalPages = Math.ceil(storeMenus.length / pageSize);
 
-  paginatedMenus[Number(storeId)] = Array.from({ length: totalPages }, (_, index) => {
-    const start = index * pageSize; // 현재 페이지의 시작 인덱스
-    const end = start + pageSize; // 현재 페이지의 끝 인덱스
-    const content = storeMenus.slice(start, end);
-    const isLastPage = index === totalPages - 1;
+  paginatedMenus[Number(storeId)] = Array.from(
+    { length: totalPages },
+    (_, index) => {
+      const start = index * pageSize; // 현재 페이지의 시작 인덱스
+      const end = start + pageSize; // 현재 페이지의 끝 인덱스
+      const content = storeMenus.slice(start, end);
+      const isLastPage = index === totalPages - 1;
 
-    return {
-      content, // 현재 페이지에 해당하는 데이터
-      pageable: {
-        pageNumber: index, // 현재 페이지 번호
-        pageSize, // 페이지당 데이터 개수
-        sort: {
-          empty: true,
-          unsorted: true,
-          sorted: false,
+      return {
+        content, // 현재 페이지에 해당하는 데이터
+        pageable: {
+          pageNumber: index, // 현재 페이지 번호
+          pageSize, // 페이지당 데이터 개수
+          sort: {
+            empty: true,
+            unsorted: true,
+            sorted: false,
+          },
         },
-      },
-      last: isLastPage, // 마지막 페이지 여부
-      totalPages, // 전체 페이지 수
-      size: pageSize, // 페이지당 데이터 개수
-      first: index === 0, // 첫 페이지 여부
-    };
-  });
+        last: isLastPage, // 마지막 페이지 여부
+        totalPages, // 전체 페이지 수
+        size: pageSize, // 페이지당 데이터 개수
+        first: index === 0, // 첫 페이지 여부
+      };
+    },
+  );
 });

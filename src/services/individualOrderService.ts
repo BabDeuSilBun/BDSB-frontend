@@ -1,5 +1,5 @@
-import { GetListParams, IndividualOrdersResponse, IndividualOrderType } from '@/types/coreTypes';
-
+import { IndividualOrdersResponse, IndividualOrderType } from '@/types/coreTypes';
+import { GetListParams } from '@/types/types';
 import { apiClient } from './apiClient';
 
 export const INDIVIDUAL_ORDER_LIST_API_URL = '/api/users/meetings/{meetingId}/individual-order';

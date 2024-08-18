@@ -1,6 +1,7 @@
-import { GetListParams, MeetingsResponse } from '@/types/coreTypes';
-
+import { MeetingType, MeetingsResponse } from '@/types/coreTypes';
+import { GetListParams } from '@/types/types';
 import { apiClient } from './apiClient';
+import axios from 'axios';
 
 export const TEAM_ORDER_LIST_API_URL = '/api/users/meetings';
 const HEADCOUNT_API_URL = '/api/users/meetings/{meetingId}/headcount';
@@ -15,19 +16,15 @@ export const getTeamOrderList = async ({
   searchMenu = undefined,
 }: GetListParams): Promise<MeetingsResponse> => {
   try {
-    const response = await apiClient.get<MeetingsResponse>(
-      TEAM_ORDER_LIST_API_URL,
-      {
-        params: {
-          schoolId,
-          sortCriteria,
-          foodCategoryFilter,
-          searchMenu,
-          size,
-          page,
-        },
-      },
-    );
+    const url =
+      `${TEAM_ORDER_LIST_API_URL}?` +
+      `schoolId=${schoolId || ''}&` +
+      `sortCriteria=${sortCriteria || 'delivery-fee'}&` +
+      `foodCategoryFilter=${foodCategoryFilter || ''}&` +
+      `searchMenu=${searchMenu || ''}&` +
+      `size=${size}&` +
+      `page=${page}`;
+    const response = await axios.get<MeetingsResponse>(url);
     return response.data;
   } catch (error) {
     console.error('Error fetching team orders:', error);

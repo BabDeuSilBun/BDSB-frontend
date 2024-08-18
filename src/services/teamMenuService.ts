@@ -1,5 +1,5 @@
-import { GetListParams, TeamMenusResponse, TeamMenuType } from '@/types/coreTypes';
-
+import { TeamMenusResponse, TeamMenuType } from '@/types/coreTypes';
+import { GetListParams } from '@/types/types';
 import { apiClient } from './apiClient';
 
 export const TEAM_MENU_LIST_API_URL = '/api/users/meetings/{meetingId}/team-order';
