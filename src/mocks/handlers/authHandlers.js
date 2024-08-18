@@ -50,4 +50,76 @@ export const authHandlers = [
       return HttpResponse.status(500).json({ message: '서버 오류' });
     }
   }),
+
+  http.post('/api/users/email-duplicated', async ({ request }) => {
+    try {
+      const { email } = await request.json();
+
+      if (email !== 'test@example.com') {
+        return HttpResponse.json({ usable: true });
+      }
+
+      return HttpResponse.json(
+        { message: 'Duplicated Email' },
+        { status: 401 },
+      );
+    } catch (error) {
+      return HttpResponse.status(500).json({
+        message: 'Error validating email',
+      });
+    }
+  }),
+
+  http.post('/api/businesses/email-duplicated', async ({ request }) => {
+    try {
+      const { email } = await request.json();
+
+      if (email !== 'test@example.com') {
+        return HttpResponse.json({ usable: true });
+      }
+
+      return HttpResponse.json(
+        { message: 'Duplicated Email' },
+        { status: 401 },
+      );
+    } catch (error) {
+      return HttpResponse.status(500).json({
+        message: 'Error validating email',
+      });
+    }
+  }),
+
+  http.post('/api/signup/email-verify', async ({ request }) => {
+    try {
+      const { email } = await request.json();
+
+      if (email !== 'test@example.com') {
+        return HttpResponse.json({ usable: true });
+      }
+
+      return HttpResponse.json(
+        { message: 'Duplicated Email' },
+        { status: 401 },
+      );
+    } catch (error) {
+      return HttpResponse.status(500).json({
+        message: 'Error validating email',
+      });
+    }
+  }),
+
+  http.post('/api/signup/verify-code', async ({ request }) => {
+    try {
+      const { code } = await request.json();
+
+      if (code === '1111') {
+        console.log('Received code:', code);
+        return HttpResponse.json({ result: true });
+      }
+    } catch (error) {
+      return HttpResponse.status(500).json({
+        message: 'Error validating email code',
+      });
+    }
+  }),
 ];

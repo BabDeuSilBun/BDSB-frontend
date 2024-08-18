@@ -147,6 +147,7 @@ input[type='text'],
 input[type='search'],
 input[type='email'],
 input[type='password'],
+input[type='tel'],
 textarea,
 select {
   width: 100%;
@@ -165,6 +166,7 @@ input[type='text']:focus,
 input[type='search']:focus,
 input[type='email']:focus,
 input[type='password']:focus,
+input[type='tel']:focus,
 textarea:focus,
 select:focus {
   border-color: var(--primary);
@@ -174,6 +176,7 @@ input[type='text']::placeholder,
 input[type='search']::placeholder,
 input[type='email']::placeholder,
 input[type='password']::placeholder,
+input[type='tel']::placeholder,
 textarea::placeholder,
 selector::placeholder {
   color: var(--gray300);
@@ -187,6 +190,7 @@ input[type='text']:disabled,
 input[type='search']:disabled,
 input[type='email']:disabled,
 input[type='password']:disabled,
+input[type='tel']::placeholder,
 textarea:disabled,
 select:disabled {
   background-color: var(--gray100);

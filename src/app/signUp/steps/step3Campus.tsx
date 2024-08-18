@@ -7,7 +7,7 @@ const Step3Campus = () => {
   const { campus, setCampus, setStep } = useSignUpStore();
 
   useEffect(() => {}, []);
-  
+
   return (
     <div>
       <input
@@ -15,7 +15,7 @@ const Step3Campus = () => {
         value={campus}
         onChange={(e) => setCampus(e.target.value)}
         placeholder="재학 중인 대학교와 캠퍼스 입력"
-        aria-label="재학 중인 대학교와 캠퍼스 입력" 
+        aria-label="재학 중인 대학교와 캠퍼스 입력"
         aria-required="true"
       />
     </div>
