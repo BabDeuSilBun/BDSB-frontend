@@ -31,7 +31,7 @@ const DropdownContainer = styled.div`
   position: relative;
   display: inline-block;
   flex-wrap: nowrap;
-  width: 20rem; /* 320px */
+  width: 100%;
   ${mediaQueries.tablet} {
     width: 25rem; /* 400px on tablets */
   }
@@ -54,7 +54,7 @@ const DropdownToggle = styled.div<{ $selected: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: var(--spacing-sm);
   font-size: var(--font-size-md); /* 16px */
   font-weight: ${({ $selected }) =>
     $selected ? 'var(--font-regular)' : 'var(--font-light)'};
@@ -63,7 +63,7 @@ const DropdownToggle = styled.div<{ $selected: boolean }>`
   border: solid
     ${({ $selected }) =>
       $selected ? '2px var(--primary)' : '1.5px var(--gray200)'};
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--border-radius-md);
   cursor: pointer;
   background-color: var(--background);
   transition:
@@ -119,10 +119,10 @@ const DropdownMenu = styled.div`
   top: 105%;
   left: 0;
   right: 0;
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--border-radius-md);
   border: 1.5px solid var(--gray200);
   background-color: var(--background);
-  z-index: 1000;
+  z-index: 1006;
   padding: 0.5rem 0;
   transition: 0.3s ease;
   ${mediaQueries.tablet} {
@@ -140,7 +140,7 @@ const SmallDropdownMenu = styled(DropdownMenu)`
 
 const DropdownItem = styled.div<{ $selected: boolean }>`
   font-size: var(--font-size-md); /* 16px */
-  padding: 0.5rem 1rem;
+  padding: var(--spacing-sm);
   cursor: pointer;
   color: ${({ $selected }) =>
     $selected ? 'var(--primary)' : 'var(--gray400)'};

@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, ChangeEvent } from 'react';
 import { useSignUpStore } from '@/state/authStore';
 import styled from 'styled-components';
+import Image from 'next/image';
 import SearchIcon from '@/components/svg/search';
 
 const Caption = styled.p`
@@ -41,11 +41,9 @@ const AddressBtn = styled.button`
   text-align: left;
 `;
 
-const Step5Address = () => {
-  const { address, setAddress, setButtonActive } = useSignUpStore();
+const SettingAddress = () => {
+  const { address, setAddress, setStep } = useSignUpStore();
 
-  useEffect(() => {}, []);
-  
   return (
     <div>
       <Flex>
@@ -57,10 +55,8 @@ const Step5Address = () => {
         </Wrapper>
         <input
           type="text"
-          value={address.detailAddress}
-          onChange={(e) =>
-            setAddress({ ...address, detailAddress: e.target.value })
-          }
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
           placeholder="상세 주소"
         />
         <Caption>
@@ -72,4 +68,4 @@ const Step5Address = () => {
   );
 };
 
-export default Step5Address;
+export default SettingAddress;
