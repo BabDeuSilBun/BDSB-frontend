@@ -1,6 +1,7 @@
-import { GetListParams, RestaurantsResponse } from '@/types/coreTypes';
-
+import { RestaurantsResponse } from '@/types/coreTypes';
+import { GetListParams } from '@/types/types';
 import { apiClient } from './apiClient';
+import axios from 'axios';
 
 export const RESTAURANT_LIST_API_URL = '/api/stores';
 const RESTAURANT_API_URL = '/api/stores/{storeId}';
@@ -13,21 +14,17 @@ export const getRestaurantsList = async ({
   sortCriteria = 'deadline',
   searchMenu = undefined,
 }: GetListParams): Promise<RestaurantsResponse> => {
-  
   try {
-    const response = await apiClient.get<RestaurantsResponse>(
-      RESTAURANT_LIST_API_URL,
-      {
-        params: {
-          schoolId,
-          sortCriteria,
-          foodCategoryFilter,
-          searchMenu,
-          size,
-          page,
-        },
-      },
-    );
+    const url =
+      `${RESTAURANT_LIST_API_URL}?` +
+      `schoolId=${schoolId || ''}&` +
+      `sortCriteria=${sortCriteria || 'deadline'}&` +
+      `foodCategoryFilter=${foodCategoryFilter || ''}&` +
+      `searchMenu=${searchMenu || ''}&` +
+      `size=${size}&` +
+      `page=${page}`;
+
+    const response = await axios.get<RestaurantsResponse>(url);
     return response.data;
   } catch (error) {
     console.error('Error fetching restaurants:', error);

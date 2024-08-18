@@ -1,4 +1,4 @@
-import { Image, ItemType } from './types';
+import { Image, ItemType, Response } from './types';
 
 // Address interfaces
 export interface Address {
@@ -83,24 +83,8 @@ export interface IndividualOrderType extends CommonType {
   items: ItemType[];
 }
 
-// Response interface for paginated data
-
-interface Response {
-  pageable: {
-    pageNumber: number;
-    pageSize: number;
-    sort?: {
-      empty: boolean;
-      unsorted: boolean;
-      sorted: boolean;
-    };
-  };
-  last: boolean;
-  totalPages: number;
-}
-
 export interface IndividualOrderItems extends Response {
-  content: ItemType[];;
+  content: ItemType[];
 }
 
 export interface RestaurantsResponse extends Response {
@@ -121,14 +105,5 @@ export interface TeamMenusResponse extends Response {
 }
 
 export interface IndividualOrdersResponse extends Response {
-  content: IndividualOrderType[];;
-}
-
-export interface GetListParams {
-  schoolId?: string;
-  sortCriteria?: string | null;
-  page?: number;
-  size?: number;
-  foodCategoryFilter?: string;
-  searchMenu?: string;
+  content: IndividualOrderType[];
 }

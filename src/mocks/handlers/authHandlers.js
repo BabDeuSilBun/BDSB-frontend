@@ -1,4 +1,7 @@
 import { http, HttpResponse } from 'msw';
+import { SCHOOL_LIST_API_URL } from '@/services/signUpService';
+import { applyFiltersAndSorting } from '../filteringAndSorting';
+import { paginatedSchools } from '../mockData/schools';
 
 export const authHandlers = [
   http.post('/api/users/signin', async ({ request }) => {
@@ -120,6 +123,37 @@ export const authHandlers = [
       return HttpResponse.status(500).json({
         message: 'Error validating email code',
       });
+    }
+  }),
+
+  http.get(SCHOOL_LIST_API_URL, async (req) => {
+    const { request } = await req;
+    const urlString = request.url.toString();
+
+    try {
+      const url = new URL(urlString);
+      const searchMenu = url.searchParams.get('schoolName');
+      const pageParam = Number(url.searchParams.get('page')) || 0;
+      const size = Number(url.searchParams.get('size'));
+
+      const paginatedResponse = paginatedSchools[pageParam];
+
+      if (!paginatedResponse) {
+        return HttpResponse.json({ message: 'Page not found' });
+      }
+
+      const filteredContent = applyFiltersAndSorting(
+        paginatedResponse.content,
+        { searchMenu, size },
+      );
+
+      return HttpResponse.json({
+        ...paginatedResponse,
+        content: filteredContent,
+      });
+    } catch (error) {
+      console.error('Error parsing URL:', error);
+      return HttpResponse.status(500).json({ message: 'Error parsing URL' });
     }
   }),
 ];

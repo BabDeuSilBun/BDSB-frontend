@@ -14,7 +14,7 @@ interface SignUpState {
   businessNumber?: string;
   email: string;
   isEmailVerified: boolean;
-  campus?: string;
+  campus?: number;
   department?: string;
   address: Address;
   password: string;
@@ -27,7 +27,7 @@ interface SignUpState {
   setBusinessNumber?: (businessNumber: string) => void;
   setEmail: (email: string) => void;
   setEmailVerified: (isEmailVerified: boolean) => void;
-  setCampus?: (campus: string) => void;
+  setCampus?: (campus: number) => void;
   setDepartment?: (department: string) => void;
   setAddress?: (address: Address) => void;
   setPassword: (password: string) => void;
@@ -43,7 +43,7 @@ export const useSignUpStore = create<SignUpState>((set) => ({
   businessNumber: '',
   email: '',
   isEmailVerified: false,
-  campus: '',
+  campus: 0,
   department: '',
   address: {
     postal: '',
