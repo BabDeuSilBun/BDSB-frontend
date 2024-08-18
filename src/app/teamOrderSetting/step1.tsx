@@ -8,6 +8,7 @@ import TimeInput from '@/components/common/timeInput';
 import { CustomDropdown } from '@/components/common/dropdown';
 import InfoBox from '@/components/common/infoBox';
 import styled from 'styled-components';
+import { useOrderStore } from '@/state/orderStore';
 
 const Container = styled.div`
   display: flex;
@@ -18,39 +19,33 @@ const Container = styled.div`
 `;
 
 const Step1 = () => {
+  const {
+    formData,
+    setMealType,
+    setOrderType,
+    setMeetingPlace,
+    setTime,
+  } = useOrderStore();
 
-  // 식사 방식
+  const { mealType, orderType, meetingPlace, time } = formData;
+
   const options1 = [
     { id: 1, name: '함께 식사', value: 'option1' },
     { id: 2, name: '각자 식사', value: 'option2' },
   ];
 
-  // 주문 방식
   const options2 = [
     { id: 1, name: '바로 주문', value: 'optionA' },
     { id: 2, name: '예약 주문', value: 'optionB' },
   ];
 
-  // State management for the first dropdown
-  const [selectedValue1, setSelectedValue1] = useState<string | null>(options1[0]?.value || null);
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
-
-  // State management for the second dropdown
-  const [selectedValue2, setSelectedValue2] = useState<string | null>(options2[0]?.value || null);
   const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
 
-  // Handlers for the first dropdown
-  const handleSelect1 = (value: string | null) => {
-    setSelectedValue1(value);
-  };
   const handleToggleDropdown1 = () => {
     setIsDropdownOpen1((prev) => !prev);
   };
 
-  // Handlers for the second dropdown
-  const handleSelect2 = (value: string | null) => {
-    setSelectedValue2(value);
-  };
   const handleToggleDropdown2 = () => {
     setIsDropdownOpen2((prev) => !prev);
   };
@@ -61,8 +56,8 @@ const Step1 = () => {
       <SettingLabel text="팀 주문 방식" />
       <CustomDropdown
         options={options1}
-        selectedValue={selectedValue1}
-        onSelect={handleSelect1}
+        selectedValue={mealType}
+        onSelect={setMealType}
         isOpen={isDropdownOpen1}
         onToggle={handleToggleDropdown1}
       />
@@ -77,8 +72,8 @@ const Step1 = () => {
       />
       <CustomDropdown
         options={options2}
-        selectedValue={selectedValue2}
-        onSelect={handleSelect2}
+        selectedValue={orderType}
+        onSelect={setOrderType}
         isOpen={isDropdownOpen2}
         onToggle={handleToggleDropdown2}
       />
@@ -95,11 +90,13 @@ const Step1 = () => {
       <SettingAddress />
       <SettingLabel text="모임 장소" />
       <input
-          type="text"
-          placeholder="모임 장소"
-        />
+        type="text"
+        placeholder="모임 장소"
+        value={meetingPlace}
+        onChange={(e) => setMeetingPlace(e.target.value)}
+      />
       <SettingLabel text="주문 대기 최대 기한" />
-      <TimeInput />
+      <TimeInput onTimeChange={setTime} time={time} />
     </Container>
   );
 };

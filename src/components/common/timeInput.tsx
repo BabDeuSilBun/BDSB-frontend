@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { CustomDropdown, DropdownToggle, DropdownItem } from '@/components/common/dropdown';
 
 const CustomDropdownToggle = styled(DropdownToggle)`
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
 `;
 
 const CustomDropdownItem = styled(DropdownItem)`
@@ -30,8 +30,8 @@ const InputGroup = styled.div`
 `;
 
 const TimeInputField = styled.input`
-  width: 100%;
-  padding: var(--spacing-xs) 0 var(--spacing-xs);
+  box-sizing: border-box !important;
+  padding: var(--spacing-xs) var(--spacing-sm) !important;
   font-size: var(--font-size-md);
   color: var(--gray500);
   background-color: var(--background);
@@ -49,6 +49,10 @@ const TimeInputField = styled.input`
   &::placeholder {
     color: var(--gray300);
   }
+  margin: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 `;
 
 const Divider = styled.span`
@@ -58,10 +62,18 @@ const Divider = styled.span`
   padding: 0 var(--spacing-xs);
 `;
 
-const TimeInput = () => {
-  const [amPm, setAmPm] = useState<string | null>('오전');
-  const [hour, setHour] = useState('');
-  const [minute, setMinute] = useState('');
+interface TimeInputProps {
+  time: {
+    amPm: string;
+    hour: string;
+    minute: string;
+  };
+  onTimeChange: (newTime: Partial<{ amPm: string; hour: string; minute: string }>) => void;
+}
+
+const TimeInput: React.FC<TimeInputProps> = ({ time, onTimeChange }) => {
+  const { amPm, hour, minute } = time;
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const amPmOptions = [
@@ -79,7 +91,7 @@ const TimeInput = () => {
         <CustomDropdown
           options={amPmOptions}
           selectedValue={amPm}
-          onSelect={setAmPm}
+          onSelect={(value) => onTimeChange({ amPm: value })}
           isOpen={isDropdownOpen}
           onToggle={handleDropdownToggle}
           placeholder="오전/오후"
@@ -92,7 +104,7 @@ const TimeInput = () => {
           type="text"
           value={hour}
           placeholder="00"
-          onChange={(e) => setHour(e.target.value)}
+          onChange={(e) => onTimeChange({ hour: e.target.value })}
           maxLength={2}
         />
         <Divider>:</Divider>
@@ -100,7 +112,7 @@ const TimeInput = () => {
           type="text"
           value={minute}
           placeholder="00"
-          onChange={(e) => setMinute(e.target.value)}
+          onChange={(e) => onTimeChange({ minute: e.target.value })}
           maxLength={2}
         />
       </InputGroup>

@@ -178,6 +178,8 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   placeholder,
   isOpen,
   onToggle,
+  Toggle = DropdownToggle,
+  Item = DropdownItem,
 }) => {
   const handleSelect = (value: string | null) => {
     onSelect(value);
@@ -186,22 +188,22 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
 
   return (
     <DropdownContainer>
-      <DropdownToggle $selected={!!selectedValue} onClick={onToggle}>
+      <Toggle $selected={!!selectedValue} onClick={onToggle}>
         {selectedValue
           ? options.find((option) => option.value === selectedValue)?.name
           : placeholder}
         <Arrow $selected={!!selectedValue} $isOpen={isOpen} />
-      </DropdownToggle>
+      </Toggle>
       {isOpen && (
         <DropdownMenu>
           {options.map((option) => (
-            <DropdownItem
+            <Item
               key={option.value}
-              selected={selectedValue === option.value}
+              $selected={selectedValue === option.value}
               onClick={() => handleSelect(option.value)}
             >
               {option.name}
-            </DropdownItem>
+            </Item>
           ))}
         </DropdownMenu>
       )}
