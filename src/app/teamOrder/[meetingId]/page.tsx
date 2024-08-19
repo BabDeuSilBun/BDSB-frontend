@@ -143,7 +143,7 @@ const TeamOrderPage = () => {
     ],
     queryFn: () => {
       if (!individualOrder || !meetingId) {
-        throw new Error('Missing individual order data or meeting ID');
+        return;
       }
       return getIndividualOrderInfo(
         Number(meetingId),

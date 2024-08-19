@@ -1,12 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { getRestaurantInfo } from '@/services/restaurantService';
+import { RestaurantType } from '@/types/coreTypes';
+import { useOrderStore } from '@/state/orderStore';
 import SettingLabel from '@/components/meetings/settingLabel';
 import SettingHeadcount from '@/components/meetings/settingHeadcount';
 import SettingDescription from '@/components/meetings/settingDescription';
 import DeliveryFees from '@/components/meetings/deliveryFee';
 import styled from 'styled-components';
-import { useOrderStore } from '@/state/orderStore';
 
 const Container = styled.div`
   display: flex;
@@ -18,14 +21,27 @@ const Container = styled.div`
 `;
 
 const Step2 = () => {
-  const {
-    formData,
-    setMinHeadcount,
-    setMaxHeadcount,
-    setAdditionalInfo,
-  } = useOrderStore();
+  const { formData, setMinHeadcount, setMaxHeadcount, setAdditionalInfo } =
+    useOrderStore();
+  const { minHeadcount = 1, maxHeadcount = 1, additionalInfo } = formData;
+  const { storeId } = useParams();
 
-  const { minHeadcount, maxHeadcount, additionalInfo } = formData;
+  const { data: store } = useQuery<RestaurantType>({
+    queryKey: ['storeInfo', storeId],
+    queryFn: () => getRestaurantInfo(Number(storeId)),
+    enabled: !!storeId,
+  });
+
+  if (!store) {
+    return null;
+  }
+
+  const deliveryPrice = store.deliveryPrice || 0;
+
+  const maxIndividualDeliveryFee =
+    store.deliveryPrice / Math.max(minHeadcount, 1);
+  const minIndividualDeliveryFee =
+    store.deliveryPrice / Math.max(maxHeadcount, 1);
 
   return (
     <Container>
@@ -47,7 +63,11 @@ const Step2 = () => {
         onValueChange={setAdditionalInfo}
       />
 
-      <DeliveryFees />
+      <DeliveryFees
+        totalDeliveryFee={deliveryPrice}
+        maxIndividualDeliveryFee={maxIndividualDeliveryFee}
+        minIndividualDeliveryFee={minIndividualDeliveryFee}
+      />
     </Container>
   );
 };

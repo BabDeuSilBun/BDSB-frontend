@@ -1,6 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+
+import { useParams } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { getRestaurantInfo } from '@/services/restaurantService';
+import { RestaurantType } from '@/types/coreTypes';
+import { useOrderStore } from '@/state/orderStore';
 import SettingImage from '@/components/meetings/settingImage';
 import SettingLabel from '@/components/meetings/settingLabel';
 import SettingAddress from '@/components/meetings/settingAddress';
@@ -8,7 +14,6 @@ import TimeInput from '@/components/common/timeInput';
 import { CustomDropdown } from '@/components/common/dropdown';
 import InfoBox from '@/components/common/infoBox';
 import styled from 'styled-components';
-import { useOrderStore } from '@/state/orderStore';
 
 const Container = styled.div`
   display: flex;
@@ -19,13 +24,8 @@ const Container = styled.div`
 `;
 
 const Step1 = () => {
-  const {
-    formData,
-    setMealType,
-    setOrderType,
-    setMeetingPlace,
-    setTime,
-  } = useOrderStore();
+  const { formData, setMealType, setOrderType, setMeetingPlace, setTime } =
+    useOrderStore();
 
   const { mealType, orderType, meetingPlace, time } = formData;
 
@@ -50,6 +50,14 @@ const Step1 = () => {
     setIsDropdownOpen2((prev) => !prev);
   };
 
+  const { storeId } = useParams();
+
+  useQuery<RestaurantType>({
+    queryKey: ['storeInfo', storeId],
+    queryFn: () => getRestaurantInfo(Number(storeId)),
+    enabled: !!storeId,
+  });
+
   return (
     <Container>
       <SettingImage />
@@ -60,13 +68,32 @@ const Step1 = () => {
         onSelect={setMealType}
         isOpen={isDropdownOpen1}
         onToggle={handleToggleDropdown1}
+        placeholder=""
       />
       <InfoBox
         textItems={[
-          { text: "함께 식사:", $textStyle: "Title", sameRow: true },
-          { text: "다 같이 한 장소에서 수령하여 함께 식사해요.", $textStyle: "Description" },
-          { text: "각자 식사:", $textStyle: "Title", sameRow: true },
-          { text: "각자 설정한 주소로 수령하여 편하게 식사해요.", $textStyle: "Description" },
+          {
+            text: '함께 식사:',
+            $textStyle: 'Title',
+            sameRow: true,
+            id: 1,
+          },
+          {
+            text: '다 같이 한 장소에서 수령하여 함께 식사해요.',
+            $textStyle: 'Description',
+            id: 2,
+          },
+          {
+            text: '각자 식사:',
+            $textStyle: 'Title',
+            sameRow: true,
+            id: 3,
+          },
+          {
+            text: '각자 설정한 주소로 수령하여 편하게 식사해요.',
+            $textStyle: 'Description',
+            id: 4,
+          },
         ]}
         showIcon={false}
       />
@@ -76,13 +103,32 @@ const Step1 = () => {
         onSelect={setOrderType}
         isOpen={isDropdownOpen2}
         onToggle={handleToggleDropdown2}
+        placeholder=""
       />
       <InfoBox
         textItems={[
-          { text: "바로 주문:", $textStyle: "Title", sameRow: true },
-          { text: "최대 모집 인원이 모일 시 바로 주문합니다.", $textStyle: "Description" },
-          { text: "예약 주문:", $textStyle: "Title", sameRow: true },
-          { text: "주문 대기 시간에 맞춰 주문합니다.", $textStyle: "Description" },
+          {
+            text: '바로 주문:',
+            $textStyle: 'Title',
+            sameRow: true,
+            id: 5,
+          },
+          {
+            text: '최대 모집 인원이 모일 시 바로 주문합니다.',
+            $textStyle: 'Description',
+            id: 6,
+          },
+          {
+            text: '예약 주문:',
+            $textStyle: 'Title',
+            sameRow: true,
+            id: 7,
+          },
+          {
+            text: '주문 대기 시간에 맞춰 주문합니다.',
+            $textStyle: 'Description',
+            id: 8,
+          },
         ]}
         showIcon={false}
       />
