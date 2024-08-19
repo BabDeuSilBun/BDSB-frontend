@@ -1,7 +1,11 @@
 import { http, HttpResponse } from 'msw';
-import { SCHOOL_LIST_API_URL } from '@/services/signUpService';
+import {
+  SCHOOL_LIST_API_URL,
+  MAJOR_LIST_API_URL,
+} from '@/services/signUpService';
 import { applyFiltersAndSorting } from '../filteringAndSorting';
 import { paginatedSchools } from '../mockData/schools';
+import { paginatedMajors } from '../mockData/majors';
 
 export const authHandlers = [
   http.post('/api/users/signin', async ({ request }) => {
@@ -153,8 +157,40 @@ export const authHandlers = [
         content: filteredContent,
       });
     } catch (error) {
-      console.error('Error parsing URL:', error);
-      return HttpResponse.status(500).json({ message: 'Error parsing URL' });
+      console.error('Error parsing school list URL:', error);
+      return HttpResponse.status(500).json({ message: 'Error parsing school list URL' });
+    }
+  }),
+
+  http.get(MAJOR_LIST_API_URL, async (req) => {
+    const { request } = await req;
+    const urlString = request.url.toString();
+
+    try {
+      const url = new URL(urlString);
+      const majorName = url.searchParams.get('majorName');
+      const searchMenu = majorName ? decodeURIComponent(majorName) : null;
+      const pageParam = Number(url.searchParams.get('page')) || 0;
+      const size = Number(url.searchParams.get('size'));
+
+      const paginatedResponse = paginatedMajors[pageParam];
+
+      if (!paginatedResponse) {
+        return HttpResponse.json({ message: 'Page not found' });
+      }
+
+      const filteredContent = applyFiltersAndSorting(
+        paginatedResponse.content,
+        { searchMenu, size },
+      );
+
+      return HttpResponse.json({
+        ...paginatedResponse,
+        content: filteredContent,
+      });
+    } catch (error) {
+      console.error('Error parsing major list URL:', error);
+      return HttpResponse.status(500).json({ message: 'Error parsing major list URL' });
     }
   }),
 ];

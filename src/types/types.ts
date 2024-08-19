@@ -39,4 +39,5 @@ export interface GetListParams {
   foodCategoryFilter?: string;
   searchMenu?: string;
   schoolName?: string;
+  majorName?: string;
 }

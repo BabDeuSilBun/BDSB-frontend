@@ -11,6 +11,7 @@ const Step3Campus = () => {
   const [debouncedValue, setDebouncedValue] = useState(inputValue);
   const observer = useRef<IntersectionObserver | null>(null);
   const lastElementRef = useRef<HTMLLIElement | null>(null);
+  const suggestionsListRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
     if (campusName) setInputValue(campusName);
@@ -37,7 +38,7 @@ const Step3Campus = () => {
       getNextPageParam: (lastPage) => {
         return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
       },
-      enabled: !!debouncedValue,
+      enabled: true,
     });
 
   useEffect(() => {
@@ -54,7 +55,7 @@ const Step3Campus = () => {
     }
 
     observer.current = new IntersectionObserver(handleIntersect, {
-      root: null,
+      root: suggestionsListRef.current,
       rootMargin: '0px',
       threshold: 0.1,
     });
@@ -78,9 +79,9 @@ const Step3Campus = () => {
       })),
     ) || [];
 
-  const handleSelectSchool = (id: number, campus: string) => {
+  const handleSelectSchool = (id: number, name: string) => {
     if (setCampus) setCampus(id);
-    if (setCampusName) setCampusName(campus);
+    if (setCampusName) setCampusName(name);
     setInputValue('');
   };
 
@@ -94,6 +95,7 @@ const Step3Campus = () => {
         suggestions={suggestions}
         status={status}
         lastElementRef={lastElementRef}
+        suggestionsListRef={suggestionsListRef}
       />
     </div>
   );

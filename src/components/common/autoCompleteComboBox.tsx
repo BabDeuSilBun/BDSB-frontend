@@ -40,10 +40,11 @@ interface AutoCompleteComboBoxProps {
   inputValue: string;
   setInputValue: (value: string) => void;
   placeholder?: string;
-  onSelect: (id: number, campus: string) => void;
+  onSelect: (id: number, name: string) => void;
   suggestions?: { id: number; display: string }[] | [];
   status: string;
   lastElementRef?: React.RefObject<HTMLLIElement>;
+  suggestionsListRef?: React.RefObject<HTMLUListElement>;
 }
 
 const AutoCompleteComboBox: React.FC<AutoCompleteComboBoxProps> = ({
@@ -54,6 +55,7 @@ const AutoCompleteComboBox: React.FC<AutoCompleteComboBoxProps> = ({
   suggestions = [],
   status,
   lastElementRef,
+  suggestionsListRef
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -61,10 +63,10 @@ const AutoCompleteComboBox: React.FC<AutoCompleteComboBoxProps> = ({
     setIsDropdownOpen(suggestions.length > 0);
   }, [suggestions]);
 
-  const handleSelectSuggestion = (id: number, campus: string) => {
+  const handleSelectSuggestion = (id: number, name: string) => {
     setInputValue('');
     setIsDropdownOpen(false);
-    onSelect(id, campus);
+    onSelect(id, name);
   };
 
   return (
@@ -80,7 +82,7 @@ const AutoCompleteComboBox: React.FC<AutoCompleteComboBoxProps> = ({
       ) : status === 'error' ? (
         <p>목록을 불러오는데 실패하였습니다.</p>
       ) : (
-        <SuggestionsList>
+        <SuggestionsList ref={suggestionsListRef}>
           {suggestions.map((suggestion, index) => (
             <SuggestionItem
               key={suggestion.id}
