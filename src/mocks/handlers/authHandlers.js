@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { SCHOOL_LIST_API_URL } from '@/services/signUpService';
+
 import { applyFiltersAndSorting } from '../filteringAndSorting';
 import { paginatedSchools } from '../mockData/schools';
 

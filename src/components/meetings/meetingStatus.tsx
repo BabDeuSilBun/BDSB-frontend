@@ -1,26 +1,27 @@
 import styled from 'styled-components';
-import { Divider, Badge } from '@chakra-ui/react';
+import { Badge, Divider } from '@chakra-ui/react';
 import GroupIcon from '@/components/svg/group';
 import Image from 'next/image';
+import { MeetingType } from '@/types/coreTypes';
 
 const StatusContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) 0;
+  padding: var(--spacing-md) var(--spacing-sm) var(--spacing-md) 0;
   background-color: var(--background);
   gap: var(--spacing-xs);
   width: 100%;
 `;
 
 const Text = styled.span`
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-regular);
   color: var(--text);
 `;
 
 const CountdownTimer = styled.span`
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-regular);
   color: var(--text);
 `;
@@ -32,17 +33,29 @@ const TimerIcon = styled(Image)`
 
 interface MeetingStatusProps {
   headCountData: { currentHeadCount: number } | null;
-  meeting: any;
+  meeting?: MeetingType;
   remainingTime: string;
 }
 
-const MeetingStatus: React.FC<MeetingStatusProps> = ({ headCountData, meeting, remainingTime }) => (
+const MeetingStatus: React.FC<MeetingStatusProps> = ({
+  headCountData,
+  meeting,
+  remainingTime,
+}) => (
   <StatusContainer>
-    <GroupIcon color="var(--primary)" width={18} height={18} aria-hidden="true" />
+    <GroupIcon
+      color="var(--primary)"
+      width={18}
+      height={18}
+      aria-hidden="true"
+    />
     <Text aria-label="Current and maximum participants">
-      {`${headCountData?.currentHeadCount}/${meeting.participantMax} (최소 ${meeting.participantMin}명)`}
+      {`${headCountData?.currentHeadCount}/${meeting?.participantMax} (최소 ${meeting?.participantMin}명)`}
     </Text>
-    <Divider orientation="vertical" sx={{ height: '1.3125rem', backgroundColor: 'var(--gray300)' }} />
+    <Divider
+      orientation="vertical"
+      sx={{ height: '1.3125rem', backgroundColor: 'var(--gray300)' }}
+    />
     <Badge
       sx={{
         backgroundColor: 'var(--primary)',
@@ -54,11 +67,14 @@ const MeetingStatus: React.FC<MeetingStatusProps> = ({ headCountData, meeting, r
         alignItems: 'center',
         justifyContent: 'center',
       }}
-      aria-label={`Purchase type: ${meeting.purchaseType}`}
+      aria-label={`Purchase type: ${meeting?.purchaseType}`}
     >
-      {meeting.purchaseType}
+      {meeting?.purchaseType}
     </Badge>
-    <Divider orientation="vertical" sx={{ height: '1.3125rem', backgroundColor: 'var(--gray300)' }} />
+    <Divider
+      orientation="vertical"
+      sx={{ height: '1.3125rem', backgroundColor: 'var(--gray300)' }}
+    />
     <TimerIcon src="/timer.svg" alt="Timer Icon" width={18} height={18} />
     <CountdownTimer aria-label={`Time remaining: ${remainingTime}`}>
       {remainingTime}

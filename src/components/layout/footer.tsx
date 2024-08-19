@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 import { BaseBtn, BaseBtnInactive, BtnGroup } from '@/styles/button';
 
-const FooterContainer = styled.footer<{ padding?: string }>`
+const FooterContainer = styled.footer<{ $padding?: string }>`
   width: 100vw;
   position: fixed;
   bottom: 0px;
@@ -13,8 +13,8 @@ const FooterContainer = styled.footer<{ padding?: string }>`
   align-items: center;
   box-shadow: 1.48px 1.48px 7px var(--shadow);
   background-color: var(--background);
-  padding: ${({ padding }) =>
-    padding || '1.5rem'}; /* Default padding is 1.5rem */
+  padding: ${({ $padding }) =>
+    $padding || '1.5rem'}; /* Default padding is 1.5rem */
 `;
 
 interface FooterProps {
@@ -25,7 +25,7 @@ interface FooterProps {
   onButtonClick?: () => void;
   onButtonClick1?: () => void;
   onButtonClick2?: () => void;
-  padding?: string;
+  $padding?: string;
 }
 
 const Footer: React.FC<FooterProps> = ({
@@ -36,10 +36,10 @@ const Footer: React.FC<FooterProps> = ({
   onButtonClick,
   onButtonClick1,
   onButtonClick2,
-  padding,
+  $padding,
 }) => {
   return (
-    <FooterContainer padding={padding}>
+    <FooterContainer $padding={$padding}>
       {type === 'button' && (
         <BaseBtn onClick={onButtonClick}>{buttonText}</BaseBtn>
       )}

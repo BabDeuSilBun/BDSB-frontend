@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+
 import { apiClient } from '@/services/apiClient';
 
 // 인증이 필요한 API 클라이언트 생성
@@ -11,15 +12,14 @@ export const httpClientForCredentials = axios.create({
 
 // AccessToken 설정 함수
 export const setAuthToken = (token: string) => {
-  httpClientForCredentials.defaults.headers.common['Authorization'] =
-    `Bearer ${token}`;
+  httpClientForCredentials.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
 // 토큰 갱신 함수
 export const onSilentRefresh = async () => {
   try {
     const res = await httpClientForCredentials.post('/api/refresh-token');
-    const newToken = res.headers['Authorization'];
+    const newToken = res.headers.Authorization;
     Cookies.set('jwtToken', newToken);
     setAuthToken(newToken);
   } catch (error) {
@@ -45,8 +45,9 @@ export const setupInterceptors = (router: NextRouter) => {
 
         if (refreshToken) {
           try {
-            const res = await httpClientForCredentials.post('/api/refresh-token');
-            const newJwtToken = res.headers['Authorization'];
+            const res =
+              await httpClientForCredentials.post('/api/refresh-token');
+            const newJwtToken = res.headers.Authorization;
 
             setAuthToken(newJwtToken);
             Cookies.set('jwtToken', newJwtToken);

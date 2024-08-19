@@ -1,4 +1,4 @@
-import { MenuType, MenusResponse } from '@/types/coreTypes';
+import { MenusResponse, MenuType } from '@/types/coreTypes';
 
 export const menus: MenuType[] = [
   // Menus for storeId 1
@@ -2470,15 +2470,11 @@ Object.keys(menusByStore).forEach((storeId) => {
       const isLastPage = index === totalPages - 1;
 
       return {
+        storeId: Number(storeId),
         content, // 현재 페이지에 해당하는 데이터
         pageable: {
           pageNumber: index, // 현재 페이지 번호
           pageSize, // 페이지당 데이터 개수
-          sort: {
-            empty: true,
-            unsorted: true,
-            sorted: false,
-          },
         },
         last: isLastPage, // 마지막 페이지 여부
         totalPages, // 전체 페이지 수
