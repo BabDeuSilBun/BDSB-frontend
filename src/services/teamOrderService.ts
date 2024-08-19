@@ -16,15 +16,19 @@ export const getTeamOrderList = async ({
   searchMenu = undefined,
 }: GetListParams): Promise<MeetingsResponse> => {
   try {
-    const url =
-      `${TEAM_ORDER_LIST_API_URL}?` +
-      `schoolId=${schoolId || ''}&` +
-      `sortCriteria=${sortCriteria || 'delivery-fee'}&` +
-      `foodCategoryFilter=${foodCategoryFilter || ''}&` +
-      `searchMenu=${searchMenu || ''}&` +
-      `size=${size}&` +
-      `page=${page}`;
-    const response = await axios.get<MeetingsResponse>(url);
+    const response = await apiClient.get<MeetingsResponse>(
+      TEAM_ORDER_LIST_API_URL,
+      {
+        params: {
+          schoolId,
+          sortCriteria,
+          foodCategoryFilter,
+          searchMenu,
+          size,
+          page,
+        },
+      },
+    );
     return response.data;
   } catch (error) {
     console.error('Error fetching team orders:', error);

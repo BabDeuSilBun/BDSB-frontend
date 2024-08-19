@@ -15,6 +15,7 @@ interface SignUpState {
   email: string;
   isEmailVerified: boolean;
   campus?: number;
+  campusName: string;
   department?: string;
   address: Address;
   password: string;
@@ -28,6 +29,7 @@ interface SignUpState {
   setEmail: (email: string) => void;
   setEmailVerified: (isEmailVerified: boolean) => void;
   setCampus?: (campus: number) => void;
+  setCampusName?: (campusName: string) => void;
   setDepartment?: (department: string) => void;
   setAddress?: (address: Address) => void;
   setPassword: (password: string) => void;
@@ -44,6 +46,7 @@ export const useSignUpStore = create<SignUpState>((set) => ({
   email: '',
   isEmailVerified: false,
   campus: 0,
+  campusName: '',
   department: '',
   address: {
     postal: '',
@@ -61,6 +64,7 @@ export const useSignUpStore = create<SignUpState>((set) => ({
   setEmail: (email) => set({ email }),
   setEmailVerified: (isVerified) => set({ isEmailVerified: isVerified }),
   setCampus: (campus) => set({ campus }),
+  setCampusName: (campusName) => set({ campusName }),
   setDepartment: (department) => set({ department }),
   setAddress: (address) => set({ address }),
   setPassword: (password) => set({ password }),

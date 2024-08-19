@@ -132,7 +132,8 @@ export const authHandlers = [
 
     try {
       const url = new URL(urlString);
-      const searchMenu = url.searchParams.get('schoolName');
+      const schoolName = url.searchParams.get('schoolName');
+      const searchMenu = schoolName ? decodeURIComponent(schoolName) : null;
       const pageParam = Number(url.searchParams.get('page')) || 0;
       const size = Number(url.searchParams.get('size'));
 

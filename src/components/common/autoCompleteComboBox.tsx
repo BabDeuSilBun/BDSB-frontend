@@ -40,8 +40,10 @@ interface AutoCompleteComboBoxProps {
   inputValue: string;
   setInputValue: (value: string) => void;
   placeholder?: string;
-  onSelect: (id: number) => void;
+  onSelect: (id: number, campus: string) => void;
   suggestions?: { id: number; display: string }[] | [];
+  status: string;
+  lastElementRef?: React.RefObject<HTMLLIElement>;
 }
 
 const AutoCompleteComboBox: React.FC<AutoCompleteComboBoxProps> = ({
@@ -50,6 +52,8 @@ const AutoCompleteComboBox: React.FC<AutoCompleteComboBoxProps> = ({
   placeholder = '검색어를 입력하세요',
   onSelect,
   suggestions = [],
+  status,
+  lastElementRef,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -57,10 +61,10 @@ const AutoCompleteComboBox: React.FC<AutoCompleteComboBoxProps> = ({
     setIsDropdownOpen(suggestions.length > 0);
   }, [suggestions]);
 
-  const handleSelectSuggestion = (id: number) => {
+  const handleSelectSuggestion = (id: number, campus: string) => {
     setInputValue('');
     setIsDropdownOpen(false);
-    onSelect(id);
+    onSelect(id, campus);
   };
 
   return (
@@ -71,12 +75,19 @@ const AutoCompleteComboBox: React.FC<AutoCompleteComboBoxProps> = ({
         onChange={(e) => setInputValue(e.target.value)}
         placeholder={placeholder}
       />
-      {isDropdownOpen && (
+      {isDropdownOpen && status === 'pending' ? (
+        <p>목록을 불러오는 중..</p>
+      ) : status === 'error' ? (
+        <p>목록을 불러오는데 실패하였습니다.</p>
+      ) : (
         <SuggestionsList>
-          {suggestions.map((suggestion) => (
+          {suggestions.map((suggestion, index) => (
             <SuggestionItem
               key={suggestion.id}
-              onClick={() => handleSelectSuggestion(suggestion.id)}
+              onClick={() =>
+                handleSelectSuggestion(suggestion.id, suggestion.display)
+              }
+              ref={index === suggestions.length - 1 ? lastElementRef : null}
             >
               {suggestion.display}
             </SuggestionItem>

@@ -106,6 +106,56 @@ export const schools: SchoolType[] = [
     name: '성균관대학교',
     campus: '자연과학캠퍼스',
   },
+  {
+    id: 22,
+    name: '연세대학교',
+    campus: '서울캠퍼스',
+  },
+  {
+    id: 23,
+    name: '연세대학교',
+    campus: '미래캠퍼스',
+  },
+  {
+    id: 24,
+    name: '홍익대학교',
+    campus: '서울캠퍼스',
+  },
+  {
+    id: 25,
+    name: '홍익대학교',
+    campus: '세종캠퍼스',
+  },
+  {
+    id: 26,
+    name: '이화여자대학교',
+    campus: '서울캠퍼스',
+  },
+  {
+    id: 27,
+    name: '중앙대학교',
+    campus: '서울캠퍼스',
+  },
+  {
+    id: 28,
+    name: '한국외국어대학교',
+    campus: '서울캠퍼스',
+  },
+  {
+    id: 29,
+    name: '한양대학교',
+    campus: '서울캠퍼스',
+  },
+  {
+    id: 30,
+    name: '경희대학교',
+    campus: '서울캠퍼스',
+  },
+  {
+    id: 31,
+    name: '건국대학교',
+    campus: '서울캠퍼스',
+  },
 ];
 
 const pageSize = 10;
