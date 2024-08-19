@@ -13,12 +13,14 @@ import SettingAddress from '@/components/meetings/settingAddress';
 import TimeInput from '@/components/common/timeInput';
 import { CustomDropdown } from '@/components/common/dropdown';
 import InfoBox from '@/components/common/infoBox';
+import ErrorMessage from '@/components/meetings/errorMessage';
 
 const Step1 = () => {
   const { formData, setMealType, setOrderType, setMeetingPlace, setTime } =
     useOrderStore();
 
   const { mealType, orderType, meetingPlace, time } = formData;
+  const [error, setError] = useState<string | null>(null);
 
   const options1 = [
     { id: 1, name: '함께 식사', value: 'option1' },
@@ -43,11 +45,56 @@ const Step1 = () => {
 
   const { storeId } = useParams();
 
-  useQuery<RestaurantType>({
+  const { data: store } = useQuery<RestaurantType>({
     queryKey: ['storeInfo', storeId],
     queryFn: () => getRestaurantInfo(Number(storeId)),
     enabled: !!storeId,
   });
+
+  const validateTime = (formattedTime: string) => {
+    if (store && store.openTime && store.closeTime) {
+      const [selectedHour, selectedMinute] = formattedTime
+        .split(':')
+        .map(Number);
+      const [openHour, openMinute] = store.openTime.split(':').map(Number);
+      const [closeHour, closeMinute] = store.closeTime.split(':').map(Number);
+
+      const selectedTimeInMinutes = selectedHour * 60 + selectedMinute;
+      const openTimeInMinutes = openHour * 60 + openMinute;
+      const closeTimeInMinutes = closeHour * 60 + closeMinute;
+
+      if (
+        selectedTimeInMinutes < openTimeInMinutes ||
+        selectedTimeInMinutes > closeTimeInMinutes
+      ) {
+        setError(
+          `영업 시간은 ${store.openTime}부터 ${store.closeTime}까지입니다.\n이 시간 내로 선택해주세요.`,
+        );
+      } else {
+        setError(null);
+      }
+    }
+  };
+
+  const handleTimeChange = (
+    newTime: Partial<{ amPm: string; hour: string; minute: string }>,
+  ) => {
+    const updatedTime = {
+      ...time,
+      ...newTime,
+    };
+
+    let { hour } = updatedTime;
+    const { minute } = updatedTime;
+
+    if (updatedTime.amPm === '오후' && hour !== '12') {
+      hour = (parseInt(hour, 10) + 12).toString().padStart(2, '0');
+    }
+
+    const formattedTime = `${hour}:${minute}`;
+    setTime(updatedTime);
+    validateTime(formattedTime);
+  };
 
   return (
     <>
@@ -133,7 +180,8 @@ const Step1 = () => {
         onChange={(e) => setMeetingPlace(e.target.value)}
       />
       <SettingLabel text="주문 대기 최대 기한" />
-      <TimeInput onTimeChange={setTime} time={time} />
+      <TimeInput onTimeChange={handleTimeChange} time={time} />
+      {error && <ErrorMessage message={error} />}
     </>
   );
 };

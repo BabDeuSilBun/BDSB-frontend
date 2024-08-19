@@ -243,8 +243,7 @@ const StorePage = () => {
               ? context
               : undefined
           }
-          // eslint-disable-next-line no-console
-          onButtonClick1={() => console.log('Button 1 clicked')}
+          onButtonClick1={onButtonClick1}
           onButtonClick2={closeModal}
           onClose={closeModal}
         />

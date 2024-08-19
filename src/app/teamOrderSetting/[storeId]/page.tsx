@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+// import axios from 'axios';
 
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { RestaurantType } from '@/types/coreTypes';
+// import { useOrderStore } from '@/state/orderStore';
 import Container from '@/styles/container';
 import Header from '@/components/layout/header';
 import Step1 from '@/app/teamOrderSetting/[storeId]/step1';
@@ -25,6 +27,8 @@ const TeamOrderSettingPage = () => {
   const router = useRouter();
   const { storeId } = useParams();
   const [currentStep, setCurrentStep] = useState(1);
+
+  // const { formData } = useOrderStore();
 
   useQuery<RestaurantType>({
     queryKey: ['storeInfo', storeId],
@@ -48,6 +52,35 @@ const TeamOrderSettingPage = () => {
     }
   };
 
+  // const handleSubmit = async () => {
+  //   const requestBody = {
+  //     storeId: Number(storeId),
+  //     purchaseType: formData.mealType,
+  //     minHeadcount: formData.minHeadcount,
+  //     maxHeadcount: formData.maxHeadcount,
+  //     isEarlyPaymentAvailable: formData.orderType === '예약 주문',
+  //     paymentAvailableAt: new Date(),
+  //     // deliveredAddress: {
+  //     //   deliveredPostal: formData.deliveredPostal,
+  //     //   deliveredStreetAddress: formData.deliveredStreetAddress,
+  //     //   deliveredDetailAddress: formData.deliveredDetailAddress,
+  //     // },
+  //     // metAddress: {
+  //     //   metPostal: formData.metPostal,
+  //     //   metStreetAddress: formData.metStreetAddress,
+  //     //   metDetailAddress: formData.metDetailAddress,
+  //     // },
+  //     description: formData.additionalInfo,
+  //   };
+
+  //   try {
+  //     const response = await axios.post('/api/team-order', requestBody);
+  //     router.push(`/restaurants/${storeId}?context=leaderAfter`);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   return (
     <>
       <Header
@@ -61,9 +94,7 @@ const TeamOrderSettingPage = () => {
         {currentStep === 2 && <Step2 />}
         <Footer
           type="button"
-          buttonText={
-            currentStep === 2 ? '설정 마무리하고 주문하기' : '다음으로'
-          }
+          buttonText={currentStep === 2 ? '설정 완료 · 주문하기' : '다음으로'}
           onButtonClick={handleNextStep}
         />
       </CustomContainer>
