@@ -33,7 +33,6 @@ export const getIndividualOrderList = async ({
     });
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error fetching team menus:', error);
     throw new Error(
       '개별 메뉴 목록을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
@@ -53,7 +52,6 @@ export const getIndividualOrderInfo = async (
     const response = await apiClient.get<IndividualOrderType>(url);
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error fetching team menu info:', error);
     throw new Error(
       '개별 메뉴 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',

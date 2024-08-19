@@ -1,11 +1,12 @@
 'use client';
 
+import { ChangeEvent, useEffect, useState } from 'react';
+import axios from 'axios';
+
 import styled from 'styled-components';
-import { useEffect, useState, ChangeEvent } from 'react';
-import { BaseBtnInactive, BaseBtn } from '@/styles/button';
+import { BaseBtn, BaseBtnInactive } from '@/styles/button';
 import { validateSignInput } from '@/utils/validateSignInput';
 import { useSignUpStore } from '@/state/authStore';
-import axios from 'axios';
 import { useMutation } from '@tanstack/react-query';
 
 const Caption = styled.p<{ warning?: boolean }>`
@@ -42,13 +43,13 @@ const Step2Email = () => {
       setButtonActive(true);
     }
     setButtonActive(false);
-  }, [isEmailVerified, setButtonActive]);
+  }, [isEmailVerified, setButtonActive, email]);
 
   const emailMutation = useMutation({
-    mutationFn: async (email: string) => {
+    mutationFn: async (emailInput: string) => {
       const { data: duplicationCheck } = await axios.post(
         `/api/${userType}/email-duplicated`,
-        { email },
+        { emailInput },
       );
 
       if (!duplicationCheck.usable) {
@@ -68,10 +69,16 @@ const Step2Email = () => {
   });
 
   const codeMutation = useMutation({
-    mutationFn: async ({ email, code }: { email: string; code: string }) => {
+    mutationFn: async ({
+      emailValue,
+      codeValue,
+    }: {
+      emailValue: string;
+      codeValue: string;
+    }) => {
       const { data: codeCheck } = await axios.post('/api/signup/verify-code', {
-        email,
-        code,
+        email: emailValue,
+        code: codeValue,
       });
 
       if (!codeCheck.result) {
@@ -99,7 +106,7 @@ const Step2Email = () => {
 
   const handleCodeVerify = () => {
     if (code) {
-      codeMutation.mutate({ email: tempEmail, code });
+      codeMutation.mutate({ emailValue: tempEmail, codeValue: code });
     } else {
       setErrorMessage('인증 번호를 입력해주세요.');
     }

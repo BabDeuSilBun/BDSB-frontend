@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, ChangeEvent } from 'react';
+import { ChangeEvent, useEffect } from 'react';
+
 import { useSignUpStore } from '@/state/authStore';
 import { validateSignInput } from '@/utils/validateSignInput';
 import styled from 'styled-components';

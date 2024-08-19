@@ -1,17 +1,18 @@
 'use client';
 
-import { useSignUpStore } from '@/state/authStore';
 import { ChangeEvent, useEffect } from 'react';
+
+import { useSignUpStore } from '@/state/authStore';
 
 const Step0Name = () => {
   const { name, setName, setButtonActive } = useSignUpStore();
 
   useEffect(() => {
-    setButtonActive(!!name.trim());
-  }, []);
+    setButtonActive(!!name);
+  }, [setButtonActive, name]);
 
   const onValidate = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value.trim();
+    const inputValue = e.target.value;
     setName(inputValue);
     setButtonActive(!!inputValue);
   };

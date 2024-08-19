@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 import styled from 'styled-components';
 import ExitIcon from '@/components/svg/exit';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 interface keyInterface {
   id: number;
@@ -78,7 +79,9 @@ const RecentKeywords: React.FC = () => {
         {keywords.length ? (
           keywords.map((k) => (
             <Keyword key={k.id}>
-              <button onClick={() => handleSearchButtonClick(k)}>{k.text}</button>
+              <button onClick={() => handleSearchButtonClick(k)}>
+                {k.text}
+              </button>
               <button onClick={() => handleRemoveKeyword(k.id)}>
                 <ExitIcon color="var(--gray300)" width={18} height={18} />
               </button>

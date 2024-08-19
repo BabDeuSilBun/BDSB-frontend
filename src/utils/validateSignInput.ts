@@ -1,17 +1,19 @@
-export const validateSignInput = (type: string, value: string) => {
+export const validateSignInput = (type: string, value: string): boolean => {
   let isValid = false;
+  let regex: RegExp;
+
   switch (type) {
     case 'password':
-      const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-      isValid = passwordRegex.test(value);
+      regex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+      isValid = regex.test(value);
       break;
     case 'email':
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      isValid = emailRegex.test(value);
+      regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      isValid = regex.test(value);
       break;
     case 'phone':
-      const phoneRegex = /^010\d{8}$/;
-      isValid = phoneRegex.test(value);
+      regex = /^010\d{8}$/;
+      isValid = regex.test(value);
       break;
     default:
       break;

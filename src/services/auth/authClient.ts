@@ -1,8 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-import { apiClient } from '@/services/apiClient';
-
 // 인증이 필요한 API 클라이언트 생성
 // const response = await httpClientForCredentials.get('/user/profile');
 export const httpClientForCredentials = axios.create({

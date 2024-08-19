@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 import styled from 'styled-components';
 
 const DropdownContainer = styled.div`
@@ -40,8 +41,11 @@ interface AutoCompleteComboBoxProps {
   inputValue: string;
   setInputValue: (value: string) => void;
   placeholder?: string;
-  onSelect: (id: number) => void;
+  onSelect: (id: number, name: string) => void;
   suggestions?: { id: number; display: string }[] | [];
+  status: string;
+  lastElementRef?: React.RefObject<HTMLLIElement>;
+  suggestionsListRef?: React.RefObject<HTMLUListElement>;
 }
 
 const AutoCompleteComboBox: React.FC<AutoCompleteComboBoxProps> = ({
@@ -50,6 +54,9 @@ const AutoCompleteComboBox: React.FC<AutoCompleteComboBoxProps> = ({
   placeholder = '검색어를 입력하세요',
   onSelect,
   suggestions = [],
+  status,
+  lastElementRef,
+  suggestionsListRef,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -57,10 +64,10 @@ const AutoCompleteComboBox: React.FC<AutoCompleteComboBoxProps> = ({
     setIsDropdownOpen(suggestions.length > 0);
   }, [suggestions]);
 
-  const handleSelectSuggestion = (id: number) => {
+  const handleSelectSuggestion = (id: number, name: string) => {
     setInputValue('');
     setIsDropdownOpen(false);
-    onSelect(id);
+    onSelect(id, name);
   };
 
   return (
@@ -71,12 +78,19 @@ const AutoCompleteComboBox: React.FC<AutoCompleteComboBoxProps> = ({
         onChange={(e) => setInputValue(e.target.value)}
         placeholder={placeholder}
       />
-      {isDropdownOpen && (
-        <SuggestionsList>
-          {suggestions.map((suggestion) => (
+      {isDropdownOpen && status === 'pending' ? (
+        <p>목록을 불러오는 중..</p>
+      ) : status === 'error' ? (
+        <p>목록을 불러오는데 실패하였습니다.</p>
+      ) : (
+        <SuggestionsList ref={suggestionsListRef}>
+          {suggestions.map((suggestion, index) => (
             <SuggestionItem
               key={suggestion.id}
-              onClick={() => handleSelectSuggestion(suggestion.id)}
+              onClick={() =>
+                handleSelectSuggestion(suggestion.id, suggestion.display)
+              }
+              ref={index === suggestions.length - 1 ? lastElementRef : null}
             >
               {suggestion.display}
             </SuggestionItem>

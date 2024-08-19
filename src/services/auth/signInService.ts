@@ -4,12 +4,16 @@ import Cookies from 'js-cookie';
 import { setAuthToken } from '@/services/auth/authClient';
 import { validateSignInput } from '@/utils/validateSignInput';
 
+interface NextRouter {
+  push: (path: string) => void;
+}
+
 export async function handleSignIn(
   email: string,
   password: string,
   userType: string,
   setError: (error: string) => void,
-  router: any,
+  router: NextRouter,
 ) {
   if (email.trim() === '') {
     setError('이메일을 입력해주세요.');

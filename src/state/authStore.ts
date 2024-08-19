@@ -15,7 +15,9 @@ interface SignUpState {
   email: string;
   isEmailVerified: boolean;
   campus?: number;
-  department?: string;
+  campusName?: string;
+  department?: number;
+  departmentName?: string;
   address: Address;
   password: string;
   isButtonActive: boolean;
@@ -28,7 +30,9 @@ interface SignUpState {
   setEmail: (email: string) => void;
   setEmailVerified: (isEmailVerified: boolean) => void;
   setCampus?: (campus: number) => void;
-  setDepartment?: (department: string) => void;
+  setCampusName?: (campusName: string) => void;
+  setDepartment?: (department: number) => void;
+  setDepartmentName?: (department: string) => void;
   setAddress?: (address: Address) => void;
   setPassword: (password: string) => void;
   setButtonActive: (isActive: boolean) => void;
@@ -44,7 +48,9 @@ export const useSignUpStore = create<SignUpState>((set) => ({
   email: '',
   isEmailVerified: false,
   campus: 0,
-  department: '',
+  campusName: '',
+  department: 0,
+  departmentName: '',
   address: {
     postal: '',
     streetAddress: '',
@@ -61,7 +67,9 @@ export const useSignUpStore = create<SignUpState>((set) => ({
   setEmail: (email) => set({ email }),
   setEmailVerified: (isVerified) => set({ isEmailVerified: isVerified }),
   setCampus: (campus) => set({ campus }),
+  setCampusName: (campusName) => set({ campusName }),
   setDepartment: (department) => set({ department }),
+  setDepartmentName: (departmentName) => set({ departmentName }),
   setAddress: (address) => set({ address }),
   setPassword: (password) => set({ password }),
   setButtonActive: (isActive) => set({ isButtonActive: isActive }),

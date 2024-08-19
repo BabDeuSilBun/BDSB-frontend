@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import { MeetingsResponse, MeetingType } from '@/types/coreTypes';
 import { GetListParams } from '@/types/types';
 
@@ -18,15 +16,19 @@ export const getTeamOrderList = async ({
   searchMenu = undefined,
 }: GetListParams): Promise<MeetingsResponse> => {
   try {
-    const url =
-      `${TEAM_ORDER_LIST_API_URL}?` +
-      `schoolId=${schoolId || ''}&` +
-      `sortCriteria=${sortCriteria || 'delivery-fee'}&` +
-      `foodCategoryFilter=${foodCategoryFilter || ''}&` +
-      `searchMenu=${searchMenu || ''}&` +
-      `size=${size}&` +
-      `page=${page}`;
-    const response = await axios.get<MeetingsResponse>(url);
+    const response = await apiClient.get<MeetingsResponse>(
+      TEAM_ORDER_LIST_API_URL,
+      {
+        params: {
+          schoolId,
+          sortCriteria,
+          foodCategoryFilter,
+          searchMenu,
+          size,
+          page,
+        },
+      },
+    );
     return response.data;
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -61,7 +63,6 @@ export const getCurrentHeadCount = async (meetingId: number) => {
     );
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error fetching team head count:', error);
     throw new Error(
       '팀 헤드카운트를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',

@@ -88,6 +88,8 @@ export function applyFiltersAndSorting(
               restaurantB.deliveryTimeRange,
             );
             break;
+          default:
+            break;
         }
       } else {
         // MeetingType
@@ -111,6 +113,8 @@ export function applyFiltersAndSorting(
               meetingA.deliveryTimeRange,
               meetingB.deliveryTimeRange,
             );
+            break;
+          default:
             break;
         }
       }

@@ -12,7 +12,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     setupInterceptors(router);
   }, [router]);
 
-  return <>{children}</>;
+  return children;
 }
 
 export default AuthProvider;

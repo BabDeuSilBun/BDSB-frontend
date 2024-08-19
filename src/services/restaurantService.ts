@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 import { RestaurantsResponse } from '@/types/coreTypes';
 import { GetListParams } from '@/types/types';
 
@@ -17,19 +15,21 @@ export const getRestaurantsList = async ({
   searchMenu = undefined,
 }: GetListParams): Promise<RestaurantsResponse> => {
   try {
-    const url =
-      `${RESTAURANT_LIST_API_URL}?` +
-      `schoolId=${schoolId || ''}&` +
-      `sortCriteria=${sortCriteria || 'deadline'}&` +
-      `foodCategoryFilter=${foodCategoryFilter || ''}&` +
-      `searchMenu=${searchMenu || ''}&` +
-      `size=${size}&` +
-      `page=${page}`;
-
-    const response = await axios.get<RestaurantsResponse>(url);
+    const response = await apiClient.get<RestaurantsResponse>(
+      RESTAURANT_LIST_API_URL,
+      {
+        params: {
+          schoolId,
+          sortCriteria,
+          foodCategoryFilter,
+          searchMenu,
+          size,
+          page,
+        },
+      },
+    );
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error fetching restaurants:', error);
     throw new Error(
       '음식점 목록을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
@@ -44,7 +44,6 @@ export const getRestaurantInfo = async (storeId: number) => {
     );
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error fetching restaurant:', error);
     throw new Error(
       '음식점 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',

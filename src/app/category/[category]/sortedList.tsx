@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+
 import { useParams } from 'next/navigation';
 import { RestaurantCategory } from '@/constant/category';
 import { Divider } from '@chakra-ui/react';
