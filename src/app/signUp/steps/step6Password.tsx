@@ -9,6 +9,7 @@ import styled from 'styled-components';
 const ErrorMessage = styled.p`
   color: red;
   font-size: var(--font-size-xs);
+  padding-bottom: 1rem;
 `;
 
 const Step6Password = () => {

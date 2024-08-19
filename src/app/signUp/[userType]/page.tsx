@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import axios from 'axios';
 
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -19,6 +20,14 @@ const SignUp = () => {
     setStep,
     isButtonActive,
     buttonText,
+    campus,
+    department,
+    email,
+    password,
+    name,
+    phoneNumber,
+    businessNumber,
+    address,
   } = useSignUpStore();
 
   const titles = [
@@ -31,14 +40,55 @@ const SignUp = () => {
     '비밀번호 입력',
   ].filter(Boolean);
 
-  const handleNextPage = () => {
-    setStep(currentStep + 1);
+  const handleNextPage = async () => {
+    if (
+      (userType === 'users' && currentStep === 6) ||
+      (userType === 'businesses' && currentStep === 3)
+    ) {
+      const userData =
+        userType === 'users'
+          ? {
+              schoolId: campus,
+              majorId: department,
+              email,
+              password,
+              name,
+              phoneNumber,
+              address: {
+                postal: address.postal,
+                streetAddress: address.streetAddress,
+                detailAddress: address.detailAddress,
+              },
+            }
+          : {
+              email,
+              password,
+              name,
+              phoneNumber,
+              businessNumber,
+              address: {
+                postal: null,
+                streetAddress: null,
+                detailAddress: null,
+              },
+            };
+
+      try {
+        const response = await axios.post(`/api/${userType}/signup`, userData);
+        console.log('Success:', response.data);
+        router.push('/signIn');
+      } catch (error) {
+        console.error('Error during signup:', error);
+      }
+    } else {
+      setStep(currentStep + 1);
+    }
   };
 
   useEffect(() => {
     setUserType((params.userType as 'users') || 'businesses');
     setStep(0);
-  }, []);
+  }, [setStep, setUserType, params.userType]);
 
   return (
     <>

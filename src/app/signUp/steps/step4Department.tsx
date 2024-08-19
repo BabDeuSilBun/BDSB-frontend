@@ -6,7 +6,7 @@ import { debounce } from 'lodash';
 import { useSignUpStore } from '@/state/authStore';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import AutoCompleteComboBox from '@/components/common/autoCompleteComboBox';
-import { getMajorsList } from '@/services/signUpService';
+import { getMajorsList } from '@/services/auth/signUpService';
 
 const Step4Department = () => {
   const { departmentName, setDepartmentName, setDepartment } = useSignUpStore();

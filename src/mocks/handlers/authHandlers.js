@@ -2,7 +2,7 @@ import { http, HttpResponse } from 'msw';
 import {
   MAJOR_LIST_API_URL,
   SCHOOL_LIST_API_URL,
-} from '@/services/signUpService';
+} from '@/services/auth/signUpService';
 
 import { applyFiltersAndSorting } from '../filteringAndSorting';
 import { paginatedSchools } from '../mockData/schools';
@@ -119,7 +119,6 @@ export const authHandlers = [
       const { code } = await request.json();
 
       if (code === '1111') {
-        console.log('Received code:', code);
         return HttpResponse.json({ result: true });
       }
     } catch (error) {
@@ -192,6 +191,45 @@ export const authHandlers = [
       return HttpResponse.status(500).json({
         message: `Error parsing major list URL: ${error}`,
       });
+    }
+  }),
+
+  http.post('/api/users/signup', async ({ request }) => {
+    try {
+      const { email, password, name, phoneNumber, address } =
+        await request.json();
+
+      if (email && password && name && phoneNumber && address) {
+        return HttpResponse.json({ message: '회원가입 성공' }, { status: 200 });
+      }
+
+      return HttpResponse.json(
+        { message: '잘못된 요청입니다.' },
+        { status: 400 },
+      );
+    } catch (error) {
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
+    }
+  }),
+
+  http.post('/api/businesses/signup', async ({ request }) => {
+    try {
+      const { email, password, name, phoneNumber, businessNumber } =
+        await request.json();
+
+      if (email && password && name && phoneNumber && businessNumber) {
+        return HttpResponse.json(
+          { message: '사업자 회원가입 성공' },
+          { status: 200 },
+        );
+      }
+
+      return HttpResponse.json(
+        { message: '잘못된 요청입니다.' },
+        { status: 400 },
+      );
+    } catch (error) {
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
     }
   }),
 ];
