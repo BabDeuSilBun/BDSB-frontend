@@ -2691,6 +2691,7 @@ __metadata:
     prettier: "npm:^3.3.3"
     qs: "npm:^6.13.0"
     react: "npm:^18"
+    react-daum-postcode: "npm:^3.1.3"
     react-dom: "npm:^18"
     react-icons: "npm:^5.2.1"
     react-slick: "npm:^0.30.2"
@@ -5326,6 +5327,15 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 10c0/f96492d12c936a7e15a83efa077afe45e1c18e3f447d7605313fe5a31886390906a69a8a426bd502fb0dfe38a2913cb221a2efc8fc786396be9709a46c13caed
+  languageName: node
+  linkType: hard
+
+"react-daum-postcode@npm:^3.1.3":
+  version: 3.1.3
+  resolution: "react-daum-postcode@npm:3.1.3"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 10c0/72f05078e25df34d9196d573105c799bb85c7fd36f397af1f9edeec9b2aa1babd8ce90163f79b38fdcc7194d1b73b5df999fd3921fa8cc498fa7a05be755e955
   languageName: node
   linkType: hard
 

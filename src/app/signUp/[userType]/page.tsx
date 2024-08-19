@@ -27,7 +27,7 @@ const SignUp = () => {
     userType === 'users' ? '이메일 입력' : '사업자 이메일 입력',
     userType === 'users' ? '캠퍼스 선택' : undefined,
     userType === 'users' ? '학과 선택' : undefined,
-    '배송지 입력',
+    userType === 'users' ? '배송지 입력' : undefined,
     '비밀번호 입력',
   ].filter(Boolean);
 

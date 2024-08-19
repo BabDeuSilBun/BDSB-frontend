@@ -9,7 +9,7 @@ const Step0Name = () => {
 
   useEffect(() => {
     setButtonActive(!!name);
-  }, []);
+  }, [setButtonActive, name]);
 
   const onValidate = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;

@@ -69,16 +69,10 @@ const Step2Email = () => {
   });
 
   const codeMutation = useMutation({
-    mutationFn: async ({
-      emailInput,
-      codeInput,
-    }: {
-      emailInput: string;
-      codeInput: string;
-    }) => {
+    mutationFn: async ({ email, code }: { email: string; code: string }) => {
       const { data: codeCheck } = await axios.post('/api/signup/verify-code', {
-        emailInput,
-        codeInput,
+        email,
+        code,
       });
 
       if (!codeCheck.result) {
@@ -106,7 +100,7 @@ const Step2Email = () => {
 
   const handleCodeVerify = () => {
     if (code) {
-      codeMutation.mutate({ emailInput: tempEmail, codeInput: code });
+      codeMutation.mutate({ email: tempEmail, code });
     } else {
       setErrorMessage('인증 번호를 입력해주세요.');
     }
