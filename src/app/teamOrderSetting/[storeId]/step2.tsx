@@ -9,16 +9,6 @@ import SettingLabel from '@/components/meetings/settingLabel';
 import SettingHeadcount from '@/components/meetings/settingHeadcount';
 import SettingDescription from '@/components/meetings/settingDescription';
 import DeliveryFees from '@/components/meetings/deliveryFee';
-import styled from 'styled-components';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0 var(--spacing-md) 6rem;
-  margin-top: 60px;
-`;
 
 const Step2 = () => {
   const { formData, setMinHeadcount, setMaxHeadcount, setAdditionalInfo } =
@@ -44,7 +34,7 @@ const Step2 = () => {
     store.deliveryPrice / Math.max(maxHeadcount, 1);
 
   return (
-    <Container>
+    <>
       <SettingLabel text="인원 제한" />
       <SettingHeadcount
         text="본인 포함 최소 인원"
@@ -68,7 +58,7 @@ const Step2 = () => {
         maxIndividualDeliveryFee={maxIndividualDeliveryFee}
         minIndividualDeliveryFee={minIndividualDeliveryFee}
       />
-    </Container>
+    </>
   );
 };
 

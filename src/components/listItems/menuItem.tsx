@@ -20,7 +20,7 @@ const MenuListWrapper = styled.div`
   align-items: center;
   height: 6.3125rem; /* 101px */
   background-color: var(--background);
-  padding: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-sm) 0;
 `;
 
 const TextWrapper = styled.div`

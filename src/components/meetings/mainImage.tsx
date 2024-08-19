@@ -6,7 +6,7 @@ const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 80px;
+  margin-top: 30px;
 `;
 
 const ImageWrapper = styled.div`

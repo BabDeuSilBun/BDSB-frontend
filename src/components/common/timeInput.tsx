@@ -82,9 +82,14 @@ interface TimeInputProps {
   onTimeChange: (
     newTime: Partial<{ amPm: string; hour: string; minute: string }>,
   ) => void;
+  validateTime?: (time: string) => void;
 }
 
-const TimeInput: React.FC<TimeInputProps> = ({ time, onTimeChange }) => {
+const TimeInput: React.FC<TimeInputProps> = ({
+  time,
+  onTimeChange,
+  validateTime,
+}) => {
   const { amPm, hour, minute } = time;
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -98,13 +103,33 @@ const TimeInput: React.FC<TimeInputProps> = ({ time, onTimeChange }) => {
     setIsDropdownOpen((prev) => !prev);
   };
 
+  const handleTimeChange = (
+    newTime: Partial<{ amPm: string; hour: string; minute: string }>,
+  ) => {
+    const updatedTime = {
+      ...time,
+      ...newTime,
+    };
+    const formattedTime = `${
+      updatedTime.amPm === '오후' && updatedTime.hour !== '12'
+        ? (parseInt(updatedTime.hour, 10) + 12).toString().padStart(2, '0')
+        : updatedTime.hour
+    }:${updatedTime.minute}`;
+
+    onTimeChange(updatedTime);
+
+    if (validateTime) {
+      validateTime(formattedTime);
+    }
+  };
+
   return (
     <TimeInputContainer>
       <DropdownWrapper>
         <CustomDropdown
           options={amPmOptions}
           selectedValue={amPm}
-          onSelect={(value) => onTimeChange({ amPm: value ?? '오전' })}
+          onSelect={(value) => handleTimeChange({ amPm: value ?? '오전' })}
           isOpen={isDropdownOpen}
           onToggle={handleDropdownToggle}
           placeholder="오전/오후"
@@ -117,7 +142,7 @@ const TimeInput: React.FC<TimeInputProps> = ({ time, onTimeChange }) => {
           type="text"
           value={hour}
           placeholder="00"
-          onChange={(e) => onTimeChange({ hour: e.target.value })}
+          onChange={(e) => handleTimeChange({ hour: e.target.value })}
           maxLength={2}
         />
         <Divider>:</Divider>
@@ -125,7 +150,7 @@ const TimeInput: React.FC<TimeInputProps> = ({ time, onTimeChange }) => {
           type="text"
           value={minute}
           placeholder="00"
-          onChange={(e) => onTimeChange({ minute: e.target.value })}
+          onChange={(e) => handleTimeChange({ minute: e.target.value })}
           maxLength={2}
         />
       </InputGroup>
