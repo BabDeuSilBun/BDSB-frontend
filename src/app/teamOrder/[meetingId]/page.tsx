@@ -13,6 +13,7 @@ import { getTeamMenuInfo, getTeamMenuList } from '@/services/teamMenuService';
 import { getIndividualOrderInfo } from '@/services/individualOrderService';
 import { IndividualOrderType, TeamMenuType } from '@/types/coreTypes';
 import Loading from '@/app/loading';
+import Container from '@/styles/container';
 import Header from '@/components/layout/header';
 import MainImage from '@/components/meetings/mainImage';
 import MeetingStatus from '@/components/meetings/meetingStatus';
@@ -169,35 +170,37 @@ const TeamOrderPage = () => {
   if (isErrorMeeting) return <p>Error loading meeting data</p>;
 
   return (
-    <div>
+    <>
       <Header buttonLeft="back" text={meeting?.storeName} />
-      <MainImage
-        src={meeting?.images[0]?.url || '/path/to/placeholder/image.jpg'}
-        alt={meeting?.storeName || 'No image available'}
-      />
-      <MeetingStatus
-        headCountData={headCountData || null}
-        meeting={meeting}
-        remainingTime={remainingTime}
-      />
-      <MeetingInfo meeting={meeting} />
+      <Container>
+        <MainImage
+          src={meeting?.images[0]?.url || '/path/to/placeholder/image.jpg'}
+          alt={meeting?.storeName || 'No image available'}
+        />
+        <MeetingStatus
+          headCountData={headCountData || null}
+          meeting={meeting}
+          remainingTime={remainingTime}
+        />
+        <MeetingInfo meeting={meeting} />
 
-      {meeting?.purchaseType === '함께 식사' && (
-        <TeamOrderItems teamMenus={teamMenus || { pages: [] }} />
-      )}
+        {meeting?.purchaseType === '함께 식사' && (
+          <TeamOrderItems teamMenus={teamMenus || { pages: [] }} />
+        )}
 
-      <RemainingAmountText>
-        {remainingAmount > 0
-          ? `최소 주문 금액까지 ${formatCurrency(remainingAmount)} 남았어요!`
-          : '최소 주문 금액이 다 채워졌어요!'}
-      </RemainingAmountText>
+        <RemainingAmountText>
+          {remainingAmount > 0
+            ? `최소 주문 금액까지 ${formatCurrency(remainingAmount)} 남았어요!`
+            : '최소 주문 금액이 다 채워졌어요!'}
+        </RemainingAmountText>
+      </Container>
       <Footer
         type="button"
         buttonText="모임 참여하기"
         $padding="3rem 1.5rem 1.5rem"
         onButtonClick={handleClick}
       />
-    </div>
+    </>
   );
 };
 

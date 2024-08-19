@@ -17,7 +17,6 @@ const MenuContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
-  padding-bottom: 8rem;
 `;
 
 const MenuItemRow = styled.div`

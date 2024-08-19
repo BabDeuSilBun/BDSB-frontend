@@ -13,15 +13,6 @@ import SettingAddress from '@/components/meetings/settingAddress';
 import TimeInput from '@/components/common/timeInput';
 import { CustomDropdown } from '@/components/common/dropdown';
 import InfoBox from '@/components/common/infoBox';
-import styled from 'styled-components';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0 var(--spacing-md) 6rem;
-`;
 
 const Step1 = () => {
   const { formData, setMealType, setOrderType, setMeetingPlace, setTime } =
@@ -59,7 +50,7 @@ const Step1 = () => {
   });
 
   return (
-    <Container>
+    <>
       <SettingImage />
       <SettingLabel text="팀 주문 방식" />
       <CustomDropdown
@@ -143,7 +134,7 @@ const Step1 = () => {
       />
       <SettingLabel text="주문 대기 최대 기한" />
       <TimeInput onTimeChange={setTime} time={time} />
-    </Container>
+    </>
   );
 };
 

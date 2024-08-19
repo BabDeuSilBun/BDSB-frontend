@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getMenuInfo, getMenuList } from '@/services/menuService';
@@ -25,10 +25,11 @@ const HeaderContainer = styled.div`
 `;
 
 const MenuItemContainer = styled.div`
-  padding-bottom: 6.875rem;
+  padding-bottom: 120px;
 `;
 
 const StorePage = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const { storeId } = useParams();
   const [activeModal, setActiveModal] = useState<string | null>(null);
@@ -139,6 +140,11 @@ const StorePage = () => {
     setActiveModal('infoModal');
   };
 
+  const onButtonClick1 = () => {
+    if (context === 'leaderBefore')
+      router.push(`/teamOrderSetting/${storeId}?`);
+  };
+
   useEffect(() => {
     const contextParam = searchParams.get('context');
     setContext(contextParam);
@@ -202,6 +208,7 @@ const StorePage = () => {
               buttonText={
                 context === 'participant' ? '장바구니로 이동' : '모임 만들기'
               }
+              onButtonClick={onButtonClick1}
             />
           </div>
         )}

@@ -37,7 +37,7 @@ const ImageWrapper = styled.div`
 
 const SettingImage = () => (
   <Container>
-    <Title>결제 성공!</Title>
+    <Title>팀 주문 시작</Title>
     <SubTitle>팀 주문에 함께 할 모임원들을 초대해요</SubTitle>
     <ImageWrapper>
       <Image
