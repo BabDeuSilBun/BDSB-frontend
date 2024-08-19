@@ -48,7 +48,7 @@
         "jsx": "never",
         "ts": "never",
         "tsx": "never",
-        "mjs": "never",
+        "mjs": "never"
       }
     ],
     "import/no-extraneous-dependencies": [
