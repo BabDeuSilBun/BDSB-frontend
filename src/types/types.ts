@@ -6,6 +6,12 @@ export interface Image {
   isRepresentative?: boolean;
 }
 
+export interface Address {
+  postal: string;
+  streetAddress: string;
+  detailAddress: string;
+}
+
 export interface ItemType {
   purchaseId: number;
   menuId: number;

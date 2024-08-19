@@ -1,12 +1,6 @@
-import { Image, ItemType, Response } from './types';
+import { Image, ItemType, Response, Address } from './types';
 
 // Address interfaces
-export interface Address {
-  postal: string;
-  streetAddress: string;
-  detailAddress: string;
-}
-
 interface DeliveryAddress {
   deliveredPostal: string;
   deliveredStreetAddress: string;
