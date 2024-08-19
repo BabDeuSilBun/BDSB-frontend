@@ -1,10 +1,12 @@
 'use client';
 
+import { useState } from 'react';
+
 import Image from 'next/image';
 import styled from 'styled-components';
+import { Tab, TabList, Tabs } from '@chakra-ui/react';
+
 import SignInForm from './form';
-import { Tabs, TabList, Tab } from '@chakra-ui/react';
-import { useState } from 'react';
 
 const LogoWrapper = styled.div`
   display: flex;

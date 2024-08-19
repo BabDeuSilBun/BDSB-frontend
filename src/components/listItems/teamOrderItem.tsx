@@ -2,7 +2,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
-import { MeetingType, RestaurantType } from '@/types/coreTypes';
+import { MeetingType } from '@/types/coreTypes';
 import { getCurrentHeadCount } from '@/services/teamOrderService';
 import useRemainingTime from '@/hook/useRemainingTime';
 

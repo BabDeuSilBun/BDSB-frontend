@@ -1,12 +1,20 @@
 'use client';
 
-import styled from 'styled-components';
 import { useState } from 'react';
+
+import styled from 'styled-components';
 import InfoBoxIcon from '@/components/svg/infoBoxIcon';
 
 interface InfoBoxProps {
-  textItems: { text: string; $textStyle: 'withIcon' | 'Title' | 'Description'; sameRow?: boolean }[];
+  textItems: {
+    id: number;
+    text: string;
+    $textStyle: 'withIcon' | 'Title' | 'Description';
+    sameRow?: boolean;
+  }[];
+  // eslint-disable-next-line react/require-default-props
   showIcon?: boolean;
+  // eslint-disable-next-line react/require-default-props
   width?: string;
 }
 
@@ -90,7 +98,11 @@ const Overlay = styled.div`
   z-index: 1004;
 `;
 
-export default function InfoBox({ textItems = [], showIcon = true, width }: InfoBoxProps) {
+export default function InfoBox({
+  textItems = [],
+  showIcon = true,
+  width,
+}: InfoBoxProps) {
   const [isVisible, setIsVisible] = useState(!showIcon);
 
   const handleIconClick = () => {
@@ -115,7 +127,7 @@ export default function InfoBox({ textItems = [], showIcon = true, width }: Info
             {textItems.map((item, index) => {
               if (item.$textStyle === 'withIcon') {
                 return (
-                  <Text key={index} $textStyle={item.$textStyle}>
+                  <Text key={item.id} $textStyle={item.$textStyle}>
                     {item.text}
                   </Text>
                 );
@@ -123,14 +135,20 @@ export default function InfoBox({ textItems = [], showIcon = true, width }: Info
 
               if (item.sameRow && index < textItems.length - 1) {
                 return (
-                  <TextRow key={index}>
+                  <TextRow key={item.id}>
                     <Text $textStyle={item.$textStyle}>{item.text}</Text>
-                    <Text $textStyle={textItems[index + 1].$textStyle}>{textItems[index + 1].text}</Text>
+                    <Text $textStyle={textItems[index + 1].$textStyle}>
+                      {textItems[index + 1].text}
+                    </Text>
                   </TextRow>
                 );
-              } else if (!item.sameRow && (index === 0 || !textItems[index - 1].sameRow)) {
+              }
+              if (
+                !item.sameRow &&
+                (index === 0 || !textItems[index - 1].sameRow)
+              ) {
                 return (
-                  <Text key={index} $textStyle={item.$textStyle}>
+                  <Text key={item.id} $textStyle={item.$textStyle}>
                     {item.text}
                   </Text>
                 );

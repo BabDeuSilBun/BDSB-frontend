@@ -1,10 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 import styled from 'styled-components';
-import { useRouter, useParams, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import BackIcon from '@/components/svg/arrowLeft';
 import SearchIcon from '@/components/svg/search';
+
 import RecentKeywords from '../recentKeywords';
 import RestaurantSearchResults from '../restaurantSearchResults';
 import TeamOrderSearchResults from '../teamOrderSearchResults';

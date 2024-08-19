@@ -38,7 +38,7 @@ export const stores: RestaurantType[] = [
     phoneNumber: '02-1234-5678',
     openTime: '11:00',
     closeTime: '22:00',
-    dayOfWeek: '월요일', //휴무일
+    dayOfWeek: '월요일', // 휴무일
     category: '피자',
   },
   {

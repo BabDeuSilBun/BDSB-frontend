@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
 import { formatCurrency } from '@/utils/currencyFormatter';
+import { TeamMenusResponse, TeamMenuType } from '@/types/coreTypes';
+import { ItemType } from '@/types/types';
 
 const MenuTypeTitle = styled.h2`
   color: var(--primary);
@@ -15,7 +17,6 @@ const MenuContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
-  padding-bottom: 8rem;
 `;
 
 const MenuItemRow = styled.div`
@@ -40,7 +41,9 @@ const MenuItemPrice = styled.div`
 `;
 
 interface TeamOrderItemsProps {
-  teamMenus: any;
+  teamMenus: {
+    pages: TeamMenusResponse[];
+  };
 }
 
 const TeamOrderItems: React.FC<TeamOrderItemsProps> = ({ teamMenus }) => (
@@ -54,13 +57,15 @@ const TeamOrderItems: React.FC<TeamOrderItemsProps> = ({ teamMenus }) => (
     />
     <MenuTypeTitle>공통 메뉴</MenuTypeTitle>
     <MenuContainer>
-      {teamMenus?.pages.map((page: any, pageIndex: number) =>
-        page.content.map((item: any) => (
-          <MenuItemRow key={`${pageIndex}-${item.menuId}`}>
-            <MenuItemName>{item.name}</MenuItemName>
-            <MenuItemPrice>{formatCurrency(item.price)}</MenuItemPrice>
-          </MenuItemRow>
-        ))
+      {teamMenus?.pages.map((page) =>
+        page.content.flatMap((teamMenu: TeamMenuType) =>
+          teamMenu.items.map((item: ItemType) => (
+            <MenuItemRow key={`${teamMenu.teamPurchaseId}-${item.menuId}`}>
+              <MenuItemName>{item.name}</MenuItemName>
+              <MenuItemPrice>{formatCurrency(item.price)}</MenuItemPrice>
+            </MenuItemRow>
+          )),
+        ),
       )}
     </MenuContainer>
   </>

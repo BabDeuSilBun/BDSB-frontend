@@ -1,7 +1,7 @@
-import { MeetingType, MeetingsResponse } from '@/types/coreTypes';
+import { MeetingsResponse, MeetingType } from '@/types/coreTypes';
 import { GetListParams } from '@/types/types';
+
 import { apiClient } from './apiClient';
-import axios from 'axios';
 
 export const TEAM_ORDER_LIST_API_URL = '/api/users/meetings';
 const HEADCOUNT_API_URL = '/api/users/meetings/{meetingId}/headcount';
@@ -31,6 +31,7 @@ export const getTeamOrderList = async ({
     );
     return response.data;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error fetching team orders:', error);
     throw new Error(
       '팀 주문 목록을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
@@ -47,6 +48,7 @@ export const getTeamOrderInfo = async (
     );
     return response.data;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error fetching team order info:', error);
     throw new Error(
       '팀 주문 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
@@ -61,6 +63,7 @@ export const getCurrentHeadCount = async (meetingId: number) => {
     );
     return response.data;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error fetching team head count:', error);
     throw new Error(
       '팀 헤드카운트를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',

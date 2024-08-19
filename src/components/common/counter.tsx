@@ -2,58 +2,126 @@
 
 import styled from 'styled-components';
 import { Button, HStack, Input, useNumberInput } from '@chakra-ui/react';
+import DeleteIcon from '@/components/svg/delete';
 
 const CounterContainer = styled(HStack)`
-  width: 100%;
+  width: auto;
+  border: 1px solid var(--gray300);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
 `;
 
-const Counter = () => {
-  const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } = useNumberInput({
+interface CounterProps {
+  value: number;
+  minValue?: number;
+  onValueChange: (newValue: number) => void;
+  disableDecrementCondition?: (value: number) => boolean;
+}
+
+const Counter: React.FC<CounterProps> = ({
+  value,
+  minValue = 0,
+  onValueChange,
+  disableDecrementCondition = (currentValue) => currentValue <= minValue,
+}) => {
+  const { getInputProps, getIncrementButtonProps } = useNumberInput({
     step: 1,
-    defaultValue: 1,
-    min: 1,
-    max: 10,
+    value,
+    min: minValue,
+    onChange: (_valString, valNumber) => onValueChange(valNumber),
   });
 
   const inc = getIncrementButtonProps();
-  const dec = getDecrementButtonProps();
-  const input = getInputProps();
+
+  const handleDecrement = () => {
+    if (value > minValue) {
+      onValueChange(value - 1);
+    }
+  };
+
+  const inputProps = getInputProps();
 
   return (
-    <CounterContainer>
+    <CounterContainer spacing={0}>
       <Button
         size="sm"
-        {...dec}
+        onClick={handleDecrement}
+        disabled={disableDecrementCondition(value)}
         sx={{
-          bg: "var(--primary)",
-          color: "var(--background)",
-          fontSize: "var(--font-size-md)",
-          _hover: { bg: "var(--purple500)" },
+          bg: 'transparent',
+          margin: '0 !important',
+          padding: '0 !important',
+          width: '40px !important',
+          height: '40px !important',
+          color: disableDecrementCondition(value)
+            ? 'var(--gray300)'
+            : 'var(--text)',
+          fontSize: 'var(--font-size-xxl)',
+          fontWeight: 'var(--font-regular)',
+          borderRadius: '0',
+          cursor: disableDecrementCondition(value) ? 'not-allowed' : 'pointer',
+          _hover: {
+            bg: disableDecrementCondition(value)
+              ? 'transparent'
+              : 'var(--gray200)',
+          },
+          _disabled: {
+            bg: 'transparent',
+            color: 'var(--gray300)',
+            cursor: 'not-allowed',
+          },
         }}
       >
-        -
+        {value === 1 ? (
+          <DeleteIcon color="var(--gray300)" width={24} height={24} />
+        ) : (
+          '-'
+        )}
       </Button>
+
       <Input
-        {...input}
         size="sm"
-        variant="outline"
+        variant="unstyled"
+        value={inputProps.value}
+        onChange={inputProps.onChange}
         sx={{
-          textAlign: "center",
-          fontSize: "var(--font-size-md)",
-          color: "var(--text)",
-          border: "1px solid var(--gray200)",
-          _focus: { boxShadow: "0 0 0 1px var(--primary)" },
-          placeholderTextColor: "var(--gray300)",
+          margin: '0 !important',
+          padding: '0 !important',
+          width: '45px !important',
+          height: '40px !important',
+          boxSizing: 'border-box !important',
+          textAlign: 'center',
+          fontSize: 'var(--font-size-md) !important',
+          fontWeight: 'var(--font-regular) !important',
+          color: 'var(--text)',
+          borderTop: 'none !important',
+          borderBottom: 'none !important',
+          borderLeft: '1px solid var(--gray300) !important',
+          borderRight: '1px solid var(--gray300) !important',
+          borderRadius: '0 !important',
+          _focus: {
+            fontWeight: 'var(--font-semi-bold) !important',
+            margin: '0 !important',
+            padding: '0 !important',
+          },
         }}
       />
+
       <Button
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...inc}
         size="sm"
         sx={{
-          bg: "var(--primary)",
-          color: "var(--background)",
-          fontSize: "var(--font-size-md)",
-          _hover: { bg: "var(--purple500)" },
+          margin: '0 !important',
+          padding: '0 !important',
+          width: '40px !important',
+          height: '40px !important',
+          bg: 'transparent',
+          color: 'var(--text)',
+          fontSize: 'var(--font-size-xxl)',
+          fontWeight: 'var(--font-regular)',
+          borderRadius: '0',
+          _hover: { bg: 'var(--gray200)' },
         }}
       >
         +

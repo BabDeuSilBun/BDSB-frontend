@@ -46,7 +46,7 @@ const RestaurantSearchResults = () => {
     queryFn: ({ pageParam = 0 }) =>
       getRestaurantsList({
         page: pageParam,
-        searchMenu: searchMenu,
+        searchMenu,
         sortCriteria: selectedSort,
       }),
     initialPageParam: 0,

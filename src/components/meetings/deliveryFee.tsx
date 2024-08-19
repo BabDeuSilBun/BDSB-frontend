@@ -1,6 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
+import { Divider } from '@chakra-ui/react';
 import { formatCurrency } from '@/utils/currencyFormatter';
 
 const Container = styled.div`
@@ -10,7 +11,12 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   padding: var(--spacing-sm) 0;
-  margin-top: var(--spacing-lg);
+  margin-top: var(--spacing-md);
+`;
+
+const DeliveryFeeContainer = styled.div`
+  width: 100%;
+  margin-top: var(--spacing-md);
 `;
 
 const DeliveryFeeWrapper = styled.div`
@@ -19,7 +25,7 @@ const DeliveryFeeWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: var(--spacing-sm) 0;
+  padding: var(--spacing-xs) 0;
 `;
 
 const ItemName = styled.h2`
@@ -36,21 +42,40 @@ const Price = styled.p`
   margin: 0;
 `;
 
-export default function DeliveryFee() {
+interface DeliveryFeeProps {
+  totalDeliveryFee: number;
+  maxIndividualDeliveryFee: number;
+  minIndividualDeliveryFee: number;
+}
+
+export default function DeliveryFee({
+  totalDeliveryFee,
+  maxIndividualDeliveryFee,
+  minIndividualDeliveryFee,
+}: DeliveryFeeProps) {
   return (
     <Container>
-      <DeliveryFeeWrapper>
-        <ItemName>총 배달비</ItemName>
-        <Price>{formatCurrency(3000)}</Price>
-      </DeliveryFeeWrapper>
-      <DeliveryFeeWrapper>
-        <ItemName>최대 개별 배달비</ItemName>
-        <Price>{formatCurrency(1000)}</Price>
-      </DeliveryFeeWrapper>
-      <DeliveryFeeWrapper>
-        <ItemName>최소 개별 배달비</ItemName>
-        <Price>{formatCurrency(600)}</Price>
-      </DeliveryFeeWrapper>
+      <Divider
+        orientation="horizontal"
+        sx={{
+          borderWidth: '0.5px',
+          borderColor: 'var(--gray200)',
+        }}
+      />
+      <DeliveryFeeContainer>
+        <DeliveryFeeWrapper>
+          <ItemName>총 배달비</ItemName>
+          <Price>{formatCurrency(totalDeliveryFee)}</Price>
+        </DeliveryFeeWrapper>
+        <DeliveryFeeWrapper>
+          <ItemName>최대 개별 배달비</ItemName>
+          <Price>{formatCurrency(maxIndividualDeliveryFee)}</Price>
+        </DeliveryFeeWrapper>
+        <DeliveryFeeWrapper>
+          <ItemName>최소 개별 배달비</ItemName>
+          <Price>{formatCurrency(minIndividualDeliveryFee)}</Price>
+        </DeliveryFeeWrapper>
+      </DeliveryFeeContainer>
     </Container>
   );
 }

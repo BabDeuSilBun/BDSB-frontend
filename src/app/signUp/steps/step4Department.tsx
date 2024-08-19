@@ -1,9 +1,10 @@
 'use client';
 
-import { useSignUpStore } from '@/state/authStore';
-import { useState, useMemo, useEffect, useRef } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { debounce } from 'lodash';
+
+import { useSignUpStore } from '@/state/authStore';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import AutoCompleteComboBox from '@/components/common/autoCompleteComboBox';
 import { getMajorsList } from '@/services/signUpService';
 

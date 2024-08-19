@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import styled from 'styled-components';
 
 // 미디어 쿼리 설정
@@ -191,6 +192,7 @@ const BaseBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   ...props
 }) => {
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <BaseButton onClick={onClick} {...props}>
       {children}
     </BaseButton>
@@ -200,6 +202,7 @@ const BaseBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
 const BaseBtnInactive: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
 > = ({ children, ...props }) => {
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <BaseButtonInactive {...props}>{children}</BaseButtonInactive>;
 };
 
@@ -207,6 +210,7 @@ const HalfBtnPurple: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
 > = ({ children, onClick, ...props }) => {
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <HalfButtonPurple onClick={onClick} {...props}>
       {children}
     </HalfButtonPurple>
@@ -219,6 +223,7 @@ const HalfBtnLight: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   ...props
 }) => {
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <HalfButtonLight onClick={onClick} {...props}>
       {children}
     </HalfButtonLight>
@@ -233,6 +238,7 @@ const RoundBtnFilled: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
 > = ({ children, onClick, ...props }) => {
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <RoundButtonFilled onClick={onClick} {...props}>
       {children}
     </RoundButtonFilled>
@@ -252,6 +258,7 @@ const SmallRdBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
   };
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <SmallRoundButton isActive={isActive} onClick={handleClick} {...props}>
       {children}
     </SmallRoundButton>

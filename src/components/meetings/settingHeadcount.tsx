@@ -1,8 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import SettingLabel from '@/components/meetings/settingLabel'
-import Counter from '@/components/common/counter'
+import Counter from '@/components/common/counter';
 
 const Container = styled.div`
   width: 100vw;
@@ -17,24 +16,33 @@ const Label = styled.h1`
   font-size: var(--font-size-md);
   font-weight: var(--font-regular);
   color: var(--text);
-  flex: 1.3; 
 `;
 
 const CounterWrapper = styled.div`
-  flex: 1;
   display: flex;
   justify-content: flex-end;
 `;
 
 interface SettingHeadcountProps {
   text: string;
+  value: number;
+  onValueChange: (newValue: number) => void;
 }
 
-const SettingHeadcount: React.FC<SettingHeadcountProps> = ({ text }) => (
+const SettingHeadcount: React.FC<SettingHeadcountProps> = ({
+  text,
+  value,
+  onValueChange,
+}) => (
   <Container>
     <Label>{text}</Label>
     <CounterWrapper>
-      <Counter />
+      <Counter
+        value={value}
+        minValue={1}
+        onValueChange={onValueChange}
+        disableDecrementCondition={(val) => val <= 1}
+      />
     </CounterWrapper>
   </Container>
 );

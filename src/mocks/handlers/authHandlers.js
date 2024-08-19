@@ -1,8 +1,9 @@
 import { http, HttpResponse } from 'msw';
 import {
-  SCHOOL_LIST_API_URL,
   MAJOR_LIST_API_URL,
+  SCHOOL_LIST_API_URL,
 } from '@/services/signUpService';
+
 import { applyFiltersAndSorting } from '../filteringAndSorting';
 import { paginatedSchools } from '../mockData/schools';
 import { paginatedMajors } from '../mockData/majors';
@@ -28,8 +29,7 @@ export const authHandlers = [
         { status: 401 },
       );
     } catch (error) {
-      console.error('Error handling request:', error);
-      return HttpResponse.status(500).json({ message: '서버 오류' });
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
     }
   }),
 
@@ -53,8 +53,7 @@ export const authHandlers = [
         { status: 401 },
       );
     } catch (error) {
-      console.error('Error handling request:', error);
-      return HttpResponse.status(500).json({ message: '서버 오류' });
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
     }
   }),
 
@@ -72,7 +71,7 @@ export const authHandlers = [
       );
     } catch (error) {
       return HttpResponse.status(500).json({
-        message: 'Error validating email',
+        message: `Error validating email: ${error}`,
       });
     }
   }),
@@ -91,7 +90,7 @@ export const authHandlers = [
       );
     } catch (error) {
       return HttpResponse.status(500).json({
-        message: 'Error validating email',
+        message: `Error validating email: ${error}`,
       });
     }
   }),
@@ -110,7 +109,7 @@ export const authHandlers = [
       );
     } catch (error) {
       return HttpResponse.status(500).json({
-        message: 'Error validating email',
+        message: `Error validating email: ${error}`,
       });
     }
   }),
@@ -120,12 +119,13 @@ export const authHandlers = [
       const { code } = await request.json();
 
       if (code === '1111') {
+        // eslint-disable-next-line no-console
         console.log('Received code:', code);
         return HttpResponse.json({ result: true });
       }
     } catch (error) {
       return HttpResponse.status(500).json({
-        message: 'Error validating email code',
+        message: `Error validating email code: ${error}`,
       });
     }
   }),
@@ -157,8 +157,9 @@ export const authHandlers = [
         content: filteredContent,
       });
     } catch (error) {
-      console.error('Error parsing school list URL:', error);
-      return HttpResponse.status(500).json({ message: 'Error parsing school list URL' });
+      return HttpResponse.status(500).json({
+        message: `Error parsing school list URL: ${error}`,
+      });
     }
   }),
 
@@ -189,8 +190,9 @@ export const authHandlers = [
         content: filteredContent,
       });
     } catch (error) {
-      console.error('Error parsing major list URL:', error);
-      return HttpResponse.status(500).json({ message: 'Error parsing major list URL' });
+      return HttpResponse.status(500).json({
+        message: `Error parsing major list URL: ${error}`,
+      });
     }
   }),
 ];

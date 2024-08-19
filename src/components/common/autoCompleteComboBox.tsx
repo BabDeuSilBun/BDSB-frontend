@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 import styled from 'styled-components';
 
 const DropdownContainer = styled.div`
@@ -55,7 +56,7 @@ const AutoCompleteComboBox: React.FC<AutoCompleteComboBoxProps> = ({
   suggestions = [],
   status,
   lastElementRef,
-  suggestionsListRef
+  suggestionsListRef,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 

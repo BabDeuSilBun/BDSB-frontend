@@ -36,8 +36,8 @@ export interface RestaurantType extends CommonType {
   entrepreneur_id?: number;
   address?: Address;
   phoneNumber?: string;
-  openTime?: string;
-  closeTime?: string;
+  openTime: string;
+  closeTime: string;
   dayOfWeek?: string;
 }
 
@@ -59,26 +59,29 @@ export interface MeetingType extends CommonType {
 }
 
 // Menu type definition
-export interface MenuType extends CommonType {
+export interface MenuType {
   menuId: number;
   storeId: number;
   name: string;
+  image: string;
   description: string;
   price: number;
 }
 
 // Team menu type definition
-export interface TeamMenuType extends CommonType {
-  meetingId: number;
+export interface TeamMenuType {
   teamPurchaseId: number;
+  meetingId: number;
+  storeId: number;
   totalFee: number;
   items: ItemType[];
 }
 
 // Individual order type definition
-export interface IndividualOrderType extends CommonType {
-  meetingId: number;
+export interface IndividualOrderType {
   individualPurchaseId: number;
+  meetingId: number;
+  storeId: number;
   totalFee: number;
   items: ItemType[];
 }

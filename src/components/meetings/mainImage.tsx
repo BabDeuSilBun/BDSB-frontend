@@ -6,7 +6,7 @@ const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 80px;
+  margin-top: 30px;
 `;
 
 const ImageWrapper = styled.div`
@@ -26,13 +26,7 @@ interface MainImageProps {
 const MainImage: React.FC<MainImageProps> = ({ src, alt }) => (
   <ImageContainer>
     <ImageWrapper>
-      <Image 
-        src={src} 
-        alt={alt} 
-        fill 
-        style={{ objectFit: 'cover' }} 
-        priority 
-      />
+      <Image src={src} alt={alt} fill style={{ objectFit: 'cover' }} priority />
     </ImageWrapper>
   </ImageContainer>
 );

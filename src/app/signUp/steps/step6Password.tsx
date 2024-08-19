@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState, ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+
 import { useSignUpStore } from '@/state/authStore';
 import { validateSignInput } from '@/utils/validateSignInput';
 import styled from 'styled-components';
@@ -56,7 +57,7 @@ const Step6Password = () => {
         value={verify}
         onChange={onValidate}
         placeholder="비밀번호 확인"
-        aria-label="비밀번호 확인 입력" 
+        aria-label="비밀번호 확인 입력"
         aria-required="true"
         aria-invalid={!!error}
       />

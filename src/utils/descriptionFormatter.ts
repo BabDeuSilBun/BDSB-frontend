@@ -1,9 +1,12 @@
-export const limitWordsPerLine = (text: string, wordsPerLine: number): string => {
+export const limitWordsPerLine = (
+  text: string,
+  wordsPerLine: number,
+): string => {
   const words = text.split(' ');
   let result = '';
   let currentLine = '';
 
-  words.forEach(word => {
+  words.forEach((word) => {
     if ((currentLine + word).length <= wordsPerLine) {
       currentLine += `${word} `;
     } else {

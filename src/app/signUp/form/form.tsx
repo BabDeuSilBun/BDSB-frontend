@@ -1,6 +1,8 @@
 'use client';
 
 import { useSignUpStore } from '@/state/authStore';
+import styled from 'styled-components';
+
 import Step0Name from '../steps/step0Name';
 import Step1Phone from '../steps/step1Phone';
 import Step2Email from '../steps/step2Email';
@@ -8,7 +10,6 @@ import Step3Campus from '../steps/step3Campus';
 import Step4Department from '../steps/step4Department';
 import Step5Address from '../steps/step5Address';
 import Step6Password from '../steps/step6Password';
-import styled from 'styled-components';
 
 const Container = styled.section`
   margin-top: 90px;
@@ -45,7 +46,7 @@ const titles = [
 ];
 
 const SignUpForm = () => {
-  const { currentStep, setStep } = useSignUpStore();
+  const { currentStep } = useSignUpStore();
   const CurrentStepComponent = steps[currentStep];
 
   return (

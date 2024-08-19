@@ -1,4 +1,4 @@
-import { SchoolType, SchoolsResponse } from '@/types/authTypes';
+import { SchoolsResponse, SchoolType } from '@/types/authTypes';
 
 export const schools: SchoolType[] = [
   {

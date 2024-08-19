@@ -13,7 +13,14 @@ const FlexItem = styled.div`
 const RestaurantSkeleton = () => {
   return (
     <Flexbox>
-      <Skeleton width="92px" height="92px" my="4" mr="3" ml="4" borderRadius="lg" />
+      <Skeleton
+        width="92px"
+        height="92px"
+        my="4"
+        mr="3"
+        ml="4"
+        borderRadius="lg"
+      />
       <FlexItem>
         <Skeleton mt="4" width="140px" height="20px" />
         <Skeleton mt="2" width="100px" height="16px" />

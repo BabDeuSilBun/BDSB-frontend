@@ -20,6 +20,8 @@ interface SmallCustomDropdownProps {
 
 interface CustomDropdownProps extends SmallCustomDropdownProps {
   placeholder: string;
+  Toggle?: React.FC<{ $selected: boolean; onClick: () => void }>;
+  Item?: React.FC<{ $selected: boolean; onClick: () => void }>;
 }
 
 const mediaQueries = {
@@ -178,6 +180,8 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
   placeholder,
   isOpen,
   onToggle,
+  Toggle = DropdownToggle,
+  Item = DropdownItem,
 }) => {
   const handleSelect = (value: string | null) => {
     onSelect(value);
@@ -186,22 +190,22 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
 
   return (
     <DropdownContainer>
-      <DropdownToggle $selected={!!selectedValue} onClick={onToggle}>
+      <Toggle $selected={!!selectedValue} onClick={onToggle}>
         {selectedValue
           ? options.find((option) => option.value === selectedValue)?.name
           : placeholder}
         <Arrow $selected={!!selectedValue} $isOpen={isOpen} />
-      </DropdownToggle>
+      </Toggle>
       {isOpen && (
         <DropdownMenu>
           {options.map((option) => (
-            <DropdownItem
+            <Item
               key={option.value}
-              selected={selectedValue === option.value}
+              $selected={selectedValue === option.value}
               onClick={() => handleSelect(option.value)}
             >
               {option.name}
-            </DropdownItem>
+            </Item>
           ))}
         </DropdownMenu>
       )}
@@ -229,7 +233,7 @@ const SmallCustomDropdown: React.FC<SmallCustomDropdownProps> = ({
 
   return (
     <SmallDropdownContainer>
-      <SmallDropdownToggle selected={!!selectedValue} onClick={onToggle}>
+      <SmallDropdownToggle $selected={!!selectedValue} onClick={onToggle}>
         {selectedValue
           ? options.find((option) => option.value === selectedValue)?.name
           : options[0].name}{' '}
@@ -241,7 +245,7 @@ const SmallCustomDropdown: React.FC<SmallCustomDropdownProps> = ({
           {options.map((option) => (
             <SmallDropdownItem
               key={option.value}
-              selected={selectedValue === option.value}
+              $selected={selectedValue === option.value}
               onClick={() => handleSelect(option.value)}
             >
               {option.name}
@@ -253,4 +257,4 @@ const SmallCustomDropdown: React.FC<SmallCustomDropdownProps> = ({
   );
 };
 
-export { CustomDropdown, SmallCustomDropdown };
+export { DropdownToggle, DropdownItem, CustomDropdown, SmallCustomDropdown };

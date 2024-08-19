@@ -47,7 +47,7 @@ const TeamOrderSearchResults = () => {
     queryFn: ({ pageParam = 0 }) =>
       getTeamOrderList({
         page: pageParam,
-        searchMenu: searchMenu,
+        searchMenu,
         sortCriteria: selectedSort,
       }),
     initialPageParam: 0,

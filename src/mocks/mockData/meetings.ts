@@ -17,7 +17,7 @@ export const meetings: MeetingType[] = [
     paymentAvailableAt: '2024-08-15T09:23:00',
     deliveryFeeRange: '300원~1,500원',
     participantMin: 2,
-    isEarlyPaymentAvailable: true, //true: 바로 주문; false: 예약 주문
+    isEarlyPaymentAvailable: true, // true: 바로 주문; false: 예약 주문
     deliveryAddress: {
       deliveredPostal: '12345',
       deliveredStreetAddress: '서울시 강남구 테헤란로 123',
@@ -31,7 +31,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T09:30:00',
     status: '대기 중',
     category: '피자',
-    description: '컴퓨터공학과 학생들이 모여 함께 피자를 즐기고 싶은 모임입니다. 피자를 좋아하는 누구나 환영합니다!',
+    description:
+      '컴퓨터공학과 학생들이 모여 함께 피자를 즐기고 싶은 모임입니다. 피자를 좋아하는 누구나 환영합니다!',
   },
   {
     meetingId: 2,
@@ -63,7 +64,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T14:50:00',
     status: '대기 중',
     category: '일식',
-    description: '일식을 좋아하는 모든 학과 학생들을 환영합니다. 특히 일본어학과 학생들이 모여서 이야기하며 스시를 즐기는 시간을 가질 예정입니다.',
+    description:
+      '일식을 좋아하는 모든 학과 학생들을 환영합니다. 특히 일본어학과 학생들이 모여서 이야기하며 스시를 즐기는 시간을 가질 예정입니다.',
   },
   {
     meetingId: 3,
@@ -95,7 +97,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T18:35:00',
     status: '대기 중',
     category: '찜·탕·찌개',
-    description: '한국 음식을 사랑하는 외국어학과 학생들을 환영합니다. 한국 문화와 음식을 좋아하는 모든 이들을 초대합니다.',
+    description:
+      '한국 음식을 사랑하는 외국어학과 학생들을 환영합니다. 한국 문화와 음식을 좋아하는 모든 이들을 초대합니다.',
   },
   {
     meetingId: 4,
@@ -127,7 +130,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T08:25:00',
     status: '대기 중',
     category: '카페·디저트',
-    description: '디저트를 좋아하는 예술학과 학생들을 위한 모임입니다. 아침부터 달콤한 베이커리를 즐기고 싶은 분들 환영합니다!',
+    description:
+      '디저트를 좋아하는 예술학과 학생들을 위한 모임입니다. 아침부터 달콤한 베이커리를 즐기고 싶은 분들 환영합니다!',
   },
   {
     meetingId: 5,
@@ -159,7 +163,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T12:45:00',
     status: '대기 중',
     category: '패스트푸드',
-    description: '바쁜 공대생들을 위한 패스트푸드 모임입니다. 간편하게 끼니를 해결하고 싶은 모든 이들을 환영합니다.',
+    description:
+      '바쁜 공대생들을 위한 패스트푸드 모임입니다. 간편하게 끼니를 해결하고 싶은 모든 이들을 환영합니다.',
   },
   {
     meetingId: 6,
@@ -191,7 +196,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T10:30:00',
     status: '대기 중',
     category: '중식',
-    description: '중화요리를 사랑하는 국제학부 학생들을 환영합니다. 중국 문화를 함께 나누고 싶은 모든 이들을 초대합니다.',
+    description:
+      '중화요리를 사랑하는 국제학부 학생들을 환영합니다. 중국 문화를 함께 나누고 싶은 모든 이들을 초대합니다.',
   },
   {
     meetingId: 7,
@@ -223,7 +229,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T15:50:00',
     status: '대기 중',
     category: '돈까스·회·일식',
-    description: '해산물을 좋아하는 해양학과 학생들을 위한 모임입니다. 신선한 해산물을 즐기고 싶은 모든 분들 환영합니다.',
+    description:
+      '해산물을 좋아하는 해양학과 학생들을 위한 모임입니다. 신선한 해산물을 즐기고 싶은 모든 분들 환영합니다.',
   },
   {
     meetingId: 8,
@@ -255,7 +262,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T12:25:00',
     status: '대기 중',
     category: '분식',
-    description: '분식을 좋아하는 모든 학과 학생들을 환영합니다. 특히 사회학과 학생들이 함께 모여 떡볶이를 즐길 예정입니다.',
+    description:
+      '분식을 좋아하는 모든 학과 학생들을 환영합니다. 특히 사회학과 학생들이 함께 모여 떡볶이를 즐길 예정입니다.',
   },
   {
     meetingId: 9,
@@ -287,7 +295,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T14:30:00',
     status: '대기 중',
     category: '찜·탕·찌개',
-    description: '퓨전 한식을 좋아하는 언어학과 학생들을 환영합니다. 다양한 음식을 경험하고 싶은 모든 이들을 초대합니다.',
+    description:
+      '퓨전 한식을 좋아하는 언어학과 학생들을 환영합니다. 다양한 음식을 경험하고 싶은 모든 이들을 초대합니다.',
   },
   {
     meetingId: 10,
@@ -319,7 +328,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T09:30:00',
     status: '대기 중',
     category: '카페·디저트',
-    description: '아침형 인간들을 위한 브런치 모임입니다. 특히 경영학과 학생들이 모여 함께 아침을 시작합니다.',
+    description:
+      '아침형 인간들을 위한 브런치 모임입니다. 특히 경영학과 학생들이 모여 함께 아침을 시작합니다.',
   },
   {
     meetingId: 11,
@@ -351,7 +361,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T11:45:00',
     status: '대기 중',
     category: '고기·구이',
-    description: '고기를 좋아하는 체육학과 학생들을 환영합니다. 바비큐를 즐기고 싶은 모든 분들 함께 해요!',
+    description:
+      '고기를 좋아하는 체육학과 학생들을 환영합니다. 바비큐를 즐기고 싶은 모든 분들 함께 해요!',
   },
   {
     meetingId: 12,
@@ -383,7 +394,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T18:50:00',
     status: '대기 중',
     category: '기타',
-    description: '프랑스 문화를 좋아하는 외국어학과 학생들을 위한 모임입니다. 프랑스 음식을 경험하고 싶은 분들 환영합니다.',
+    description:
+      '프랑스 문화를 좋아하는 외국어학과 학생들을 위한 모임입니다. 프랑스 음식을 경험하고 싶은 분들 환영합니다.',
   },
   {
     meetingId: 13,
@@ -415,7 +427,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T13:30:00',
     status: '대기 중',
     category: '카페·디저트',
-    description: '비건 식단을 지향하는 환경공학과 학생들을 환영합니다. 건강한 라이프스타일을 지향하는 모든 이들을 초대합니다.',
+    description:
+      '비건 식단을 지향하는 환경공학과 학생들을 환영합니다. 건강한 라이프스타일을 지향하는 모든 이들을 초대합니다.',
   },
   {
     meetingId: 14,
@@ -447,7 +460,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T15:25:00',
     status: '대기 중',
     category: '카페·디저트',
-    description: '디저트를 사랑하는 문예창작학과 학생들을 환영합니다. 달콤한 시간을 보내고 싶은 모든 분들 환영합니다.',
+    description:
+      '디저트를 사랑하는 문예창작학과 학생들을 환영합니다. 달콤한 시간을 보내고 싶은 모든 분들 환영합니다.',
   },
   {
     meetingId: 15,
@@ -479,12 +493,13 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T19:50:00',
     status: '대기 중',
     category: '고기·구이',
-    description: '고기를 좋아하는 모든 학과 학생들을 환영합니다. 특히 기계공학과 학생들이 모여 함께 고기를 즐길 예정입니다.',
+    description:
+      '고기를 좋아하는 모든 학과 학생들을 환영합니다. 특히 기계공학과 학생들이 모여 함께 고기를 즐길 예정입니다.',
   },
   {
     meetingId: 16,
     storeId: 16,
-    storeName:'파스타 하우스',
+    storeName: '파스타 하우스',
     images: [
       {
         imageId: 316,
@@ -511,7 +526,8 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T13:30:00',
     status: '대기 중',
     category: '기타',
-    description: '파스타를 좋아하는 모든 학과 학생들을 환영합니다. 특히 문학과 학생들이 함께 파스타를 즐기며 이야기를 나눌 예정입니다.',
+    description:
+      '파스타를 좋아하는 모든 학과 학생들을 환영합니다. 특히 문학과 학생들이 함께 파스타를 즐기며 이야기를 나눌 예정입니다.',
   },
 ];
 

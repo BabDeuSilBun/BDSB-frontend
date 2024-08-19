@@ -4,6 +4,12 @@ import { Divider } from '@chakra-ui/react';
 import { formatCurrency } from '@/utils/currencyFormatter';
 import CallButton from '@/components/stores/callButton';
 import InfoButton from '@/components/stores/infoButton';
+import { RestaurantType } from '@/types/coreTypes';
+
+interface StoreInfoProps {
+  store: RestaurantType;
+  onInfoButtonClick: () => void;
+}
 
 const InfoContainer = styled.div`
   display: flex;
@@ -69,13 +75,7 @@ const ButtonContainer = styled.div`
   padding: var(--spacing-sm) 0;
 `;
 
-const StoreInfo = ({
-  store,
-  onInfoButtonClick,
-}: {
-  store: any;
-  onInfoButtonClick: () => void;
-}) => {
+const StoreInfo: React.FC<StoreInfoProps> = ({ store, onInfoButtonClick }) => {
   return (
     <>
       <TitleContainer>
@@ -95,7 +95,9 @@ const StoreInfo = ({
       <InfoContainer>
         <InfoRow>
           <InfoTitle>배달비</InfoTitle>
-          <InfoDescription>{formatCurrency(store.deliveryPrice)}</InfoDescription>
+          <InfoDescription>
+            {formatCurrency(store.deliveryPrice)}
+          </InfoDescription>
         </InfoRow>
         <InfoRow>
           <InfoTitle>배달 시간</InfoTitle>
@@ -107,17 +109,20 @@ const StoreInfo = ({
                   {
                     text: '평균 도착 시간으로, 실제 도착 시간과 차이가 생길 수 있어요.',
                     $textStyle: 'withIcon',
+                    id: '',
                   },
                 ]}
                 width="9rem"
-                showIcon={true}
+                showIcon
               />
             </InfoBoxWrapper>
           </InfoDescription>
         </InfoRow>
         <InfoRow>
           <InfoTitle>최소주문금액</InfoTitle>
-          <InfoDescription>{formatCurrency(store.minPurchasePrice)}</InfoDescription>
+          <InfoDescription>
+            {formatCurrency(store.minPurchasePrice)}
+          </InfoDescription>
         </InfoRow>
       </InfoContainer>
       <Divider

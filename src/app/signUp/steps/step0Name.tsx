@@ -1,7 +1,8 @@
 'use client';
 
-import { useSignUpStore } from '@/state/authStore';
 import { ChangeEvent, useEffect } from 'react';
+
+import { useSignUpStore } from '@/state/authStore';
 
 const Step0Name = () => {
   const { name, setName, setButtonActive } = useSignUpStore();
