@@ -20,6 +20,8 @@ interface SmallCustomDropdownProps {
 
 interface CustomDropdownProps extends SmallCustomDropdownProps {
   placeholder: string;
+  Toggle?: React.FC<{ $selected: boolean; onClick: () => void }>;
+  Item?: React.FC<{ $selected: boolean; onClick: () => void }>;
 }
 
 const mediaQueries = {
@@ -231,7 +233,7 @@ const SmallCustomDropdown: React.FC<SmallCustomDropdownProps> = ({
 
   return (
     <SmallDropdownContainer>
-      <SmallDropdownToggle selected={!!selectedValue} onClick={onToggle}>
+      <SmallDropdownToggle $selected={!!selectedValue} onClick={onToggle}>
         {selectedValue
           ? options.find((option) => option.value === selectedValue)?.name
           : options[0].name}{' '}
@@ -243,7 +245,7 @@ const SmallCustomDropdown: React.FC<SmallCustomDropdownProps> = ({
           {options.map((option) => (
             <SmallDropdownItem
               key={option.value}
-              selected={selectedValue === option.value}
+              $selected={selectedValue === option.value}
               onClick={() => handleSelect(option.value)}
             >
               {option.name}

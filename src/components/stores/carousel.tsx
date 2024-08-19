@@ -1,26 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
+
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Box, IconButton, Text } from '@chakra-ui/react';
+import { Image } from '@/types/types';
 
-export default function Carousel({ images }) {
+interface CarouselProps {
+  images: Image[];
+}
+
+export default function Carousel({ images }: CarouselProps) {
   const [slider, setSlider] = useState<Slider | null>(null);
   const [currentSlide, setCurrentSlide] = useState(1);
 
   const top = '50%';
-  const side = '10px';
+  const $side = '10px';
 
-  const representativeImage = images.find((img) => img.isRepresentative);
+  const representativeImage = images.find((img: Image) => img.isRepresentative);
   const sortedImages = images
-    .filter((img) => !img.isRepresentative)
-    .sort((a, b) => a.sequence - b.sequence);
-  
+    .filter((img: Image) => !img.isRepresentative)
+    .sort((a: Image, b: Image) => (a.sequence || 0) - (b.sequence || 0));
+
   const orderedImages = representativeImage
-  ? [representativeImage, ...sortedImages]
-  : sortedImages;
+    ? [representativeImage, ...sortedImages]
+    : sortedImages;
 
   const settings = {
     dots: false,
@@ -62,7 +68,7 @@ export default function Carousel({ images }) {
           variant="ghost"
           borderRadius="full"
           position="absolute"
-          left={side}
+          left={$side}
           top={top}
           transform="translate(0%, -50%)"
           zIndex={2}
@@ -84,7 +90,7 @@ export default function Carousel({ images }) {
           variant="ghost"
           borderRadius="full"
           position="absolute"
-          right={side}
+          right={$side}
           top={top}
           transform="translate(0%, -50%)"
           zIndex={2}
@@ -113,7 +119,7 @@ export default function Carousel({ images }) {
           beforeChange={settings.beforeChange}
           ref={(sliderRef) => setSlider(sliderRef)}
         >
-          {orderedImages.map((image) => (
+          {orderedImages.map((image: Image) => (
             <Box
               key={image.imageId}
               height="324px"

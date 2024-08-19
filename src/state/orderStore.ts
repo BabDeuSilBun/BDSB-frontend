@@ -19,8 +19,8 @@ interface OrderFormData {
 
 interface OrderStore {
   formData: OrderFormData;
-  setMealType: (mealType: string) => void;
-  setOrderType: (orderType: string) => void;
+  setMealType: (mealType: string | null) => void;
+  setOrderType: (orderType: string | null) => void;
   setMeetingPlace: (meetingPlace: string) => void;
   setDeliveryPlace: (deliveryPlace: string) => void;
   setMinHeadcount: (minHeadcount: number) => void;
@@ -36,24 +36,36 @@ export const useOrderStore = create<OrderStore>((set) => ({
     meetingPlace: '',
     deliveryPlace: '',
     minHeadcount: 1,
-    maxHeadcount: 10,
+    maxHeadcount: 1,
     additionalInfo: '',
     time: { amPm: '오전', hour: '', minute: '' },
   },
-  setMealType: (mealType) => set((state) => ({ formData: { ...state.formData, mealType } })),
-  setOrderType: (orderType) => set((state) => ({ formData: { ...state.formData, orderType } })),
-  setMeetingPlace: (meetingPlace) => set((state) => ({ formData: { ...state.formData, meetingPlace } })),
-  setDeliveryPlace: (deliveryPlace) => set((state) => ({ formData: { ...state.formData, deliveryPlace } })),
-  setMinHeadcount: (minHeadcount) => set((state) => ({ formData: { ...state.formData, minHeadcount } })),
-  setMaxHeadcount: (maxHeadcount) => set((state) => ({ formData: { ...state.formData, maxHeadcount } })),
-  setAdditionalInfo: (additionalInfo) => set((state) => ({ formData: { ...state.formData, additionalInfo } })),
-  setTime: (newTime) => set((state) => ({
-    formData: {
-      ...state.formData,
-      time: {
-        ...state.formData.time,
-        ...newTime,      
+  setMealType: (mealType) =>
+    set((state) => ({
+      formData: { ...state.formData, mealType: mealType ?? 'defaultOption' },
+    })),
+  setOrderType: (orderType) =>
+    set((state) => ({
+      formData: { ...state.formData, orderType: orderType ?? 'defaultOption' },
+    })),
+  setMeetingPlace: (meetingPlace) =>
+    set((state) => ({ formData: { ...state.formData, meetingPlace } })),
+  setDeliveryPlace: (deliveryPlace) =>
+    set((state) => ({ formData: { ...state.formData, deliveryPlace } })),
+  setMinHeadcount: (minHeadcount) =>
+    set((state) => ({ formData: { ...state.formData, minHeadcount } })),
+  setMaxHeadcount: (maxHeadcount) =>
+    set((state) => ({ formData: { ...state.formData, maxHeadcount } })),
+  setAdditionalInfo: (additionalInfo) =>
+    set((state) => ({ formData: { ...state.formData, additionalInfo } })),
+  setTime: (newTime) =>
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        time: {
+          ...state.formData.time,
+          ...newTime,
+        },
       },
-    },
-  })),
+    })),
 }));

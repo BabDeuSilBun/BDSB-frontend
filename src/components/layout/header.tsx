@@ -3,12 +3,14 @@
 import { Portal, useDisclosure } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
-import HamburgerBtn from '../common/hamburgerBtn';
-import HeaderDrawer from './headerDrawer';
 import ArrowLeft from '@/components/svg/arrowLeft';
 import HomeIcon from '@/components/svg/home';
 import ExitIcon from '@/components/svg/exit';
 import CartIcon from '@/components/svg/cart';
+
+import HamburgerBtn from '../common/hamburgerBtn';
+
+import HeaderDrawer from './headerDrawer';
 
 const Icons = {
   back: (color: string) => <ArrowLeft color={color} />,
@@ -30,14 +32,18 @@ const HeaderContainer = styled.header`
   padding: 1.5rem;
 `;
 
-const Flex = styled.div<{ side: 'left' | 'center' | 'right' }>`
+const Flex = styled.div<{ $side: 'left' | 'center' | 'right' }>`
   display: flex;
   align-items: center;
   gap: 0.5rem;
   min-width: 50px;
-  justify-content: ${({ side }) =>
-    side === 'center' ? 'center' : side === 'left' ? 'flex-start' : 'flex-end'};
-  flex: ${({ side }) => (side === 'center' ? 1 : 0)};
+  justify-content: ${({ $side }) =>
+    $side === 'center'
+      ? 'center'
+      : $side === 'left'
+        ? 'flex-start'
+        : 'flex-end'};
+  flex: ${({ $side }) => ($side === 'center' ? 1 : 0)};
 
   h1 {
     font-size: var(--font-size-md);
@@ -102,15 +108,15 @@ const Header: React.FC<HeaderProps> = ({
     <>
       <HeaderContainer>
         <HeaderDrawer onToggle={onToggle} $isOpen={isOpen} />
-        <Flex side="left">
+        <Flex $side="left">
           {buttonLeft && buttonLeft !== 'hamburger' && (
             <button type="button" onClick={handleLeftButtonClick}>
               {Icons[buttonLeft](iconColor)}
             </button>
           )}
         </Flex>
-        <Flex side="center">{text}</Flex>
-        <Flex side="right">
+        <Flex $side="center">{text}</Flex>
+        <Flex $side="right">
           {buttonRight && (
             <button type="button" onClick={handleRightButtonClick}>
               {Icons[buttonRight](iconColor)}

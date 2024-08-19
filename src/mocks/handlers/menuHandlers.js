@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
-import { MENU_LIST_API_URL } from '@/services/menuService';
-import { paginatedMenus, menus } from '../mockData/menus';
+
+import { menus, paginatedMenus } from '../mockData/menus';
 
 export const menuHandlers = [
   http.get('/api/stores/:storeId/menus', (req) => {
@@ -11,7 +11,6 @@ export const menuHandlers = [
     try {
       const url = new URL(urlString);
       const pageParam = Number(url.searchParams.get('page')) || 0;
-      const size = Number(url.searchParams.get('size'));
 
       const paginatedResponse = paginatedMenus[storeId]?.[pageParam];
 
@@ -23,6 +22,7 @@ export const menuHandlers = [
         ...paginatedResponse,
       });
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error parsing URL:', error);
       return HttpResponse.status(500).json({ message: 'Error parsing URL' });
     }

@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { RESTAURANT_LIST_API_URL } from '@/services/restaurantService';
+
 import { applyFiltersAndSorting } from '../filteringAndSorting';
 import { paginatedStores, stores } from '../mockData/restaurants';
 
@@ -33,6 +34,7 @@ export const restaurantHandlers = [
         content: filteredContent,
       });
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error parsing URL:', error);
       return HttpResponse.status(500).json({ message: 'Error parsing URL' });
     }

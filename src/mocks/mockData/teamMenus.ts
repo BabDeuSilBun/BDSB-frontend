@@ -1,4 +1,4 @@
-import { TeamMenuType, TeamMenusResponse } from '@/types/coreTypes';
+import { TeamMenusResponse, TeamMenuType } from '@/types/coreTypes';
 
 export const teamMenus: TeamMenuType[] = [
   {
@@ -572,11 +572,20 @@ export const paginatedTeamMenus: { [key: number]: TeamMenusResponse[] } =
       const paginatedItems = Array.from({ length: totalPages }, (_, index) => {
         const start = index * pageSize;
         const end = start + pageSize;
-        const content = menu.items.slice(start, end);
+
+        // Wrap the items inside a TeamMenuType
+        const teamMenuPage: TeamMenuType = {
+          teamPurchaseId: menu.teamPurchaseId,
+          meetingId: menu.meetingId,
+          storeId: menu.storeId,
+          totalFee: menu.totalFee,
+          items: menu.items.slice(start, end),
+        };
+
         const isLastPage = index === totalPages - 1;
 
         return {
-          content, // 현재 페이지에 해당하는 데이터
+          content: [teamMenuPage], // Wrap the paginated teamMenuPage in an array
           pageable: {
             pageNumber: index, // 현재 페이지 번호
             pageSize, // 페이지당 데이터 개수

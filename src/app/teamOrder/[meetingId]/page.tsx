@@ -1,12 +1,17 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+
 import { useParams, useRouter } from 'next/navigation';
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getRestaurantInfo } from '@/services/restaurantService';
-import { getTeamOrderInfo, getCurrentHeadCount } from '@/services/teamOrderService';
-import { getTeamMenuList, getTeamMenuInfo } from '@/services/teamMenuService';
+import {
+  getCurrentHeadCount,
+  getTeamOrderInfo,
+} from '@/services/teamOrderService';
+import { getTeamMenuInfo, getTeamMenuList } from '@/services/teamMenuService';
 import { getIndividualOrderInfo } from '@/services/individualOrderService';
+import { IndividualOrderType, TeamMenuType } from '@/types/coreTypes';
 import Loading from '@/app/loading';
 import Header from '@/components/layout/header';
 import MainImage from '@/components/meetings/mainImage';
@@ -35,18 +40,14 @@ const TeamOrderPage = () => {
   const router = useRouter();
 
   // State for storing team menu and individual order details
-  const [teamMenu, setTeamMenu] = useState(null);
-  const [individualOrder, setIndividualOrder] = useState(null);
+  const [teamMenu] = useState<TeamMenuType | null>(null);
+  const [individualOrder] = useState<IndividualOrderType | null>(null);
 
   // Ref for storing the IntersectionObserver instance
   const observer = useRef<IntersectionObserver | null>(null);
 
   // Ref to track the last element for infinite scrolling
   const lastElementRef = useRef<HTMLDivElement | null>(null);
-
-  const handleClick = () => {
-    router.push(`/restaurants/${meeting.storeId}?context=participant`);
-  };
 
   // Queries for fetching data
   const {
@@ -58,38 +59,41 @@ const TeamOrderPage = () => {
     queryFn: () => getTeamOrderInfo(Number(meetingId)),
   });
 
-  const {
-    data: headCountData,
-    isLoading: isLoadingHeadcount,
-    isError: isErrorHeadcount,
-  } = useQuery<{
+  const handleClick = () => {
+    if (meeting) {
+      router.push(`/restaurants/${meeting.storeId}?context=participant`);
+    }
+  };
+
+  const { data: headCountData } = useQuery<{
     currentHeadCount: number;
   }>({
     queryKey: ['headCount', meetingId],
     queryFn: () => getCurrentHeadCount(Number(meetingId)),
   });
-  
-  const { time: remainingTime, $isCritical } = useRemainingTime(
+
+  const { time: remainingTime } = useRemainingTime(
     meeting?.paymentAvailableAt || '',
   );
 
   const {
     data: teamMenus,
-    error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading: isLoadingTeamMenus,
-    isError: isErrorTeamMenus,
   } = useInfiniteQuery({
     queryKey: ['teamMenuList', meetingId],
     queryFn: ({ pageParam = 0 }) =>
       getTeamMenuList({ meetingId: Number(meetingId), page: pageParam }),
     getNextPageParam: (lastPage) => {
-      return lastPage.last ? undefined : lastPage.pageable?.pageNumber + 1;
+      const nextPageNumber = lastPage.pageable?.pageNumber ?? -1;
+      return lastPage.last ? undefined : nextPageNumber + 1;
     },
+    initialPageParam: 0,
   });
 
+  // Handle infinite scrolling
   useEffect(() => {
     if (isFetchingNextPage) return;
 
@@ -106,36 +110,50 @@ const TeamOrderPage = () => {
       threshold: 1.0,
     });
 
+    // Capture the current value of lastElementRef.current
+    const currentLastElementRef = lastElementRef.current;
+
     // Observe the last element
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
+    if (currentLastElementRef) {
+      observer.current.observe(currentLastElementRef);
     }
 
     // Cleanup function to unobserve the last element
     return () => {
-      if (observer.current && lastElementRef.current) {
-        observer.current.unobserve(lastElementRef.current);
+      if (observer.current && currentLastElementRef) {
+        observer.current.unobserve(currentLastElementRef);
       }
     };
   }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
 
-  const { data: teamMenuInfo, isLoading: isLoadingTeamMenuInfo } =
-    useQuery({
-      queryKey: ['teamMenuInfo', teamMenu?.purchaseId],
-      queryFn: () =>
-        getTeamMenuInfo(Number(meetingId), Number(teamMenu.purchaseId)),
-      enabled: !!teamMenu?.purchaseId,
-    });
-  
-  const { data: individualOrderInfo, isLoading: isLoadingIndividualOrderInfo } =
   useQuery({
-    queryKey: ['individualOrderInfo', individualOrder?.purchaseId],
+    queryKey: ['teamMenuInfo', teamMenu?.teamPurchaseId, meetingId],
     queryFn: () =>
-      getIndividualOrderInfo(Number(meetingId), Number(individualOrder.purchaseId)),
-    enabled: !!individualOrder?.purchaseId,
+      getTeamMenuInfo(Number(meetingId), Number(teamMenu?.teamPurchaseId)),
+    enabled: !!teamMenu?.teamPurchaseId,
   });
 
-  const { data: storeInfo, isLoading: isLoadingStoreInfo } = useQuery({
+  useQuery({
+    queryKey: [
+      'individualOrderInfo',
+      individualOrder?.individualPurchaseId,
+      meetingId,
+      individualOrder,
+      individualOrder?.individualPurchaseId,
+    ],
+    queryFn: () => {
+      if (!individualOrder || !meetingId) {
+        throw new Error('Missing individual order data or meeting ID');
+      }
+      return getIndividualOrderInfo(
+        Number(meetingId),
+        Number(individualOrder.individualPurchaseId),
+      );
+    },
+    enabled: !!individualOrder?.individualPurchaseId,
+  });
+
+  const { data: storeInfo } = useQuery({
     queryKey: ['storeInfo', meeting?.storeId],
     queryFn: () => getRestaurantInfo(Number(meeting?.storeId)),
     enabled: !!meeting?.storeId,
@@ -143,7 +161,8 @@ const TeamOrderPage = () => {
 
   // Calculate the remaining amount needed to meet the minimum purchase price
   const totalFee = (teamMenu?.totalFee || 0) + (individualOrder?.totalFee || 0);
-  const remainingAmount = storeInfo?.minPurchasePrice - totalFee;
+  const minPurchasePrice = storeInfo?.minPurchasePrice ?? 0;
+  const remainingAmount = minPurchasePrice - totalFee;
 
   // Handling loading and error states
   if (isLoadingMeeting || isLoadingTeamMenus) return <Loading />;
@@ -151,16 +170,20 @@ const TeamOrderPage = () => {
 
   return (
     <div>
-      <Header buttonLeft="back" text={meeting.storeName} />
-      <MainImage src={meeting.images[0].url} alt={meeting.storeName} />
-      <MeetingStatus 
-        headCountData={headCountData} 
-        meeting={meeting} 
-        remainingTime={remainingTime} />
+      <Header buttonLeft="back" text={meeting?.storeName} />
+      <MainImage
+        src={meeting?.images[0]?.url || '/path/to/placeholder/image.jpg'}
+        alt={meeting?.storeName || 'No image available'}
+      />
+      <MeetingStatus
+        headCountData={headCountData || null}
+        meeting={meeting}
+        remainingTime={remainingTime}
+      />
       <MeetingInfo meeting={meeting} />
 
-      {meeting.purchaseType === '함께 식사' && (
-        <TeamOrderItems teamMenus={teamMenus} /> 
+      {meeting?.purchaseType === '함께 식사' && (
+        <TeamOrderItems teamMenus={teamMenus || { pages: [] }} />
       )}
 
       <RemainingAmountText>
@@ -171,7 +194,7 @@ const TeamOrderPage = () => {
       <Footer
         type="button"
         buttonText="모임 참여하기"
-        padding="3rem 1.5rem 1.5rem"
+        $padding="3rem 1.5rem 1.5rem"
         onButtonClick={handleClick}
       />
     </div>

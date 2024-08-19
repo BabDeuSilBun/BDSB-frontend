@@ -40,12 +40,13 @@ const SettingImage = () => (
     <Title>결제 성공!</Title>
     <SubTitle>팀 주문에 함께 할 모임원들을 초대해요</SubTitle>
     <ImageWrapper>
-      <Image 
-        src="/settingImage.png" 
+      <Image
+        src="/settingImage.png"
         alt="Team Order Setting"
         width={195}
         height={111}
-        priority 
+        priority
+        style={{ width: '100%', height: 'auto' }}
       />
     </ImageWrapper>
   </Container>

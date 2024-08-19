@@ -8,7 +8,9 @@ interface MenuItemProps {
   menuName: string;
   price: number;
   imageUrl: string;
+  // eslint-disable-next-line react/require-default-props
   hasDivider?: boolean;
+  // eslint-disable-next-line react/require-default-props
   onClick?: () => void;
 }
 
@@ -16,7 +18,7 @@ const MenuListWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 6.3125rem;  /* 101px */
+  height: 6.3125rem; /* 101px */
   background-color: var(--background);
   padding: var(--spacing-sm);
 `;
@@ -57,7 +59,13 @@ const MenuImage = styled.img`
   object-fit: cover;
 `;
 
-export default function MenuItem({ menuName, price, imageUrl, hasDivider = true, onClick }: MenuItemProps) {
+export default function MenuItem({
+  menuName,
+  price,
+  imageUrl,
+  hasDivider = true,
+  onClick,
+}: MenuItemProps) {
   return (
     <>
       <MenuListWrapper onClick={onClick}>
@@ -69,15 +77,15 @@ export default function MenuItem({ menuName, price, imageUrl, hasDivider = true,
           <MenuImage src={imageUrl} alt={menuName} />
         </ImageWrapper>
       </MenuListWrapper>
-      {hasDivider &&       
-        <Divider 
-        orientation="horizontal" 
-        sx={{ 
-          borderWidth: '1px',
-          borderColor: 'var(--gray200)'
-        }} 
+      {hasDivider && (
+        <Divider
+          orientation="horizontal"
+          sx={{
+            borderWidth: '1px',
+            borderColor: 'var(--gray200)',
+          }}
         />
-      }
+      )}
     </>
   );
 }

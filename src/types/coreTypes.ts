@@ -74,7 +74,7 @@ export interface TeamMenuType {
   meetingId: number;
   storeId: number;
   totalFee: number;
-  items: TeamMenuItemType[];
+  items: ItemType[];
 }
 
 // Individual order type definition

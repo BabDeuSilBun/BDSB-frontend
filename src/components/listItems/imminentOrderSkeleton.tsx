@@ -1,5 +1,4 @@
-import { Skeleton } from '@chakra-ui/react';
-import { Box } from '@chakra-ui/react';
+import { Box, Skeleton } from '@chakra-ui/react';
 
 const ImminentOrderSkeleton = () => {
   return (
@@ -11,12 +10,7 @@ const ImminentOrderSkeleton = () => {
         startColor="gray.300"
         endColor="gray.400"
       />
-      <Box
-        padding="2"
-        boxShadow="lg"
-        bg="white"
-        borderBottomRadius="lg"
-      >
+      <Box padding="2" boxShadow="lg" bg="white" borderBottomRadius="lg">
         <Skeleton height="20px" />
       </Box>
     </Box>

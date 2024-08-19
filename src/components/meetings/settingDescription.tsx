@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import styled from 'styled-components';
 
 const DescriptionWrapper = styled.div`
@@ -40,12 +39,14 @@ const SettingDescription: React.FC<SettingDescriptionProps> = ({
     <DescriptionWrapper>
       <textarea
         placeholder={placeholder}
-        rows="4"
+        rows={4}
         value={value}
         onChange={handleChange}
         className="global-textarea"
       />
-      <WordCount>{charLimit - value.length} / {charLimit}자 남음</WordCount>
+      <WordCount>
+        {charLimit - value.length} / {charLimit}자 남음
+      </WordCount>
     </DescriptionWrapper>
   );
 };

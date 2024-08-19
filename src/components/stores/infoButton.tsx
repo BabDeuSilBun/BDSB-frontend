@@ -3,7 +3,11 @@
 import { Button } from '@chakra-ui/react';
 import InfoIcon from '@/components/svg/info';
 
-export default function InfoButton({ onClick }) {
+interface InfoButtonProps {
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+const InfoButton: React.FC<InfoButtonProps> = ({ onClick }) => {
   return (
     <Button
       variant="outline"
@@ -30,4 +34,6 @@ export default function InfoButton({ onClick }) {
       정보
     </Button>
   );
-}
+};
+
+export default InfoButton;

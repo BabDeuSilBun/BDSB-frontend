@@ -2,7 +2,6 @@
 
 import { useSignUpStore } from '@/state/authStore';
 import styled from 'styled-components';
-import Image from 'next/image';
 import SearchIcon from '@/components/svg/search';
 
 const Caption = styled.p`
@@ -42,7 +41,7 @@ const AddressBtn = styled.button`
 `;
 
 const SettingAddress = () => {
-  const { address, setAddress, setStep } = useSignUpStore();
+  const { address, setAddress } = useSignUpStore();
 
   return (
     <div>
@@ -55,8 +54,9 @@ const SettingAddress = () => {
         </Wrapper>
         <input
           type="text"
-          value={address.detailAddress}
+          value={address?.detailAddress || ''}
           onChange={(e) =>
+            setAddress &&
             setAddress({ ...address, detailAddress: e.target.value })
           }
           placeholder="상세 주소"

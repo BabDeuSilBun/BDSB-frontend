@@ -3,7 +3,11 @@
 import { Button } from '@chakra-ui/react';
 import PhoneIcon from '@/components/svg/phone';
 
-export default function CallButton({ phoneNumber }) {
+interface CallButtonProps {
+  phoneNumber: string;
+}
+
+export default function CallButton({ phoneNumber }: CallButtonProps) {
   return (
     <Button
       as="a" // Use the button as an anchor tag

@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
+
+import { useParams, useSearchParams } from 'next/navigation';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getMenuInfo, getMenuList } from '@/services/menuService';
 import Loading from '@/app/loading';
@@ -28,7 +29,6 @@ const MenuItemContainer = styled.div`
 `;
 
 const StorePage = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const { storeId } = useParams();
   const [activeModal, setActiveModal] = useState<string | null>(null);
@@ -56,7 +56,6 @@ const StorePage = () => {
   // Fetch menu list with pagination
   const {
     data: menus,
-    error,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
@@ -67,8 +66,10 @@ const StorePage = () => {
     queryFn: ({ pageParam = 0 }) =>
       getMenuList({ storeId: Number(storeId), page: pageParam }),
     getNextPageParam: (lastPage) => {
-      return lastPage.last ? undefined : lastPage.pageable?.pageNumber + 1;
+      const nextPageNumber = lastPage.pageable?.pageNumber ?? -1;
+      return lastPage.last ? undefined : nextPageNumber + 1;
     },
+    initialPageParam: 0,
   });
 
   // Handle infinite scrolling
@@ -88,30 +89,38 @@ const StorePage = () => {
       threshold: 1.0,
     });
 
+    // Capture the current value of lastElementRef.current
+    const currentLastElementRef = lastElementRef.current;
+
     // Observe the last element
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
+    if (currentLastElementRef) {
+      observer.current.observe(currentLastElementRef);
     }
 
     // Cleanup function to unobserve the last element
     return () => {
-      if (observer.current && lastElementRef.current) {
-        observer.current.unobserve(lastElementRef.current);
+      if (observer.current && currentLastElementRef) {
+        observer.current.unobserve(currentLastElementRef);
       }
     };
   }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
 
   // Fetch selected menu information when modal is opened
-  const { data: selectedMenuInfo, isLoading: isLoadingMenuInfo } = useQuery({
-    queryKey: ['menuInfo', selectedMenu?.menuId],
-    queryFn: () => getMenuInfo(Number(storeId), Number(selectedMenu.menuId)),
-    enabled: !!selectedMenu?.menuId, // Only fetch when menuId is available
+  useQuery({
+    queryKey: ['menuInfo', storeId, selectedMenu?.menuId],
+    queryFn: () => getMenuInfo(Number(storeId), Number(selectedMenu?.menuId)),
+    enabled: !!selectedMenu?.menuId,
   });
 
   // Modal and context handling
   const openModal = (
     modalName: string,
-    menuItem?: { name: string; description: string; imageUrl: string },
+    menuItem?: {
+      menuId: number;
+      name: string;
+      description: string;
+      image: string;
+    },
   ) => {
     setActiveModal(modalName);
     if (menuItem) {
@@ -158,48 +167,44 @@ const StorePage = () => {
         />
       </HeaderContainer>
       <Carousel images={store.images} />
-      <StoreInfo 
-        store={store} 
-        onInfoButtonClick={() => setActiveModal('infoModal')} 
-      />
+      <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} />
 
       {/* Context-specific code */}
-      {['leaderBefore', 'leaderAfter', 'participant'].includes(context) && (
-        <div>
-          <MenuItemContainer>
-            {menus.pages.map((page, pageIndex) =>
-              page.content.map((menuItem, index) => (
-                <div
-                  key={menuItem.menuId}
-                  ref={
-                    pageIndex === menus.pages.length - 1 &&
-                    index === page.content.length - 1 &&
-                    hasNextPage
-                      ? lastElementRef
-                      : null
-                  }
-                >
-                  <MenuItem
-                    menuName={menuItem.name}
-                    price={menuItem.price}
-                    imageUrl={menuItem.image}
-                    hasDivider={index !== page.content.length - 1}
-                    onClick={() => openModal(context + 'Order', menuItem)}
-                  />
-                </div>
-              )),
-            )}
-          </MenuItemContainer>
-          <Footer
-            type="button"
-            buttonText={
-              context === 'participant'
-                ? '장바구니로 이동'
-                : '모임 만들기'
-            }
-          />
-        </div>
-      )}
+      {context &&
+        ['leaderBefore', 'leaderAfter', 'participant'].includes(context) && (
+          <div>
+            <MenuItemContainer>
+              {menus?.pages.map((page, pageIndex) =>
+                page.content.map((menuItem, index) => (
+                  <div
+                    key={menuItem.menuId}
+                    ref={
+                      pageIndex === menus.pages.length - 1 &&
+                      index === page.content.length - 1 &&
+                      hasNextPage
+                        ? lastElementRef
+                        : null
+                    }
+                  >
+                    <MenuItem
+                      menuName={menuItem.name}
+                      price={menuItem.price}
+                      imageUrl={menuItem.image}
+                      hasDivider={index !== page.content.length - 1}
+                      onClick={() => openModal(`${context}Order`, menuItem)}
+                    />
+                  </div>
+                )),
+              )}
+            </MenuItemContainer>
+            <Footer
+              type="button"
+              buttonText={
+                context === 'participant' ? '장바구니로 이동' : '모임 만들기'
+              }
+            />
+          </div>
+        )}
 
       {/* Modal handling */}
       {activeModal === 'infoModal' && (
@@ -224,7 +229,14 @@ const StorePage = () => {
           imageUrl={selectedMenu.image}
           title1={selectedMenu.name}
           description={selectedMenu.description}
-          context={context}
+          context={
+            context === 'leaderBefore' ||
+            context === 'leaderAfter' ||
+            context === 'participant'
+              ? context
+              : undefined
+          }
+          // eslint-disable-next-line no-console
           onButtonClick1={() => console.log('Button 1 clicked')}
           onButtonClick2={closeModal}
           onClose={closeModal}

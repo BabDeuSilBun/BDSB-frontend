@@ -29,7 +29,11 @@ interface SettingHeadcountProps {
   onValueChange: (newValue: number) => void;
 }
 
-const SettingHeadcount: React.FC<SettingHeadcountProps> = ({ text, value, onValueChange }) => (
+const SettingHeadcount: React.FC<SettingHeadcountProps> = ({
+  text,
+  value,
+  onValueChange,
+}) => (
   <Container>
     <Label>{text}</Label>
     <CounterWrapper>

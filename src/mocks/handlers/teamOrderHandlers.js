@@ -1,7 +1,8 @@
 import { http, HttpResponse } from 'msw';
 import { TEAM_ORDER_LIST_API_URL } from '@/services/teamOrderService';
+
 import { applyFiltersAndSorting } from '../filteringAndSorting';
-import { paginatedMeetings, meetings } from '../mockData/meetings';
+import { meetings, paginatedMeetings } from '../mockData/meetings';
 
 export const teamOrderHandlers = [
   http.get(TEAM_ORDER_LIST_API_URL, (req) => {
@@ -33,6 +34,7 @@ export const teamOrderHandlers = [
         content: filteredContent,
       });
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error parsing URL:', error);
       return HttpResponse.status(500).json({ message: 'Error parsing URL' });
     }

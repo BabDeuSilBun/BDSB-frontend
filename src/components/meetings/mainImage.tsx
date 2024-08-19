@@ -26,13 +26,7 @@ interface MainImageProps {
 const MainImage: React.FC<MainImageProps> = ({ src, alt }) => (
   <ImageContainer>
     <ImageWrapper>
-      <Image 
-        src={src} 
-        alt={alt} 
-        fill 
-        style={{ objectFit: 'cover' }} 
-        priority 
-      />
+      <Image src={src} alt={alt} fill style={{ objectFit: 'cover' }} priority />
     </ImageWrapper>
   </ImageContainer>
 );

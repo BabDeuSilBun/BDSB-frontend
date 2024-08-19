@@ -1,4 +1,7 @@
-import { IndividualOrderType, IndividualOrdersResponse } from '@/types/coreTypes';
+import {
+  IndividualOrdersResponse,
+  IndividualOrderType,
+} from '@/types/coreTypes';
 
 export const individualOrders: IndividualOrderType[] = [
   {
@@ -462,21 +465,32 @@ export const individualOrders: IndividualOrderType[] = [
       },
     ],
   },
-]
+];
 
 const pageSize = 10;
 
-export const paginatedIndividualOrders: { [key: number]: IndividualOrdersResponse[] } = individualOrders.reduce(
+export const paginatedIndividualOrders: {
+  [key: number]: IndividualOrdersResponse[];
+} = individualOrders.reduce(
   (acc, order) => {
     const totalPages = Math.ceil(order.items.length / pageSize);
     const paginatedItems = Array.from({ length: totalPages }, (_, index) => {
       const start = index * pageSize;
       const end = start + pageSize;
-      const content = order.items.slice(start, end);
+
+      // Wrap the items inside an IndividualOrderType
+      const individualOrderPage: IndividualOrderType = {
+        individualPurchaseId: order.individualPurchaseId,
+        meetingId: order.meetingId,
+        storeId: order.storeId,
+        totalFee: order.totalFee,
+        items: order.items.slice(start, end),
+      };
+
       const isLastPage = index === totalPages - 1;
 
       return {
-        content, // 현재 페이지에 해당하는 데이터
+        content: [individualOrderPage], // Wrap the paginated individualOrderPage in an array
         pageable: {
           pageNumber: index, // 현재 페이지 번호
           pageSize, // 페이지당 데이터 개수
@@ -491,5 +505,5 @@ export const paginatedIndividualOrders: { [key: number]: IndividualOrdersRespons
     acc[order.meetingId] = paginatedItems;
     return acc;
   },
-  {} as { [key: number]: IndividualOrdersResponse[] }
+  {} as { [key: number]: IndividualOrdersResponse[] },
 );

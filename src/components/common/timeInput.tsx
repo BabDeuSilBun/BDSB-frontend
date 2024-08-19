@@ -1,16 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { FC, useState } from 'react';
+
 import styled from 'styled-components';
-import { CustomDropdown, DropdownToggle, DropdownItem } from '@/components/common/dropdown';
+import {
+  CustomDropdown,
+  DropdownItem,
+  DropdownToggle,
+} from '@/components/common/dropdown';
 
-const CustomDropdownToggle = styled(DropdownToggle)`
+const CustomDropdownToggle = styled(DropdownToggle)<{
+  $selected: boolean;
+  onClick: () => void;
+}>`
   padding: var(--spacing-xs) var(--spacing-sm);
-`;
+` as FC<{ $selected: boolean; onClick: () => void }>;
 
-const CustomDropdownItem = styled(DropdownItem)`
+const CustomDropdownItem = styled(DropdownItem)<{
+  $selected: boolean;
+  onClick: () => void;
+}>`
   padding: var(--spacing-xs) var(--spacing-sm);
-`;
+` as FC<{ $selected: boolean; onClick: () => void }>;
 
 const TimeInputContainer = styled.div`
   display: flex;
@@ -68,7 +79,9 @@ interface TimeInputProps {
     hour: string;
     minute: string;
   };
-  onTimeChange: (newTime: Partial<{ amPm: string; hour: string; minute: string }>) => void;
+  onTimeChange: (
+    newTime: Partial<{ amPm: string; hour: string; minute: string }>,
+  ) => void;
 }
 
 const TimeInput: React.FC<TimeInputProps> = ({ time, onTimeChange }) => {
@@ -91,12 +104,12 @@ const TimeInput: React.FC<TimeInputProps> = ({ time, onTimeChange }) => {
         <CustomDropdown
           options={amPmOptions}
           selectedValue={amPm}
-          onSelect={(value) => onTimeChange({ amPm: value })}
+          onSelect={(value) => onTimeChange({ amPm: value ?? '오전' })}
           isOpen={isDropdownOpen}
           onToggle={handleDropdownToggle}
           placeholder="오전/오후"
           Toggle={CustomDropdownToggle}
-          Item={CustomDropdownItem} 
+          Item={CustomDropdownItem}
         />
       </DropdownWrapper>
       <InputGroup>
