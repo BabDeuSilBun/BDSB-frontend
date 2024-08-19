@@ -21,7 +21,6 @@ export const onSilentRefresh = async () => {
     Cookies.set('jwtToken', newToken);
     setAuthToken(newToken);
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Token refresh failed:', error);
   }
 };
@@ -52,7 +51,6 @@ export const setupInterceptors = (router: NextRouter) => {
             Cookies.set('jwtToken', newJwtToken);
             return httpClientForCredentials(originalRequest);
           } catch (refreshError) {
-            // eslint-disable-next-line no-console
             console.error('Token refresh failed:', refreshError);
             router.push('/auth/signIn');
           }

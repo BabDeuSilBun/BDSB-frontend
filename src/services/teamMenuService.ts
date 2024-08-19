@@ -48,7 +48,6 @@ export const getTeamMenuInfo = async (
     const response = await apiClient.get<TeamMenuType>(url);
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error fetching team menu info:', error);
     throw new Error(
       '공통 메뉴 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',

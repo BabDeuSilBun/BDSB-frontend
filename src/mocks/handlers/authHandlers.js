@@ -119,7 +119,6 @@ export const authHandlers = [
       const { code } = await request.json();
 
       if (code === '1111') {
-        // eslint-disable-next-line no-console
         console.log('Received code:', code);
         return HttpResponse.json({ result: true });
       }

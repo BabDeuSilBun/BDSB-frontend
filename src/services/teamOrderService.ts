@@ -63,7 +63,6 @@ export const getCurrentHeadCount = async (meetingId: number) => {
     );
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error fetching team head count:', error);
     throw new Error(
       '팀 헤드카운트를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',

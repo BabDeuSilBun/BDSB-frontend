@@ -22,11 +22,9 @@ export const getRemainingTime = () => {
     if (remainingTime <= 0) {
       onSilentRefresh();
     } else {
-      // eslint-disable-next-line no-console
       console.log('토큰이 유효합니다.');
     }
   } else {
-    // eslint-disable-next-line no-console
     console.log('jwtToken이 쿠키에 존재하지 않습니다.');
   }
 };

@@ -26,7 +26,6 @@ export const individualOrderHandlers = [
         ...paginatedResponse,
       });
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error('Error parsing URL:', error);
       return HttpResponse.status(500).json({ message: 'Error parsing URL' });
     }

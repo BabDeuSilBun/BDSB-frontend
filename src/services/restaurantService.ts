@@ -30,7 +30,6 @@ export const getRestaurantsList = async ({
     );
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error fetching restaurants:', error);
     throw new Error(
       '음식점 목록을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
@@ -45,7 +44,6 @@ export const getRestaurantInfo = async (storeId: number) => {
     );
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error fetching restaurant:', error);
     throw new Error(
       '음식점 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
