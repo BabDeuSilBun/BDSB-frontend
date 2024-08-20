@@ -116,7 +116,6 @@ const MainHeader = () => {
           </MenuButton>
         </div>
       </HeaderContainer>
-
       <Portal>
         <PortalButtonWrapper>
           <HamburgerBtn onToggle={onToggle} $isOpen={isOpen} />

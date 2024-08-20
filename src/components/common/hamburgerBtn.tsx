@@ -8,7 +8,7 @@ const MenuButton = styled.button<{ $isOpen: boolean }>`
   display: flex;
   height: 24px;
   width: 24px;
-  position: absolute;
+  position: fixed;
   cursor: pointer;
   flex-direction: column;
   justify-content: space-between;
