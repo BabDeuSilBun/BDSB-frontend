@@ -6,6 +6,8 @@ import { Divider } from '@chakra-ui/react';
 import { formatDateTime } from '@/utils/formateDateTime';
 import { useState } from 'react';
 import Container from '@/styles/container';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { getMyData } from '@/services/myDataService';
 
 const ContainerSection = styled(Container)`
   display: flex;
@@ -69,8 +71,6 @@ const Contents = styled.div`
   }
 `;
 
-const point = 1000;
-
 const mockData = [
   {
     createdAt: '2024-07-19T06:36:00',
@@ -95,12 +95,21 @@ const MyPoint = () => {
     setActiveBtn(btnType);
   };
 
+  const {
+    data: userData,
+    isLoading: isLoadingUserData,
+    isError: isErrorUserData,
+  } = useQuery({
+    queryKey: ['myData'],
+    queryFn: getMyData,
+  });
+
   return (
     <ContainerSection>
       <Flex>
         <div>
           <h2>보유</h2>
-          <h3>{`${point}P`}</h3>
+          <h3>{`${isErrorUserData ? '포인트를 불러올 수 없음' : isLoadingUserData ? '0' : userData && userData.point}P`}</h3>
         </div>
         <RoundBtnFilled>전액 인출하기</RoundBtnFilled>
       </Flex>
