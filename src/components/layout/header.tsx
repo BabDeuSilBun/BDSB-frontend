@@ -68,6 +68,8 @@ interface HeaderProps {
   text?: string;
   onBack?: () => void;
   onExit?: () => void;
+  isPostcodeOpen?: boolean;
+  onClosePostcodeModal?: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -80,18 +82,28 @@ const Header: React.FC<HeaderProps> = ({
   onExit = () => {
     router.push('/');
   },
+  isPostcodeOpen = false,
+  onClosePostcodeModal,
 }) => {
   const router = useRouter();
   const { isOpen, onToggle } = useDisclosure();
 
   const handleLeftButtonClick = () => {
-    if (buttonLeft === 'back') {
-      onBack ? onBack() : router.back();
+    if (isPostcodeOpen && onClosePostcodeModal) {
+      onClosePostcodeModal();
+    } else if (buttonLeft === 'back') {
+      if (onBack) {
+        onBack();
+      } else {
+        router.back();
+      }
     }
   };
 
   const handleRightButtonClick = () => {
-    if (buttonRight === 'home') {
+    if (isPostcodeOpen && onClosePostcodeModal) {
+      onClosePostcodeModal();
+    } else if (buttonRight === 'home') {
       router.push('/');
     } else if (buttonRight === 'exit' && onExit) {
       onExit();

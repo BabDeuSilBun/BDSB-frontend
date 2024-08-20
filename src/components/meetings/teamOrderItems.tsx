@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
 import { formatCurrency } from '@/utils/currencyFormatter';
-import { TeamMenusResponse, TeamMenuType } from '@/types/coreTypes';
+import { TeamPurchasesResponse, TeamPurchaseType } from '@/types/coreTypes';
 import { ItemType } from '@/types/types';
 
 const MenuTypeTitle = styled.h2`
@@ -41,12 +41,12 @@ const MenuItemPrice = styled.div`
 `;
 
 interface TeamOrderItemsProps {
-  teamMenus: {
-    pages: TeamMenusResponse[];
+  teamPurchases: {
+    pages: TeamPurchasesResponse[];
   };
 }
 
-const TeamOrderItems: React.FC<TeamOrderItemsProps> = ({ teamMenus }) => (
+const TeamOrderItems: React.FC<TeamOrderItemsProps> = ({ teamPurchases }) => (
   <>
     <Divider
       orientation="horizontal"
@@ -57,10 +57,10 @@ const TeamOrderItems: React.FC<TeamOrderItemsProps> = ({ teamMenus }) => (
     />
     <MenuTypeTitle>공통 메뉴</MenuTypeTitle>
     <MenuContainer>
-      {teamMenus?.pages.map((page) =>
-        page.content.flatMap((teamMenu: TeamMenuType) =>
-          teamMenu.items.map((item: ItemType) => (
-            <MenuItemRow key={`${teamMenu.teamPurchaseId}-${item.menuId}`}>
+      {teamPurchases?.pages.map((page) =>
+        page.content.flatMap((teamPurchase: TeamPurchaseType) =>
+          teamPurchase.items.map((item: ItemType) => (
+            <MenuItemRow key={`${teamPurchase.purchaseId}-${item.menuId}`}>
               <MenuItemName>{item.name}</MenuItemName>
               <MenuItemPrice>{formatCurrency(item.price)}</MenuItemPrice>
             </MenuItemRow>

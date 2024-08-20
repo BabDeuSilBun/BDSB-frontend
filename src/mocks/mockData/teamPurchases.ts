@@ -1,10 +1,8 @@
-import { TeamMenusResponse, TeamMenuType } from '@/types/coreTypes';
+import { TeamPurchasesResponse, TeamPurchaseType } from '@/types/coreTypes';
 
-export const teamMenus: TeamMenuType[] = [
+export const teamPurchases: TeamPurchaseType[] = [
   {
-    teamPurchaseId: 1,
     meetingId: 1,
-    storeId: 1,
     totalFee: 67000,
     items: [
       {
@@ -37,9 +35,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 2,
     meetingId: 2,
-    storeId: 2,
     totalFee: 73000,
     items: [
       {
@@ -72,9 +68,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 3,
     meetingId: 3,
-    storeId: 3,
     totalFee: 69000,
     items: [
       {
@@ -107,9 +101,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 4,
     meetingId: 4,
-    storeId: 4,
     totalFee: 46000,
     items: [
       {
@@ -142,9 +134,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 5,
     meetingId: 5,
-    storeId: 5,
     totalFee: 41000,
     items: [
       {
@@ -177,9 +167,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 6,
     meetingId: 6,
-    storeId: 6,
     totalFee: 74000,
     items: [
       {
@@ -212,9 +200,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 7,
     meetingId: 7,
-    storeId: 7,
     totalFee: 112000,
     items: [
       {
@@ -247,9 +233,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 8,
     meetingId: 8,
-    storeId: 8,
     totalFee: 90000,
     items: [
       {
@@ -282,9 +266,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 9,
     meetingId: 9,
-    storeId: 9,
     totalFee: 94000,
     items: [
       {
@@ -317,9 +299,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 10,
     meetingId: 10,
-    storeId: 10,
     totalFee: 78000,
     items: [
       {
@@ -352,9 +332,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 11,
     meetingId: 11,
-    storeId: 11,
     totalFee: 90000,
     items: [
       {
@@ -387,9 +365,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 12,
     meetingId: 12,
-    storeId: 12,
     totalFee: 82000,
     items: [
       {
@@ -422,9 +398,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 13,
     meetingId: 13,
-    storeId: 13,
     totalFee: 78000,
     items: [
       {
@@ -457,9 +431,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 14,
     meetingId: 14,
-    storeId: 14,
     totalFee: 86000,
     items: [
       {
@@ -492,9 +464,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 15,
     meetingId: 15,
-    storeId: 15,
     totalFee: 119000,
     items: [
       {
@@ -527,9 +497,7 @@ export const teamMenus: TeamMenuType[] = [
     ],
   },
   {
-    teamPurchaseId: 16,
     meetingId: 16,
-    storeId: 16,
     totalFee: 98000,
     items: [
       {
@@ -565,40 +533,39 @@ export const teamMenus: TeamMenuType[] = [
 
 const pageSize = 10;
 
-export const paginatedTeamMenus: { [key: number]: TeamMenusResponse[] } =
-  teamMenus.reduce(
-    (acc, menu) => {
-      const totalPages = Math.ceil(menu.items.length / pageSize);
-      const paginatedItems = Array.from({ length: totalPages }, (_, index) => {
-        const start = index * pageSize;
-        const end = start + pageSize;
+export const paginatedTeamPurchases: {
+  [key: number]: TeamPurchasesResponse[];
+} = teamPurchases.reduce(
+  (acc, purchase) => {
+    const totalPages = Math.ceil(purchase.items.length / pageSize);
+    const paginatedItems = Array.from({ length: totalPages }, (_, index) => {
+      const start = index * pageSize;
+      const end = start + pageSize;
 
-        // Wrap the items inside a TeamMenuType
-        const teamMenuPage: TeamMenuType = {
-          teamPurchaseId: menu.teamPurchaseId,
-          meetingId: menu.meetingId,
-          storeId: menu.storeId,
-          totalFee: menu.totalFee,
-          items: menu.items.slice(start, end),
-        };
+      // Wrap the items inside a TeamPurchaseType
+      const teamPurchasePage: TeamPurchaseType = {
+        meetingId: purchase.meetingId,
+        totalFee: purchase.totalFee,
+        items: purchase.items.slice(start, end),
+      };
 
-        const isLastPage = index === totalPages - 1;
+      const isLastPage = index === totalPages - 1;
 
-        return {
-          content: [teamMenuPage], // Wrap the paginated teamMenuPage in an array
-          pageable: {
-            pageNumber: index, // 현재 페이지 번호
-            pageSize, // 페이지당 데이터 개수
-          },
-          last: isLastPage, // 마지막 페이지 여부
-          totalPages, // 전체 페이지 수
-          size: pageSize, // 페이지당 데이터 개수
-          first: index === 0, // 첫 페이지 여부
-        };
-      });
+      return {
+        content: [teamPurchasePage], // Wrap the paginated teamPurchasePage in an array
+        pageable: {
+          pageNumber: index, // 현재 페이지 번호
+          pageSize, // 페이지당 데이터 개수
+        },
+        last: isLastPage, // 마지막 페이지 여부
+        totalPages, // 전체 페이지 수
+        size: pageSize, // 페이지당 데이터 개수
+        first: index === 0, // 첫 페이지 여부
+      };
+    });
 
-      acc[menu.meetingId] = paginatedItems;
-      return acc;
-    },
-    {} as { [key: number]: TeamMenusResponse[] },
-  );
+    acc[purchase.meetingId] = paginatedItems;
+    return acc;
+  },
+  {} as { [key: number]: TeamPurchasesResponse[] },
+);

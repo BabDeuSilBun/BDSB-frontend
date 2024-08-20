@@ -1,12 +1,12 @@
 import { http, HttpResponse } from 'msw';
 
 import {
-  individualOrders,
-  paginatedIndividualOrders,
-} from '../mockData/individualOrders';
+  individualPurchases,
+  paginatedIndividualPurchases,
+} from '../mockData/individualPurchases';
 
-export const individualOrderHandlers = [
-  http.get('/api/users/meetings/:meetingId/individual-order', (req) => {
+export const individualPurchaseHandlers = [
+  http.get('/api/users/meetings/:meetingId/individual-purchases', (req) => {
     const { request } = req;
     const meetingId = Number(req.params.meetingId);
     const urlString = request.url.toString();
@@ -16,7 +16,7 @@ export const individualOrderHandlers = [
       const pageParam = Number(url.searchParams.get('page')) || 0;
 
       const paginatedResponse =
-        paginatedIndividualOrders[meetingId]?.[pageParam];
+        paginatedIndividualPurchases[meetingId]?.[pageParam];
 
       if (!paginatedResponse) {
         return HttpResponse.json({ message: 'Page not found' });
@@ -32,16 +32,16 @@ export const individualOrderHandlers = [
   }),
 
   http.get(
-    '/api/users/meetings/:meetingId/individual-order/purchaseId',
+    '/api/users/meetings/:meetingId/individual-purchases/purchaseId',
     (req) => {
       const meetingId = Number(req.params.meetingId);
       const purchaseId = Number(req.params.purchaseId);
 
-      const matchingOrders = individualOrders.filter(
-        (order) => order.meetingId === meetingId,
+      const matchingOrders = individualPurchases.filter(
+        (purchase) => purchase.meetingId === meetingId,
       );
       const individualPurchase = matchingOrders.find(
-        (p) => p.individualPurchaseId === purchaseId,
+        (p) => p.purchaseId === purchaseId,
       );
 
       if (individualPurchase) {
@@ -49,7 +49,7 @@ export const individualOrderHandlers = [
       }
 
       return HttpResponse.status(404).json({
-        message: 'Individual order items not found',
+        message: 'Individual purchase items not found',
       });
     },
   ),

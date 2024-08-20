@@ -26,6 +26,7 @@ interface FooterProps {
   onButtonClick1?: () => void;
   onButtonClick2?: () => void;
   $padding?: string;
+  disabled?: boolean;
 }
 
 const Footer: React.FC<FooterProps> = ({
@@ -37,12 +38,16 @@ const Footer: React.FC<FooterProps> = ({
   onButtonClick1,
   onButtonClick2,
   $padding,
+  disabled = false,
 }) => {
   return (
     <FooterContainer $padding={$padding}>
-      {type === 'button' && (
-        <BaseBtn onClick={onButtonClick}>{buttonText}</BaseBtn>
-      )}
+      {type === 'button' &&
+        (disabled ? (
+          <BaseBtnInactive>{buttonText}</BaseBtnInactive>
+        ) : (
+          <BaseBtn onClick={onButtonClick}>{buttonText}</BaseBtn>
+        ))}
       {type === 'inactiveButton' && (
         <BaseBtnInactive>{buttonText}</BaseBtnInactive>
       )}

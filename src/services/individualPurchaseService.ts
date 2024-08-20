@@ -1,30 +1,30 @@
 import {
-  IndividualOrdersResponse,
-  IndividualOrderType,
+  IndividualPurchasesResponse,
+  IndividualPurchaseType,
 } from '@/types/coreTypes';
 import { GetListParams } from '@/types/types';
 
 import { apiClient } from './apiClient';
 
-export const INDIVIDUAL_ORDER_LIST_API_URL =
-  '/api/users/meetings/{meetingId}/individual-order';
-const INDIVIDUAL_ORDER_API_URL =
-  '/api/users/meetings/{meetingId}/individual-order/{purchaseId}';
+export const INDIVIDUAL_PURCHASE_LIST_API_URL =
+  '/api/users/meetings/{meetingId}/individual-purchases';
+const INDIVIDUAL_PURCHASE_API_URL =
+  '/api/users/meetings/{meetingId}/individual-purchases/{purchaseId}';
 
-export const getIndividualOrderList = async ({
+export const getIndividualPurchaseList = async ({
   page = 0,
   schoolId = undefined,
   size = 10,
   meetingId,
 }: GetListParams & {
   meetingId: number;
-}): Promise<IndividualOrdersResponse> => {
+}): Promise<IndividualPurchasesResponse> => {
   try {
-    const url = INDIVIDUAL_ORDER_LIST_API_URL.replace(
+    const url = INDIVIDUAL_PURCHASE_LIST_API_URL.replace(
       '{meetingId}',
       meetingId.toString(),
     );
-    const response = await apiClient.get<IndividualOrdersResponse>(url, {
+    const response = await apiClient.get<IndividualPurchasesResponse>(url, {
       params: {
         schoolId,
         size,
@@ -33,26 +33,26 @@ export const getIndividualOrderList = async ({
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching team menus:', error);
+    console.error('Error fetching individual purchases:', error);
     throw new Error(
       '개별 메뉴 목록을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
     );
   }
 };
 
-export const getIndividualOrderInfo = async (
+export const getIndividualPurchaseInfo = async (
   meetingId: number,
   purchaseId: number,
-): Promise<IndividualOrderType> => {
+): Promise<IndividualPurchaseType> => {
   try {
-    const url = INDIVIDUAL_ORDER_API_URL.replace(
+    const url = INDIVIDUAL_PURCHASE_API_URL.replace(
       '{meetingId}',
       meetingId.toString(),
     ).replace('{purchaseId}', purchaseId.toString());
-    const response = await apiClient.get<IndividualOrderType>(url);
+    const response = await apiClient.get<IndividualPurchaseType>(url);
     return response.data;
   } catch (error) {
-    console.error('Error fetching team menu info:', error);
+    console.error('Error fetching individual purchase info:', error);
     throw new Error(
       '개별 메뉴 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
     );

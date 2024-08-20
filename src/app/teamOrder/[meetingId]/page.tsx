@@ -9,9 +9,12 @@ import {
   getCurrentHeadCount,
   getTeamOrderInfo,
 } from '@/services/teamOrderService';
-import { getTeamMenuInfo, getTeamMenuList } from '@/services/teamMenuService';
-import { getIndividualOrderInfo } from '@/services/individualOrderService';
-import { IndividualOrderType, TeamMenuType } from '@/types/coreTypes';
+import {
+  getTeamPurchaseInfo,
+  getTeamPurchaseList,
+} from '@/services/teamPurchaseService';
+import { getIndividualPurchaseInfo } from '@/services/individualPurchaseService';
+import { IndividualPurchaseType, TeamPurchaseType } from '@/types/coreTypes';
 import Loading from '@/app/loading';
 import Container from '@/styles/container';
 import Header from '@/components/layout/header';
@@ -41,8 +44,8 @@ const TeamOrderPage = () => {
   const router = useRouter();
 
   // State for storing team menu and individual order details
-  const [teamMenu] = useState<TeamMenuType | null>(null);
-  const [individualOrder] = useState<IndividualOrderType | null>(null);
+  const [teamPurchase] = useState<TeamPurchaseType | null>(null);
+  const [individualPurchase] = useState<IndividualPurchaseType | null>(null);
 
   // Ref for storing the IntersectionObserver instance
   const observer = useRef<IntersectionObserver | null>(null);
@@ -78,15 +81,15 @@ const TeamOrderPage = () => {
   );
 
   const {
-    data: teamMenus,
+    data: teamPurchases,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading: isLoadingTeamMenus,
+    isLoading: isLoadingTeamPurchases,
   } = useInfiniteQuery({
-    queryKey: ['teamMenuList', meetingId],
+    queryKey: ['teamPurchaseList', meetingId],
     queryFn: ({ pageParam = 0 }) =>
-      getTeamMenuList({ meetingId: Number(meetingId), page: pageParam }),
+      getTeamPurchaseList({ meetingId: Number(meetingId), page: pageParam }),
     getNextPageParam: (lastPage) => {
       const nextPageNumber = lastPage.pageable?.pageNumber ?? -1;
       return lastPage.last ? undefined : nextPageNumber + 1;
@@ -128,30 +131,30 @@ const TeamOrderPage = () => {
   }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
 
   useQuery({
-    queryKey: ['teamMenuInfo', teamMenu?.teamPurchaseId, meetingId],
+    queryKey: [
+      'teamPurchaseInfo',
+      teamPurchase?.meetingId,
+      meetingId,
+      teamPurchase?.purchaseId,
+    ],
     queryFn: () =>
-      getTeamMenuInfo(Number(meetingId), Number(teamMenu?.teamPurchaseId)),
-    enabled: !!teamMenu?.teamPurchaseId,
+      getTeamPurchaseInfo(Number(meetingId), Number(teamPurchase?.purchaseId)),
+    enabled: !!teamPurchase?.purchaseId,
   });
 
   useQuery({
     queryKey: [
-      'individualOrderInfo',
-      individualOrder?.individualPurchaseId,
+      'individualPurchaseInfo',
+      individualPurchase?.meetingId,
       meetingId,
-      individualOrder,
-      individualOrder?.individualPurchaseId,
+      individualPurchase?.purchaseId,
     ],
-    queryFn: () => {
-      if (!individualOrder || !meetingId) {
-        return;
-      }
-      return getIndividualOrderInfo(
+    queryFn: () =>
+      getIndividualPurchaseInfo(
         Number(meetingId),
-        Number(individualOrder.individualPurchaseId),
-      );
-    },
-    enabled: !!individualOrder?.individualPurchaseId,
+        Number(individualPurchase?.purchaseId),
+      ),
+    enabled: !!individualPurchase?.purchaseId,
   });
 
   const { data: storeInfo } = useQuery({
@@ -161,12 +164,13 @@ const TeamOrderPage = () => {
   });
 
   // Calculate the remaining amount needed to meet the minimum purchase price
-  const totalFee = (teamMenu?.totalFee || 0) + (individualOrder?.totalFee || 0);
+  const totalFee =
+    (teamPurchase?.totalFee || 0) + (individualPurchase?.totalFee || 0);
   const minPurchasePrice = storeInfo?.minPurchasePrice ?? 0;
   const remainingAmount = minPurchasePrice - totalFee;
 
   // Handling loading and error states
-  if (isLoadingMeeting || isLoadingTeamMenus) return <Loading />;
+  if (isLoadingMeeting || isLoadingTeamPurchases) return <Loading />;
   if (isErrorMeeting) return <p>Error loading meeting data</p>;
 
   return (
@@ -185,7 +189,7 @@ const TeamOrderPage = () => {
         <MeetingInfo meeting={meeting} />
 
         {meeting?.purchaseType === '함께 식사' && (
-          <TeamOrderItems teamMenus={teamMenus || { pages: [] }} />
+          <TeamOrderItems teamPurchases={teamPurchases || { pages: [] }} />
         )}
 
         <RemainingAmountText>

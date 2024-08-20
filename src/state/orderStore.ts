@@ -6,58 +6,97 @@ interface Time {
   minute: string;
 }
 
+interface Address {
+  postal: string;
+  streetAddress: string;
+  detailAddress: string;
+}
+
 interface OrderFormData {
-  mealType: string;
-  orderType: string;
-  meetingPlace: string;
-  deliveryPlace: string;
+  storeId: number;
+  purchaseType: string;
   minHeadcount: number;
   maxHeadcount: number;
-  additionalInfo: string;
+  isEarlyPaymentAvailable: boolean;
+  paymentAvailableAt: Date;
+  deliveredAddress: Address;
+  metAddress: Address;
+  description: string;
   time: Time;
 }
 
 interface OrderStore {
   formData: OrderFormData;
-  setMealType: (mealType: string | null) => void;
-  setOrderType: (orderType: string | null) => void;
-  setMeetingPlace: (meetingPlace: string) => void;
-  setDeliveryPlace: (deliveryPlace: string) => void;
+  setStoreId: (storeId: number) => void;
+  setPurchaseType: (purchaseType: string) => void;
   setMinHeadcount: (minHeadcount: number) => void;
   setMaxHeadcount: (maxHeadcount: number) => void;
-  setAdditionalInfo: (additionalInfo: string) => void;
+  setIsEarlyPaymentAvailable: (isAvailable: boolean) => void;
+  setPaymentAvailableAt: () => void;
+  setDeliveredAddress: (address: Address) => void;
+  setMetAddress: (address: Address) => void;
+  setDescription: (description: string) => void;
   setTime: (time: Partial<Time>) => void;
+  setButtonActive: (isActive: boolean) => void;
 }
 
 export const useOrderStore = create<OrderStore>((set) => ({
   formData: {
-    mealType: 'option1',
-    orderType: 'optionA',
-    meetingPlace: '',
-    deliveryPlace: '',
+    storeId: 0,
+    purchaseType: '',
     minHeadcount: 1,
     maxHeadcount: 1,
-    additionalInfo: '',
+    isEarlyPaymentAvailable: false,
+    paymentAvailableAt: new Date(),
+    deliveredAddress: {
+      postal: '',
+      streetAddress: '',
+      detailAddress: '',
+    },
+    metAddress: {
+      postal: '',
+      streetAddress: '',
+      detailAddress: '',
+    },
+    description: '',
     time: { amPm: '오전', hour: '', minute: '' },
   },
-  setMealType: (mealType) =>
+  setStoreId: (storeId) =>
     set((state) => ({
-      formData: { ...state.formData, mealType: mealType ?? 'defaultOption' },
+      formData: { ...state.formData, storeId },
     })),
-  setOrderType: (orderType) =>
+  setPurchaseType: (purchaseType) =>
     set((state) => ({
-      formData: { ...state.formData, orderType: orderType ?? 'defaultOption' },
+      formData: { ...state.formData, purchaseType },
     })),
-  setMeetingPlace: (meetingPlace) =>
-    set((state) => ({ formData: { ...state.formData, meetingPlace } })),
-  setDeliveryPlace: (deliveryPlace) =>
-    set((state) => ({ formData: { ...state.formData, deliveryPlace } })),
   setMinHeadcount: (minHeadcount) =>
-    set((state) => ({ formData: { ...state.formData, minHeadcount } })),
+    set((state) => ({
+      formData: { ...state.formData, minHeadcount },
+    })),
   setMaxHeadcount: (maxHeadcount) =>
-    set((state) => ({ formData: { ...state.formData, maxHeadcount } })),
-  setAdditionalInfo: (additionalInfo) =>
-    set((state) => ({ formData: { ...state.formData, additionalInfo } })),
+    set((state) => ({
+      formData: { ...state.formData, maxHeadcount },
+    })),
+  setIsEarlyPaymentAvailable: (isAvailable) =>
+    set((state) => ({
+      formData: { ...state.formData, isEarlyPaymentAvailable: isAvailable },
+    })),
+  setPaymentAvailableAt: () =>
+    set((state) => ({
+      formData: { ...state.formData, paymentAvailableAt: new Date() },
+    })),
+  setDeliveredAddress: (address) =>
+    set((state) => ({
+      formData: { ...state.formData, deliveredAddress: address },
+    })),
+  setMetAddress: (address) =>
+    set((state) => ({
+      formData: { ...state.formData, metAddress: address },
+    })),
+  setDescription: (description) =>
+    set((state) => ({
+      formData: { ...state.formData, description },
+    })),
   setTime: (newTime) =>
     set((state) => ({
       formData: {
@@ -68,4 +107,5 @@ export const useOrderStore = create<OrderStore>((set) => ({
         },
       },
     })),
+  setButtonActive: (isActive) => set({ isButtonActive: isActive }),
 }));

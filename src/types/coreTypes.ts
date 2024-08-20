@@ -63,25 +63,17 @@ export interface MenuType {
 }
 
 // Team menu type definition
-export interface TeamMenuType {
-  teamPurchaseId: number;
+export interface TeamPurchaseType {
   meetingId: number;
-  storeId: number;
   totalFee: number;
   items: ItemType[];
 }
 
 // Individual order type definition
-export interface IndividualOrderType {
-  individualPurchaseId: number;
+export interface IndividualPurchaseType {
   meetingId: number;
-  storeId: number;
   totalFee: number;
   items: ItemType[];
-}
-
-export interface IndividualOrderItems extends Response {
-  content: ItemType[];
 }
 
 export interface RestaurantsResponse extends Response {
@@ -97,10 +89,10 @@ export interface MeetingsResponse extends Response {
   content: MeetingType[];
 }
 
-export interface TeamMenusResponse extends Response {
-  content: TeamMenuType[];
+export interface TeamPurchasesResponse extends Response {
+  content: TeamPurchaseType[];
 }
 
-export interface IndividualOrdersResponse extends Response {
-  content: IndividualOrderType[];
+export interface IndividualPurchasesResponse extends Response {
+  content: IndividualPurchaseType[];
 }
