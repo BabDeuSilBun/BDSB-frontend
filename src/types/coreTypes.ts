@@ -1,4 +1,4 @@
-import { Image, ItemType, Response, Address } from './types';
+import { Address, Image, ItemType, Response } from './types';
 
 // Address interfaces
 interface DeliveryAddress {

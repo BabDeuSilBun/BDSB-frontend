@@ -1,14 +1,15 @@
-import { EvaluateType, MyDataType } from '@/types/authTypes';
+import { EvaluateType, MyDataType } from '@/types/myDataTypes';
 
 export const myData: MyDataType = {
+  userId: 1,
   email: 'bdsb@gmail.com',
   name: '밥친구',
   nickname: '오끼먹는 김말이',
   phoneNumber: '01012345678',
   backAccount: {
-    bank: '신한',
-    accountNumber: '110513453157',
-    accountOwner: '밥친구',
+    bank: '',
+    accountNumber: '',
+    accountOwner: '',
   },
   point: 2500,
   address: {
@@ -24,7 +25,7 @@ export const myData: MyDataType = {
   isBanned: false,
 };
 
-export const Evaluates: EvaluateType = {
+export const evaluates: EvaluateType = {
   positiveEvaluate: [
     { content: '소통이 잘 돼요', count: 10 },
     { content: '같이 먹기 즐거워요', count: 3 },
