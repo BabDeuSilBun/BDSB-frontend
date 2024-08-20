@@ -7,7 +7,6 @@ import {
   HalfBtnLight,
   HalfBtnPurple,
 } from '@/styles/button';
-import { limitWordsPerLine } from '@/utils/descriptionFormatter';
 
 interface ModalProps {
   type: 'image' | 'text' | 'info';
@@ -106,6 +105,9 @@ const Description = styled.p`
   color: var(--text);
   margin-top: var(--spacing-sm);
   margin-bottom: var(--spacing-lg);
+  word-break: keep-all;
+  white-space: normal;
+  overflow-wrap: break-word;
   ${mediaQueries.tablet} {
     font-size: var(--font-size-md); /* 16px */
   }
@@ -147,8 +149,9 @@ const InfoTitle = styled.div`
 
 const InfoDescription = styled.div`
   flex-basis: 70%;
-  word-wrap: break-word;
-  padding-right: 0;
+  word-break: keep-all;
+  white-space: normal;
+  overflow-wrap: break-word;
   text-align: left;
 `;
 
@@ -172,10 +175,6 @@ const Modal: React.FC<ModalProps> = ({
   onClose = () => {},
   context,
 }) => {
-  const formattedDescription = description
-    ? limitWordsPerLine(description, 18)
-    : '';
-
   const renderButtons = () => {
     switch (context) {
       case 'leaderBefore':
@@ -212,6 +211,25 @@ const Modal: React.FC<ModalProps> = ({
           </BtnGroup>
         );
       default:
+        if (type === 'info') {
+          return (
+            <BaseBtn onClick={onButtonClick3} style={{ width: '17.625rem' }}>
+              {buttonText || '닫기'}
+            </BaseBtn>
+          );
+        }
+        if (type === 'text') {
+          return (
+            <BtnGroup>
+              <HalfBtnPurple onClick={onButtonClick1}>
+                {buttonText1 || '계속하기'}
+              </HalfBtnPurple>
+              <HalfBtnLight onClick={onButtonClick2}>
+                {buttonText2 || '종료하기'}
+              </HalfBtnLight>
+            </BtnGroup>
+          );
+        }
         return (
           <BaseBtn onClick={onButtonClick3} style={{ width: '17.625rem' }}>
             {buttonText || '닫기'}
@@ -229,9 +247,7 @@ const Modal: React.FC<ModalProps> = ({
         )}
         <Title1>{title1}</Title1>
         <Title2>{title2}</Title2>
-        <Description
-          dangerouslySetInnerHTML={{ __html: formattedDescription }}
-        />
+        <Description>{description}</Description>
         {type === 'info' ? (
           <>
             <InfoContainer>

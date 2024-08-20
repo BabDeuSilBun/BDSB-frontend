@@ -44,14 +44,14 @@ const AddressBtn = styled.button`
   text-align: left;
 `;
 
-const PostcodeWrapper = styled.div<{ isOpen: boolean }>`
+const PostcodeWrapper = styled.div<{ $isOpen: boolean }>`
   position: fixed;
   top: 60px;
   left: 0;
   width: 100%;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
-  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+  display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
   z-index: 1000;
@@ -120,7 +120,7 @@ const Step5Address = () => {
           위치로 설정해주세요.
         </Caption>
       </Flex>
-      <PostcodeWrapper isOpen={isPostcodeOpen}>
+      <PostcodeWrapper $isOpen={isPostcodeOpen}>
         <DaumPostcodeEmbed
           onComplete={handleComplete}
           style={{ width: '100%', height: '100%' }}
