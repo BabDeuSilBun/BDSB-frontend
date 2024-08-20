@@ -32,7 +32,7 @@ const Step1 = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
 
   const { purchaseType, metAddress, time } = formData;
   const [selectedOrderType, setSelectedOrderType] = useState<string | null>(
-    null, // Initially, nothing is selected
+    null,
   );
   const [error, setError] = useState<string | null>(null);
   const [showDefaultAddress, setShowDefaultAddress] = useState(true);
@@ -134,7 +134,7 @@ const Step1 = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
   useEffect(() => {
     const isActive =
       !!purchaseType &&
-      !!selectedOrderType && // Check if an order type is selected
+      !!selectedOrderType &&
       !!metAddress.streetAddress &&
       !!time.hour &&
       !!time.minute &&
