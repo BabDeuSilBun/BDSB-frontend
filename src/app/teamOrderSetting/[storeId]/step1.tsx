@@ -30,7 +30,10 @@ const Step1 = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
     setStoreId,
   } = useOrderStore();
 
-  const { purchaseType, isEarlyPaymentAvailable, metAddress, time } = formData;
+  const { purchaseType, metAddress, time } = formData;
+  const [selectedOrderType, setSelectedOrderType] = useState<string | null>(
+    null, // Initially, nothing is selected
+  );
   const [error, setError] = useState<string | null>(null);
   const [showDefaultAddress, setShowDefaultAddress] = useState(true);
 
@@ -40,8 +43,8 @@ const Step1 = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
   ];
 
   const options2 = [
-    { id: 1, name: '바로 주문', value: 'optionA' },
-    { id: 2, name: '예약 주문', value: 'optionB' },
+    { id: 1, name: '바로 주문', value: '바로 주문' },
+    { id: 2, name: '예약 주문', value: '예약 주문' },
   ];
 
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
@@ -123,10 +126,15 @@ const Step1 = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
     setDeliveredAddress(address);
   };
 
+  const handleOrderTypeChange = (value) => {
+    setSelectedOrderType(value);
+    setIsEarlyPaymentAvailable(value === '바로 주문');
+  };
+
   useEffect(() => {
     const isActive =
       !!purchaseType &&
-      !!isEarlyPaymentAvailable &&
+      !!selectedOrderType && // Check if an order type is selected
       !!metAddress.streetAddress &&
       !!time.hour &&
       !!time.minute &&
@@ -134,7 +142,7 @@ const Step1 = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
     setButtonActive(isActive);
   }, [
     purchaseType,
-    isEarlyPaymentAvailable,
+    selectedOrderType,
     metAddress,
     time.hour,
     time.minute,
@@ -184,8 +192,8 @@ const Step1 = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
       />
       <CustomDropdown
         options={options2}
-        selectedValue={isEarlyPaymentAvailable ? '바로 주문' : '예약 주문'}
-        onSelect={(value) => setIsEarlyPaymentAvailable(value === '바로 주문')}
+        selectedValue={selectedOrderType}
+        onSelect={handleOrderTypeChange}
         isOpen={isDropdownOpen2}
         onToggle={handleToggleDropdown2}
         placeholder="주문 방식 선택"
