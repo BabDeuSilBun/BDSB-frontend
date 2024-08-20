@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { RestaurantType } from '@/types/coreTypes';
+import { getMyData } from '@/services/myDataService';
 import { useOrderStore } from '@/state/orderStore';
 import SettingImage from '@/components/meetings/settingImage';
 import SettingLabel from '@/components/meetings/settingLabel';
@@ -14,13 +15,27 @@ import TimeInput from '@/components/common/timeInput';
 import { CustomDropdown } from '@/components/common/dropdown';
 import InfoBox from '@/components/common/infoBox';
 import ErrorMessage from '@/components/meetings/errorMessage';
+import DefaultAddress from '@/components/meetings/defaultAddress';
+import debounce from '@/utils/debounce';
 
-const Step1 = () => {
-  const { formData, setMealType, setOrderType, setMeetingPlace, setTime } =
-    useOrderStore();
+const Step1 = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
+  const {
+    formData,
+    setPurchaseType,
+    setIsEarlyPaymentAvailable,
+    setDeliveredAddress,
+    setMetAddress,
+    setTime,
+    setButtonActive,
+    setStoreId,
+  } = useOrderStore();
 
-  const { mealType, orderType, meetingPlace, time } = formData;
+  const { purchaseType, metAddress, time } = formData;
+  const [selectedOrderType, setSelectedOrderType] = useState<string | null>(
+    null,
+  );
   const [error, setError] = useState<string | null>(null);
+  const [showDefaultAddress, setShowDefaultAddress] = useState(true);
 
   const options1 = [
     { id: 1, name: '함께 식사', value: 'option1' },
@@ -28,8 +43,8 @@ const Step1 = () => {
   ];
 
   const options2 = [
-    { id: 1, name: '바로 주문', value: 'optionA' },
-    { id: 2, name: '예약 주문', value: 'optionB' },
+    { id: 1, name: '바로 주문', value: '바로 주문' },
+    { id: 2, name: '예약 주문', value: '예약 주문' },
   ];
 
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
@@ -45,36 +60,47 @@ const Step1 = () => {
 
   const { storeId } = useParams();
 
+  useEffect(() => {
+    setStoreId(Number(storeId));
+  }, [storeId, setStoreId]);
+
   const { data: store } = useQuery<RestaurantType>({
     queryKey: ['storeInfo', storeId],
     queryFn: () => getRestaurantInfo(Number(storeId)),
     enabled: !!storeId,
   });
 
-  const validateTime = (formattedTime: string) => {
-    if (store && store.openTime && store.closeTime) {
-      const [selectedHour, selectedMinute] = formattedTime
-        .split(':')
-        .map(Number);
-      const [openHour, openMinute] = store.openTime.split(':').map(Number);
-      const [closeHour, closeMinute] = store.closeTime.split(':').map(Number);
+  const { data, isLoading } = useQuery({
+    queryKey: ['myData'],
+    queryFn: getMyData,
+  });
 
-      const selectedTimeInMinutes = selectedHour * 60 + selectedMinute;
-      const openTimeInMinutes = openHour * 60 + openMinute;
-      const closeTimeInMinutes = closeHour * 60 + closeMinute;
+  const debouncedValidateTime = useMemo(() => {
+    return debounce((formattedTime: string) => {
+      if (store && store.openTime && store.closeTime) {
+        const [selectedHour, selectedMinute] = formattedTime
+          .split(':')
+          .map(Number);
+        const [openHour, openMinute] = store.openTime.split(':').map(Number);
+        const [closeHour, closeMinute] = store.closeTime.split(':').map(Number);
 
-      if (
-        selectedTimeInMinutes < openTimeInMinutes ||
-        selectedTimeInMinutes > closeTimeInMinutes
-      ) {
-        setError(
-          `영업 시간은 ${store.openTime}부터 ${store.closeTime}까지입니다.\n이 시간 내로 선택해주세요.`,
-        );
-      } else {
-        setError(null);
+        const selectedTimeInMinutes = selectedHour * 60 + selectedMinute;
+        const openTimeInMinutes = openHour * 60 + openMinute;
+        const closeTimeInMinutes = closeHour * 60 + closeMinute;
+
+        if (
+          selectedTimeInMinutes < openTimeInMinutes ||
+          selectedTimeInMinutes > closeTimeInMinutes
+        ) {
+          setError(
+            `영업 시간은 ${store.openTime}부터 ${store.closeTime}까지입니다.\n이 시간 내로 선택해주세요.`,
+          );
+        } else {
+          setError(null);
+        }
       }
-    }
-  };
+    }, 1000);
+  }, [store]);
 
   const handleTimeChange = (
     newTime: Partial<{ amPm: string; hour: string; minute: string }>,
@@ -93,8 +119,37 @@ const Step1 = () => {
 
     const formattedTime = `${hour}:${minute}`;
     setTime(updatedTime);
-    validateTime(formattedTime);
+    debouncedValidateTime(formattedTime);
   };
+
+  const handleAddressChange = (address) => {
+    setDeliveredAddress(address);
+  };
+
+  const handleOrderTypeChange = (value) => {
+    setSelectedOrderType(value);
+    setIsEarlyPaymentAvailable(value === '바로 주문');
+  };
+
+  useEffect(() => {
+    const isActive =
+      !!purchaseType &&
+      !!selectedOrderType &&
+      !!metAddress.streetAddress &&
+      !!time.hour &&
+      !!time.minute &&
+      (showDefaultAddress || !!formData.deliveredAddress.streetAddress);
+    setButtonActive(isActive);
+  }, [
+    purchaseType,
+    selectedOrderType,
+    metAddress,
+    time.hour,
+    time.minute,
+    formData.deliveredAddress,
+    showDefaultAddress,
+    setButtonActive,
+  ]);
 
   return (
     <>
@@ -102,11 +157,11 @@ const Step1 = () => {
       <SettingLabel text="팀 주문 방식" />
       <CustomDropdown
         options={options1}
-        selectedValue={mealType}
-        onSelect={setMealType}
+        selectedValue={purchaseType}
+        onSelect={setPurchaseType}
         isOpen={isDropdownOpen1}
         onToggle={handleToggleDropdown1}
-        placeholder=""
+        placeholder="식사 방식 선택"
       />
       <InfoBox
         textItems={[
@@ -137,11 +192,11 @@ const Step1 = () => {
       />
       <CustomDropdown
         options={options2}
-        selectedValue={orderType}
-        onSelect={setOrderType}
+        selectedValue={selectedOrderType}
+        onSelect={handleOrderTypeChange}
         isOpen={isDropdownOpen2}
         onToggle={handleToggleDropdown2}
-        placeholder=""
+        placeholder="주문 방식 선택"
       />
       <InfoBox
         textItems={[
@@ -171,13 +226,29 @@ const Step1 = () => {
         showIcon={false}
       />
       <SettingLabel text="수령 장소" />
-      <SettingAddress />
+      {isLoading ? (
+        <p>기본 주소 불러오는 중입니다...</p>
+      ) : showDefaultAddress && data?.address?.streetAddress ? (
+        <DefaultAddress
+          streetAddress={data.address.streetAddress}
+          detailAddress={data.address.detailAddress}
+          onChangeAddress={() => setShowDefaultAddress(false)}
+        />
+      ) : (
+        <SettingAddress
+          isPostcodeOpen={isPostcodeOpen}
+          setIsPostcodeOpen={setIsPostcodeOpen}
+          onChangeAddress={handleAddressChange}
+        />
+      )}
       <SettingLabel text="모임 장소" />
       <input
         type="text"
         placeholder="모임 장소"
-        value={meetingPlace}
-        onChange={(e) => setMeetingPlace(e.target.value)}
+        value={metAddress.streetAddress}
+        onChange={(e) =>
+          setMetAddress({ ...metAddress, streetAddress: e.target.value })
+        }
       />
       <SettingLabel text="주문 대기 최대 기한" />
       <TimeInput onTimeChange={handleTimeChange} time={time} />

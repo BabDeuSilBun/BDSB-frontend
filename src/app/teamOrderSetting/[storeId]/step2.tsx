@@ -1,9 +1,12 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { RestaurantType } from '@/types/coreTypes';
+import { getMyData } from '@/services/myDataService';
 import { useOrderStore } from '@/state/orderStore';
 import SettingLabel from '@/components/meetings/settingLabel';
 import SettingHeadcount from '@/components/meetings/settingHeadcount';
@@ -11,15 +14,30 @@ import SettingDescription from '@/components/meetings/settingDescription';
 import DeliveryFees from '@/components/meetings/deliveryFee';
 
 const Step2 = () => {
-  const { formData, setMinHeadcount, setMaxHeadcount, setAdditionalInfo } =
-    useOrderStore();
-  const { minHeadcount = 1, maxHeadcount = 1, additionalInfo } = formData;
+  const {
+    formData,
+    setMinHeadcount,
+    setMaxHeadcount,
+    setDescription,
+    setButtonActive,
+  } = useOrderStore();
+  const { minHeadcount = 1, maxHeadcount = 1, description } = formData;
   const { storeId } = useParams();
 
   const { data: store } = useQuery<RestaurantType>({
     queryKey: ['storeInfo', storeId],
     queryFn: () => getRestaurantInfo(Number(storeId)),
     enabled: !!storeId,
+  });
+
+  useEffect(() => {
+    const isActive = minHeadcount > 0 && maxHeadcount >= minHeadcount;
+    setButtonActive(isActive);
+  }, [minHeadcount, maxHeadcount, setButtonActive]);
+
+  useQuery({
+    queryKey: ['myData'],
+    queryFn: getMyData,
   });
 
   if (!store) {
@@ -49,10 +67,9 @@ const Step2 = () => {
       <SettingLabel text="추가 설명" />
       <SettingDescription
         placeholder="모임원의 조건이나 본인 소개 등 추가적으로 당부할 말이 있다면 자유롭게 적어주세요."
-        value={additionalInfo}
-        onValueChange={setAdditionalInfo}
+        value={description}
+        onValueChange={setDescription}
       />
-
       <DeliveryFees
         totalDeliveryFee={deliveryPrice}
         maxIndividualDeliveryFee={maxIndividualDeliveryFee}

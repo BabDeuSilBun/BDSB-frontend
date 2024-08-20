@@ -1,13 +1,11 @@
 import {
-  IndividualOrdersResponse,
-  IndividualOrderType,
+  IndividualPurchasesResponse,
+  IndividualPurchaseType,
 } from '@/types/coreTypes';
 
-export const individualOrders: IndividualOrderType[] = [
+export const individualPurchases: IndividualPurchaseType[] = [
   {
-    individualPurchaseId: 1,
     meetingId: 1,
-    storeId: 1,
     totalFee: 30000,
     items: [
       {
@@ -31,9 +29,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 2,
     meetingId: 2,
-    storeId: 2,
     totalFee: 35000,
     items: [
       {
@@ -57,9 +53,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 3,
     meetingId: 3,
-    storeId: 3,
     totalFee: 27000,
     items: [
       {
@@ -83,9 +77,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 4,
     meetingId: 4,
-    storeId: 4,
     totalFee: 25000,
     items: [
       {
@@ -109,9 +101,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 5,
     meetingId: 5,
-    storeId: 5,
     totalFee: 15000,
     items: [
       {
@@ -135,9 +125,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 6,
     meetingId: 6,
-    storeId: 6,
     totalFee: 38000,
     items: [
       {
@@ -161,9 +149,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 7,
     meetingId: 7,
-    storeId: 7,
     totalFee: 62000,
     items: [
       {
@@ -187,9 +173,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 8,
     meetingId: 8,
-    storeId: 8,
     totalFee: 19000,
     items: [
       {
@@ -213,9 +197,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 9,
     meetingId: 9,
-    storeId: 9,
     totalFee: 14000,
     items: [
       {
@@ -239,9 +221,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 10,
     meetingId: 10,
-    storeId: 10,
     totalFee: 28500,
     items: [
       {
@@ -274,9 +254,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 11,
     meetingId: 11,
-    storeId: 11,
     totalFee: 43000,
     items: [
       {
@@ -300,9 +278,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 12,
     meetingId: 12,
-    storeId: 12,
     totalFee: 46000,
     items: [
       {
@@ -335,9 +311,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 13,
     meetingId: 13,
-    storeId: 13,
     totalFee: 41000,
     items: [
       {
@@ -370,9 +344,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 14,
     meetingId: 14,
-    storeId: 14,
     totalFee: 38000,
     items: [
       {
@@ -405,9 +377,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 15,
     meetingId: 15,
-    storeId: 15,
     totalFee: 77000,
     items: [
       {
@@ -431,9 +401,7 @@ export const individualOrders: IndividualOrderType[] = [
     ],
   },
   {
-    individualPurchaseId: 16,
     meetingId: 16,
-    storeId: 16,
     totalFee: 40000,
     items: [
       {
@@ -469,28 +437,26 @@ export const individualOrders: IndividualOrderType[] = [
 
 const pageSize = 10;
 
-export const paginatedIndividualOrders: {
-  [key: number]: IndividualOrdersResponse[];
-} = individualOrders.reduce(
-  (acc, order) => {
-    const totalPages = Math.ceil(order.items.length / pageSize);
+export const paginatedIndividualPurchases: {
+  [key: number]: IndividualPurchasesResponse[];
+} = individualPurchases.reduce(
+  (acc, purchase) => {
+    const totalPages = Math.ceil(purchase.items.length / pageSize);
     const paginatedItems = Array.from({ length: totalPages }, (_, index) => {
       const start = index * pageSize;
       const end = start + pageSize;
 
-      // Wrap the items inside an IndividualOrderType
-      const individualOrderPage: IndividualOrderType = {
-        individualPurchaseId: order.individualPurchaseId,
-        meetingId: order.meetingId,
-        storeId: order.storeId,
-        totalFee: order.totalFee,
-        items: order.items.slice(start, end),
+      // Wrap the items inside an IndividualPurchaseType
+      const individualPurchasePage: IndividualPurchaseType = {
+        meetingId: purchase.meetingId,
+        totalFee: purchase.totalFee,
+        items: purchase.items.slice(start, end),
       };
 
       const isLastPage = index === totalPages - 1;
 
       return {
-        content: [individualOrderPage], // Wrap the paginated individualOrderPage in an array
+        content: [individualPurchasePage], // Wrap the paginated individualPurchasePage in an array
         pageable: {
           pageNumber: index, // 현재 페이지 번호
           pageSize, // 페이지당 데이터 개수
@@ -502,8 +468,8 @@ export const paginatedIndividualOrders: {
       };
     });
 
-    acc[order.meetingId] = paginatedItems;
+    acc[purchase.meetingId] = paginatedItems;
     return acc;
   },
-  {} as { [key: number]: IndividualOrdersResponse[] },
+  {} as { [key: number]: IndividualPurchasesResponse[] },
 );

@@ -1,6 +1,9 @@
 'use client';
 
-import { useSignUpStore } from '@/state/authStore';
+import { ChangeEvent, useEffect } from 'react';
+
+import { useOrderStore } from '@/state/orderStore';
+import DaumPostcodeEmbed, { Address } from 'react-daum-postcode';
 import styled from 'styled-components';
 import SearchIcon from '@/components/svg/search';
 
@@ -13,10 +16,14 @@ const Flex = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  width: 100vw;
+  padding: 0 var(--spacing-md);
 `;
 
 const Wrapper = styled.div`
   position: relative;
+  cursor: pointer;
+  width: 100%;
 `;
 
 const IconWrapper = styled.div`
@@ -40,25 +47,72 @@ const AddressBtn = styled.button`
   text-align: left;
 `;
 
-const SettingAddress = () => {
-  const { address, setAddress } = useSignUpStore();
+const PostcodeWrapper = styled.div<{ $isOpen: boolean }>`
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
+
+const SettingAddress = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
+  const { formData, setDeliveredAddress, setButtonActive } = useOrderStore();
+  const { streetAddress = '', detailAddress = '' } =
+    formData?.deliveredAddress || {};
+
+  useEffect(() => {
+    setButtonActive(!!streetAddress && !!detailAddress);
+  }, [setButtonActive, streetAddress, detailAddress]);
+
+  const handleComplete = (data: Address) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress +=
+          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+
+    setDeliveredAddress({
+      streetAddress: fullAddress,
+      postal: data.zonecode,
+      detailAddress: '',
+    });
+
+    setIsPostcodeOpen(false);
+  };
+
+  const onChangeDetailAddress = (e: ChangeEvent<HTMLInputElement>) => {
+    setDeliveredAddress({
+      ...formData.deliveredAddress,
+      detailAddress: e.target.value,
+    });
+  };
 
   return (
     <div>
       <Flex>
-        <Wrapper>
-          <AddressBtn>우편번호 검색</AddressBtn>
+        <Wrapper onClick={() => setIsPostcodeOpen(true)}>
+          <AddressBtn>{streetAddress || '우편번호 검색'}</AddressBtn>
           <IconWrapper>
             <SearchIcon color="var(--gray300)" />
           </IconWrapper>
         </Wrapper>
         <input
           type="text"
-          value={address?.detailAddress || ''}
-          onChange={(e) =>
-            setAddress &&
-            setAddress({ ...address, detailAddress: e.target.value })
-          }
+          value={detailAddress}
+          onChange={onChangeDetailAddress}
           placeholder="상세 주소"
         />
         <Caption>
@@ -66,6 +120,12 @@ const SettingAddress = () => {
           위치로 설정해주세요.
         </Caption>
       </Flex>
+      <PostcodeWrapper $isOpen={isPostcodeOpen}>
+        <DaumPostcodeEmbed
+          onComplete={handleComplete}
+          style={{ width: '100%', height: '100%' }}
+        />
+      </PostcodeWrapper>
     </div>
   );
 };

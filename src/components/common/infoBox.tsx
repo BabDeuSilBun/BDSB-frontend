@@ -33,7 +33,7 @@ const InfoBoxWrapper = styled.div<{ width?: string; $isAbsolute?: boolean }>`
   background-color: var(--gray100);
   border: 1px solid var(--gray200);
   padding: var(--spacing-xs);
-  margin: var(--spacing-xs) 0;
+  margin: var(--spacing-sm) 0;
   border-radius: var(--border-radius-md);
   width: ${({ width }) => width || '100%'};
 
