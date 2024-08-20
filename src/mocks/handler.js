@@ -3,6 +3,7 @@ import { teamOrderHandlers } from './handlers/teamOrderHandlers';
 import { menuHandlers } from './handlers/menuHandlers';
 import { teamMenuHandlers } from './handlers/teamMenuHandlers';
 import { individualOrderHandlers } from './handlers/individualOrderHandlers';
+import { myDataHandlers } from './handlers/myDataHandler';
 import { authHandlers } from './handlers/authHandlers';
 
 export const handler = [
@@ -11,5 +12,6 @@ export const handler = [
   ...menuHandlers,
   ...teamMenuHandlers,
   ...individualOrderHandlers,
+  ...myDataHandlers,
   ...authHandlers,
 ];
