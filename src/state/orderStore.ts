@@ -27,6 +27,7 @@ interface OrderFormData {
 
 interface OrderStore {
   formData: OrderFormData;
+  isButtonActive: boolean;
   setStoreId: (storeId: number) => void;
   setPurchaseType: (purchaseType: string) => void;
   setMinHeadcount: (minHeadcount: number) => void;
@@ -61,6 +62,7 @@ export const useOrderStore = create<OrderStore>((set) => ({
     description: '',
     time: { amPm: '오전', hour: '', minute: '' },
   },
+  isButtonActive: false,
   setStoreId: (storeId) =>
     set((state) => ({
       formData: { ...state.formData, storeId },

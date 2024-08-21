@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
@@ -17,8 +17,15 @@ import InfoBox from '@/components/common/infoBox';
 import ErrorMessage from '@/components/meetings/errorMessage';
 import DefaultAddress from '@/components/meetings/defaultAddress';
 import debounce from '@/utils/debounce';
+import { Address } from 'react-daum-postcode';
 
-const Step1 = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
+interface Step1Props {
+  isPostcodeOpen: boolean;
+  setIsPostcodeOpen: (open: boolean) => void;
+  onAddressChange?: (addressData: Address) => void;
+}
+
+const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
   const {
     formData,
     setPurchaseType,
@@ -122,13 +129,27 @@ const Step1 = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
     debouncedValidateTime(formattedTime);
   };
 
-  const handleAddressChange = (address) => {
-    setDeliveredAddress(address);
+  const handleAddressChange = (addressData: Address) => {
+    const formattedAddress = {
+      postal: addressData.zonecode,
+      streetAddress: `${addressData.address}${addressData.bname ? `, ${addressData.bname}` : ''}${addressData.buildingName ? `, ${addressData.buildingName}` : ''}`,
+      detailAddress: '',
+    };
+
+    setDeliveredAddress(formattedAddress);
   };
 
-  const handleOrderTypeChange = (value) => {
-    setSelectedOrderType(value);
-    setIsEarlyPaymentAvailable(value === '바로 주문');
+  const handleOrderTypeChange = (value: string | null) => {
+    if (value !== null) {
+      setSelectedOrderType(value);
+      setIsEarlyPaymentAvailable(value === '바로 주문');
+    }
+  };
+
+  const handleSelectPurchaseType = (value: string | null) => {
+    if (value !== null) {
+      setPurchaseType(value);
+    }
   };
 
   useEffect(() => {
@@ -158,7 +179,7 @@ const Step1 = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
       <CustomDropdown
         options={options1}
         selectedValue={purchaseType}
-        onSelect={setPurchaseType}
+        onSelect={handleSelectPurchaseType}
         isOpen={isDropdownOpen1}
         onToggle={handleToggleDropdown1}
         placeholder="식사 방식 선택"
@@ -238,7 +259,7 @@ const Step1 = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
         <SettingAddress
           isPostcodeOpen={isPostcodeOpen}
           setIsPostcodeOpen={setIsPostcodeOpen}
-          onChangeAddress={handleAddressChange}
+          onAddressChange={handleAddressChange}
         />
       )}
       <SettingLabel text="모임 장소" />

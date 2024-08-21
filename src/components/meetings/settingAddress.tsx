@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, FC, useEffect } from 'react';
 
 import { useOrderStore } from '@/state/orderStore';
 import DaumPostcodeEmbed, { Address } from 'react-daum-postcode';
@@ -60,7 +60,17 @@ const PostcodeWrapper = styled.div<{ $isOpen: boolean }>`
   z-index: 1000;
 `;
 
-const SettingAddress = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
+interface SettingAddressProps {
+  isPostcodeOpen: boolean;
+  setIsPostcodeOpen: (open: boolean) => void;
+  onAddressChange?: (addressData: Address) => void;
+}
+
+const SettingAddress: FC<SettingAddressProps> = ({
+  isPostcodeOpen,
+  setIsPostcodeOpen,
+  onAddressChange,
+}) => {
   const { formData, setDeliveredAddress, setButtonActive } = useOrderStore();
   const { streetAddress = '', detailAddress = '' } =
     formData?.deliveredAddress || {};
@@ -70,25 +80,15 @@ const SettingAddress = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
   }, [setButtonActive, streetAddress, detailAddress]);
 
   const handleComplete = (data: Address) => {
-    let fullAddress = data.address;
-    let extraAddress = '';
-
-    if (data.addressType === 'R') {
-      if (data.bname !== '') {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== '') {
-        extraAddress +=
-          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
-    }
-
     setDeliveredAddress({
-      streetAddress: fullAddress,
+      streetAddress: data.address,
       postal: data.zonecode,
       detailAddress: '',
     });
+
+    if (onAddressChange) {
+      onAddressChange(data);
+    }
 
     setIsPostcodeOpen(false);
   };
