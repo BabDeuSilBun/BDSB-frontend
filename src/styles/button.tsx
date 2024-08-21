@@ -249,7 +249,7 @@ const RoundBtnFilled: React.FC<
 interface SmallRdBtnProps {
   active?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  children: React.ReactNode; // children 속성을 명시적으로 추가
+  children: React.ReactNode;
 }
 
 const SmallRdBtn: React.FC<SmallRdBtnProps> = ({

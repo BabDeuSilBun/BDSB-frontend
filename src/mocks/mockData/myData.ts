@@ -1,8 +1,8 @@
 import {
   EvaluateType,
   MyDataType,
-  PointType,
   PointsResponse,
+  PointType,
 } from '@/types/myDataTypes';
 
 export const myData: MyDataType = {
@@ -44,7 +44,7 @@ export const evaluates: EvaluateType = {
   ],
 };
 
-export const pointsDetails: PointType[] = [
+const pointsDetails: PointType[] = [
   {
     createdAt: '2024-07-19T06:36:00',
     store: '교촌치킨',

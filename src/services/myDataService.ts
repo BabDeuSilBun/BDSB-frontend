@@ -2,17 +2,20 @@ import axios from 'axios';
 
 import {
   EvaluateType,
+  InquiryResponse,
   MyDataType,
   PointsResponse,
 } from '@/types/myDataTypes';
-import { apiClient } from './apiClient';
 import { GetListParams } from '@/types/types';
+
+import { apiClient } from './apiClient';
 
 // import { httpClientForCredentials } from './auth/authClient';
 
 export const MY_PROFILE_API_URL = '/api/users/my-page';
 export const EVALUATE_LIST_API_URL = '/api/users/evaluates';
 export const POINT_LIST_API_URL = '/api/users/points';
+export const INQUIRY_LIST_API_URL = 'api/users/inquires';
 
 export const getMyData = async (): Promise<MyDataType> => {
   try {
@@ -59,6 +62,43 @@ export const getPointDetailList = async ({
     console.error('Error fetching points detail lists:', error);
     throw new Error(
       '포인트 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
+  }
+};
+
+export const getInquiries = async ({
+  page = 0,
+  size = 10,
+}: GetListParams): Promise<InquiryResponse> => {
+  try {
+    const response = await apiClient.get<InquiryResponse>(
+      INQUIRY_LIST_API_URL,
+      {
+        params: {
+          size,
+          page,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching points detail lists:', error);
+    throw new Error(
+      '문의 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
+  }
+};
+
+export const getInquiryDetail = async (inquiryId: number) => {
+  try {
+    const response = await apiClient.get(
+      INQUIRY_LIST_API_URL.replace('{inquiryId}', inquiryId.toString()),
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching inquiry data:', error);
+    throw new Error(
+      '문의 상세 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
     );
   }
 };

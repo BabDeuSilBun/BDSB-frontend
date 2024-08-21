@@ -3,7 +3,7 @@ import {
   IndividualPurchaseType,
 } from '@/types/coreTypes';
 
-export const individualPurchases: IndividualPurchaseType[] = [
+const individualPurchases: IndividualPurchaseType[] = [
   {
     meetingId: 1,
     totalFee: 30000,

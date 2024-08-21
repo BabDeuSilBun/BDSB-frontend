@@ -71,6 +71,9 @@ const theme = extendTheme({
           },
           _hover: { color: 'purple.300' },
         },
+        tabpanel: {
+          px: '0',
+        },
       },
     },
   },

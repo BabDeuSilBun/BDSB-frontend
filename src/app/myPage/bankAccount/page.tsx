@@ -13,7 +13,7 @@ import BankForm from './bankForm';
 import BankDrawer from './bankDrawer';
 
 const BankAccount = () => {
-  const [isActive, setIsActive] = useState(false);
+  const [isButtonActive, setIsActive] = useState(false);
   const [selectedBank, setSelectedBank] = useState<string | null>(null);
   const [bankAccount, setBankAccount] = useState<number | undefined>(undefined);
   const [owner, setOwner] = useState('');
@@ -70,8 +70,8 @@ const BankAccount = () => {
       <Footer
         type="button"
         buttonText="변경하기"
-        onButtonClick={isActive ? onClickSubmitBtn : undefined}
-        disabled={!isActive}
+        onButtonClick={isButtonActive ? onClickSubmitBtn : undefined}
+        disabled={!isButtonActive}
       />
     </>
   );

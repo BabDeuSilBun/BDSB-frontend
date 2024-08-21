@@ -1,12 +1,14 @@
 import { http, HttpResponse } from 'msw';
 import {
   EVALUATE_LIST_API_URL,
+  INQUIRY_LIST_API_URL,
   MY_PROFILE_API_URL,
   POINT_LIST_API_URL,
 } from '@/services/myDataService';
 
 import { evaluates, myData, paginatedPoints } from '../mockData/myData';
 import { applyFiltersAndSorting } from '../filteringAndSorting';
+import { inquiries, paginatedInquiries } from '../mockData/inquiries';
 
 export const myDataHandlers = [
   http.get(MY_PROFILE_API_URL, () => {
@@ -79,5 +81,48 @@ export const myDataHandlers = [
       console.error('Error parsing URL:', error);
       return HttpResponse.status(500).json({ message: 'Error parsing URL' });
     }
+  }),
+
+  http.get(INQUIRY_LIST_API_URL, async (req) => {
+    const { request } = await req;
+    const urlString = request.url.toString();
+
+    try {
+      const url = new URL(urlString);
+      const pageParam = Number(url.searchParams.get('page')) || 0;
+      const size = Number(url.searchParams.get('size'));
+
+      const paginatedResponse = paginatedInquiries[pageParam];
+
+      if (!paginatedResponse) {
+        return HttpResponse.json({ message: 'Page not found' });
+      }
+
+      const filteredContent = applyFiltersAndSorting(
+        paginatedResponse.content,
+        { size },
+      );
+
+      return HttpResponse.json({
+        ...paginatedResponse,
+        content: filteredContent,
+      });
+    } catch (error) {
+      console.error('Error parsing URL:', error);
+      return HttpResponse.status(500).json({ message: 'Error parsing URL' });
+    }
+  }),
+
+  http.get(`${INQUIRY_LIST_API_URL}/:inquiryId`, (req) => {
+    const inquiryId = Number(req.params.inquiryId);
+    const selectedInquiry = inquiries.find(
+      (item) => item.inquiryId === inquiryId,
+    );
+    if (selectedInquiry) {
+      return HttpResponse.json(selectedInquiry);
+    }
+    return HttpResponse.status(404).json({
+      message: 'SelectedInquiry is not found',
+    });
   }),
 ];
