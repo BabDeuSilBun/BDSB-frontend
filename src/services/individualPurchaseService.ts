@@ -13,7 +13,6 @@ const INDIVIDUAL_PURCHASE_API_URL =
 
 export const getIndividualPurchaseList = async ({
   page = 0,
-  schoolId = undefined,
   size = 10,
   meetingId,
 }: GetListParams & {
@@ -26,7 +25,6 @@ export const getIndividualPurchaseList = async ({
     );
     const response = await apiClient.get<IndividualPurchasesResponse>(url, {
       params: {
-        schoolId,
         size,
         page,
       },

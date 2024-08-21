@@ -37,10 +37,14 @@ export const individualPurchaseHandlers = [
       const meetingId = Number(req.params.meetingId);
       const purchaseId = Number(req.params.purchaseId);
 
-      const matchingOrders = individualPurchases.filter(
-        (purchase) => purchase.meetingId === meetingId,
-      );
-      const individualPurchase = matchingOrders.find(
+      const purchases = individualPurchases[meetingId];
+      if (!purchases) {
+        return HttpResponse.status(404).json({
+          message: 'Meeting not found',
+        });
+      }
+
+      const individualPurchase = purchases.find(
         (p) => p.purchaseId === purchaseId,
       );
 
@@ -49,7 +53,7 @@ export const individualPurchaseHandlers = [
       }
 
       return HttpResponse.status(404).json({
-        message: 'Individual purchase items not found',
+        message: 'Individual Purchase Item not found',
       });
     },
   ),

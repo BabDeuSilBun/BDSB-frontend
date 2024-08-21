@@ -8,7 +8,6 @@ const MENU_API_URL = '/api/stores/{storeId}/menus/{menuId}';
 
 export const getMenuList = async ({
   page = 0,
-  schoolId = undefined,
   size = 10,
   storeId,
 }: GetListParams & { storeId: number }): Promise<MenusResponse> => {
@@ -16,7 +15,6 @@ export const getMenuList = async ({
     const url = MENU_LIST_API_URL.replace('{storeId}', storeId.toString());
     const response = await apiClient.get<MenusResponse>(url, {
       params: {
-        schoolId,
         size,
         page,
       },

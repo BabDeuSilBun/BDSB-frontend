@@ -31,7 +31,12 @@ export const menuHandlers = [
     const storeId = Number(req.params.storeId);
     const menuId = Number(req.params.menuId);
 
-    const storeMenus = menus.filter((menu) => menu.storeId === storeId);
+    const storeMenus = menus[storeId];
+
+    if (!storeMenus) {
+      return HttpResponse.status(404).json({ message: 'Store not found' });
+    }
+
     const menu = storeMenus.find((m) => m.menuId === menuId);
 
     if (menu) {
