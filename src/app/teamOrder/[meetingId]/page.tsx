@@ -24,7 +24,7 @@ import Header from '@/components/layout/header';
 import MainImage from '@/components/meetings/mainImage';
 import MeetingStatus from '@/components/meetings/meetingStatus';
 import MeetingInfo from '@/components/meetings/meetingInfo';
-import TeamOrderItems from '@/components/meetings/teamOrderItems';
+import TeamPurchaseItems from '@/components/meetings/teamPurchaseItems';
 import Footer from '@/components/layout/footer';
 import styled from 'styled-components';
 import { formatCurrency } from '@/utils/currencyFormatter';
@@ -270,7 +270,7 @@ const TeamOrderPage = () => {
         <MeetingInfo meeting={meeting} />
 
         {meeting?.purchaseType === '함께 식사' && (
-          <TeamOrderItems teamPurchases={teamPurchases || { pages: [] }} />
+          <TeamPurchaseItems teamPurchases={teamPurchases || { pages: [] }} />
         )}
 
         <RemainingAmountText>
