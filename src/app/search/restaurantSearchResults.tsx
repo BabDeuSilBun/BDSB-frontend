@@ -6,7 +6,7 @@ import { Divider } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
-import RestaurantSkeleton from '@/components/listItems/restaurantSkeleton';
+import RestaurantSkeleton from '@/components/listItems/skeletons/restaurantSkeleton';
 import RestaurantItem from '@/components/listItems/restaurantItem';
 import { getRestaurantsList } from '@/services/restaurantService';
 import { useSearchParams } from 'next/navigation';

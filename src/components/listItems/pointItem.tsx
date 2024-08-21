@@ -38,11 +38,11 @@ const Contents = styled.div`
 `;
 
 const PointItem: React.FC<{ item: PointType }> = ({ item }) => {
-  const { formattedDate, formattedTime } = formatDateTime(item.createdAt);
+  const { formattedMonthDay, formattedTime } = formatDateTime(item.createdAt);
 
   return (
     <Container>
-      <span>{formattedDate}</span>
+      <span>{formattedMonthDay}</span>
       <div>
         <p>{item.store}</p>
         <Contents>

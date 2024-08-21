@@ -92,7 +92,7 @@ export const getInquiries = async ({
 export const getInquiryDetail = async (inquiryId: number) => {
   try {
     const response = await apiClient.get(
-      INQUIRY_LIST_API_URL.replace('{inquiryId}', inquiryId.toString()),
+      `${INQUIRY_LIST_API_URL}/${inquiryId}`,
     );
     return response.data;
   } catch (error) {

@@ -9,7 +9,7 @@ import Container from '@/styles/container';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getMyData, getPointDetailList } from '@/services/myDataService';
 import PointItem from '@/components/listItems/pointItem';
-import PointSkeleton from '@/components/listItems/pointSkeleton';
+import PointSkeleton from '@/components/listItems/skeletons/pointSkeleton';
 
 const ContainerSection = styled(Container)`
   display: flex;
