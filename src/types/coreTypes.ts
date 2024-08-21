@@ -55,7 +55,6 @@ export interface MeetingType extends CommonType {
 // Menu type definition
 export interface MenuType {
   menuId: number;
-  storeId: number;
   name: string;
   image: string;
   description: string;
@@ -64,14 +63,12 @@ export interface MenuType {
 
 // Team menu type definition
 export interface TeamPurchaseType {
-  meetingId: number;
   totalFee: number;
   items: ItemType[];
 }
 
 // Individual order type definition
 export interface IndividualPurchaseType {
-  meetingId: number;
   totalFee: number;
   items: ItemType[];
 }

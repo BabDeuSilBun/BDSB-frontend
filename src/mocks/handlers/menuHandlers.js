@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
-import { menus, paginatedMenus } from '../mockData/menus';
+import { menuData, paginatedMenus } from '../mockData/menus';
 
 export const menuHandlers = [
   http.get('/api/stores/:storeId/menus', (req) => {
@@ -31,7 +31,12 @@ export const menuHandlers = [
     const storeId = Number(req.params.storeId);
     const menuId = Number(req.params.menuId);
 
-    const storeMenus = menus.filter((menu) => menu.storeId === storeId);
+    const storeMenus = menuData[storeId];
+
+    if (!storeMenus) {
+      return HttpResponse.status(404).json({ message: 'Store not found' });
+    }
+
     const menu = storeMenus.find((m) => m.menuId === menuId);
 
     if (menu) {

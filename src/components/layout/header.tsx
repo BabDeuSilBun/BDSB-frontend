@@ -19,16 +19,18 @@ const Icons = {
   cart: (color: string) => <CartIcon color={color} />,
 };
 
-const HeaderContainer = styled.header`
+const HeaderContainer = styled.header<{ $isTransparent: boolean }>`
   display: flex;
   justify-content: space-between;
-  background-color: var(--background);
+  background-color: ${({ $isTransparent }) =>
+    $isTransparent ? 'transparent' : 'var(--background)'};
   align-items: center;
   position: fixed;
   z-index: 1000;
   height: 60px;
   width: 100%;
-  box-shadow: 0px 5px 5px var(--shadow);
+  box-shadow: ${({ $isTransparent }) =>
+    $isTransparent ? 'none' : '0px 5px 5px var(--shadow)'};
   padding: 1.5rem;
 `;
 
@@ -84,6 +86,7 @@ const Header: React.FC<HeaderProps> = ({
   },
   isPostcodeOpen = false,
   onClosePostcodeModal,
+  $isTransparent = false,
 }) => {
   const router = useRouter();
   const { isOpen, onToggle } = useDisclosure();
@@ -118,7 +121,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <>
-      <HeaderContainer>
+      <HeaderContainer $isTransparent={$isTransparent}>
         <HeaderDrawer onToggle={onToggle} $isOpen={isOpen} />
         <Flex $side="left">
           {buttonLeft && buttonLeft !== 'hamburger' && (
