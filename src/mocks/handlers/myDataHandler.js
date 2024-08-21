@@ -1,10 +1,15 @@
 import { http, HttpResponse } from 'msw';
-import { EVALUATE_LIST_URL, MY_PROFILE_URL } from '@/services/myDataService';
+import {
+  EVALUATE_LIST_API_URL,
+  MY_PROFILE_API_URL,
+  POINT_LIST_API_URL,
+} from '@/services/myDataService';
 
-import { evaluates, myData } from '../mockData/myData';
+import { evaluates, myData, paginatedPoints } from '../mockData/myData';
+import { applyFiltersAndSorting } from '../filteringAndSorting';
 
 export const myDataHandlers = [
-  http.get(MY_PROFILE_URL, () => {
+  http.get(MY_PROFILE_API_URL, () => {
     try {
       console.log('is going');
       return HttpResponse.json(myData);
@@ -16,13 +21,45 @@ export const myDataHandlers = [
     }
   }),
 
-  http.get(EVALUATE_LIST_URL, () => {
+  http.get(EVALUATE_LIST_API_URL, () => {
     try {
       return HttpResponse.json(evaluates);
     } catch (error) {
       return HttpResponse.status(404).json({
         message: `My evaluates not found: ${error}`,
       });
+    }
+  }),
+
+  http.get(POINT_LIST_API_URL, async(req) => {
+    const { request } = await req;
+    const urlString = request.url.toString();
+
+    try {
+      const url = new URL(urlString);
+      const sortCriteria = url.searchParams.get('sortCriteria');
+      const pageParam = Number(url.searchParams.get('page')) || 0;
+      const size = Number(url.searchParams.get('size'));
+
+      const paginatedResponse = paginatedPoints[pageParam];
+
+      if (!paginatedResponse) {
+        return HttpResponse.json({ message: 'Page not found' });
+      }
+
+      const filteredContent = applyFiltersAndSorting(
+        paginatedResponse.content,
+        { size },
+        sortCriteria,
+      );
+
+      return HttpResponse.json({
+        ...paginatedResponse,
+        content: filteredContent,
+      });
+    } catch (error) {
+      console.error('Error parsing URL:', error);
+      return HttpResponse.status(500).json({ message: 'Error parsing URL' });
     }
   }),
 ];

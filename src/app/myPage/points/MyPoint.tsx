@@ -3,11 +3,12 @@
 import { RoundBtnFilled, SmallRdBtn } from '@/styles/button';
 import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
-import { formatDateTime } from '@/utils/formateDateTime';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Container from '@/styles/container';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getMyData } from '@/services/myDataService';
+import PointItem from '@/components/listItems/pointItem';
+import { getPointDetailList } from '@/services/myDataService';
 
 const ContainerSection = styled(Container)`
   display: flex;
@@ -33,63 +34,16 @@ const Flex = styled.div`
   }
 `;
 
-const Flex1 = styled.div`
-  flex: 1;
-`;
-
 const SortingBtns = styled.div`
   display: flex;
   gap: 0.5rem;
   padding: 0 1rem;
 `;
 
-const ListItem = styled.li`
-  display: flex;
-  gap: 0.5rem;
-  padding: 1rem;
-
-  p {
-    font-weight: var(--font-semi-bold);
-    font-size: var(--font-size-lg);
-  }
-
-  span {
-    font-size: var(--font-size-sm);
-    color: var(--caption);
-    line-height: 1.8;
-  }
-`;
-
-const Contents = styled.div`
-  display: flex;
-  height: 1.3rem;
-  width: max-content;
-  gap: 0.5rem;
-
-  span {
-    color: var(--caption);
-  }
-`;
-
-const mockData = [
-  {
-    createdAt: '2024-07-19T06:36:00',
-    store: '교촌치킨',
-    type: '적립',
-    content: '차액 적립',
-    amount: 2000,
-  },
-  {
-    createdAt: '2024-07-19T06:40:00',
-    store: '아마스빈',
-    type: '사용',
-    content: '결제 시 사용',
-    amount: 1000,
-  },
-];
-
 const MyPoint = () => {
   const [activeBtn, setActiveBtn] = useState('전체');
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastElementRef = useRef<HTMLDivElement | null>(null);
 
   const handleBtnClick = (btnType: string) => {
     setActiveBtn(btnType);
@@ -103,6 +57,52 @@ const MyPoint = () => {
     queryKey: ['myData'],
     queryFn: getMyData,
   });
+
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ['pointDetailList', activeBtn],
+    queryFn: ({ pageParam = 0 }) =>
+      getPointDetailList({
+        page: pageParam,
+        sortCriteria: activeBtn,
+      }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
+    },
+  });
+
+  useEffect(() => {
+    if (isFetchingNextPage) return;
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasNextPage) {
+        fetchNextPage();
+      }
+    };
+
+    observer.current = new IntersectionObserver(handleIntersect, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    });
+
+    if (lastElementRef.current) {
+      observer.current.observe(lastElementRef.current);
+    }
+
+    return () => {
+      if (observer.current && lastElementRef.current) {
+        observer.current.unobserve(lastElementRef.current);
+      }
+    };
+  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
 
   return (
     <ContainerSection>
@@ -134,29 +134,29 @@ const MyPoint = () => {
         </SmallRdBtn>
       </SortingBtns>
       <ul>
-        {mockData.map((item, index) => {
-          const { formattedDate, formattedTime } = formatDateTime(
-            item.createdAt,
-          );
-          return (
-            <div key={index}>
-              <ListItem>
-                <span>{formattedDate}</span>
-                <div>
-                  <p>{item.store}</p>
-                  <Contents>
-                    <span>{formattedTime}</span>
-                    <Divider orientation="vertical" />
-                    <span>{item.content}</span>
-                  </Contents>
+        {status === 'pending' ? (
+          <></>
+        ) : status === 'error' ? (
+          <p>Error: {error.message}</p>
+        ) : data && data.pages.length > 0 ? (
+          <>
+            {data.pages.map((page) =>
+              page.content.map((item, index) => (
+                <div
+                  key={index}
+                  ref={
+                    index === page.content.length - 1 ? lastElementRef : null
+                  }
+                >
+                  <PointItem item={item} />
+                  <Divider />
                 </div>
-                <Flex1 />
-                <p>{`${item.type === '적립' ? '+' : '-'} ${item.amount}P`}</p>
-              </ListItem>
-              <Divider />
-            </div>
-          );
-        })}
+              )),
+            )}
+          </>
+        ) : (
+          <div>포인트 내역이 없습니다.</div>
+        )}
       </ul>
     </ContainerSection>
   );

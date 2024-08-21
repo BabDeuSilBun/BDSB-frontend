@@ -1,4 +1,9 @@
-import { EvaluateType, MyDataType } from '@/types/myDataTypes';
+import {
+  EvaluateType,
+  MyDataType,
+  PointType,
+  PointsResponse,
+} from '@/types/myDataTypes';
 
 export const myData: MyDataType = {
   userId: 1,
@@ -38,3 +43,57 @@ export const evaluates: EvaluateType = {
     { content: '같이 먹기 불편해요', count: 0 },
   ],
 };
+
+export const pointsDetails: PointType[] = [
+  {
+    createdAt: '2024-07-19T06:36:00',
+    store: '교촌치킨',
+    type: '적립',
+    content: '차액 적립',
+    amount: 2000,
+  },
+  {
+    createdAt: '2024-07-20T06:40:00',
+    store: '아마스빈',
+    type: '사용',
+    content: '결제 시 사용',
+    amount: 1000,
+  },
+  {
+    createdAt: '2024-07-20T08:40:00',
+    store: '아마스빈',
+    type: '적립',
+    content: '모임 취소 환급',
+    amount: 1000,
+  },
+];
+
+const pageSize = 10;
+const totalPages = Math.ceil(pointsDetails.length / pageSize);
+
+export const paginatedPoints: PointsResponse[] = Array.from(
+  { length: totalPages },
+  (_, index) => {
+    const start = index * pageSize;
+    const end = start + pageSize;
+    const content = pointsDetails.slice(start, end);
+    const isLastPage = index === totalPages - 1;
+
+    return {
+      content,
+      pageable: {
+        pageNumber: index,
+        pageSize,
+        sort: {
+          empty: true,
+          unsorted: true,
+          sorted: false,
+        },
+      },
+      last: isLastPage,
+      totalPages,
+      size: pageSize,
+      first: index === 0,
+    };
+  },
+);

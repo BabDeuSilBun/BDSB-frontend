@@ -1,5 +1,3 @@
-'use client';
-
 import Header from '@/components/layout/header';
 import MyPoint from './MyPoint';
 
