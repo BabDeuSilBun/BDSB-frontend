@@ -18,10 +18,6 @@ import styled from 'styled-components';
 const HeaderContainer = styled.div`
   width: 100vw;
   margin: 0 auto;
-  header {
-    background-color: transparent;
-    box-shadow: none;
-  }
 `;
 
 const MenuItemContainer = styled.div`
@@ -41,6 +37,7 @@ const StorePage = () => {
     image: string;
   } | null>(null);
 
+  const [isHeaderTransparent, setIsHeaderTransparent] = useState(true);
   const observer = useRef<IntersectionObserver | null>(null);
   const lastElementRef = useRef<HTMLDivElement | null>(null);
 
@@ -169,10 +166,14 @@ const StorePage = () => {
           buttonLeft="back"
           buttonRight="home"
           buttonRightSecondary="cart"
-          iconColor="white"
+          iconColor={isHeaderTransparent ? 'white' : 'black'}
+          $isTransparent={isHeaderTransparent}
         />
       </HeaderContainer>
-      <Carousel images={store.images} />
+      <Carousel
+        images={store.images}
+        setIsHeaderTransparent={setIsHeaderTransparent}
+      />
       <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} />
 
       {/* Context-specific code */}

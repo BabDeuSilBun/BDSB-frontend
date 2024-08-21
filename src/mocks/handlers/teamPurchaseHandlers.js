@@ -13,7 +13,6 @@ export const teamPurchaseHandlers = [
 
     try {
       const url = new URL(urlString);
-      // const schoolId = url.searchParams.get('schoolId');
       const pageParam = Number(url.searchParams.get('page')) || 0;
 
       const paginatedResponse = paginatedTeamPurchases[meetingId]?.[pageParam];
@@ -37,12 +36,14 @@ export const teamPurchaseHandlers = [
       const meetingId = Number(req.params.meetingId);
       const purchaseId = Number(req.params.purchaseId);
 
-      const teamPurchaseList = teamPurchases.filter(
-        (teamPurchase) => teamPurchase.meetingId === meetingId,
-      );
-      const teamPurchase = teamPurchaseList.find(
-        (p) => p.purchaseId === purchaseId,
-      );
+      const purchases = teamPurchases[meetingId];
+      if (!purchases) {
+        return HttpResponse.status(404).json({
+          message: 'Meeting not found',
+        });
+      }
+
+      const teamPurchase = purchases.find((p) => p.purchaseId === purchaseId);
 
       if (teamPurchase) {
         return HttpResponse.json(teamPurchase);

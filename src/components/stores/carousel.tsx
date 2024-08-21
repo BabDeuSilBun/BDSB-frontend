@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -10,11 +10,16 @@ import { Image } from '@/types/types';
 
 interface CarouselProps {
   images: Image[];
+  setIsHeaderTransparent: (isTransparent: boolean) => void;
 }
 
-export default function Carousel({ images }: CarouselProps) {
+export default function Carousel({
+  images,
+  setIsHeaderTransparent,
+}: CarouselProps) {
   const [slider, setSlider] = useState<Slider | null>(null);
   const [currentSlide, setCurrentSlide] = useState(1);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
 
   const top = '50%';
   const $side = '10px';
@@ -41,8 +46,31 @@ export default function Carousel({ images }: CarouselProps) {
     beforeChange: (current: number, next: number) => setCurrentSlide(next + 1),
   };
 
+  useEffect(() => {
+    if (carouselRef.current) {
+      const observerInstance = new IntersectionObserver(
+        ([entry]) => {
+          setIsHeaderTransparent(entry.isIntersecting);
+        },
+        { threshold: 0.5 },
+      );
+
+      observerInstance.observe(carouselRef.current);
+
+      return () => {
+        observerInstance.disconnect();
+      };
+    }
+  }, [setIsHeaderTransparent]);
+
   return (
-    <Box position="relative" height="324px" overflow="hidden">
+    <Box
+      id="carousel"
+      ref={carouselRef}
+      position="relative"
+      height="324px"
+      overflow="hidden"
+    >
       <link
         rel="stylesheet"
         type="text/css"

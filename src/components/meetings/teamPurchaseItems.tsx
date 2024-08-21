@@ -46,7 +46,9 @@ interface TeamOrderItemsProps {
   };
 }
 
-const TeamOrderItems: React.FC<TeamOrderItemsProps> = ({ teamPurchases }) => (
+const TeamPurchaseItems: React.FC<TeamOrderItemsProps> = ({
+  teamPurchases,
+}) => (
   <>
     <Divider
       orientation="horizontal"
@@ -71,4 +73,4 @@ const TeamOrderItems: React.FC<TeamOrderItemsProps> = ({ teamPurchases }) => (
   </>
 );
 
-export default TeamOrderItems;
+export default TeamPurchaseItems;

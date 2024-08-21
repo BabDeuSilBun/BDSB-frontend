@@ -13,7 +13,10 @@ import {
   getTeamPurchaseInfo,
   getTeamPurchaseList,
 } from '@/services/teamPurchaseService';
-import { getIndividualPurchaseInfo } from '@/services/individualPurchaseService';
+import {
+  getIndividualPurchaseInfo,
+  getIndividualPurchaseList,
+} from '@/services/individualPurchaseService';
 import { IndividualPurchaseType, TeamPurchaseType } from '@/types/coreTypes';
 import Loading from '@/app/loading';
 import Container from '@/styles/container';
@@ -21,7 +24,7 @@ import Header from '@/components/layout/header';
 import MainImage from '@/components/meetings/mainImage';
 import MeetingStatus from '@/components/meetings/meetingStatus';
 import MeetingInfo from '@/components/meetings/meetingInfo';
-import TeamOrderItems from '@/components/meetings/teamOrderItems';
+import TeamPurchaseItems from '@/components/meetings/teamPurchaseItems';
 import Footer from '@/components/layout/footer';
 import styled from 'styled-components';
 import { formatCurrency } from '@/utils/currencyFormatter';
@@ -82,9 +85,9 @@ const TeamOrderPage = () => {
 
   const {
     data: teamPurchases,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
+    fetchNextPage: fetchNextTeamPage,
+    hasNextPage: hasNextTeamPage,
+    isFetchingNextPage: isFetchingNextTeamPage,
     isLoading: isLoadingTeamPurchases,
   } = useInfiniteQuery({
     queryKey: ['teamPurchaseList', meetingId],
@@ -97,38 +100,93 @@ const TeamOrderPage = () => {
     initialPageParam: 0,
   });
 
-  // Handle infinite scrolling
+  const {
+    data: individualPurchases,
+    fetchNextPage: fetchNextIndividualPage,
+    hasNextPage: hasNextIndividualPage,
+    isFetchingNextPage: isFetchingNextIndividualPage,
+    isLoading: isLoadingIndividualPurchases,
+  } = useInfiniteQuery({
+    queryKey: ['individualPurchaseList', meetingId],
+    queryFn: ({ pageParam = 0 }) =>
+      getIndividualPurchaseList({
+        meetingId: Number(meetingId),
+        page: pageParam,
+      }),
+    getNextPageParam: (lastPage) => {
+      const nextPageNumber = lastPage.pageable?.pageNumber ?? -1;
+      return lastPage.last ? undefined : nextPageNumber + 1;
+    },
+    initialPageParam: 0,
+  });
+
+  // Handle infinite scrolling for team purchases
   useEffect(() => {
-    if (isFetchingNextPage) return;
+    if (isFetchingNextTeamPage) return;
 
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        fetchNextPage();
+      if (entries[0].isIntersecting && hasNextTeamPage) {
+        fetchNextTeamPage();
       }
     };
 
-    // Initialize IntersectionObserver
+    // Initialize IntersectionObserver for team purchases
     observer.current = new IntersectionObserver(handleIntersect, {
       root: null,
       rootMargin: '0px',
       threshold: 1.0,
     });
 
-    // Capture the current value of lastElementRef.current
     const currentLastElementRef = lastElementRef.current;
 
-    // Observe the last element
+    // Observe the last element for team purchases
     if (currentLastElementRef) {
       observer.current.observe(currentLastElementRef);
     }
 
-    // Cleanup function to unobserve the last element
+    // Cleanup function to unobserve the last element for team purchases
     return () => {
       if (observer.current && currentLastElementRef) {
         observer.current.unobserve(currentLastElementRef);
       }
     };
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+  }, [isFetchingNextTeamPage, hasNextTeamPage, fetchNextTeamPage]);
+
+  // Handle infinite scrolling for individual purchases
+  useEffect(() => {
+    if (isFetchingNextIndividualPage) return;
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting && hasNextIndividualPage) {
+        fetchNextIndividualPage();
+      }
+    };
+
+    // Initialize IntersectionObserver for individual purchases
+    observer.current = new IntersectionObserver(handleIntersect, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    });
+
+    const currentLastElementRef = lastElementRef.current;
+
+    // Observe the last element for individual purchases
+    if (currentLastElementRef) {
+      observer.current.observe(currentLastElementRef);
+    }
+
+    // Cleanup function to unobserve the last element for individual purchases
+    return () => {
+      if (observer.current && currentLastElementRef) {
+        observer.current.unobserve(currentLastElementRef);
+      }
+    };
+  }, [
+    isFetchingNextIndividualPage,
+    hasNextIndividualPage,
+    fetchNextIndividualPage,
+  ]);
 
   useQuery({
     queryKey: [
@@ -163,14 +221,37 @@ const TeamOrderPage = () => {
     enabled: !!meeting?.storeId,
   });
 
-  // Calculate the remaining amount needed to meet the minimum purchase price
-  const totalFee =
-    (teamPurchase?.totalFee || 0) + (individualPurchase?.totalFee || 0);
+  const totalTeamFee =
+    teamPurchases?.pages.reduce((sum, page) => {
+      return (
+        sum +
+        page.content.reduce((pageSum, purchase) => {
+          return pageSum + purchase.totalFee;
+        }, 0)
+      );
+    }, 0) || 0;
+
+  const totalIndividualFee =
+    individualPurchases?.pages.reduce((sum, page) => {
+      return (
+        sum +
+        page.content.reduce((pageSum, purchase) => {
+          return pageSum + purchase.totalFee;
+        }, 0)
+      );
+    }, 0) || 0;
+
+  const totalFee = totalTeamFee + totalIndividualFee;
+
   const minPurchasePrice = storeInfo?.minPurchasePrice ?? 0;
   const remainingAmount = minPurchasePrice - totalFee;
 
-  // Handling loading and error states
-  if (isLoadingMeeting || isLoadingTeamPurchases) return <Loading />;
+  if (
+    isLoadingMeeting ||
+    isLoadingTeamPurchases ||
+    isLoadingIndividualPurchases
+  )
+    return <Loading />;
   if (isErrorMeeting) return <p>Error loading meeting data</p>;
 
   return (
@@ -189,7 +270,7 @@ const TeamOrderPage = () => {
         <MeetingInfo meeting={meeting} />
 
         {meeting?.purchaseType === '함께 식사' && (
-          <TeamOrderItems teamPurchases={teamPurchases || { pages: [] }} />
+          <TeamPurchaseItems teamPurchases={teamPurchases || { pages: [] }} />
         )}
 
         <RemainingAmountText>

@@ -10,7 +10,6 @@ const TEAM_PURCHASE_API_URL =
 
 export const getTeamPurchaseList = async ({
   page = 0,
-  schoolId = undefined,
   size = 10,
   meetingId,
 }: GetListParams & { meetingId: number }): Promise<TeamPurchasesResponse> => {
@@ -21,14 +20,12 @@ export const getTeamPurchaseList = async ({
     );
     const response = await apiClient.get<TeamPurchasesResponse>(url, {
       params: {
-        schoolId,
         size,
         page,
       },
     });
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error fetching team purchase:', error);
     throw new Error(
       '공통 메뉴 목록을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
