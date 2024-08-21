@@ -1,14 +1,15 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
+
 import { RoundBtnFilled, SmallRdBtn } from '@/styles/button';
 import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
 import Container from '@/styles/container';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { getMyData } from '@/services/myDataService';
+import { getMyData, getPointDetailList } from '@/services/myDataService';
 import PointItem from '@/components/listItems/pointItem';
-import { getPointDetailList } from '@/services/myDataService';
+import PointSkeleton from '@/components/listItems/pointSkeleton';
 
 const ContainerSection = styled(Container)`
   display: flex;
@@ -135,7 +136,11 @@ const MyPoint = () => {
       </SortingBtns>
       <ul>
         {status === 'pending' ? (
-          <></>
+          <>
+            <PointSkeleton />
+            <PointSkeleton />
+            <PointSkeleton />
+          </>
         ) : status === 'error' ? (
           <p>Error: {error.message}</p>
         ) : data && data.pages.length > 0 ? (
