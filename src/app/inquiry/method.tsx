@@ -47,7 +47,7 @@ const InquiryMethod = () => {
       </ListItem>
       <ListItem $isLast>
         <p>게시판 문의</p>
-        <ListButton onClick={() => router.push('/inquiry/forum')}>
+        <ListButton onClick={() => router.push('/inquiry/forum/contact')}>
           {'>'}
         </ListButton>
       </ListItem>

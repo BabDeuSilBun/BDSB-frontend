@@ -115,11 +115,11 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
         <Information $isCritical={$isCritical}>{remainingTime}</Information>
         <RestaurantName>{item.storeName}</RestaurantName>
         <InfoItem>
-          <Image src="./timer.svg" alt="Delivery Time" width="18" height="18" />
+          <Image src="/timer.svg" alt="Delivery Time" width="18" height="18" />
           <span>{item.deliveryTimeRange}</span>
         </InfoItem>
         <InfoItem>
-          <Image src="./fee.svg" alt="Delivery Fee" width="18" height="18" />
+          <Image src="/fee.svg" alt="Delivery Fee" width="18" height="18" />
           <span>{item.deliveryFeeRange}</span>
         </InfoItem>
       </InfoSection>

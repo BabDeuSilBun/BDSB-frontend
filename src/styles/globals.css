@@ -4,7 +4,7 @@
   --secondary: #e7ecff; /* Same as purple100 */
   --background: #ffffff;
   --text: #010b13;
-  --caption: #b4bac6;  /* Same as gray300 */
+  --caption: #b4bac6; /* Same as gray300 */
 
   /* Grayscale */
   --gray100: #f8f8f8;
@@ -59,30 +59,30 @@
 
 /* @media (prefers-color-scheme: dark) {
   :root { */
-    /* Main colors */
-    /* --primary: #6f6cf6; Same as purple400 */
-    /* --secondary: #141414; Same as purple100 */
-    /* --background: #2c3138; Same as gray100 */
-    /* --text: #f8f8f8; */
+/* Main colors */
+/* --primary: #6f6cf6; Same as purple400 */
+/* --secondary: #141414; Same as purple100 */
+/* --background: #2c3138; Same as gray100 */
+/* --text: #f8f8f8; */
 
-    /* Grayscale */
-    /* --gray100: #2c3138;
+/* Grayscale */
+/* --gray100: #2c3138;
     --gray200: #363841;
     --gray300: #757880;
     --gray400: #b4bac6;
     --gray500: #dde1e8; */
 
-    /* Purple scale */
-    /* --purple100: #141414;
+/* Purple scale */
+/* --purple100: #141414;
     --purple200: #282828;
     --purple300: #8d8bfb;
     --purple400: #6f6cf6;
     --purple500: #6851f5; */
 
-    /* Additional colors */
-    /* --error: #ff6a62; Red */
-    /* --shadow: rgba(255, 255, 255, 0.3); Shadow color */
-  /* }
+/* Additional colors */
+/* --error: #ff6a62; Red */
+/* --shadow: rgba(255, 255, 255, 0.3); Shadow color */
+/* }
 
   html {
     color-scheme: dark;
@@ -123,7 +123,7 @@ input:disabled {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  word-spacing:-2px;
+  word-spacing: -2px;
 }
 
 #main-content {
@@ -150,8 +150,7 @@ input[type='email'],
 input[type='password'],
 input[type='tel'],
 input[type='number'],
-input
-textarea,
+input textarea,
 select {
   width: 100%;
   padding: var(--spacing-sm);
@@ -169,6 +168,7 @@ input:focus,
 textarea:focus,
 select:focus {
   border-color: var(--primary);
+  outline: none;
 }
 
 input::placeholder,

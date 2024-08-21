@@ -9,7 +9,6 @@ import TriggerButton from './triggerButton';
 import InquiryDetail from '../../../components/listItems/inquiryItem';
 
 const Container = styled.div`
-  margin-top: -1rem;
   text-align: left;
 `;
 
@@ -49,6 +48,8 @@ const InquiryHistory = () => {
     },
     enabled: selectedInquiryId !== null,
   });
+
+  console.log(ListData, DetailData);
 
   const handleItemClick = (inquiryId: number) => {
     setSelectedInquiryId((prev) => (prev === inquiryId ? null : inquiryId));

@@ -40,7 +40,7 @@ export const inquiries: InquiryType[] = [
     content: '전과를 해서 학과를 바꾸고 싶은데 어떻게 해야 하나요?',
     answer:
       '안녕하세요 고객님, 전과 관련 문의에 대해 안내드리겠습니다. help@bdsb.com으로 전과 확인 이미지와 현재 문의 내용을 함께 캡쳐하여 보내주시면, 신속하게 처리해드리겠습니다. 감사합니다.',
-    status: 'PENDING',
+    status: 'COMPLETED',
     createdAt: '2024-07-23T10:40:00',
     updatedAt: '2024-07-23T10:40:00',
   },

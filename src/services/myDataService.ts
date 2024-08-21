@@ -15,7 +15,7 @@ import { apiClient } from './apiClient';
 export const MY_PROFILE_API_URL = '/api/users/my-page';
 export const EVALUATE_LIST_API_URL = '/api/users/evaluates';
 export const POINT_LIST_API_URL = '/api/users/points';
-export const INQUIRY_LIST_API_URL = 'api/users/inquires';
+export const INQUIRY_LIST_API_URL = `/api/users/inquires`;
 
 export const getMyData = async (): Promise<MyDataType> => {
   try {
@@ -82,7 +82,7 @@ export const getInquiries = async ({
     );
     return response.data;
   } catch (error) {
-    console.error('Error fetching points detail lists:', error);
+    console.error('Error fetching inquiry lists:', error);
     throw new Error(
       '문의 내역을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
     );
