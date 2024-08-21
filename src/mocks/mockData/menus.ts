@@ -9,7 +9,6 @@ export const menuData: {
     menus: [
       {
         menuId: 1,
-        storeId: 1,
         name: '마르게리타 피자',
         image: 'https://via.placeholder.com/300x200',
         description: '토마토와 모짜렐라, 바질을 얹은 피자',
@@ -17,7 +16,6 @@ export const menuData: {
       },
       {
         menuId: 2,
-        storeId: 1,
         name: '페퍼로니 피자',
         image: 'https://via.placeholder.com/300x200',
         description: '스파이시한 페퍼로니를 얹은 피자',
@@ -25,7 +23,6 @@ export const menuData: {
       },
       {
         menuId: 3,
-        storeId: 1,
         name: '콤비네이션 피자',
         image: 'https://via.placeholder.com/300x200',
         description: '여러 가지 재료를 얹은 피자',
@@ -33,7 +30,6 @@ export const menuData: {
       },
       {
         menuId: 4,
-        storeId: 1,
         name: '고르곤졸라 피자',
         image: 'https://via.placeholder.com/300x200',
         description: '고르곤졸라 치즈와 꿀을 곁들인 피자',
@@ -41,7 +37,6 @@ export const menuData: {
       },
       {
         menuId: 5,
-        storeId: 1,
         name: '쉬림프 피자',
         image: 'https://via.placeholder.com/300x200',
         description: '새우와 마늘을 듬뿍 얹은 피자',
@@ -49,7 +44,6 @@ export const menuData: {
       },
       {
         menuId: 6,
-        storeId: 1,
         name: '베이컨 피자',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 베이컨과 치즈가 듬뿍',
@@ -57,7 +51,6 @@ export const menuData: {
       },
       {
         menuId: 7,
-        storeId: 1,
         name: '버팔로윙',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 버팔로 소스와 함께',
@@ -65,7 +58,6 @@ export const menuData: {
       },
       {
         menuId: 8,
-        storeId: 1,
         name: '그릭 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 채소와 올리브가 듬뿍',
@@ -73,7 +65,6 @@ export const menuData: {
       },
       {
         menuId: 9,
-        storeId: 1,
         name: '치킨 너겟',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭하게 튀긴 치킨 너겟',
@@ -81,7 +72,6 @@ export const menuData: {
       },
       {
         menuId: 10,
-        storeId: 1,
         name: '치즈 스틱',
         image: 'https://via.placeholder.com/300x200',
         description: '치즈가 듬뿍 들어간 바삭한 스틱',
@@ -89,7 +79,6 @@ export const menuData: {
       },
       {
         menuId: 11,
-        storeId: 1,
         name: '페스토 피자',
         image: 'https://via.placeholder.com/300x200',
         description: '향긋한 바질 페스토 소스와 함께',
@@ -97,7 +86,6 @@ export const menuData: {
       },
       {
         menuId: 12,
-        storeId: 1,
         name: '하와이안 피자',
         image: 'https://via.placeholder.com/300x200',
         description: '파인애플과 햄이 조화를 이루는 피자',
@@ -105,7 +93,6 @@ export const menuData: {
       },
       {
         menuId: 13,
-        storeId: 1,
         name: '매운 소세지 피자',
         image: 'https://via.placeholder.com/300x200',
         description: '매운 소세지와 치즈가 듬뿍',
@@ -113,7 +100,6 @@ export const menuData: {
       },
       {
         menuId: 14,
-        storeId: 1,
         name: '트러플 오일 피자',
         image: 'https://via.placeholder.com/300x200',
         description: '고급 트러플 오일과 버섯이 들어간 피자',
@@ -121,7 +107,6 @@ export const menuData: {
       },
       {
         menuId: 15,
-        storeId: 1,
         name: '치킨 시저 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 시저 드레싱과 치킨이 들어간 샐러드',
@@ -134,7 +119,6 @@ export const menuData: {
     menus: [
       {
         menuId: 16,
-        storeId: 2,
         name: '스시 세트 A',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 스시와 함께 즐기는 세트 A',
@@ -142,7 +126,6 @@ export const menuData: {
       },
       {
         menuId: 17,
-        storeId: 2,
         name: '스시 세트 B',
         image: 'https://via.placeholder.com/300x200',
         description: '다양한 스시와 함께하는 세트 B',
@@ -150,7 +133,6 @@ export const menuData: {
       },
       {
         menuId: 18,
-        storeId: 2,
         name: '사시미 세트',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 사시미 세트',
@@ -158,7 +140,6 @@ export const menuData: {
       },
       {
         menuId: 19,
-        storeId: 2,
         name: '우동',
         image: 'https://via.placeholder.com/300x200',
         description: '따뜻한 우동 국물과 면이 일품',
@@ -166,7 +147,6 @@ export const menuData: {
       },
       {
         menuId: 20,
-        storeId: 2,
         name: '초밥 정식',
         image: 'https://via.placeholder.com/300x200',
         description: '정통 초밥 정식',
@@ -174,7 +154,6 @@ export const menuData: {
       },
       {
         menuId: 21,
-        storeId: 2,
         name: '돈부리',
         image: 'https://via.placeholder.com/300x200',
         description: '일본식 덮밥, 돈부리',
@@ -182,7 +161,6 @@ export const menuData: {
       },
       {
         menuId: 22,
-        storeId: 2,
         name: '카레 우동',
         image: 'https://via.placeholder.com/300x200',
         description: '카레가 들어간 우동',
@@ -190,7 +168,6 @@ export const menuData: {
       },
       {
         menuId: 23,
-        storeId: 2,
         name: '야끼소바',
         image: 'https://via.placeholder.com/300x200',
         description: '일본식 볶음면',
@@ -198,7 +175,6 @@ export const menuData: {
       },
       {
         menuId: 24,
-        storeId: 2,
         name: '텐동',
         image: 'https://via.placeholder.com/300x200',
         description: '튀김 덮밥',
@@ -206,7 +182,6 @@ export const menuData: {
       },
       {
         menuId: 25,
-        storeId: 2,
         name: '타코야끼',
         image: 'https://via.placeholder.com/300x200',
         description: '타코야끼와 함께하는 스시 세트',
@@ -214,7 +189,6 @@ export const menuData: {
       },
       {
         menuId: 26,
-        storeId: 2,
         name: '튀김 모듬',
         image: 'https://via.placeholder.com/300x200',
         description: '다양한 튀김이 들어간 모듬 세트',
@@ -222,7 +196,6 @@ export const menuData: {
       },
       {
         menuId: 27,
-        storeId: 2,
         name: '데리야끼 치킨',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 데리야끼 소스와 치킨',
@@ -230,7 +203,6 @@ export const menuData: {
       },
       {
         menuId: 28,
-        storeId: 2,
         name: '연어 덮밥',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 연어와 밥이 어우러진 덮밥',
@@ -238,7 +210,6 @@ export const menuData: {
       },
       {
         menuId: 29,
-        storeId: 2,
         name: '라멘',
         image: 'https://via.placeholder.com/300x200',
         description: '정통 일본식 라멘',
@@ -246,7 +217,6 @@ export const menuData: {
       },
       {
         menuId: 30,
-        storeId: 2,
         name: '모듬 초밥',
         image: 'https://via.placeholder.com/300x200',
         description: '다양한 초밥이 들어간 모듬 세트',
@@ -259,7 +229,6 @@ export const menuData: {
     menus: [
       {
         menuId: 31,
-        storeId: 3,
         name: '한정식 A',
         image: 'https://via.placeholder.com/300x200',
         description: '정통 한식을 경험할 수 있는 한정식 A',
@@ -267,7 +236,6 @@ export const menuData: {
       },
       {
         menuId: 32,
-        storeId: 3,
         name: '한정식 B',
         image: 'https://via.placeholder.com/300x200',
         description: '정통 한식을 경험할 수 있는 한정식 B',
@@ -275,7 +243,6 @@ export const menuData: {
       },
       {
         menuId: 33,
-        storeId: 3,
         name: '비빔밥',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 채소와 고추장을 곁들인 비빔밥',
@@ -283,7 +250,6 @@ export const menuData: {
       },
       {
         menuId: 34,
-        storeId: 3,
         name: '불고기',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 양념에 재운 불고기',
@@ -291,7 +257,6 @@ export const menuData: {
       },
       {
         menuId: 35,
-        storeId: 3,
         name: '갈비찜',
         image: 'https://via.placeholder.com/300x200',
         description: '부드럽고 맛있는 갈비찜',
@@ -299,7 +264,6 @@ export const menuData: {
       },
       {
         menuId: 36,
-        storeId: 3,
         name: '된장찌개',
         image: 'https://via.placeholder.com/300x200',
         description: '구수한 된장찌개',
@@ -307,7 +271,6 @@ export const menuData: {
       },
       {
         menuId: 37,
-        storeId: 3,
         name: '김치찌개',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤하고 시원한 김치찌개',
@@ -315,7 +278,6 @@ export const menuData: {
       },
       {
         menuId: 38,
-        storeId: 3,
         name: '비빔냉면',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤달콤한 비빔냉면',
@@ -323,7 +285,6 @@ export const menuData: {
       },
       {
         menuId: 39,
-        storeId: 3,
         name: '물냉면',
         image: 'https://via.placeholder.com/300x200',
         description: '시원하고 깔끔한 물냉면',
@@ -331,7 +292,6 @@ export const menuData: {
       },
       {
         menuId: 40,
-        storeId: 3,
         name: '전복죽',
         image: 'https://via.placeholder.com/300x200',
         description: '영양 가득한 전복죽',
@@ -339,7 +299,6 @@ export const menuData: {
       },
       {
         menuId: 41,
-        storeId: 3,
         name: '해물파전',
         image: 'https://via.placeholder.com/300x200',
         description: '해물이 가득한 파전',
@@ -347,7 +306,6 @@ export const menuData: {
       },
       {
         menuId: 42,
-        storeId: 3,
         name: '잡채',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤하고 쫄깃한 잡채',
@@ -355,7 +313,6 @@ export const menuData: {
       },
       {
         menuId: 43,
-        storeId: 3,
         name: '돼지갈비',
         image: 'https://via.placeholder.com/300x200',
         description: '양념이 잘 배어든 돼지갈비',
@@ -363,7 +320,6 @@ export const menuData: {
       },
       {
         menuId: 44,
-        storeId: 3,
         name: '떡갈비',
         image: 'https://via.placeholder.com/300x200',
         description: '고소한 떡갈비',
@@ -371,7 +327,6 @@ export const menuData: {
       },
       {
         menuId: 45,
-        storeId: 3,
         name: '순두부찌개',
         image: 'https://via.placeholder.com/300x200',
         description: '얼큰하고 부드러운 순두부찌개',
@@ -384,7 +339,6 @@ export const menuData: {
     menus: [
       {
         menuId: 46,
-        storeId: 4,
         name: '크루아상',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 크루아상',
@@ -392,7 +346,6 @@ export const menuData: {
       },
       {
         menuId: 47,
-        storeId: 4,
         name: '바게트',
         image: 'https://via.placeholder.com/300x200',
         description: '쫄깃한 바게트',
@@ -400,7 +353,6 @@ export const menuData: {
       },
       {
         menuId: 48,
-        storeId: 4,
         name: '머핀',
         image: 'https://via.placeholder.com/300x200',
         description: '촉촉한 머핀',
@@ -408,7 +360,6 @@ export const menuData: {
       },
       {
         menuId: 49,
-        storeId: 4,
         name: '파이',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 파이',
@@ -416,7 +367,6 @@ export const menuData: {
       },
       {
         menuId: 50,
-        storeId: 4,
         name: '스콘',
         image: 'https://via.placeholder.com/300x200',
         description: '고소한 스콘',
@@ -424,7 +374,6 @@ export const menuData: {
       },
       {
         menuId: 51,
-        storeId: 4,
         name: '치즈케이크',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 치즈케이크',
@@ -432,7 +381,6 @@ export const menuData: {
       },
       {
         menuId: 52,
-        storeId: 4,
         name: '티라미수',
         image: 'https://via.placeholder.com/300x200',
         description: '이탈리안 디저트 티라미수',
@@ -440,7 +388,7 @@ export const menuData: {
       },
       {
         menuId: 53,
-        storeId: 4,
+
         name: '애플파이',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 애플파이',
@@ -448,7 +396,7 @@ export const menuData: {
       },
       {
         menuId: 54,
-        storeId: 4,
+
         name: '초콜릿 케이크',
         image: 'https://via.placeholder.com/300x200',
         description: '진한 초콜릿 케이크',
@@ -456,7 +404,6 @@ export const menuData: {
       },
       {
         menuId: 55,
-        storeId: 4,
         name: '마카롱',
         image: 'https://via.placeholder.com/300x200',
         description: '다양한 맛의 마카롱',
@@ -464,7 +411,6 @@ export const menuData: {
       },
       {
         menuId: 56,
-        storeId: 4,
         name: '샌드위치',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 재료로 만든 샌드위치',
@@ -472,7 +418,6 @@ export const menuData: {
       },
       {
         menuId: 57,
-        storeId: 4,
         name: '햄 앤 치즈 크로와상',
         image: 'https://via.placeholder.com/300x200',
         description: '햄과 치즈가 들어간 크로와상',
@@ -480,7 +425,6 @@ export const menuData: {
       },
       {
         menuId: 58,
-        storeId: 4,
         name: '프렌치 토스트',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 프렌치 토스트',
@@ -488,7 +432,6 @@ export const menuData: {
       },
       {
         menuId: 59,
-        storeId: 4,
         name: '에그 베네딕트',
         image: 'https://via.placeholder.com/300x200',
         description: '베이컨과 달걀이 올라간 에그 베네딕트',
@@ -496,7 +439,6 @@ export const menuData: {
       },
       {
         menuId: 60,
-        storeId: 4,
         name: '베이글',
         image: 'https://via.placeholder.com/300x200',
         description: '크림치즈와 함께하는 베이글',
@@ -509,7 +451,6 @@ export const menuData: {
     menus: [
       {
         menuId: 61,
-        storeId: 5,
         name: '불고기 버거',
         image: 'https://via.placeholder.com/300x200',
         description: '한국식 불고기를 넣은 버거',
@@ -517,7 +458,6 @@ export const menuData: {
       },
       {
         menuId: 62,
-        storeId: 5,
         name: '치즈버거',
         image: 'https://via.placeholder.com/300x200',
         description: '치즈가 듬뿍 들어간 버거',
@@ -525,7 +465,6 @@ export const menuData: {
       },
       {
         menuId: 63,
-        storeId: 5,
         name: '더블 치즈버거',
         image: 'https://via.placeholder.com/300x200',
         description: '치즈가 두 배로 들어간 버거',
@@ -533,7 +472,6 @@ export const menuData: {
       },
       {
         menuId: 64,
-        storeId: 5,
         name: '베이컨 치즈버거',
         image: 'https://via.placeholder.com/300x200',
         description: '베이컨과 치즈가 들어간 버거',
@@ -541,7 +479,6 @@ export const menuData: {
       },
       {
         menuId: 65,
-        storeId: 5,
         name: '프라이드 치킨',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭하게 튀긴 프라이드 치킨',
@@ -549,7 +486,6 @@ export const menuData: {
       },
       {
         menuId: 66,
-        storeId: 5,
         name: '너겟',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭하게 튀긴 치킨 너겟',
@@ -557,7 +493,6 @@ export const menuData: {
       },
       {
         menuId: 67,
-        storeId: 5,
         name: '치킨 샌드위치',
         image: 'https://via.placeholder.com/300x200',
         description: '치킨이 들어간 샌드위치',
@@ -565,7 +500,6 @@ export const menuData: {
       },
       {
         menuId: 68,
-        storeId: 5,
         name: '감자튀김',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 감자튀김',
@@ -573,7 +507,6 @@ export const menuData: {
       },
       {
         menuId: 69,
-        storeId: 5,
         name: '어니언 링',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 어니언 링',
@@ -581,7 +514,6 @@ export const menuData: {
       },
       {
         menuId: 70,
-        storeId: 5,
         name: '아이스크림 콘',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 콘에 담긴 아이스크림',
@@ -589,7 +521,6 @@ export const menuData: {
       },
       {
         menuId: 71,
-        storeId: 5,
         name: '콜라',
         image: 'https://via.placeholder.com/300x200',
         description: '시원한 콜라 한 잔',
@@ -597,7 +528,6 @@ export const menuData: {
       },
       {
         menuId: 72,
-        storeId: 5,
         name: '핫도그',
         image: 'https://via.placeholder.com/300x200',
         description: '소시지와 빵의 조화, 핫도그',
@@ -605,7 +535,6 @@ export const menuData: {
       },
       {
         menuId: 73,
-        storeId: 5,
         name: '쉐이크',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 밀크쉐이크',
@@ -613,7 +542,6 @@ export const menuData: {
       },
       {
         menuId: 74,
-        storeId: 5,
         name: '에그 맥머핀',
         image: 'https://via.placeholder.com/300x200',
         description: '달걀과 베이컨이 들어간 맥머핀',
@@ -621,7 +549,6 @@ export const menuData: {
       },
       {
         menuId: 75,
-        storeId: 5,
         name: '치즈 스틱',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 치즈 스틱',
@@ -634,7 +561,6 @@ export const menuData: {
     menus: [
       {
         menuId: 91,
-        storeId: 6,
         name: '깐쇼새우',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤달콤한 깐쇼새우',
@@ -642,7 +568,6 @@ export const menuData: {
       },
       {
         menuId: 92,
-        storeId: 6,
         name: '양장피',
         image: 'https://via.placeholder.com/300x200',
         description: '다양한 재료가 어우러진 양장피',
@@ -650,7 +575,6 @@ export const menuData: {
       },
       {
         menuId: 93,
-        storeId: 6,
         name: '유린기',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭하게 튀긴 닭고기와 새콤달콤한 소스',
@@ -658,7 +582,6 @@ export const menuData: {
       },
       {
         menuId: 94,
-        storeId: 6,
         name: '고추잡채',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 고추잡채',
@@ -666,7 +589,6 @@ export const menuData: {
       },
       {
         menuId: 95,
-        storeId: 6,
         name: '중화비빔밥',
         image: 'https://via.placeholder.com/300x200',
         description: '다양한 해산물이 어우러진 중화비빔밥',
@@ -674,7 +596,6 @@ export const menuData: {
       },
       {
         menuId: 96,
-        storeId: 6,
         name: '양꼬치',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 양꼬치',
@@ -682,7 +603,6 @@ export const menuData: {
       },
       {
         menuId: 97,
-        storeId: 6,
         name: '홍소육',
         image: 'https://via.placeholder.com/300x200',
         description: '중국식 돼지고기 조림',
@@ -690,7 +610,6 @@ export const menuData: {
       },
       {
         menuId: 98,
-        storeId: 6,
         name: '칠리새우',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 칠리새우',
@@ -698,7 +617,6 @@ export const menuData: {
       },
       {
         menuId: 99,
-        storeId: 6,
         name: '유산슬',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 유산슬',
@@ -706,7 +624,6 @@ export const menuData: {
       },
       {
         menuId: 100,
-        storeId: 6,
         name: '마파두부',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 마파두부',
@@ -714,7 +631,6 @@ export const menuData: {
       },
       {
         menuId: 101,
-        storeId: 6,
         name: '고추기름',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 고추기름',
@@ -722,7 +638,6 @@ export const menuData: {
       },
       {
         menuId: 102,
-        storeId: 6,
         name: '새우완자탕',
         image: 'https://via.placeholder.com/300x200',
         description: '담백한 새우완자탕',
@@ -730,7 +645,6 @@ export const menuData: {
       },
       {
         menuId: 103,
-        storeId: 6,
         name: '탕탕이',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 탕탕이',
@@ -738,7 +652,6 @@ export const menuData: {
       },
       {
         menuId: 104,
-        storeId: 6,
         name: '사천탕면',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 사천탕면',
@@ -746,7 +659,6 @@ export const menuData: {
       },
       {
         menuId: 105,
-        storeId: 6,
         name: '흑임자탕면',
         image: 'https://via.placeholder.com/300x200',
         description: '고소한 흑임자탕면',
@@ -759,7 +671,6 @@ export const menuData: {
     menus: [
       {
         menuId: 106,
-        storeId: 7,
         name: '랍스터',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 랍스터 요리',
@@ -767,7 +678,6 @@ export const menuData: {
       },
       {
         menuId: 107,
-        storeId: 7,
         name: '가리비 구이',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 가리비를 구운 요리',
@@ -775,7 +685,6 @@ export const menuData: {
       },
       {
         menuId: 108,
-        storeId: 7,
         name: '새우 튀김',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭하게 튀긴 새우',
@@ -783,7 +692,6 @@ export const menuData: {
       },
       {
         menuId: 109,
-        storeId: 7,
         name: '홍합탕',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 홍합으로 끓인 홍합탕',
@@ -791,7 +699,6 @@ export const menuData: {
       },
       {
         menuId: 110,
-        storeId: 7,
         name: '생선회',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 생선회',
@@ -799,7 +706,6 @@ export const menuData: {
       },
       {
         menuId: 111,
-        storeId: 7,
         name: '문어 숙회',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 문어 숙회',
@@ -807,7 +713,6 @@ export const menuData: {
       },
       {
         menuId: 112,
-        storeId: 7,
         name: '해물찜',
         image: 'https://via.placeholder.com/300x200',
         description: '다양한 해산물을 찜한 요리',
@@ -815,7 +720,6 @@ export const menuData: {
       },
       {
         menuId: 113,
-        storeId: 7,
         name: '해물탕',
         image: 'https://via.placeholder.com/300x200',
         description: '해산물이 듬뿍 들어간 해물탕',
@@ -823,7 +727,6 @@ export const menuData: {
       },
       {
         menuId: 114,
-        storeId: 7,
         name: '해물 볶음밥',
         image: 'https://via.placeholder.com/300x200',
         description: '해산물이 듬뿍 들어간 볶음밥',
@@ -831,7 +734,6 @@ export const menuData: {
       },
       {
         menuId: 115,
-        storeId: 7,
         name: '해물 파스타',
         image: 'https://via.placeholder.com/300x200',
         description: '해산물이 들어간 파스타',
@@ -839,7 +741,6 @@ export const menuData: {
       },
       {
         menuId: 116,
-        storeId: 7,
         name: '전복죽',
         image: 'https://via.placeholder.com/300x200',
         description: '전복을 넣어 끓인 전복죽',
@@ -847,7 +748,6 @@ export const menuData: {
       },
       {
         menuId: 117,
-        storeId: 7,
         name: '전복구이',
         image: 'https://via.placeholder.com/300x200',
         description: '버터에 구운 전복구이',
@@ -855,7 +755,6 @@ export const menuData: {
       },
       {
         menuId: 118,
-        storeId: 7,
         name: '고등어구이',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭하게 구운 고등어구이',
@@ -863,7 +762,6 @@ export const menuData: {
       },
       {
         menuId: 119,
-        storeId: 7,
         name: '갈치조림',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 갈치조림',
@@ -871,7 +769,6 @@ export const menuData: {
       },
       {
         menuId: 120,
-        storeId: 7,
         name: '우럭구이',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭하게 구운 우럭구이',
@@ -884,7 +781,6 @@ export const menuData: {
     menus: [
       {
         menuId: 121,
-        storeId: 8,
         name: '떡볶이',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 떡볶이',
@@ -892,7 +788,6 @@ export const menuData: {
       },
       {
         menuId: 122,
-        storeId: 8,
         name: '치즈 떡볶이',
         image: 'https://via.placeholder.com/300x200',
         description: '치즈가 듬뿍 들어간 떡볶이',
@@ -900,7 +795,6 @@ export const menuData: {
       },
       {
         menuId: 123,
-        storeId: 8,
         name: '라볶이',
         image: 'https://via.placeholder.com/300x200',
         description: '라면이 들어간 떡볶이',
@@ -908,7 +802,6 @@ export const menuData: {
       },
       {
         menuId: 124,
-        storeId: 8,
         name: '오뎅 떡볶이',
         image: 'https://via.placeholder.com/300x200',
         description: '오뎅이 들어간 떡볶이',
@@ -916,7 +809,6 @@ export const menuData: {
       },
       {
         menuId: 125,
-        storeId: 8,
         name: '순대',
         image: 'https://via.placeholder.com/300x200',
         description: '쫄깃한 순대',
@@ -924,7 +816,6 @@ export const menuData: {
       },
       {
         menuId: 126,
-        storeId: 8,
         name: '튀김 모듬',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 튀김 모듬',
@@ -932,7 +823,6 @@ export const menuData: {
       },
       {
         menuId: 127,
-        storeId: 8,
         name: '김밥',
         image: 'https://via.placeholder.com/300x200',
         description: '간편하게 먹기 좋은 김밥',
@@ -940,7 +830,6 @@ export const menuData: {
       },
       {
         menuId: 128,
-        storeId: 8,
         name: '계란찜',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 계란찜',
@@ -948,7 +837,6 @@ export const menuData: {
       },
       {
         menuId: 129,
-        storeId: 8,
         name: '새우튀김',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 새우튀김',
@@ -956,7 +844,6 @@ export const menuData: {
       },
       {
         menuId: 130,
-        storeId: 8,
         name: '만두',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭하게 튀긴 만두',
@@ -964,7 +851,6 @@ export const menuData: {
       },
       {
         menuId: 131,
-        storeId: 8,
         name: '어묵국',
         image: 'https://via.placeholder.com/300x200',
         description: '따뜻한 어묵국',
@@ -972,7 +858,6 @@ export const menuData: {
       },
       {
         menuId: 132,
-        storeId: 8,
         name: '치즈 김밥',
         image: 'https://via.placeholder.com/300x200',
         description: '치즈가 들어간 김밥',
@@ -980,7 +865,6 @@ export const menuData: {
       },
       {
         menuId: 133,
-        storeId: 8,
         name: '떡꼬치',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤달콤한 떡꼬치',
@@ -988,7 +872,6 @@ export const menuData: {
       },
       {
         menuId: 134,
-        storeId: 8,
         name: '소떡소떡',
         image: 'https://via.placeholder.com/300x200',
         description: '소시지와 떡이 어우러진 간식',
@@ -996,7 +879,6 @@ export const menuData: {
       },
       {
         menuId: 135,
-        storeId: 8,
         name: '핫도그',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 핫도그',
@@ -1009,7 +891,6 @@ export const menuData: {
     menus: [
       {
         menuId: 136,
-        storeId: 9,
         name: '불고기 덮밥',
         image: 'https://via.placeholder.com/300x200',
         description: '한국식 불고기를 올린 덮밥',
@@ -1017,7 +898,6 @@ export const menuData: {
       },
       {
         menuId: 137,
-        storeId: 9,
         name: '김치볶음밥',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 김치볶음밥',
@@ -1025,7 +905,6 @@ export const menuData: {
       },
       {
         menuId: 138,
-        storeId: 9,
         name: '비빔밥',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 채소와 고추장을 비벼먹는 비빔밥',
@@ -1033,7 +912,6 @@ export const menuData: {
       },
       {
         menuId: 139,
-        storeId: 9,
         name: '제육덮밥',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 제육을 올린 덮밥',
@@ -1041,7 +919,6 @@ export const menuData: {
       },
       {
         menuId: 140,
-        storeId: 9,
         name: '불닭볶음면',
         image: 'https://via.placeholder.com/300x200',
         description: '매운 불닭볶음면',
@@ -1049,7 +926,6 @@ export const menuData: {
       },
       {
         menuId: 141,
-        storeId: 9,
         name: '감자전',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 감자전',
@@ -1057,7 +933,6 @@ export const menuData: {
       },
       {
         menuId: 142,
-        storeId: 9,
         name: '삼겹살',
         image: 'https://via.placeholder.com/300x200',
         description: '두툼한 삼겹살 구이',
@@ -1065,7 +940,6 @@ export const menuData: {
       },
       {
         menuId: 143,
-        storeId: 9,
         name: '갈비찜',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 갈비찜',
@@ -1073,7 +947,6 @@ export const menuData: {
       },
       {
         menuId: 144,
-        storeId: 9,
         name: '된장찌개',
         image: 'https://via.placeholder.com/300x200',
         description: '구수한 된장찌개',
@@ -1081,7 +954,6 @@ export const menuData: {
       },
       {
         menuId: 145,
-        storeId: 9,
         name: '갈비탕',
         image: 'https://via.placeholder.com/300x200',
         description: '뜨끈한 갈비탕',
@@ -1089,7 +961,6 @@ export const menuData: {
       },
       {
         menuId: 146,
-        storeId: 9,
         name: '육회비빔밥',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 육회를 올린 비빔밥',
@@ -1097,7 +968,6 @@ export const menuData: {
       },
       {
         menuId: 147,
-        storeId: 9,
         name: '돼지불백',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 돼지불백',
@@ -1105,7 +975,6 @@ export const menuData: {
       },
       {
         menuId: 148,
-        storeId: 9,
         name: '해물파전',
         image: 'https://via.placeholder.com/300x200',
         description: '해물이 듬뿍 들어간 파전',
@@ -1113,7 +982,6 @@ export const menuData: {
       },
       {
         menuId: 149,
-        storeId: 9,
         name: '닭갈비',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 닭갈비',
@@ -1121,7 +989,6 @@ export const menuData: {
       },
       {
         menuId: 150,
-        storeId: 9,
         name: '순두부찌개',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 순두부찌개',
@@ -1134,7 +1001,6 @@ export const menuData: {
     menus: [
       {
         menuId: 151,
-        storeId: 10,
         name: '브런치 세트',
         image: 'https://via.placeholder.com/300x200',
         description: '베이컨, 소시지, 계란, 빵이 포함된 브런치 세트',
@@ -1142,7 +1008,6 @@ export const menuData: {
       },
       {
         menuId: 152,
-        storeId: 10,
         name: '에그 베네딕트',
         image: 'https://via.placeholder.com/300x200',
         description: '홀랜다이즈 소스를 곁들인 에그 베네딕트',
@@ -1150,7 +1015,6 @@ export const menuData: {
       },
       {
         menuId: 153,
-        storeId: 10,
         name: '팬케이크',
         image: 'https://via.placeholder.com/300x200',
         description: '버터와 메이플 시럽이 곁들여진 팬케이크',
@@ -1158,7 +1022,6 @@ export const menuData: {
       },
       {
         menuId: 154,
-        storeId: 10,
         name: '프렌치 토스트',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 프렌치 토스트',
@@ -1166,7 +1029,6 @@ export const menuData: {
       },
       {
         menuId: 155,
-        storeId: 10,
         name: '오믈렛',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 채소와 치즈를 곁들인 오믈렛',
@@ -1174,7 +1036,6 @@ export const menuData: {
       },
       {
         menuId: 156,
-        storeId: 10,
         name: '그릭 요거트 볼',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 과일과 그라놀라가 들어간 그릭 요거트 볼',
@@ -1182,7 +1043,6 @@ export const menuData: {
       },
       {
         menuId: 157,
-        storeId: 10,
         name: '아보카도 토스트',
         image: 'https://via.placeholder.com/300x200',
         description: '아보카도를 올린 건강한 토스트',
@@ -1190,7 +1050,6 @@ export const menuData: {
       },
       {
         menuId: 158,
-        storeId: 10,
         name: '크로와상 샌드위치',
         image: 'https://via.placeholder.com/300x200',
         description: '햄과 치즈가 들어간 크로와상 샌드위치',
@@ -1198,7 +1057,6 @@ export const menuData: {
       },
       {
         menuId: 159,
-        storeId: 10,
         name: '과일 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 과일이 듬뿍 들어간 샐러드',
@@ -1206,7 +1064,6 @@ export const menuData: {
       },
       {
         menuId: 160,
-        storeId: 10,
         name: '버터밀크 비스킷',
         image: 'https://via.placeholder.com/300x200',
         description: '버터밀크로 만든 비스킷',
@@ -1214,7 +1071,6 @@ export const menuData: {
       },
       {
         menuId: 161,
-        storeId: 10,
         name: '스모크드 연어 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '스모크드 연어가 올라간 샐러드',
@@ -1222,7 +1078,6 @@ export const menuData: {
       },
       {
         menuId: 162,
-        storeId: 10,
         name: '블루베리 머핀',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 블루베리가 듬뿍 들어간 머핀',
@@ -1230,7 +1085,6 @@ export const menuData: {
       },
       {
         menuId: 163,
-        storeId: 10,
         name: '아이스 아메리카노',
         image: 'https://via.placeholder.com/300x200',
         description: '시원한 아이스 아메리카노',
@@ -1238,7 +1092,6 @@ export const menuData: {
       },
       {
         menuId: 164,
-        storeId: 10,
         name: '카푸치노',
         image: 'https://via.placeholder.com/300x200',
         description: '크림이 듬뿍 올려진 카푸치노',
@@ -1246,7 +1099,6 @@ export const menuData: {
       },
       {
         menuId: 165,
-        storeId: 10,
         name: '과일 스무디',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 과일로 만든 스무디',
@@ -1259,7 +1111,6 @@ export const menuData: {
     menus: [
       {
         menuId: 166,
-        storeId: 11,
         name: '바비큐 플래터',
         image: 'https://via.placeholder.com/300x200',
         description: '다양한 고기와 소스가 함께 제공되는 바비큐 플래터',
@@ -1267,7 +1118,6 @@ export const menuData: {
       },
       {
         menuId: 167,
-        storeId: 11,
         name: '푸짐한 립',
         image: 'https://via.placeholder.com/300x200',
         description: '부드럽게 구워진 푸짐한 립',
@@ -1275,7 +1125,6 @@ export const menuData: {
       },
       {
         menuId: 168,
-        storeId: 11,
         name: '스모크드 브리스킷',
         image: 'https://via.placeholder.com/300x200',
         description: '훈제한 브리스킷',
@@ -1283,7 +1132,6 @@ export const menuData: {
       },
       {
         menuId: 169,
-        storeId: 11,
         name: '그릴드 치킨',
         image: 'https://via.placeholder.com/300x200',
         description: '바비큐 소스와 함께 구운 치킨',
@@ -1291,7 +1139,6 @@ export const menuData: {
       },
       {
         menuId: 170,
-        storeId: 11,
         name: '포크 립',
         image: 'https://via.placeholder.com/300x200',
         description: '부드럽게 익힌 포크 립',
@@ -1299,7 +1146,6 @@ export const menuData: {
       },
       {
         menuId: 171,
-        storeId: 11,
         name: '핫 윙즈',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 핫 윙즈',
@@ -1307,7 +1153,6 @@ export const menuData: {
       },
       {
         menuId: 172,
-        storeId: 11,
         name: '맥 앤 치즈',
         image: 'https://via.placeholder.com/300x200',
         description: '치즈가 듬뿍 들어간 맥 앤 치즈',
@@ -1315,7 +1160,6 @@ export const menuData: {
       },
       {
         menuId: 173,
-        storeId: 11,
         name: '콘브레드',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 콘브레드',
@@ -1323,7 +1167,6 @@ export const menuData: {
       },
       {
         menuId: 174,
-        storeId: 11,
         name: '그릴드 옥수수',
         image: 'https://via.placeholder.com/300x200',
         description: '버터를 발라 구운 옥수수',
@@ -1331,7 +1174,6 @@ export const menuData: {
       },
       {
         menuId: 175,
-        storeId: 11,
         name: '바비큐 소시지',
         image: 'https://via.placeholder.com/300x200',
         description: '바비큐로 구운 소시지',
@@ -1339,7 +1181,6 @@ export const menuData: {
       },
       {
         menuId: 176,
-        storeId: 11,
         name: '콜슬로우',
         image: 'https://via.placeholder.com/300x200',
         description: '상큼한 콜슬로우 샐러드',
@@ -1347,7 +1188,6 @@ export const menuData: {
       },
       {
         menuId: 177,
-        storeId: 11,
         name: '사우스웨스턴 감자튀김',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 감자튀김',
@@ -1355,7 +1195,6 @@ export const menuData: {
       },
       {
         menuId: 178,
-        storeId: 11,
         name: '바비큐 치킨 샌드위치',
         image: 'https://via.placeholder.com/300x200',
         description: '바비큐 치킨과 샐러드가 들어간 샌드위치',
@@ -1363,7 +1202,6 @@ export const menuData: {
       },
       {
         menuId: 179,
-        storeId: 11,
         name: '버터밀크 치킨 텐더',
         image: 'https://via.placeholder.com/300x200',
         description: '버터밀크에 재운 치킨 텐더',
@@ -1371,7 +1209,6 @@ export const menuData: {
       },
       {
         menuId: 180,
-        storeId: 11,
         name: '크림 옥수수 수프',
         image: 'https://via.placeholder.com/300x200',
         description: '크림이 듬뿍 들어간 옥수수 수프',
@@ -1384,7 +1221,6 @@ export const menuData: {
     menus: [
       {
         menuId: 181,
-        storeId: 12,
         name: '프렌치 오니언 수프',
         image: 'https://via.placeholder.com/300x200',
         description: '카라멜라이즈된 양파와 치즈를 올린 프랑스식 오니언 수프',
@@ -1392,7 +1228,6 @@ export const menuData: {
       },
       {
         menuId: 182,
-        storeId: 12,
         name: '비프 부르기뇽',
         image: 'https://via.placeholder.com/300x200',
         description: '와인에 천천히 익힌 프랑스식 비프 스튜',
@@ -1400,7 +1235,6 @@ export const menuData: {
       },
       {
         menuId: 183,
-        storeId: 12,
         name: '크로크무슈',
         image: 'https://via.placeholder.com/300x200',
         description: '햄과 치즈가 듬뿍 들어간 프랑스식 샌드위치',
@@ -1408,7 +1242,6 @@ export const menuData: {
       },
       {
         menuId: 184,
-        storeId: 12,
         name: '라따뚜이',
         image: 'https://via.placeholder.com/300x200',
         description: '다양한 채소를 이용해 만든 프랑스식 채소 요리',
@@ -1416,7 +1249,6 @@ export const menuData: {
       },
       {
         menuId: 185,
-        storeId: 12,
         name: '에스카르고',
         image: 'https://via.placeholder.com/300x200',
         description: '버터와 마늘로 요리한 달팽이 요리',
@@ -1424,7 +1256,6 @@ export const menuData: {
       },
       {
         menuId: 186,
-        storeId: 12,
         name: '퀴슈 로렌',
         image: 'https://via.placeholder.com/300x200',
         description: '크림과 베이컨이 들어간 프랑스식 타르트',
@@ -1432,7 +1263,6 @@ export const menuData: {
       },
       {
         menuId: 187,
-        storeId: 12,
         name: '크렘 브륄레',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 설탕 껍질과 부드러운 크림이 조화를 이루는 디저트',
@@ -1440,7 +1270,6 @@ export const menuData: {
       },
       {
         menuId: 188,
-        storeId: 12,
         name: '프로피테롤',
         image: 'https://via.placeholder.com/300x200',
         description: '크림이 들어간 프랑스식 작은 슈',
@@ -1448,7 +1277,6 @@ export const menuData: {
       },
       {
         menuId: 189,
-        storeId: 12,
         name: '크레페',
         image: 'https://via.placeholder.com/300x200',
         description: '얇고 부드러운 프랑스식 팬케이크',
@@ -1456,7 +1284,6 @@ export const menuData: {
       },
       {
         menuId: 190,
-        storeId: 12,
         name: '부야베스',
         image: 'https://via.placeholder.com/300x200',
         description: '해산물이 가득한 프랑스식 스튜',
@@ -1464,7 +1291,6 @@ export const menuData: {
       },
       {
         menuId: 191,
-        storeId: 12,
         name: '따르따르 스테이크',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 고기를 잘게 썰어 조미한 프랑스식 요리',
@@ -1472,7 +1298,6 @@ export const menuData: {
       },
       {
         menuId: 192,
-        storeId: 12,
         name: '푸아그라',
         image: 'https://via.placeholder.com/300x200',
         description: '거위 간을 이용한 프랑스 전통 요리',
@@ -1480,7 +1305,6 @@ export const menuData: {
       },
       {
         menuId: 193,
-        storeId: 12,
         name: '닭가슴살 라꾸',
         image: 'https://via.placeholder.com/300x200',
         description: '부드럽게 익힌 닭가슴살 요리',
@@ -1488,7 +1312,6 @@ export const menuData: {
       },
       {
         menuId: 194,
-        storeId: 12,
         name: '프렌치 프라이',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 프랑스식 감자튀김',
@@ -1496,7 +1319,6 @@ export const menuData: {
       },
       {
         menuId: 195,
-        storeId: 12,
         name: '스테이크 프리츠',
         image: 'https://via.placeholder.com/300x200',
         description: '스테이크와 프렌치 프라이를 곁들인 전통 프랑스 요리',
@@ -1509,7 +1331,6 @@ export const menuData: {
     menus: [
       {
         menuId: 196,
-        storeId: 13,
         name: '비건 버거',
         image: 'https://via.placeholder.com/300x200',
         description: '고기 대신 비건 패티가 들어간 버거',
@@ -1517,7 +1338,6 @@ export const menuData: {
       },
       {
         menuId: 197,
-        storeId: 13,
         name: '비건 피자',
         image: 'https://via.placeholder.com/300x200',
         description: '치즈 대신 비건 치즈를 사용한 피자',
@@ -1525,7 +1345,6 @@ export const menuData: {
       },
       {
         menuId: 198,
-        storeId: 13,
         name: '비건 파스타',
         image: 'https://via.placeholder.com/300x200',
         description: '고기 대신 채소가 들어간 파스타',
@@ -1533,7 +1352,6 @@ export const menuData: {
       },
       {
         menuId: 199,
-        storeId: 13,
         name: '비건 타코',
         image: 'https://via.placeholder.com/300x200',
         description: '고기 대신 비건 재료가 들어간 타코',
@@ -1541,7 +1359,6 @@ export const menuData: {
       },
       {
         menuId: 200,
-        storeId: 13,
         name: '비건 커리',
         image: 'https://via.placeholder.com/300x200',
         description: '고기 없이 채소만으로 만든 커리',
@@ -1549,7 +1366,6 @@ export const menuData: {
       },
       {
         menuId: 201,
-        storeId: 13,
         name: '비건 스시',
         image: 'https://via.placeholder.com/300x200',
         description: '생선 대신 채소를 이용한 스시',
@@ -1557,7 +1373,6 @@ export const menuData: {
       },
       {
         menuId: 202,
-        storeId: 13,
         name: '비건 샌드위치',
         image: 'https://via.placeholder.com/300x200',
         description: '고기 대신 비건 재료가 들어간 샌드위치',
@@ -1565,7 +1380,6 @@ export const menuData: {
       },
       {
         menuId: 203,
-        storeId: 13,
         name: '비건 라자냐',
         image: 'https://via.placeholder.com/300x200',
         description: '고기 대신 채소가 들어간 라자냐',
@@ -1573,7 +1387,6 @@ export const menuData: {
       },
       {
         menuId: 204,
-        storeId: 13,
         name: '비건 볶음밥',
         image: 'https://via.placeholder.com/300x200',
         description: '고기 없이 채소만으로 만든 볶음밥',
@@ -1581,7 +1394,6 @@ export const menuData: {
       },
       {
         menuId: 205,
-        storeId: 13,
         name: '비건 스무디 볼',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 과일로 만든 비건 스무디 볼',
@@ -1589,7 +1401,6 @@ export const menuData: {
       },
       {
         menuId: 206,
-        storeId: 13,
         name: '비건 아이스크림',
         image: 'https://via.placeholder.com/300x200',
         description: '유제품 대신 코코넛 밀크로 만든 비건 아이스크림',
@@ -1597,7 +1408,6 @@ export const menuData: {
       },
       {
         menuId: 207,
-        storeId: 13,
         name: '비건 케이크',
         image: 'https://via.placeholder.com/300x200',
         description: '유제품 대신 비건 재료로 만든 케이크',
@@ -1605,7 +1415,6 @@ export const menuData: {
       },
       {
         menuId: 208,
-        storeId: 13,
         name: '비건 브라우니',
         image: 'https://via.placeholder.com/300x200',
         description: '고기 없이 채소만으로 만든 브라우니',
@@ -1613,7 +1422,6 @@ export const menuData: {
       },
       {
         menuId: 209,
-        storeId: 13,
         name: '비건 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '다양한 신선한 채소로 만든 비건 샐러드',
@@ -1621,7 +1429,6 @@ export const menuData: {
       },
       {
         menuId: 210,
-        storeId: 13,
         name: '비건 수프',
         image: 'https://via.placeholder.com/300x200',
         description: '고기 없이 채소만으로 만든 비건 수프',
@@ -1634,7 +1441,6 @@ export const menuData: {
     menus: [
       {
         menuId: 211,
-        storeId: 14,
         name: '초콜릿 무스 케이크',
         image: 'https://via.placeholder.com/300x200',
         description: '부드럽고 진한 초콜릿 무스를 곁들인 케이크',
@@ -1642,7 +1448,6 @@ export const menuData: {
       },
       {
         menuId: 212,
-        storeId: 14,
         name: '레몬 타르트',
         image: 'https://via.placeholder.com/300x200',
         description: '상큼한 레몬 크림이 들어간 타르트',
@@ -1650,7 +1455,6 @@ export const menuData: {
       },
       {
         menuId: 213,
-        storeId: 14,
         name: '마카롱 세트',
         image: 'https://via.placeholder.com/300x200',
         description: '다양한 맛의 마카롱 세트',
@@ -1658,7 +1462,6 @@ export const menuData: {
       },
       {
         menuId: 214,
-        storeId: 14,
         name: '티라미수',
         image: 'https://via.placeholder.com/300x200',
         description: '커피와 마스카포네 치즈가 어우러진 디저트',
@@ -1666,7 +1469,6 @@ export const menuData: {
       },
       {
         menuId: 215,
-        storeId: 14,
         name: '치즈 케이크',
         image: 'https://via.placeholder.com/300x200',
         description: '부드럽고 진한 치즈 맛의 케이크',
@@ -1674,7 +1476,6 @@ export const menuData: {
       },
       {
         menuId: 216,
-        storeId: 14,
         name: '브라우니',
         image: 'https://via.placeholder.com/300x200',
         description: '진한 초콜릿 맛의 브라우니',
@@ -1682,7 +1483,6 @@ export const menuData: {
       },
       {
         menuId: 217,
-        storeId: 14,
         name: '파블로바',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 머랭과 크림이 조화로운 디저트',
@@ -1690,7 +1490,6 @@ export const menuData: {
       },
       {
         menuId: 218,
-        storeId: 14,
         name: '크레페 케이크',
         image: 'https://via.placeholder.com/300x200',
         description: '얇은 크레페가 여러 겹 쌓인 케이크',
@@ -1698,7 +1497,6 @@ export const menuData: {
       },
       {
         menuId: 219,
-        storeId: 14,
         name: '애플 파이',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 사과가 들어간 파이',
@@ -1706,7 +1504,6 @@ export const menuData: {
       },
       {
         menuId: 220,
-        storeId: 14,
         name: '베리 타르트',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 베리가 듬뿍 들어간 타르트',
@@ -1714,7 +1511,6 @@ export const menuData: {
       },
       {
         menuId: 221,
-        storeId: 14,
         name: '초콜릿 퐁당',
         image: 'https://via.placeholder.com/300x200',
         description: '초콜릿이 흐르는 디저트',
@@ -1722,7 +1518,6 @@ export const menuData: {
       },
       {
         menuId: 222,
-        storeId: 14,
         name: '레드벨벳 케이크',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 레드벨벳 케이크',
@@ -1730,7 +1525,6 @@ export const menuData: {
       },
       {
         menuId: 223,
-        storeId: 14,
         name: '카라멜 푸딩',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 카라멜과 부드러운 푸딩',
@@ -1738,7 +1532,6 @@ export const menuData: {
       },
       {
         menuId: 224,
-        storeId: 14,
         name: '파리 브레스트',
         image: 'https://via.placeholder.com/300x200',
         description: '헤이즐넛 크림이 들어간 디저트',
@@ -1746,7 +1539,6 @@ export const menuData: {
       },
       {
         menuId: 225,
-        storeId: 14,
         name: '바나나 푸딩',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 바나나 푸딩',
@@ -1759,7 +1551,6 @@ export const menuData: {
     menus: [
       {
         menuId: 226,
-        storeId: 15,
         name: '한우 갈비',
         image: 'https://via.placeholder.com/300x200',
         description: '정통 한우 갈비',
@@ -1767,7 +1558,6 @@ export const menuData: {
       },
       {
         menuId: 227,
-        storeId: 15,
         name: '한우 육회',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 한우 육회',
@@ -1775,7 +1565,6 @@ export const menuData: {
       },
       {
         menuId: 228,
-        storeId: 15,
         name: '한우 불고기',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 양념으로 조리한 한우 불고기',
@@ -1783,7 +1572,6 @@ export const menuData: {
       },
       {
         menuId: 229,
-        storeId: 15,
         name: '한우 스테이크',
         image: 'https://via.placeholder.com/300x200',
         description: '두툼하게 구운 한우 스테이크',
@@ -1791,7 +1579,6 @@ export const menuData: {
       },
       {
         menuId: 230,
-        storeId: 15,
         name: '한우 차돌박이',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 한우 차돌박이',
@@ -1799,7 +1586,6 @@ export const menuData: {
       },
       {
         menuId: 231,
-        storeId: 15,
         name: '한우 양념갈비',
         image: 'https://via.placeholder.com/300x200',
         description: '특제 양념으로 맛을 낸 한우 갈비',
@@ -1807,7 +1593,6 @@ export const menuData: {
       },
       {
         menuId: 232,
-        storeId: 15,
         name: '한우 사골탕',
         image: 'https://via.placeholder.com/300x200',
         description: '진하게 우려낸 한우 사골탕',
@@ -1815,7 +1600,6 @@ export const menuData: {
       },
       {
         menuId: 233,
-        storeId: 15,
         name: '한우 갈비탕',
         image: 'https://via.placeholder.com/300x200',
         description: '한우 갈비로 만든 따뜻한 갈비탕',
@@ -1823,7 +1607,6 @@ export const menuData: {
       },
       {
         menuId: 234,
-        storeId: 15,
         name: '한우 곰탕',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 한우 곰탕',
@@ -1831,7 +1614,6 @@ export const menuData: {
       },
       {
         menuId: 235,
-        storeId: 15,
         name: '한우 된장찌개',
         image: 'https://via.placeholder.com/300x200',
         description: '한우와 함께 끓인 된장찌개',
@@ -1839,7 +1621,6 @@ export const menuData: {
       },
       {
         menuId: 236,
-        storeId: 15,
         name: '한우 떡갈비',
         image: 'https://via.placeholder.com/300x200',
         description: '한우로 만든 부드러운 떡갈비',
@@ -1847,7 +1628,6 @@ export const menuData: {
       },
       {
         menuId: 237,
-        storeId: 15,
         name: '한우 육전',
         image: 'https://via.placeholder.com/300x200',
         description: '얇게 썬 한우를 전으로 부친 요리',
@@ -1855,7 +1635,6 @@ export const menuData: {
       },
       {
         menuId: 238,
-        storeId: 15,
         name: '한우 등심구이',
         image: 'https://via.placeholder.com/300x200',
         description: '최상급 한우 등심구이',
@@ -1863,7 +1642,6 @@ export const menuData: {
       },
       {
         menuId: 239,
-        storeId: 15,
         name: '한우 비빔밥',
         image: 'https://via.placeholder.com/300x200',
         description: '한우가 들어간 비빔밥',
@@ -1871,7 +1649,6 @@ export const menuData: {
       },
       {
         menuId: 240,
-        storeId: 15,
         name: '한우 국밥',
         image: 'https://via.placeholder.com/300x200',
         description: '한우로 만든 국밥',
@@ -1884,7 +1661,6 @@ export const menuData: {
     menus: [
       {
         menuId: 241,
-        storeId: 16,
         name: '알리오 올리오',
         image: 'https://via.placeholder.com/300x200',
         description: '마늘과 올리브 오일로 만든 심플한 파스타',
@@ -1892,7 +1668,6 @@ export const menuData: {
       },
       {
         menuId: 242,
-        storeId: 16,
         name: '카르보나라',
         image: 'https://via.placeholder.com/300x200',
         description: '크림 소스와 베이컨이 들어간 파스타',
@@ -1900,7 +1675,6 @@ export const menuData: {
       },
       {
         menuId: 243,
-        storeId: 16,
         name: '볼로네제',
         image: 'https://via.placeholder.com/300x200',
         description: '진한 토마토 소스와 고기가 들어간 파스타',
@@ -1908,7 +1682,6 @@ export const menuData: {
       },
       {
         menuId: 244,
-        storeId: 16,
         name: '페스토 파스타',
         image: 'https://via.placeholder.com/300x200',
         description: '바질 페스토와 함께 즐기는 파스타',
@@ -1916,7 +1689,6 @@ export const menuData: {
       },
       {
         menuId: 245,
-        storeId: 16,
         name: '봉골레',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 조개가 들어간 파스타',
@@ -1924,7 +1696,6 @@ export const menuData: {
       },
       {
         menuId: 246,
-        storeId: 16,
         name: '라자냐',
         image: 'https://via.placeholder.com/300x200',
         description: '고기와 치즈가 층층이 쌓인 라자냐',
@@ -1932,7 +1703,6 @@ export const menuData: {
       },
       {
         menuId: 247,
-        storeId: 16,
         name: '해물 파스타',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 해산물이 듬뿍 들어간 파스타',
@@ -1940,7 +1710,6 @@ export const menuData: {
       },
       {
         menuId: 248,
-        storeId: 16,
         name: '새우 크림 파스타',
         image: 'https://via.placeholder.com/300x200',
         description: '크림 소스와 신선한 새우가 들어간 파스타',
@@ -1948,7 +1717,6 @@ export const menuData: {
       },
       {
         menuId: 249,
-        storeId: 16,
         name: '치킨 알프레도',
         image: 'https://via.placeholder.com/300x200',
         description: '크림 소스와 치킨이 들어간 파스타',
@@ -1956,7 +1724,6 @@ export const menuData: {
       },
       {
         menuId: 250,
-        storeId: 16,
         name: '트러플 파스타',
         image: 'https://via.placeholder.com/300x200',
         description: '트러플 오일로 풍미를 더한 파스타',
@@ -1964,7 +1731,6 @@ export const menuData: {
       },
       {
         menuId: 251,
-        storeId: 16,
         name: '프라이드 라비올리',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭하게 튀긴 라비올리',
@@ -1972,7 +1738,6 @@ export const menuData: {
       },
       {
         menuId: 252,
-        storeId: 16,
         name: '뇨끼',
         image: 'https://via.placeholder.com/300x200',
         description: '부드럽고 쫄깃한 감자 뇨끼',
@@ -1980,7 +1745,6 @@ export const menuData: {
       },
       {
         menuId: 253,
-        storeId: 16,
         name: '포르치니 리조또',
         image: 'https://via.placeholder.com/300x200',
         description: '고소한 포르치니 버섯이 들어간 리조또',
@@ -1988,7 +1752,6 @@ export const menuData: {
       },
       {
         menuId: 254,
-        storeId: 16,
         name: '마리나라',
         image: 'https://via.placeholder.com/300x200',
         description: '토마토 소스와 해산물이 듬뿍 들어간 파스타',
@@ -1996,7 +1759,6 @@ export const menuData: {
       },
       {
         menuId: 255,
-        storeId: 16,
         name: '로제 파스타',
         image: 'https://via.placeholder.com/300x200',
         description: '토마토와 크림이 조화로운 로제 파스타',
@@ -2009,7 +1771,6 @@ export const menuData: {
     menus: [
       {
         menuId: 256,
-        storeId: 17,
         name: '치킨 티카 마살라',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 인도식 커리 치킨',
@@ -2017,7 +1778,6 @@ export const menuData: {
       },
       {
         menuId: 257,
-        storeId: 17,
         name: '비프 카레',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 소고기와 카레가 어우러진 요리',
@@ -2025,7 +1785,6 @@ export const menuData: {
       },
       {
         menuId: 258,
-        storeId: 17,
         name: '라면 카레',
         image: 'https://via.placeholder.com/300x200',
         description: '진한 카레 국물에 라면을 넣은 요리',
@@ -2033,7 +1792,6 @@ export const menuData: {
       },
       {
         menuId: 259,
-        storeId: 17,
         name: '파니니',
         image: 'https://via.placeholder.com/300x200',
         description: '따뜻하게 구운 파니니 샌드위치',
@@ -2041,7 +1799,6 @@ export const menuData: {
       },
       {
         menuId: 260,
-        storeId: 17,
         name: '차나 마살라',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 인도식 병아리콩 요리',
@@ -2049,7 +1806,6 @@ export const menuData: {
       },
       {
         menuId: 261,
-        storeId: 17,
         name: '난',
         image: 'https://via.placeholder.com/300x200',
         description: '인도식 바삭한 빵',
@@ -2057,7 +1813,6 @@ export const menuData: {
       },
       {
         menuId: 262,
-        storeId: 17,
         name: '새우 카레',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 새우와 매콤한 카레가 어우러진 요리',
@@ -2065,7 +1820,6 @@ export const menuData: {
       },
       {
         menuId: 263,
-        storeId: 17,
         name: '비건 카레',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 채소로 만든 비건 카레',
@@ -2073,7 +1827,6 @@ export const menuData: {
       },
       {
         menuId: 264,
-        storeId: 17,
         name: '사모사',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭한 인도식 만두',
@@ -2081,7 +1834,6 @@ export const menuData: {
       },
       {
         menuId: 265,
-        storeId: 17,
         name: '단호박 카레',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 단호박이 들어간 카레',
@@ -2089,7 +1841,6 @@ export const menuData: {
       },
       {
         menuId: 266,
-        storeId: 17,
         name: '그린 카레',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 태국식 그린 카레',
@@ -2097,7 +1848,6 @@ export const menuData: {
       },
       {
         menuId: 267,
-        storeId: 17,
         name: '감자 카레',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 감자와 카레가 어우러진 요리',
@@ -2105,7 +1855,6 @@ export const menuData: {
       },
       {
         menuId: 268,
-        storeId: 17,
         name: '인도식 라씨',
         image: 'https://via.placeholder.com/300x200',
         description: '인도식 요구르트 음료',
@@ -2113,7 +1862,6 @@ export const menuData: {
       },
       {
         menuId: 269,
-        storeId: 17,
         name: '일본식 카레 돈까스',
         image: 'https://via.placeholder.com/300x200',
         description: '일본식 카레와 바삭한 돈까스가 어우러진 요리',
@@ -2121,7 +1869,6 @@ export const menuData: {
       },
       {
         menuId: 270,
-        storeId: 17,
         name: '일본식 오므라이스',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 오므라이스와 카레 소스',
@@ -2134,7 +1881,6 @@ export const menuData: {
     menus: [
       {
         menuId: 271,
-        storeId: 18,
         name: '팟타이',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 새우와 땅콩이 들어간 태국식 볶음면',
@@ -2142,7 +1888,6 @@ export const menuData: {
       },
       {
         menuId: 272,
-        storeId: 18,
         name: '나시고랭',
         image: 'https://via.placeholder.com/300x200',
         description: '인도네시아식 볶음밥',
@@ -2150,7 +1895,6 @@ export const menuData: {
       },
       {
         menuId: 273,
-        storeId: 18,
         name: '미고랭',
         image: 'https://via.placeholder.com/300x200',
         description: '인도네시아식 볶음면',
@@ -2158,7 +1902,6 @@ export const menuData: {
       },
       {
         menuId: 274,
-        storeId: 18,
         name: '반미',
         image: 'https://via.placeholder.com/300x200',
         description: '베트남식 샌드위치',
@@ -2166,7 +1909,6 @@ export const menuData: {
       },
       {
         menuId: 275,
-        storeId: 18,
         name: '파파야 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '태국식 신선한 파파야 샐러드',
@@ -2174,7 +1916,6 @@ export const menuData: {
       },
       {
         menuId: 276,
-        storeId: 18,
         name: '토미얌',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 태국식 해산물 수프',
@@ -2182,7 +1923,6 @@ export const menuData: {
       },
       {
         menuId: 277,
-        storeId: 18,
         name: '쌀국수',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 채소와 고기가 들어간 베트남식 쌀국수',
@@ -2190,7 +1930,6 @@ export const menuData: {
       },
       {
         menuId: 278,
-        storeId: 18,
         name: '카오 팟',
         image: 'https://via.placeholder.com/300x200',
         description: '태국식 볶음밥',
@@ -2198,7 +1937,6 @@ export const menuData: {
       },
       {
         menuId: 279,
-        storeId: 18,
         name: '짜조',
         image: 'https://via.placeholder.com/300x200',
         description: '바삭하게 튀긴 베트남식 스프링롤',
@@ -2206,7 +1944,6 @@ export const menuData: {
       },
       {
         menuId: 280,
-        storeId: 18,
         name: '소고기 쌀국수',
         image: 'https://via.placeholder.com/300x200',
         description: '진한 국물의 소고기 쌀국수',
@@ -2214,7 +1951,6 @@ export const menuData: {
       },
       {
         menuId: 281,
-        storeId: 18,
         name: '태국식 그린 커리',
         image: 'https://via.placeholder.com/300x200',
         description: '매콤한 태국식 그린 커리',
@@ -2222,7 +1958,6 @@ export const menuData: {
       },
       {
         menuId: 282,
-        storeId: 18,
         name: '인도네시아식 사테',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 고기와 채소가 들어간 인도네시아식 꼬치',
@@ -2230,7 +1965,6 @@ export const menuData: {
       },
       {
         menuId: 283,
-        storeId: 18,
         name: '타이티',
         image: 'https://via.placeholder.com/300x200',
         description: '상큼한 타이식 칵테일',
@@ -2238,7 +1972,6 @@ export const menuData: {
       },
       {
         menuId: 284,
-        storeId: 18,
         name: '차이 라떼',
         image: 'https://via.placeholder.com/300x200',
         description: '태국식 향신료가 들어간 차이 라떼',
@@ -2246,7 +1979,6 @@ export const menuData: {
       },
       {
         menuId: 285,
-        storeId: 18,
         name: '베트남식 아이스 커피',
         image: 'https://via.placeholder.com/300x200',
         description: '진한 베트남식 아이스 커피',
@@ -2259,7 +1991,6 @@ export const menuData: {
     menus: [
       {
         menuId: 286,
-        storeId: 19,
         name: '티본 스테이크',
         image: 'https://via.placeholder.com/300x200',
         description: '두툼한 티본 스테이크',
@@ -2267,7 +1998,6 @@ export const menuData: {
       },
       {
         menuId: 287,
-        storeId: 19,
         name: '립아이 스테이크',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 립아이 스테이크',
@@ -2275,7 +2005,6 @@ export const menuData: {
       },
       {
         menuId: 288,
-        storeId: 19,
         name: '필레미뇽',
         image: 'https://via.placeholder.com/300x200',
         description: '부드러운 필레미뇽 스테이크',
@@ -2283,7 +2012,6 @@ export const menuData: {
       },
       {
         menuId: 289,
-        storeId: 19,
         name: '포터하우스 스테이크',
         image: 'https://via.placeholder.com/300x200',
         description: '두툼한 포터하우스 스테이크',
@@ -2291,7 +2019,6 @@ export const menuData: {
       },
       {
         menuId: 290,
-        storeId: 19,
         name: '플랫 아이언 스테이크',
         image: 'https://via.placeholder.com/300x200',
         description: '육즙이 가득한 플랫 아이언 스테이크',
@@ -2299,7 +2026,6 @@ export const menuData: {
       },
       {
         menuId: 291,
-        storeId: 19,
         name: '뉴욕 스트립 스테이크',
         image: 'https://via.placeholder.com/300x200',
         description: '두툼한 뉴욕 스트립 스테이크',
@@ -2307,7 +2033,6 @@ export const menuData: {
       },
       {
         menuId: 292,
-        storeId: 19,
         name: '갈릭 버터 스테이크',
         image: 'https://via.placeholder.com/300x200',
         description: '갈릭 버터 소스로 풍미를 더한 스테이크',
@@ -2315,7 +2040,6 @@ export const menuData: {
       },
       {
         menuId: 293,
-        storeId: 19,
         name: '스테이크 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 야채와 스테이크가 어우러진 샐러드',
@@ -2323,7 +2047,6 @@ export const menuData: {
       },
       {
         menuId: 294,
-        storeId: 19,
         name: '스테이크 타르타르',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 고기를 사용한 스테이크 타르타르',
@@ -2331,7 +2054,6 @@ export const menuData: {
       },
       {
         menuId: 295,
-        storeId: 19,
         name: '스테이크 파스타',
         image: 'https://via.placeholder.com/300x200',
         description: '스테이크와 어우러진 파스타',
@@ -2339,7 +2061,6 @@ export const menuData: {
       },
       {
         menuId: 296,
-        storeId: 19,
         name: '스테이크 베이글 샌드위치',
         image: 'https://via.placeholder.com/300x200',
         description: '스테이크가 들어간 베이글 샌드위치',
@@ -2347,7 +2068,6 @@ export const menuData: {
       },
       {
         menuId: 297,
-        storeId: 19,
         name: '스테이크 타코',
         image: 'https://via.placeholder.com/300x200',
         description: '스테이크와 타코의 조화',
@@ -2355,7 +2075,6 @@ export const menuData: {
       },
       {
         menuId: 298,
-        storeId: 19,
         name: '스테이크 피자',
         image: 'https://via.placeholder.com/300x200',
         description: '스테이크가 토핑된 피자',
@@ -2363,7 +2082,6 @@ export const menuData: {
       },
       {
         menuId: 299,
-        storeId: 19,
         name: '스테이크와 아스파라거스',
         image: 'https://via.placeholder.com/300x200',
         description: '스테이크와 아스파라거스의 완벽한 조합',
@@ -2371,7 +2089,6 @@ export const menuData: {
       },
       {
         menuId: 300,
-        storeId: 19,
         name: '스테이크와 감자튀김',
         image: 'https://via.placeholder.com/300x200',
         description: '스테이크와 바삭한 감자튀김',
@@ -2384,7 +2101,6 @@ export const menuData: {
     menus: [
       {
         menuId: 315,
-        storeId: 20,
         name: '아루굴라 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '아루굴라와 파마산 치즈가 어우러진 샐러드',
@@ -2392,7 +2108,6 @@ export const menuData: {
       },
       {
         menuId: 316,
-        storeId: 20,
         name: '파인애플 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 파인애플과 야채가 어우러진 샐러드',
@@ -2400,7 +2115,6 @@ export const menuData: {
       },
       {
         menuId: 317,
-        storeId: 20,
         name: '복숭아 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '상큼한 복숭아와 야채가 들어간 샐러드',
@@ -2408,7 +2122,6 @@ export const menuData: {
       },
       {
         menuId: 318,
-        storeId: 20,
         name: '참나물 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 참나물과 야채가 어우러진 샐러드',
@@ -2416,7 +2129,6 @@ export const menuData: {
       },
       {
         menuId: 319,
-        storeId: 20,
         name: '견과류 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '고소한 견과류와 신선한 야채가 들어간 샐러드',
@@ -2424,7 +2136,6 @@ export const menuData: {
       },
       {
         menuId: 320,
-        storeId: 20,
         name: '고구마 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '달콤한 고구마와 야채가 어우러진 샐러드',
@@ -2432,7 +2143,6 @@ export const menuData: {
       },
       {
         menuId: 321,
-        storeId: 20,
         name: '그릴드 야채 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '그릴에 구운 야채와 신선한 채소가 어우러진 샐러드',
@@ -2440,7 +2150,6 @@ export const menuData: {
       },
       {
         menuId: 322,
-        storeId: 20,
         name: '연어 아보카도 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '연어와 아보카도가 들어간 샐러드',
@@ -2448,7 +2157,6 @@ export const menuData: {
       },
       {
         menuId: 323,
-        storeId: 20,
         name: '하몽 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '스페인식 하몽과 신선한 야채가 어우러진 샐러드',
@@ -2456,7 +2164,6 @@ export const menuData: {
       },
       {
         menuId: 324,
-        storeId: 20,
         name: '오리엔탈 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '오리엔탈 드레싱과 함께 즐기는 샐러드',
@@ -2464,7 +2171,6 @@ export const menuData: {
       },
       {
         menuId: 325,
-        storeId: 20,
         name: '훈제 연어 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '훈제 연어와 신선한 야채가 어우러진 샐러드',
@@ -2472,7 +2178,6 @@ export const menuData: {
       },
       {
         menuId: 326,
-        storeId: 20,
         name: '에그 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '삶은 계란과 야채가 들어간 샐러드',
@@ -2480,7 +2185,6 @@ export const menuData: {
       },
       {
         menuId: 327,
-        storeId: 20,
         name: '카프레제 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 토마토와 모짜렐라 치즈가 어우러진 샐러드',
@@ -2488,7 +2192,6 @@ export const menuData: {
       },
       {
         menuId: 328,
-        storeId: 20,
         name: '두부 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 두부와 야채가 들어간 샐러드',
@@ -2496,7 +2199,6 @@ export const menuData: {
       },
       {
         menuId: 329,
-        storeId: 20,
         name: '양상추 샐러드',
         image: 'https://via.placeholder.com/300x200',
         description: '신선한 양상추와 야채가 어우러진 샐러드',
