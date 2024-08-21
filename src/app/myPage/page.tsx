@@ -37,6 +37,7 @@ const Nickname = styled.h1`
   font-weight: var(--font-semi-bold);
   font-size: var(--font-size-lg);
 `;
+
 const AddressButton = styled.button`
   display: flex;
   align-items: center;

@@ -11,10 +11,8 @@ import { applyFiltersAndSorting } from '../filteringAndSorting';
 export const myDataHandlers = [
   http.get(MY_PROFILE_API_URL, () => {
     try {
-      console.log('is going');
       return HttpResponse.json(myData);
     } catch (error) {
-      console.log('is not going');
       return HttpResponse.status(404).json({
         message: `My data not found: ${error}`,
       });
@@ -31,7 +29,27 @@ export const myDataHandlers = [
     }
   }),
 
-  http.get(POINT_LIST_API_URL, async(req) => {
+  http.post('/api/users/account', async ({ request }) => {
+    try {
+      const { owner, bankAccount, selectedBank } = await request.json();
+
+      if (owner && bankAccount && selectedBank) {
+        return HttpResponse.json(
+          { message: '계좌 변경 성공' },
+          { status: 200 },
+        );
+      }
+
+      return HttpResponse.json(
+        { message: '잘못된 요청입니다.' },
+        { status: 400 },
+      );
+    } catch (error) {
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
+    }
+  }),
+
+  http.get(POINT_LIST_API_URL, async (req) => {
     const { request } = await req;
     const urlString = request.url.toString();
 

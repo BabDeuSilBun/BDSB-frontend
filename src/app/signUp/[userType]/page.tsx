@@ -100,15 +100,12 @@ const SignUp = () => {
         onExit={() => router.push('/signIn')}
       />
       <SignUpForm />
-      {isButtonActive ? (
-        <Footer
-          buttonText={buttonText}
-          type="button"
-          onButtonClick={handleNextPage}
-        />
-      ) : (
-        <Footer buttonText={buttonText} type="inactiveButton" />
-      )}
+      <Footer
+        buttonText={buttonText}
+        type="button"
+        onButtonClick={!isButtonActive ? undefined : handleNextPage}
+        disabled={!isButtonActive ? true : undefined}
+      />
     </>
   );
 };

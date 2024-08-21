@@ -44,12 +44,14 @@ const Footer: React.FC<FooterProps> = ({
     <FooterContainer $padding={$padding}>
       {type === 'button' &&
         (disabled ? (
+          // blocked function
           <BaseBtnInactive>{buttonText}</BaseBtnInactive>
         ) : (
           <BaseBtn onClick={onButtonClick}>{buttonText}</BaseBtn>
         ))}
+      {/* just gray button can function */}
       {type === 'inactiveButton' && (
-        <BaseBtnInactive>{buttonText}</BaseBtnInactive>
+        <BaseBtnInactive onClick={onButtonClick}>{buttonText}</BaseBtnInactive>
       )}
       {type === 'buttonGroup' && (
         <BtnGroup>
