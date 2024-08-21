@@ -103,8 +103,8 @@ const SignUp = () => {
       <Footer
         buttonText={buttonText}
         type="button"
-        onButtonClick={!isButtonActive ? undefined : handleNextPage}
-        disabled={!isButtonActive ? true : undefined}
+        onButtonClick={isButtonActive ? handleNextPage : undefined}
+        disabled={!isButtonActive}
       />
     </>
   );
