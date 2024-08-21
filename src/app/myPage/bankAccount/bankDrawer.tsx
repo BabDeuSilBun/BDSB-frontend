@@ -12,22 +12,30 @@ interface BankDrawerProps {
 }
 
 const DrawerForm = styled.form`
-  padding: 1rem;
   display: grid;
+  margin-bottom: 2rem;
+  padding: 1rem;
   grid-template-columns: repeat(3, 1fr);
   border-radius: var(--border-radius-lg);
 `;
 
+const Title = styled.h2`
+  padding-top: 1rem;
+  font-weight: var(--font-semi-bold);
+  font-size: var(--font-size-lg);
+  text-align: center;
+`;
+
 const BankItem = styled.label`
   display: flex;
+  margin: 0.5rem;
+  padding: 1rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: var(--gray100);
-  padding: 1rem;
-  margin: 0.5rem;
   border-radius: var(--border-radius-default);
   font-size: var(--font-size-xs);
+  background: var(--gray100);
   cursor: pointer;
 
   input {
@@ -44,7 +52,8 @@ const BankDrawer = ({
   return (
     <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay />
-      <DrawerContent>
+      <DrawerContent borderTopRadius="3xl">
+        <Title>은행 목록</Title>
         <DrawerForm>
           {BANK_INFO.map((option) => (
             <BankItem key={option.id} htmlFor={option.value}>
