@@ -8,8 +8,15 @@ const DescriptionWrapper = styled.div`
 `;
 
 const WordCount = styled.small`
-  display: block;
   color: var(--gray400);
+`;
+
+const StyledTextarea = styled.textarea`
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid var(--gray300);
+  resize: vertical;
 `;
 
 interface SettingDescriptionProps {
@@ -27,25 +34,22 @@ const SettingDescription: React.FC<SettingDescriptionProps> = ({
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputText = e.target.value;
-
-    if (inputText.length <= charLimit) {
-      onValueChange(inputText);
-    } else {
-      onValueChange(inputText.slice(0, charLimit));
-    }
+    onValueChange(inputText.slice(0, charLimit));
   };
 
   return (
     <DescriptionWrapper>
-      <textarea
+      <StyledTextarea
         placeholder={placeholder}
         rows={4}
         value={value}
         onChange={handleChange}
+        aria-label="Setting Description"
+        aria-describedby="word-count"
         className="global-textarea"
       />
-      <WordCount>
-        {charLimit - value.length} / {charLimit}자 남음
+      <WordCount id="word-count">
+        {charLimit - value.length} / {charLimit} 자 남음
       </WordCount>
     </DescriptionWrapper>
   );

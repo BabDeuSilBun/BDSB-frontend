@@ -9,7 +9,7 @@ import { SmallCustomDropdown } from '@/components/common/dropdown';
 import CategoryItem from '@/components/listItems/categoryItem';
 import { getRestaurantsList } from '@/services/restaurantService';
 import BigRestaurantItem from '@/components/listItems/bigRestaurantItem';
-import BigRestaurantItemSkeleton from '@/components/listItems/bigRestaurantSkeleton';
+import BigRestaurantItemSkeleton from '@/components/listItems/skeletons/bigRestaurantSkeleton';
 
 const ListContainer = styled.section`
   margin: 110px 0 20px;

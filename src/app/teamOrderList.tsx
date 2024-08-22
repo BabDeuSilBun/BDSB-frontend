@@ -10,8 +10,8 @@ import TeamOrderItem from '@/components/listItems/teamOrderItem';
 import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
 import { getTeamOrderList } from '@/services/teamOrderService';
 import { MeetingsResponse } from '@/types/coreTypes';
-import ImminentOrderSkeleton from '@/components/listItems/imminentOrderSkeleton';
-import TeamOrderSkeleton from '@/components/listItems/teamOrderSkeleton';
+import ImminentOrderSkeleton from '@/components/listItems/skeletons/imminentOrderSkeleton';
+import TeamOrderSkeleton from '@/components/listItems/skeletons/teamOrderSkeleton';
 
 // Styled Components
 const ListContainer = styled.section`

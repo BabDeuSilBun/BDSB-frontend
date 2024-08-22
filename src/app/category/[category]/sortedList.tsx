@@ -10,7 +10,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getRestaurantsList } from '@/services/restaurantService';
 import RestaurantsItem from '@/components/listItems/restaurantItem';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
-import RestaurantSkeleton from '@/components/listItems/restaurantSkeleton';
+import RestaurantSkeleton from '@/components/listItems/skeletons/restaurantSkeleton';
 
 const ListContainer = styled.section`
   margin: 120px 0 20px;

@@ -30,7 +30,7 @@ interface OrderStore {
   formData: OrderFormData;
   isButtonActive: boolean;
   setStoreId: (storeId: number) => void;
-  setPurchaseType: (purchaseType: string) => void;
+  setPurchaseType: (purchaseType: string | null) => void;
   setMinHeadcount: (minHeadcount: number) => void;
   setMaxHeadcount: (maxHeadcount: number) => void;
   setOrderType: (orderType: string) => void;

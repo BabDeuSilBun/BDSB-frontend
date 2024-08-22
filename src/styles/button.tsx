@@ -117,7 +117,8 @@ const ButtonGroup = styled.div`
 
 // 라운드 버튼 스타일
 const RoundButtonFilled = styled(BaseButton)`
-  width: 106px;
+  min-width: 106px;
+  width: fit-content;
   height: 34px;
   border-radius: 21px;
   padding: 0.3rem 1rem;
@@ -245,21 +246,24 @@ const RoundBtnFilled: React.FC<
   );
 };
 
-const SmallRdBtn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({
+interface SmallRdBtnProps {
+  active?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  children: React.ReactNode;
+}
+
+const SmallRdBtn: React.FC<SmallRdBtnProps> = ({
   children,
   onClick,
+  active = false,
   ...props
 }) => {
-  const [isActive, setIsActive] = useState(false);
-
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setIsActive((prev) => !prev);
     if (onClick) onClick(e);
   };
 
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    <SmallRoundButton isActive={isActive} onClick={handleClick} {...props}>
+    <SmallRoundButton isActive={active} onClick={handleClick} {...props}>
       {children}
     </SmallRoundButton>
   );

@@ -11,7 +11,7 @@ export const restaurantHandlers = [
 
     try {
       const url = new URL(urlString);
-      const searchMenu = url.searchParams.get('searchMenu');
+      const keyword = url.searchParams.get('searchMenu');
       const sortCriteria = url.searchParams.get('sortCriteria');
       const pageParam = Number(url.searchParams.get('page')) || 0;
       const size = Number(url.searchParams.get('size'));
@@ -25,7 +25,7 @@ export const restaurantHandlers = [
 
       const filteredContent = applyFiltersAndSorting(
         paginatedResponse.content,
-        { foodCategoryFilter, searchMenu, size },
+        { foodCategoryFilter, keyword, size },
         sortCriteria,
       );
 
