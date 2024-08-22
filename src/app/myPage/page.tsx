@@ -37,6 +37,7 @@ const Nickname = styled.h1`
   font-weight: var(--font-semi-bold);
   font-size: var(--font-size-lg);
 `;
+
 const AddressButton = styled.button`
   display: flex;
   align-items: center;
@@ -51,21 +52,22 @@ const ListContainer = styled.ul`
   overflow: hidden;
 `;
 
-const ListItem = styled.li.attrs({
-  className: 'icon',
-})<{ $isLast?: boolean }>`
+const ListItem = styled.li<{ $isLast?: boolean }>`
   display: flex;
   padding: 1rem;
   justify-content: space-between;
   border-bottom: ${(props) =>
     props.$isLast ? '' : '0.1rem solid var(--gray200)'};
-
-  button {
-    word-spacing: 3px;
-    padding: 1rem;
-    margin: -1rem;
-  }
 `;
+
+const ListButton = styled.button.attrs({
+  className: 'icon',
+})`
+  word-spacing: 3px;
+  padding: 1rem;
+  margin: -1rem;
+`;
+
 const MyPage = () => {
   const router = useRouter();
 
@@ -116,25 +118,27 @@ const MyPage = () => {
         <ListContainer>
           <ListItem>
             <p>내 포인트</p>
-            <button
+            <ListButton
               onClick={() => router.push('/myPage/points')}
-            >{`${data ? data.point : '0'}P >`}</button>
+            >{`${data ? data.point : '0'}P >`}</ListButton>
           </ListItem>
           {/* <ListItem>
             <p>앱 테마</p>
-            <button onClick={() => router.push('/')}>
+            <ListButton onClick={() => router.push('/')}>
               {'>'}
-            </button>
+            </ListButton>
           </ListItem> */}
           <ListItem>
             <p>환불 계좌 입력</p>
-            <button onClick={() => router.push('/myPage/bankAccount')}>
+            <ListButton onClick={() => router.push('/myPage/bankAccount')}>
               {'>'}
-            </button>
+            </ListButton>
           </ListItem>
           <ListItem $isLast>
             <p>문의 게시판</p>
-            <button onClick={() => router.push('/inquiry')}>{'>'}</button>
+            <ListButton onClick={() => router.push('/inquiry')}>
+              {'>'}
+            </ListButton>
           </ListItem>
         </ListContainer>
       </Container>

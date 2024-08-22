@@ -135,7 +135,7 @@ export const authHandlers = [
     try {
       const url = new URL(urlString);
       const schoolName = url.searchParams.get('schoolName');
-      const searchMenu = schoolName ? decodeURIComponent(schoolName) : null;
+      const keyword = schoolName ? decodeURIComponent(schoolName) : null;
       const pageParam = Number(url.searchParams.get('page')) || 0;
       const size = Number(url.searchParams.get('size'));
 
@@ -147,7 +147,7 @@ export const authHandlers = [
 
       const filteredContent = applyFiltersAndSorting(
         paginatedResponse.content,
-        { searchMenu, size },
+        { keyword, size },
       );
 
       return HttpResponse.json({
@@ -168,7 +168,7 @@ export const authHandlers = [
     try {
       const url = new URL(urlString);
       const majorName = url.searchParams.get('majorName');
-      const searchMenu = majorName ? decodeURIComponent(majorName) : null;
+      const keyword = majorName ? decodeURIComponent(majorName) : null;
       const pageParam = Number(url.searchParams.get('page')) || 0;
       const size = Number(url.searchParams.get('size'));
 
@@ -180,7 +180,7 @@ export const authHandlers = [
 
       const filteredContent = applyFiltersAndSorting(
         paginatedResponse.content,
-        { searchMenu, size },
+        { keyword, size },
       );
 
       return HttpResponse.json({

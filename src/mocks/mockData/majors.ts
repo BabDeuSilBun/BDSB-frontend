@@ -1,6 +1,6 @@
 import { SchoolsResponse, SchoolType } from '@/types/authTypes';
 
-export const majors: SchoolType[] = [
+const majors: SchoolType[] = [
   {
     id: 1,
     name: '컴퓨터공학과',

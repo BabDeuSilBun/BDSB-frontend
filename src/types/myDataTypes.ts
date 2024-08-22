@@ -1,4 +1,4 @@
-import { Address } from './types';
+import { Address, Response } from './types';
 
 export interface MyDataType {
   userId: number;
@@ -30,4 +30,30 @@ export interface EvaluateType {
     content: string;
     count: number;
   }[];
+}
+
+export interface PointType {
+  createdAt: string;
+  store: string;
+  type: string;
+  content: string;
+  amount: number;
+}
+
+export interface InquiryType {
+  inquiryId: number;
+  title: string;
+  content: string;
+  answer?: string;
+  status: 'PENDING' | 'COMPLETED';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PointsResponse extends Response {
+  content: PointType[];
+}
+
+export interface InquiryResponse extends Response {
+  content: InquiryType[];
 }

@@ -1,6 +1,6 @@
 import { SchoolsResponse, SchoolType } from '@/types/authTypes';
 
-export const schools: SchoolType[] = [
+const schools: SchoolType[] = [
   {
     id: 1,
     name: '서울대학교',

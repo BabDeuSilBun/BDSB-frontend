@@ -1,5 +1,5 @@
 // others
-export interface Image {
+export interface ImageType {
   imageId: number;
   url: string;
   sequence?: number;

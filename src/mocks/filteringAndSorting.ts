@@ -4,15 +4,15 @@ export function applyFiltersAndSorting(
   content: (RestaurantType | MeetingType)[],
   filters: {
     foodCategoryFilter?: string;
-    searchMenu?: string;
+    keyword?: string;
     size?: number;
   },
   sortCriteria?: string,
 ) {
   let filteredContent = content;
 
-  if (filters.searchMenu) {
-    const searchTerms = filters.searchMenu
+  if (filters.keyword) {
+    const searchTerms = filters.keyword
       .split(' ')
       .map((term) => term.trim())
       .filter((term) => term);

@@ -6,7 +6,7 @@ import { Divider } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
-import TeamOrderSkeleton from '@/components/listItems/teamOrderSkeleton';
+import TeamOrderSkeleton from '@/components/listItems/skeletons/teamOrderSkeleton';
 import TeamOrderItem from '@/components/listItems/teamOrderItem';
 import { getTeamOrderList } from '@/services/teamOrderService';
 import { useSearchParams } from 'next/navigation';

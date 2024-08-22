@@ -28,7 +28,7 @@ interface OrderFormData {
 interface OrderStore {
   formData: OrderFormData;
   setStoreId: (storeId: number) => void;
-  setPurchaseType: (purchaseType: string) => void;
+  setPurchaseType: (purchaseType: string | null) => void;
   setMinHeadcount: (minHeadcount: number) => void;
   setMaxHeadcount: (maxHeadcount: number) => void;
   setIsEarlyPaymentAvailable: (isAvailable: boolean) => void;

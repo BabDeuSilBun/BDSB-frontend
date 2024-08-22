@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import Container from '@/styles/container';
 import GroupIcon from '@/components/svg/group';
 import { Divider } from '@chakra-ui/react';
+import { Skeleton } from '@chakra-ui/react';
 
 const ImageWrapper = styled.div`
   display: flex;
@@ -64,7 +65,7 @@ const ListContainer = styled.ul`
 
 const ListItem = styled.li`
   display: flex;
-  padding: 1rem;
+  padding: 1rem 0;
   align-items: start;
   gap: 0.3rem;
 
@@ -93,6 +94,8 @@ const MyPage = () => {
     queryKey: ['MyEvaluates'],
     queryFn: getMyEvaluates,
   });
+
+  const positiveEvaluates = evaluates?.positiveEvaluate;
 
   return (
     <>
@@ -157,11 +160,23 @@ const MyPage = () => {
               {'>'}
             </button>
           </EvaluateContainer>
-          <ListItem>
-            <GroupIcon color="var(--gray400)" />
-            <p>3</p>
-            <div>소통이 잘 돼요</div>
-          </ListItem>
+          {evaluatesLoading
+            ? // 목록에 스켈레톤 적용
+              Array.from({ length: 4 }).map((_, index) => (
+                <ListItem key={index}>
+                  <GroupIcon color="var(--gray400)" />
+                  <p>{0}</p>
+                  <Skeleton width={200} height={54}/>
+                </ListItem>
+              ))
+            : positiveEvaluates &&
+              positiveEvaluates.map((item, index) => (
+                <ListItem key={index}>
+                  <GroupIcon color="var(--gray400)" />
+                  <p>{item.count}</p>
+                  <div>{item.content}</div>
+                </ListItem>
+              ))}
         </ListContainer>
       </Container>
     </>
