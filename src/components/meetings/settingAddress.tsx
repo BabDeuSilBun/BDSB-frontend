@@ -33,11 +33,11 @@ const IconWrapper = styled.div`
   transform: translate(0, -50%);
 `;
 
-const AddressBtn = styled.button<{ hasAddress: boolean }>`
+const AddressBtn = styled.button<{ $hasAddress: boolean }>`
   width: 100%;
   padding: var(--spacing-sm);
   font-size: var(--font-size-md);
-  color: ${({ hasAddress }) => (hasAddress ? 'var(--text)' : 'var(--gray300)')};
+  color: ${({ $hasAddress }) => ($hasAddress ? 'var(--text)' : 'var(--gray300)')};
   background-color: var(--background);
   border: 1px solid var(--gray200);
   border-radius: var(--border-radius-md);
@@ -106,7 +106,7 @@ const SettingAddress: FC<SettingAddressProps> = ({
     <div>
       <Flex>
         <Wrapper onClick={() => setIsPostcodeOpen(true)}>
-        <AddressBtn hasAddress={!!streetAddress}>
+          <AddressBtn $hasAddress={!!streetAddress}>
             {streetAddress || '우편번호 검색'}
           </AddressBtn>
           <IconWrapper>
