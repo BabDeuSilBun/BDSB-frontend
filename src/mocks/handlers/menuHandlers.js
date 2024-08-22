@@ -31,13 +31,13 @@ export const menuHandlers = [
     const storeId = Number(req.params.storeId);
     const menuId = Number(req.params.menuId);
 
-    const storeMenus = menuData[storeId];
+    const storeMenus = menuData.find((store) => store.storeId === storeId);
 
     if (!storeMenus) {
       return HttpResponse.status(404).json({ message: 'Store not found' });
     }
 
-    const menu = storeMenus.find((m) => m.menuId === menuId);
+    const menu = storeMenus.menus.find((m) => m.menuId === menuId);
 
     if (menu) {
       return HttpResponse.json(menu);

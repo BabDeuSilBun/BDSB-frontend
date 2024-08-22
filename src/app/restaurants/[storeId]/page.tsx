@@ -40,6 +40,32 @@ const StorePage = () => {
   const [isHeaderTransparent, setIsHeaderTransparent] = useState(true);
   const observer = useRef<IntersectionObserver | null>(null);
   const lastElementRef = useRef<HTMLDivElement | null>(null);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const checkRef = () => {
+      if (carouselRef.current) {
+        const handleHeaderIntersect = ([
+          entry,
+        ]: IntersectionObserverEntry[]) => {
+          setIsHeaderTransparent(entry.isIntersecting);
+        };
+
+        const headerObserver = new IntersectionObserver(handleHeaderIntersect, {
+          threshold: 0.5,
+        });
+
+        headerObserver.observe(carouselRef.current);
+
+        return () => {
+          headerObserver.disconnect();
+        };
+      }
+      setTimeout(checkRef, 100);
+    };
+
+    checkRef();
+  }, []);
 
   // Fetch store information
   const {
@@ -170,10 +196,7 @@ const StorePage = () => {
           $isTransparent={isHeaderTransparent}
         />
       </HeaderContainer>
-      <Carousel
-        images={store.images}
-        setIsHeaderTransparent={setIsHeaderTransparent}
-      />
+      <Carousel images={store.images} ref={carouselRef} />
       <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} />
 
       {/* Context-specific code */}

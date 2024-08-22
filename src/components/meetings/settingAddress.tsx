@@ -80,11 +80,13 @@ const SettingAddress: FC<SettingAddressProps> = ({
   }, [setButtonActive, streetAddress, detailAddress]);
 
   const handleComplete = (data: Address) => {
-    setDeliveredAddress({
+    const formattedAddress = {
       streetAddress: data.address,
       postal: data.zonecode,
       detailAddress: '',
-    });
+    };
+
+    setDeliveredAddress(formattedAddress);
 
     if (onAddressChange) {
       onAddressChange(data);

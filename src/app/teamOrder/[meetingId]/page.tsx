@@ -191,28 +191,29 @@ const TeamOrderPage = () => {
   useQuery({
     queryKey: [
       'teamPurchaseInfo',
-      teamPurchase?.meetingId,
       meetingId,
-      teamPurchase?.purchaseId,
+      teamPurchase?.items[0]?.purchaseId,
     ],
     queryFn: () =>
-      getTeamPurchaseInfo(Number(meetingId), Number(teamPurchase?.purchaseId)),
-    enabled: !!teamPurchase?.purchaseId,
+      getTeamPurchaseInfo(
+        Number(meetingId),
+        Number(teamPurchase?.items[0]?.purchaseId),
+      ),
+    enabled: !!teamPurchase?.items?.length,
   });
 
   useQuery({
     queryKey: [
       'individualPurchaseInfo',
-      individualPurchase?.meetingId,
       meetingId,
-      individualPurchase?.purchaseId,
+      individualPurchase?.items[0]?.purchaseId,
     ],
     queryFn: () =>
       getIndividualPurchaseInfo(
         Number(meetingId),
-        Number(individualPurchase?.purchaseId),
+        Number(individualPurchase?.items[0]?.purchaseId),
       ),
-    enabled: !!individualPurchase?.purchaseId,
+    enabled: !!individualPurchase?.items?.length,
   });
 
   const { data: storeInfo } = useQuery({

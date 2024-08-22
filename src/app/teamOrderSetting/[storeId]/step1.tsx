@@ -22,7 +22,6 @@ import { Address } from 'react-daum-postcode';
 interface Step1Props {
   isPostcodeOpen: boolean;
   setIsPostcodeOpen: (open: boolean) => void;
-  onAddressChange?: (addressData: Address) => void;
 }
 
 const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
