@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import { useParams, useRouter } from 'next/navigation';
@@ -26,13 +26,23 @@ const CustomContainer = styled(Container)`
 `;
 
 const TeamOrderSettingPage = () => {
+  // Hooks for navigation and params
   const router = useRouter();
   const { storeId } = useParams();
+
+  // State management hooks
   const [currentStep, setCurrentStep] = useState(1);
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isButtonActive, formData } = useOrderStore();
+  const { isButtonActive, formData, setStoreId } = useOrderStore();
 
+  useEffect(() => {
+    if (storeId) {
+      setStoreId(Number(storeId));
+    }
+  }, [storeId, setStoreId]);
+
+  // Fetch restaurant and user data
   useQuery<RestaurantType>({
     queryKey: ['storeInfo', storeId],
     queryFn: () => getRestaurantInfo(Number(storeId)),
@@ -44,30 +54,35 @@ const TeamOrderSettingPage = () => {
     queryFn: getMyData,
   });
 
-  const handleSubmit = async () => {
-    const requestBody = {
-      storeId: formData.storeId,
-      purchaseType: formData.purchaseType,
-      minHeadcount: formData.minHeadcount,
-      maxHeadcount: formData.maxHeadcount,
-      isEarlyPaymentAvailable: formData.isEarlyPaymentAvailable,
-      paymentAvailableAt: formData.paymentAvailableAt,
-      deliveredAddress: formData.deliveredAddress,
-      metAddress: formData.metAddress,
-      description: formData.description,
-    };
+  // Handle form submission
+  // const handleSubmit = async () => {
+  //   const requestBody = {
+  //     storeId: formData.storeId,
+  //     purchaseType: formData.purchaseType,
+  //     minHeadcount: formData.minHeadcount,
+  //     maxHeadcount: formData.maxHeadcount,
+  //     isEarlyPaymentAvailable: formData.isEarlyPaymentAvailable,
+  //     paymentAvailableAt: formData.paymentAvailableAt,
+  //     deliveredAddress: formData.deliveredAddress,
+  //     metAddress: formData.metAddress,
+  //     description: formData.description,
+  //   };
 
-    try {
-      await axios.post('/api/users/meetings', requestBody);
-      router.push(`/restaurants/${storeId}?context=leaderAfter`);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //   console.log('Submitting request with body:', requestBody);
 
+  //   try {
+  //     const response = await axios.post('/api/users/meetings', requestBody);
+  //     console.log('Response from server:', response);
+  //     router.push(`/restaurants/${storeId}?context=leaderAfter`);
+  //   } catch (error) {
+  //     console.error('Error submitting request:', error);
+  //   }
+  // };
+
+  // Handle step navigation
   const handleNextStep = () => {
     if (currentStep === 2) {
-      handleSubmit();
+      router.push(`/restaurants/${storeId}?context=leaderAfter`);
     } else {
       setCurrentStep((prevStep) => prevStep + 1);
     }
@@ -91,12 +106,13 @@ const TeamOrderSettingPage = () => {
     }
   };
 
+  // Handle modal actions
   const handleModalContinue = () => {
     setIsModalOpen(false);
   };
 
   const handleModalExit = () => {
-    router.push(`/restaurants/${storeId}?context=leaderBefore`);
+    router.push(`/restaurants/${storeId}?context=leaderAfter`);
   };
 
   return (

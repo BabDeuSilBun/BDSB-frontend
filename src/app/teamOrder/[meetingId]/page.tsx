@@ -50,13 +50,11 @@ const TeamOrderPage = () => {
   const [teamPurchase] = useState<TeamPurchaseType | null>(null);
   const [individualPurchase] = useState<IndividualPurchaseType | null>(null);
 
-  // Ref for storing the IntersectionObserver instance
+  // Refs for IntersectionObserver and last element
   const observer = useRef<IntersectionObserver | null>(null);
-
-  // Ref to track the last element for infinite scrolling
   const lastElementRef = useRef<HTMLDivElement | null>(null);
 
-  // Queries for fetching data
+  // Fetching meeting information
   const {
     data: meeting,
     isLoading: isLoadingMeeting,
@@ -66,12 +64,7 @@ const TeamOrderPage = () => {
     queryFn: () => getTeamOrderInfo(Number(meetingId)),
   });
 
-  const handleClick = () => {
-    if (meeting) {
-      router.push(`/restaurants/${meeting.storeId}?context=participant`);
-    }
-  };
-
+  // Fetching head count data
   const { data: headCountData } = useQuery<{
     currentHeadCount: number;
   }>({
@@ -83,6 +76,7 @@ const TeamOrderPage = () => {
     meeting?.paymentAvailableAt || '',
   );
 
+  // Fetching team purchases with infinite scrolling
   const {
     data: teamPurchases,
     fetchNextPage: fetchNextTeamPage,
@@ -100,6 +94,7 @@ const TeamOrderPage = () => {
     initialPageParam: 0,
   });
 
+  // Fetching individual purchases with infinite scrolling
   const {
     data: individualPurchases,
     fetchNextPage: fetchNextIndividualPage,
@@ -188,6 +183,7 @@ const TeamOrderPage = () => {
     fetchNextIndividualPage,
   ]);
 
+  // Fetch details of team purchases
   useQuery({
     queryKey: [
       'teamPurchaseInfo',
@@ -202,6 +198,7 @@ const TeamOrderPage = () => {
     enabled: !!teamPurchase?.items?.length,
   });
 
+  // Fetch details of individual purchases
   useQuery({
     queryKey: [
       'individualPurchaseInfo',
@@ -216,12 +213,14 @@ const TeamOrderPage = () => {
     enabled: !!individualPurchase?.items?.length,
   });
 
+  // Fetch store information
   const { data: storeInfo } = useQuery({
     queryKey: ['storeInfo', meeting?.storeId],
     queryFn: () => getRestaurantInfo(Number(meeting?.storeId)),
     enabled: !!meeting?.storeId,
   });
 
+  // Calculate total fees and remaining amount
   const totalTeamFee =
     teamPurchases?.pages.reduce((sum, page) => {
       return (
@@ -246,6 +245,13 @@ const TeamOrderPage = () => {
 
   const minPurchasePrice = storeInfo?.minPurchasePrice ?? 0;
   const remainingAmount = minPurchasePrice - totalFee;
+
+  // Handle click to redirect to restaurant page
+  const handleClick = () => {
+    if (meeting) {
+      router.push(`/restaurants/${meeting.storeId}?context=participant`);
+    }
+  };
 
   if (
     isLoadingMeeting ||

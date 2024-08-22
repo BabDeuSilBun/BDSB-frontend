@@ -28,6 +28,8 @@ const StorePage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { storeId } = useParams();
+
+  // State hooks
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [context, setContext] = useState<string | null>(null);
   const [selectedMenu, setSelectedMenu] = useState<{
@@ -36,12 +38,14 @@ const StorePage = () => {
     description: string;
     image: string;
   } | null>(null);
-
   const [isHeaderTransparent, setIsHeaderTransparent] = useState(true);
+
+  // Refs for IntersectionObserver
   const observer = useRef<IntersectionObserver | null>(null);
   const lastElementRef = useRef<HTMLDivElement | null>(null);
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
+  // Effect to handle header transparency based on carousel visibility
   useEffect(() => {
     const checkRef = () => {
       if (carouselRef.current) {
@@ -136,7 +140,7 @@ const StorePage = () => {
     enabled: !!selectedMenu?.menuId,
   });
 
-  // Modal and context handling
+  // Modal handlers
   const openModal = (
     modalName: string,
     menuItem?: {

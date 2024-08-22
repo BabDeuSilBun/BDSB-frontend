@@ -30,8 +30,8 @@ export interface RestaurantType extends CommonType {
   entrepreneur_id?: number;
   address?: Address;
   phoneNumber?: string;
-  openTime: string;
-  closeTime: string;
+  openTime?: string;
+  closeTime?: string;
   dayOfWeek?: string;
 }
 
