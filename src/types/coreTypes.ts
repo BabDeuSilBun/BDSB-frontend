@@ -1,4 +1,4 @@
-import { Address, Image, ItemType, Response } from './types';
+import { Address, ImageType, ItemType, Response } from './types';
 
 // Address interfaces
 interface DeliveryAddress {
@@ -16,7 +16,7 @@ interface MetAddress {
 // Common interface for shared fields across different types
 export interface CommonType {
   storeId: number;
-  images: Image[];
+  images: ImageType[];
   deliveryTimeRange: string;
   category: string;
 }

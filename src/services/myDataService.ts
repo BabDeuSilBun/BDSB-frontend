@@ -89,10 +89,10 @@ export const getInquiries = async ({
   }
 };
 
-export const getInquiryDetail = async (inquiryId: number) => {
+export const getInquiryImages = async (inquiryId: number) => {
   try {
     const response = await apiClient.get(
-      `${INQUIRY_LIST_API_URL}/${inquiryId}`,
+      `${INQUIRY_LIST_API_URL}/${inquiryId}/images`,
     );
     return response.data;
   } catch (error) {

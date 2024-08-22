@@ -28,7 +28,7 @@ const InquiryForum = () => {
 
   const onClickSubmitBtn = async () => {
     try {
-      await axios.post(`/api/users/inquiries`);
+      // await axios.post(`/api/users/inquiries`);
       alert('문의가 접수되었습니다.');
       setPageType('history');
     } catch (error) {

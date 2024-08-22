@@ -8,7 +8,11 @@ import {
 
 import { evaluates, myData, paginatedPoints } from '../mockData/myData';
 import { applyFiltersAndSorting } from '../filteringAndSorting';
-import { inquiries, paginatedInquiries } from '../mockData/inquiries';
+import {
+  inquiries,
+  paginatedInquiries,
+  inquiryImages,
+} from '../mockData/inquiries';
 
 export const myDataHandlers = [
   http.get(MY_PROFILE_API_URL, () => {
@@ -113,16 +117,16 @@ export const myDataHandlers = [
     }
   }),
 
-  http.get(`${INQUIRY_LIST_API_URL}/:inquiryId`, (req) => {
+  http.get(`${INQUIRY_LIST_API_URL}/:inquiryId/images`, (req) => {
     const inquiryId = Number(req.params.inquiryId);
     const selectedInquiry = inquiries.find(
       (item) => item.inquiryId === inquiryId,
     );
     if (selectedInquiry) {
-      return HttpResponse.json(selectedInquiry);
+      return HttpResponse.json(inquiryImages);
     }
     return HttpResponse.status(404).json({
-      message: 'SelectedInquiry is not found',
+      message: 'InquiryImages is not found',
     });
   }),
 ];

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { formatDateTime } from '@/utils/formateDateTime';
 
-const TriggerButtonContainer = styled.button<{ $isSelected?: boolean }>`
+const TriggerButtonContainer = styled.div<{ $isSelected?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: start;

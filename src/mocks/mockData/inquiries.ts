@@ -1,4 +1,5 @@
 import { InquiryResponse, InquiryType } from '@/types/myDataTypes';
+import { ImageType } from '@/types/types';
 
 export const inquiries: InquiryType[] = [
   {
@@ -154,3 +155,21 @@ export const paginatedInquiries: InquiryResponse[] = Array.from(
     };
   },
 );
+
+export const inquiryImages: ImageType[] = [
+  {
+    imageId: 1,
+    url: 'https://via.placeholder.com/100x100',
+    sequence: 1,
+  },
+  {
+    imageId: 2,
+    url: 'https://via.placeholder.com/200x200',
+    sequence: 2,
+  },
+  {
+    imageId: 3,
+    url: 'https://via.placeholder.com/150x150',
+    sequence: 3,
+  },
+];
