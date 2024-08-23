@@ -53,28 +53,30 @@
 //   onClick?: () => void;
 // }
 
-// const StoreInfo: React.FC<StoreInfoProps> = ({
-//   storeName,
-//   deliveryTime,
-//   location,
-//   onClick,
-// }) => {
-//   return (
-//     <Container>
-//       <TitleRow onClick={onClick}>
-//         <Title>{storeName}</Title>
-//         <ArrowButton>&gt;</ArrowButton>
-//       </TitleRow>
-//       <InfoRow>
-//         <Image src="/timer.svg" alt="Delivery Time" width="18" height="18" />
-//         <InfoText>{deliveryTime} 후 도착</InfoText>
-//       </InfoRow>
-//       <InfoRow>
-//         <Image src="/map-pin.svg" alt="Store Location" width="18" height="18" />
-//         <InfoText>{location}</InfoText>
-//       </InfoRow>
-//     </Container>
-//   );
-// };
+const StoreInfo = () =>
+  //     {
+  //   storeName,
+  //   deliveryTime,
+  //   location,
+  //   onClick,
+  // }: StoreInfoProps
+  {
+    //   return (
+    //     <Container>
+    //       <TitleRow onClick={onClick}>
+    //         <Title>{storeName}</Title>
+    //         <ArrowButton>&gt;</ArrowButton>
+    //       </TitleRow>
+    //       <InfoRow>
+    //         <Image src="/timer.svg" alt="Delivery Time" width="18" height="18" />
+    //         <InfoText>{deliveryTime} 후 도착</InfoText>
+    //       </InfoRow>
+    //       <InfoRow>
+    //         <Image src="/map-pin.svg" alt="Store Location" width="18" height="18" />
+    //         <InfoText>{location}</InfoText>
+    //       </InfoRow>
+    //     </Container>
+    //   );
+  };
 
-// export default StoreInfo;
+export default StoreInfo;

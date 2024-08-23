@@ -1,10 +1,11 @@
-// 'use client';
+'use client';
+
+// import { useEffect, useState } from 'react';
 
 // import styled from 'styled-components';
-// import { Divider, Badge, Button } from '@chakra-ui/react';
+// import { Badge, Button, Divider } from '@chakra-ui/react';
 // import Counter from '@/components/common/counter';
 // import { formatCurrency } from '@/utils/currencyFormatter';
-// import { useEffect, useState } from 'react';
 
 // interface CartItemProps {
 //   menuName: string;
@@ -75,77 +76,79 @@
 //   align-items: center;
 // `;
 
-// export default function CartItem({
-//   menuName,
-//   price,
-//   imageUrl,
-//   badgeText,
-//   quantity,
-//   onQuantityChange,
-//   onAddItem,
-// }: CartItemProps) {
-
-//   const [totalPrice, setTotalPrice] = useState(price * quantity);
-
-//   useEffect(() => {
-//     setTotalPrice(price * quantity);
-//   }, [price, quantity]);
-
-//   return (
-//     <Container>
-//       <MenuListWrapper>
-//         <TextWrapper>
-//           <MenuName>{menuName}</MenuName>
-//           <Price>{formatCurrency(totalPrice)}</Price>
-//         </TextWrapper>
-//         <ImageWrapper>
-//           <MenuImage src={imageUrl} alt={menuName} />
-//         </ImageWrapper>
-//       </MenuListWrapper>
-//       <QuantityContainer>
-//         <Badge
-//           sx={{
-//             fontSize: 'var(--font-size-xs)',
-//             color: 'white',
-//             backgroundColor: 'var(--purple200)',
-//             padding: 'var(--spacing-xs) var(--spacing-sm)',
-//             borderRadius: 'var(--border-radius-md)',
-//           }}
-//         >
-//           {badgeText}
-//         </Badge>
-//         <Counter value={quantity} onValueChange={onQuantityChange} size="small" />
-//       </QuantityContainer>
-//       <Divider
-//         orientation="horizontal"
-//         sx={{
-//           borderWidth: '0.5px',
-//           borderColor: 'var(--gray200)',
-//         }}
-//       />
-//       <Button
-//         onClick={onAddItem}
-//         sx={{
-//           backgroundColor: 'transparent',
-//           color: 'var(--text)',
-//           height: 'auto',
-//           margin: 'none',
-//           padding:'none',
-//           fontSize: 'var(--font-size-sm)',
-//           fontWeight: 'var(--font-regular)',
-//           _hover: {
-//             backgroundColor: 'transparent',
-//           },
-//           _active: {
-//             backgroundColor: 'transparent',
-//           },
-//           _focus: {
-//             boxShadow: 'none',
-//           },
-//         }}
-//       >
-//         + 메뉴 추가
-//       </Button>
-//     </Container>
-//   );
-// }
+export default function CartItem() {
+  //   {
+  //   menuName,
+  //   price,
+  //   imageUrl,
+  //   badgeText,
+  //   quantity,
+  //   onQuantityChange,
+  //   onAddItem,
+  //   }: CartItemProps,
+  //   const [totalPrice, setTotalPrice] = useState(price * quantity);
+  //   useEffect(() => {
+  //     setTotalPrice(price * quantity);
+  //   }, [price, quantity]);
+  //   return (
+  //     <Container>
+  //       <MenuListWrapper>
+  //         <TextWrapper>
+  //           <MenuName>{menuName}</MenuName>
+  //           <Price>{formatCurrency(totalPrice)}</Price>
+  //         </TextWrapper>
+  //         <ImageWrapper>
+  //           <MenuImage src={imageUrl} alt={menuName} />
+  //         </ImageWrapper>
+  //       </MenuListWrapper>
+  //       <QuantityContainer>
+  //         <Badge
+  //           sx={{
+  //             fontSize: 'var(--font-size-xs)',
+  //             color: 'white',
+  //             backgroundColor: 'var(--purple200)',
+  //             padding: 'var(--spacing-xs) var(--spacing-sm)',
+  //             borderRadius: 'var(--border-radius-md)',
+  //           }}
+  //         >
+  //           {badgeText}
+  //         </Badge>
+  //         <Counter
+  //           value={quantity}
+  //           onValueChange={onQuantityChange}
+  //           size="small"
+  //         />
+  //       </QuantityContainer>
+  //       <Divider
+  //         orientation="horizontal"
+  //         sx={{
+  //           borderWidth: '0.5px',
+  //           borderColor: 'var(--gray200)',
+  //         }}
+  //       />
+  //       <Button
+  //         onClick={onAddItem}
+  //         sx={{
+  //           backgroundColor: 'transparent',
+  //           color: 'var(--text)',
+  //           height: 'auto',
+  //           margin: 'none',
+  //           padding: 'none',
+  //           fontSize: 'var(--font-size-sm)',
+  //           fontWeight: 'var(--font-regular)',
+  //           _hover: {
+  //             backgroundColor: 'transparent',
+  //           },
+  //           _active: {
+  //             backgroundColor: 'transparent',
+  //           },
+  //           _focus: {
+  //             boxShadow: 'none',
+  //           },
+  //         }}
+  //       >
+  //         + 메뉴 추가
+  //       </Button>
+  //     </Container>
+  //   );
+}
