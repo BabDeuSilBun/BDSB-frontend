@@ -59,7 +59,7 @@ const UserTypeSelection = () => {
         <button onClick={() => handleUserTypeSelect('users')}>
           <ImageWrapper color="white">
             <Image
-              src={'logo.svg'}
+              src="logo.svg"
               alt="user button"
               width="59"
               height="72"
@@ -71,7 +71,7 @@ const UserTypeSelection = () => {
         <button onClick={() => handleUserTypeSelect('businesses')}>
           <ImageWrapper color="primary">
             <Image
-              src={'logoWhite.svg'}
+              src="logoWhite.svg"
               alt="user button"
               width="59"
               height="72"

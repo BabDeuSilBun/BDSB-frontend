@@ -6,6 +6,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 import { getRestaurantsList } from '@/services/restaurantService';
+
 import SortedList from './sortedList';
 
 export default async function Home() {
@@ -27,7 +28,11 @@ export default async function Home() {
 
   return (
     <>
-      <Header buttonLeft="hamburger" buttonRight="home" text="카테고리별 보기"/>
+      <Header
+        buttonLeft="hamburger"
+        buttonRight="home"
+        text="카테고리별 보기"
+      />
       <AccordionTabs />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <SortedList />

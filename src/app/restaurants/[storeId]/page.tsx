@@ -9,7 +9,7 @@ import { getMenuInfo, getMenuList } from '@/services/menuService';
 import Loading from '@/app/loading';
 import Header from '@/components/layout/header';
 import Carousel from '@/components/stores/carousel';
-import StoreInfo from '@/components/stores/storeInfo';
+// import StoreInfo from '@/components/stores/storeInfo';
 import MenuItem from '@/components/listItems/menuItem';
 import Footer from '@/components/layout/footer';
 import Modal from '@/components/common/modal';
@@ -163,9 +163,9 @@ const StorePage = () => {
     setSelectedMenu(null);
   };
 
-  const handleInfoButtonClick = () => {
-    setActiveModal('infoModal');
-  };
+  // const handleInfoButtonClick = () => {
+  //   setActiveModal('infoModal');
+  // };
 
   const onButtonClick1 = () => {
     if (context === 'leaderBefore')
@@ -201,7 +201,7 @@ const StorePage = () => {
         />
       </HeaderContainer>
       <Carousel images={store.images} ref={carouselRef} />
-      <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} />
+      {/* <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} /> */}
 
       {/* Context-specific code */}
       {context &&
