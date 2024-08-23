@@ -1,12 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Tab, TabList, Tabs, TabPanel, TabPanels } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import Container from '@/styles/container';
 import { useRouter, useSearchParams } from 'next/navigation';
-import axios from 'axios';
+
 import InquiryContact from './contact';
 import InquiryHistory from './history';
 
@@ -25,18 +27,20 @@ const InquiryForum = () => {
     if (pageType) {
       router.replace(`/inquiry/forum/?type=${pageType}`, { scroll: false });
     }
-  }, [pageType, router]);
+  }, [pageType]);
 
   const onClickSubmitBtn = async () => {
     if (!formData) return;
 
     try {
-      await axios.post(`/api/users/inquires`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log(formData)
+      const config = formData.has('image1')
+        ? {
+            headers: { 'Content-Type': 'multipart/form-data' },
+          }
+        : {};
+
+      await axios.post(`/api/users/inquires`, formData, config);
+      console.log(formData);
       alert('문의가 접수되었습니다.');
       setPageType('history');
     } catch (error) {

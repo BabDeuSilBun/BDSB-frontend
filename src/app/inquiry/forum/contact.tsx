@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 import { Flex } from '@chakra-ui/react';
 import styled from 'styled-components';
 import SettingDescription from '@/components/meetings/settingDescription';
@@ -72,6 +73,7 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]); // 이미지 URL 저장
 
   useEffect(() => {
     if (title.trim() && content.trim()) {
@@ -90,6 +92,22 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
 
     onFormDataChange(formData);
   }, [title, content, selectedImages, setIsActive, onFormDataChange]);
+
+  useEffect(() => {
+    // 이전에 생성된 URL 해제
+    imagePreviews.forEach((url) => URL.revokeObjectURL(url));
+
+    // 새로운 이미지 URL 생성
+    const newPreviews = selectedImages.map((image) =>
+      URL.createObjectURL(image),
+    );
+    setImagePreviews(newPreviews);
+
+    // 컴포넌트가 언마운트되거나 이미지가 변경될 때 URL 해제
+    return () => {
+      newPreviews.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [selectedImages]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -141,15 +159,12 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
           />
 
           <ImagePreviewContainer>
-            {selectedImages.map((image, index) => (
+            {imagePreviews.map((preview, index) => (
               <ImageWrapper key={index}>
-                <ImagePreview
-                  src={URL.createObjectURL(image)}
-                  alt={`preview-${index}`}
-                />
+                <ImagePreview src={preview} alt={`preview-${index}`} />
                 <DeleteButton onClick={() => handleRemoveImage(index)}>
                   <Image
-                    src={'/remove.svg'}
+                    src="/remove.svg"
                     width="20"
                     height="20"
                     alt="remove"

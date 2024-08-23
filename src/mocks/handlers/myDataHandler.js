@@ -10,8 +10,8 @@ import { evaluates, myData, paginatedPoints } from '../mockData/myData';
 import { applyFiltersAndSorting } from '../filteringAndSorting';
 import {
   inquiries,
-  paginatedInquiries,
   inquiryImages,
+  paginatedInquiries,
 } from '../mockData/inquiries';
 
 export const myDataHandlers = [
@@ -95,7 +95,7 @@ export const myDataHandlers = [
       const content = formData.get('content');
       const images = formData.getAll('images');
 
-      if (title && content && 0 <= images.length && images.length <= 3) {
+      if (title && content && images.length >= 0 && images.length <= 3) {
         return HttpResponse.json(
           { message: '문의 등록 성공' },
           { status: 200 },
