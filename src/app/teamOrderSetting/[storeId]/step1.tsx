@@ -33,6 +33,8 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
     setOrderType,
     setIsEarlyPaymentAvailable,
     setDeliveredAddress,
+    isUsingDefaultAddress,
+    setIsUsingDefaultAddress,
     setMetAddress,
     setTime,
     setPaymentAvailableAt,
@@ -41,9 +43,11 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
   } = useOrderStore();
 
   const { purchaseType, orderType, metAddress, time } = formData;
-  const deliveredAddress = formData.deliveredAddress;
+  const { deliveredAddress } = formData;
   const [error, setError] = useState<string | null>(null);
-  const [showDefaultAddress, setShowDefaultAddress] = useState(true);
+  const [defaultAddress, setDefaultAddress] = useState<
+    MyDataType['address'] | null
+  >(null);
 
   const { storeId } = useParams();
 
@@ -80,21 +84,42 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
     enabled: !!storeId,
   });
 
-  const { data, isLoading } = useQuery<MyDataType, Error>({
+  const { data: myData, isLoading } = useQuery<MyDataType, Error>({
     queryKey: ['myData'],
     queryFn: getMyData,
+    enabled: isUsingDefaultAddress,
   });
-  
+
   useEffect(() => {
-    if (data?.address) {
-      console.log('Setting deliveredAddress with:', data.address);
+    if (myData?.address && isUsingDefaultAddress) {
+      setDefaultAddress(myData.address);
       setDeliveredAddress({
-        postal: data.address.postal,
-        streetAddress: data.address.streetAddress,
-        detailAddress: data.address.detailAddress,
+        postal: myData.address.postal,
+        streetAddress: myData.address.streetAddress,
+        detailAddress: myData.address.detailAddress,
       });
     }
-  }, [data, setDeliveredAddress]);
+  }, [myData, isUsingDefaultAddress, setDefaultAddress, setDeliveredAddress]);
+
+  const handleAddressChange = (addressData: Address) => {
+    const formattedAddress = {
+      postal: addressData.zonecode,
+      streetAddress: `${addressData.address}${
+        addressData.bname ? `, ${addressData.bname}` : ''
+      }${addressData.buildingName ? `, ${addressData.buildingName}` : ''}`,
+      detailAddress: '',
+    };
+
+    setDeliveredAddress(formattedAddress);
+    setMetAddress((prevAddress) => ({
+      ...prevAddress,
+      postal: formattedAddress.postal,
+      streetAddress: formattedAddress.streetAddress,
+      detailAddress: prevAddress.detailAddress,
+    }));
+
+    setIsUsingDefaultAddress(false);
+  };
 
   // Time validation functions
   const validateTime = (formattedTime: string) => {
@@ -144,24 +169,6 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
     }
   };
 
-  const handleAddressChange = (addressData: Address) => {
-    const formattedAddress = {
-      postal: addressData.zonecode,
-      streetAddress: `${addressData.address}${addressData.bname ? `, ${addressData.bname}` : ''}${addressData.buildingName ? `, ${addressData.buildingName}` : ''}`,
-      detailAddress: '',
-    };
-
-    setDeliveredAddress(formattedAddress);
-    
-    // @ts-ignore
-    setMetAddress((prevAddress: Address) => ({
-      ...prevAddress,
-      postal: formattedAddress.postal,
-      streetAddress: formattedAddress.streetAddress,
-      detailAddress: (prevAddress as any).detailAddress,
-    }));
-  };
-
   const handleTimeChange = (
     newTime: Partial<{ amPm: string; hour: string; minute: string }>,
   ) => {
@@ -198,7 +205,7 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
         setError(
           `영업 시간은 ${store.openTime}부터 ${store.closeTime}까지입니다.\n이 시간 내로 선택해주세요.`,
         );
-        setButtonActive(false); // Disable the button if the time is not valid
+        setButtonActive(false);
         return;
       }
       setError(null);
@@ -222,7 +229,7 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
         postal: deliveredAddress.postal,
       });
     }
-  }, [deliveredAddress, setMetAddress]);
+  }, [deliveredAddress, metAddress, setMetAddress]);
 
   useEffect(() => {
     if (time.hour && time.minute) {
@@ -238,7 +245,7 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
       !!time.hour &&
       !!time.minute &&
       !error &&
-      (showDefaultAddress || !!formData.deliveredAddress.streetAddress);
+      (isUsingDefaultAddress || !!formData.deliveredAddress.streetAddress);
     setButtonActive(isActive);
   }, [
     purchaseType,
@@ -248,7 +255,7 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
     time.minute,
     formData.deliveredAddress,
     error,
-    showDefaultAddress,
+    isUsingDefaultAddress,
     setButtonActive,
   ]);
 
@@ -329,11 +336,11 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
       <SettingLabel text="수령 장소" />
       {isLoading ? (
         <p>기본 주소 불러오는 중입니다...</p>
-      ) : showDefaultAddress && data?.address?.streetAddress ? (
+      ) : isUsingDefaultAddress && defaultAddress ? (
         <DefaultAddress
-          streetAddress={data.address.streetAddress}
-          detailAddress={data.address.detailAddress}
-          onChangeAddress={() => setShowDefaultAddress(false)}
+          streetAddress={defaultAddress.streetAddress}
+          detailAddress={defaultAddress.detailAddress}
+          onChangeAddress={() => setIsUsingDefaultAddress(false)}
         />
       ) : (
         <SettingAddress

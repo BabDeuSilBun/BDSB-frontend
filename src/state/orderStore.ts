@@ -30,6 +30,7 @@ interface OrderFormData {
 interface OrderStore {
   formData: OrderFormData;
   isButtonActive: boolean;
+  isUsingDefaultAddress: boolean;
   setStoreId: (storeId: number) => void;
   setPurchaseType: (purchaseType: string | null) => void;
   setMinHeadcount: (minHeadcount: number) => void;
@@ -43,6 +44,7 @@ interface OrderStore {
   setDescription: (description: string) => void;
   setButtonActive: (isActive: boolean) => void;
   setMaxIndividualDeliveryFee: (fee: number) => void;
+  setIsUsingDefaultAddress: (isUsing: boolean) => void;
 }
 
 export const useOrderStore = create<OrderStore>((set) => ({
@@ -69,6 +71,7 @@ export const useOrderStore = create<OrderStore>((set) => ({
     maxIndividualDeliveryFee: 0,
   },
   isButtonActive: false,
+  isUsingDefaultAddress: true,
   setStoreId: (storeId) =>
     set((state) => ({
       formData: { ...state.formData, storeId },
@@ -135,4 +138,6 @@ export const useOrderStore = create<OrderStore>((set) => ({
     set((state) => ({
       formData: { ...state.formData, maxIndividualDeliveryFee: fee },
     })),
+  setIsUsingDefaultAddress: (isUsing) =>
+    set({ isUsingDefaultAddress: isUsing }),
 }));

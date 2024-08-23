@@ -49,6 +49,24 @@ const Step2 = () => {
     return null;
   }
 
+  // Effect to set max individual delivery fee
+  useEffect(() => {
+    if (store) {
+      const roundToNearestTen = (num: number) => Math.floor(num / 10) * 10;
+
+      const deliveryPrice = store.deliveryPrice || 0;
+      const maxFee = roundToNearestTen(
+        deliveryPrice / Math.max(minHeadcount, 1),
+      );
+
+      setMaxIndividualDeliveryFee(maxFee);
+    }
+  }, [store, minHeadcount, setMaxIndividualDeliveryFee]);
+
+  if (!store) {
+    return null;
+  }
+
   // Calculate delivery fees
   const roundToNearestTen = (num: number) => {
     return Math.floor(num / 10) * 10;
@@ -63,10 +81,6 @@ const Step2 = () => {
   const minIndividualDeliveryFee = roundToNearestTen(
     store.deliveryPrice / Math.max(maxHeadcount, 1),
   );
-
-  useEffect(() => {
-    setMaxIndividualDeliveryFee(maxIndividualDeliveryFee);
-  }, [maxIndividualDeliveryFee, setMaxIndividualDeliveryFee]);
 
   return (
     <>
