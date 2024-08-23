@@ -87,6 +87,30 @@ export const myDataHandlers = [
     }
   }),
 
+  http.post(INQUIRY_LIST_API_URL, async ({ request }) => {
+    try {
+      const formData = await request.formData();
+
+      const title = formData.get('title');
+      const content = formData.get('content');
+      const images = formData.getAll('images');
+
+      if (title && content && 0 <= images.length && images.length <= 3) {
+        return HttpResponse.json(
+          { message: '문의 등록 성공' },
+          { status: 200 },
+        );
+      }
+
+      return HttpResponse.json(
+        { message: '잘못된 요청입니다.' },
+        { status: 400 },
+      );
+    } catch (error) {
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
+    }
+  }),
+
   http.get(INQUIRY_LIST_API_URL, async (req) => {
     const { request } = await req;
     const urlString = request.url.toString();
