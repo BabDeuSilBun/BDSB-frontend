@@ -54,17 +54,8 @@
 // }
 
 const StoreInfo = () =>
-<<<<<<< HEAD
-  //     {
-  //   storeName,
-  //   deliveryTime,
-  //   location,
-  //   onClick,
-  // }: StoreInfoProps
-=======
   //   { storeName, deliveryTime, location, onClick },
   // : StoreInfoProps
->>>>>>> main
   {
     //   return (
     //     <Container>

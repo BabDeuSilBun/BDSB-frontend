@@ -1,11 +1,10 @@
-'use client';
-
-// import { useEffect, useState } from 'react';
+// 'use client';
 
 // import styled from 'styled-components';
-// import { Badge, Button, Divider } from '@chakra-ui/react';
+// import { Divider, Badge, Button } from '@chakra-ui/react';
 // import Counter from '@/components/common/counter';
 // import { formatCurrency } from '@/utils/currencyFormatter';
+// import { useEffect, useState } from 'react';
 
 // interface CartItemProps {
 //   menuName: string;
@@ -85,12 +84,8 @@ export default function CartItem() {
   //   quantity,
   //   onQuantityChange,
   //   onAddItem,
-<<<<<<< HEAD
-  //   }: CartItemProps,
-=======
   //   },
   // : CartItemProps
->>>>>>> main
   //   const [totalPrice, setTotalPrice] = useState(price * quantity);
   //   useEffect(() => {
   //     setTotalPrice(price * quantity);
@@ -118,15 +113,7 @@ export default function CartItem() {
   //         >
   //           {badgeText}
   //         </Badge>
-<<<<<<< HEAD
-  //         <Counter
-  //           value={quantity}
-  //           onValueChange={onQuantityChange}
-  //           size="small"
-  //         />
-=======
   //         <Counter value={quantity} onValueChange={onQuantityChange} size="small" />
->>>>>>> main
   //       </QuantityContainer>
   //       <Divider
   //         orientation="horizontal"
@@ -142,11 +129,7 @@ export default function CartItem() {
   //           color: 'var(--text)',
   //           height: 'auto',
   //           margin: 'none',
-<<<<<<< HEAD
-  //           padding: 'none',
-=======
   //           padding:'none',
->>>>>>> main
   //           fontSize: 'var(--font-size-sm)',
   //           fontWeight: 'var(--font-regular)',
   //           _hover: {
