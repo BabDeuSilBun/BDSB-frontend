@@ -1,4 +1,4 @@
-import { Divider, Flex, Box, Skeleton } from '@chakra-ui/react';
+import { Box, Divider, Flex, Skeleton } from '@chakra-ui/react';
 
 const InquirySkeleton = () => (
   <>
