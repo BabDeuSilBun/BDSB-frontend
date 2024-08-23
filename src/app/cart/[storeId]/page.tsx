@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import { getRestaurantInfo } from '@/services/restaurantService';
@@ -26,7 +24,7 @@ const CartPage = () => {
   const router = useRouter();
   const { storeId } = useParams();
 
-  const [quantity, setQuantity] = useState(1);
+  const storeIdString = Array.isArray(storeId) ? storeId[0] : storeId;
 
   const {
     formData: { maxIndividualDeliveryFee },
@@ -45,14 +43,6 @@ const CartPage = () => {
   const deliveredAddress = useOrderStore(
     (state) => state.formData.deliveredAddress,
   );
-
-  const handleQuantityChange = (newQuantity: number) => {
-    setQuantity(newQuantity);
-  };
-
-  const handleAddItem = () => {
-    router.push(`/restaurants/${storeId}?context=leaderAfter`);
-  };
 
   if (isLoadingStore) {
     return <Loading />;
@@ -91,9 +81,8 @@ const CartPage = () => {
           price={19000}
           imageUrl="https://via.placeholder.com/150"
           badgeText="공동 메뉴"
-          quantity={quantity}
-          onQuantityChange={handleQuantityChange}
-          onAddItem={handleAddItem}
+          quantity={1}
+          storeId={storeIdString}
         />
       </CustomContainer>
       <Amount

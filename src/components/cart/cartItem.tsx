@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { Badge, Button, Divider } from '@chakra-ui/react';
 import Counter from '@/components/common/counter';
@@ -13,8 +14,7 @@ interface CartItemProps {
   imageUrl: string;
   badgeText: string;
   quantity: number;
-  onQuantityChange: (newValue: number) => void;
-  onAddItem: () => void;
+  storeId: string;
 }
 
 const Container = styled.div`
@@ -81,14 +81,21 @@ export default function CartItem({
   price,
   imageUrl,
   badgeText,
-  quantity,
-  onQuantityChange,
-  onAddItem,
+  quantity: initialQuantity,
+  storeId,
 }: CartItemProps) {
+  const [quantity, setQuantity] = useState(initialQuantity);
   const [totalPrice, setTotalPrice] = useState(price * quantity);
+  const router = useRouter();
+
   useEffect(() => {
     setTotalPrice(price * quantity);
   }, [price, quantity]);
+
+  const handleAddItem = () => {
+    router.push(`/restaurants/${storeId}?context=leaderAfter`);
+  };
+
   return (
     <Container>
       <MenuListWrapper>
@@ -112,11 +119,7 @@ export default function CartItem({
         >
           {badgeText}
         </Badge>
-        <Counter
-          value={quantity}
-          onValueChange={onQuantityChange}
-          size="small"
-        />
+        <Counter value={quantity} onValueChange={setQuantity} size="small" />
       </QuantityContainer>
       <Divider
         orientation="horizontal"
@@ -126,7 +129,7 @@ export default function CartItem({
         }}
       />
       <Button
-        onClick={onAddItem}
+        onClick={handleAddItem}
         sx={{
           backgroundColor: 'transparent',
           color: 'var(--text)',
