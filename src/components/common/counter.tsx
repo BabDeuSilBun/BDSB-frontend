@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import { Button, HStack, Input, useNumberInput } from '@chakra-ui/react';
 import DeleteIcon from '@/components/svg/delete';
 
-const CounterContainer = styled(HStack)`
+const CounterContainer = styled(HStack)<{ size: 'small' | 'regular' }>`
   width: auto;
   border: 1px solid var(--gray300);
-  border-radius: var(--border-radius-lg);
+  border-radius: ${({ size }) =>
+    size === 'small' ? 'var(--border-radius-md)' : 'var(--border-radius-lg)'};
   overflow: hidden;
 `;
 
@@ -16,6 +17,7 @@ interface CounterProps {
   minValue?: number;
   onValueChange: (newValue: number) => void;
   disableDecrementCondition?: (value: number) => boolean;
+  size?: 'small' | 'regular';
 }
 
 const Counter: React.FC<CounterProps> = ({
@@ -23,6 +25,7 @@ const Counter: React.FC<CounterProps> = ({
   minValue = 0,
   onValueChange,
   disableDecrementCondition = (currentValue) => currentValue <= minValue,
+  size = 'regular'
 }) => {
   const { getInputProps, getIncrementButtonProps } = useNumberInput({
     step: 1,
@@ -42,21 +45,21 @@ const Counter: React.FC<CounterProps> = ({
   const inputProps = getInputProps();
 
   return (
-    <CounterContainer spacing={0}>
+    <CounterContainer spacing={0} size={size}>
       <Button
-        size="sm"
+        size={size === 'small' ? 'xs' : 'sm'}
         onClick={handleDecrement}
         disabled={disableDecrementCondition(value)}
         sx={{
           bg: 'transparent',
           margin: '0 !important',
           padding: '0 !important',
-          width: '40px !important',
-          height: '40px !important',
+          width: size === 'small' ? '30px !important' : '40px !important',
+          height: size === 'small' ? '30px !important' : '40px !important',
           color: disableDecrementCondition(value)
             ? 'var(--gray300)'
             : 'var(--text)',
-          fontSize: 'var(--font-size-xxl)',
+          fontSize: size === 'small' ? 'var(--font-size-lg)' : 'var(--font-size-xxl)',
           fontWeight: 'var(--font-regular)',
           borderRadius: '0',
           cursor: disableDecrementCondition(value) ? 'not-allowed' : 'pointer',
@@ -73,25 +76,25 @@ const Counter: React.FC<CounterProps> = ({
         }}
       >
         {value === 1 ? (
-          <DeleteIcon color="var(--gray300)" width={24} height={24} />
+          <DeleteIcon color="var(--gray300)" width={size === 'small' ? 20 : 24} height={size === 'small' ? 20 : 24} />
         ) : (
           '-'
         )}
       </Button>
 
       <Input
-        size="sm"
+        size={size === 'small' ? 'xs' : 'sm'}
         variant="unstyled"
         value={inputProps.value}
         onChange={inputProps.onChange}
         sx={{
           margin: '0 !important',
           padding: '0 !important',
-          width: '45px !important',
-          height: '40px !important',
+          width: size === 'small' ? '35px !important' : '45px !important',
+          height: size === 'small' ? '30px !important' : '40px !important',
           boxSizing: 'border-box !important',
           textAlign: 'center',
-          fontSize: 'var(--font-size-md) !important',
+          fontSize: size === 'small' ? 'var(--font-size-sm) !important' : 'var(--font-size-md) !important',
           fontWeight: 'var(--font-regular) !important',
           color: 'var(--text)',
           borderTop: 'none !important',
@@ -110,15 +113,15 @@ const Counter: React.FC<CounterProps> = ({
       <Button
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...inc}
-        size="sm"
+        size={size === 'small' ? 'xs' : 'sm'}
         sx={{
           margin: '0 !important',
           padding: '0 !important',
-          width: '40px !important',
-          height: '40px !important',
+          width: size === 'small' ? '30px !important' : '40px !important',
+          height: size === 'small' ? '30px !important' : '40px !important',
           bg: 'transparent',
           color: 'var(--text)',
-          fontSize: 'var(--font-size-xxl)',
+          fontSize: size === 'small' ? 'var(--font-size-lg)' : 'var(--font-size-xxl)',
           fontWeight: 'var(--font-regular)',
           borderRadius: '0',
           _hover: { bg: 'var(--gray200)' },

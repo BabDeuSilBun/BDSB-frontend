@@ -62,7 +62,7 @@ const TeamPurchaseItems: React.FC<TeamOrderItemsProps> = ({
       {teamPurchases?.pages.map((page) =>
         page.content.flatMap((teamPurchase: TeamPurchaseType) =>
           teamPurchase.items.map((item: ItemType) => (
-            <MenuItemRow key={`${teamPurchase.purchaseId}-${item.menuId}`}>
+            <MenuItemRow key={`${item.purchaseId}-${item.menuId}`}>
               <MenuItemName>{item.name}</MenuItemName>
               <MenuItemPrice>{formatCurrency(item.price)}</MenuItemPrice>
             </MenuItemRow>
