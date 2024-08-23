@@ -9,9 +9,8 @@
     "import",
     "jsx-a11y",
     "react",
-    "react-hooks",
-    "@tanstack/query",
-    "prettier"
+    "prettier",
+    "@tanstack/query"
   ],
   "extends": [
     "next/core-web-vitals",
