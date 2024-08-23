@@ -3,23 +3,18 @@
 import styled from 'styled-components';
 import { BaseBtn, BaseBtnInactive, BtnGroup } from '@/styles/button';
 
-const FooterContainer = styled.footer`
-  width: 360px;
-  max-width: 360px;
-  position: absolute;
-  bottom: 100px;
+const FooterContainer = styled.footer<{ $padding?: string }>`
+  width: 100vw;
+  position: fixed;
+  bottom: 0px;
   z-index: 1000;
-`;
-
-const Child = styled.div`
-  width: inherit;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100px;
+  box-shadow: 1.48px 1.48px 7px var(--shadow);
   background-color: var(--background);
-  box-shadow: 0px 4px 8px var(--shadow);
-  position: fixed;
+  padding: ${({ $padding }) =>
+    $padding || '1.5rem'}; /* Default padding is 1.5rem */
 `;
 
 interface FooterProps {
@@ -30,35 +25,42 @@ interface FooterProps {
   onButtonClick?: () => void;
   onButtonClick1?: () => void;
   onButtonClick2?: () => void;
+  $padding?: string;
+  disabled?: boolean;
 }
 
 const Footer: React.FC<FooterProps> = ({
   type,
-  buttonText,
-  buttonText1,
-  buttonText2,
+  buttonText = 'Button', // 기본값 설정
+  buttonText1 = 'Button 1', // 기본값 설정
+  buttonText2 = 'Button 2', // 기본값 설정
   onButtonClick,
   onButtonClick1,
   onButtonClick2,
+  $padding,
+  disabled = false,
 }) => {
   return (
-    <FooterContainer>
-      <Child>
-        {type === 'button' && (
-          <BaseBtn onClick={onButtonClick}>{buttonText}</BaseBtn>
-        )}
-        {type === 'inactiveButton' && (
+    <FooterContainer $padding={$padding}>
+      {type === 'button' &&
+        (disabled ? (
+          // blocked function
           <BaseBtnInactive>{buttonText}</BaseBtnInactive>
-        )}
-        {type === 'buttonGroup' && (
-          <BtnGroup>
-            <BaseBtn onClick={onButtonClick1}>{buttonText1}</BaseBtn>
-            <BaseBtnInactive onClick={onButtonClick2}>
-              {buttonText2}
-            </BaseBtnInactive>
-          </BtnGroup>
-        )}
-      </Child>
+        ) : (
+          <BaseBtn onClick={onButtonClick}>{buttonText}</BaseBtn>
+        ))}
+      {/* just gray button can function */}
+      {type === 'inactiveButton' && (
+        <BaseBtnInactive onClick={onButtonClick}>{buttonText}</BaseBtnInactive>
+      )}
+      {type === 'buttonGroup' && (
+        <BtnGroup>
+          <BaseBtn onClick={onButtonClick1}>{buttonText1}</BaseBtn>
+          <BaseBtnInactive onClick={onButtonClick2}>
+            {buttonText2}
+          </BaseBtnInactive>
+        </BtnGroup>
+      )}
     </FooterContainer>
   );
 };

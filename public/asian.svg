@@ -1,0 +1,19 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4.6001 17.9004C4.6001 21.1095 5.87491 24.1872 8.1441 26.4564C10.4133 28.7256 13.491 30.0004 16.7001 30.0004C19.9092 30.0004 22.9869 28.7256 25.2561 26.4564C27.5253 24.1872 28.8001 21.1095 28.8001 17.9004H4.6001Z" fill="url(#paint0_linear_456_1214)" stroke="#363841" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7.1001 13.7997C7.2773 12.5066 7.91683 11.3214 8.90038 10.4635C9.88392 9.60551 11.1449 9.13281 12.4501 9.13281C13.7553 9.13281 15.0163 9.60551 15.9998 10.4635C16.9834 11.3214 17.6229 12.5066 17.8001 13.7997" fill="url(#paint1_linear_456_1214)"/>
+<path d="M7.1001 13.7997C7.2773 12.5066 7.91683 11.3214 8.90038 10.4635C9.88392 9.60551 11.1449 9.13281 12.4501 9.13281C13.7553 9.13281 15.0163 9.60551 15.9998 10.4635C16.9834 11.3214 17.6229 12.5066 17.8001 13.7997" stroke="#363841" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14.2998 8.50046C15.0258 7.67922 15.9188 7.02245 16.919 6.57407C17.9193 6.12569 19.0037 5.89603 20.0998 5.90045C21.1326 5.90037 22.1551 6.10539 23.108 6.50362C24.0609 6.90184 24.9253 7.48534 25.6509 8.22026C26.3765 8.95518 26.949 9.82689 27.335 10.7848C27.7211 11.7427 27.9131 12.7678 27.8998 13.8005" stroke="#363841" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16.8999 10.9002C17.6801 10.2366 18.6759 9.88093 19.6999 9.90015C20.8497 9.89986 21.954 10.3497 22.7763 11.1533C23.5987 11.957 24.0738 13.0506 24.0999 14.2002" stroke="#363841" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10.8002 8.8L4.7002 3" stroke="#363841" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7.5 11.8L4 8.5" stroke="#363841" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<defs>
+<linearGradient id="paint0_linear_456_1214" x1="4.58347" y1="30.0146" x2="17.4353" y2="10.4269" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF7DAC"/>
+<stop offset="1" stop-color="#FF0440"/>
+</linearGradient>
+<linearGradient id="paint1_linear_456_1214" x1="7.09275" y1="13.8051" x2="11.7518" y2="5.66469" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF7DAC"/>
+<stop offset="1" stop-color="#FF0440"/>
+</linearGradient>
+</defs>
+</svg>

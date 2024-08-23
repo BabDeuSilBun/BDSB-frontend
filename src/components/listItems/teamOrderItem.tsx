@@ -1,13 +1,10 @@
-'use client';
-
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
-import { MeetingSummary } from '@/types/meeting';
-import { RestaurantSummary } from '@/types/restaurant';
-import { getRestaurantInfo } from '@/services/restaurantService';
+import { MeetingType } from '@/types/coreTypes';
 import { getCurrentHeadCount } from '@/services/teamOrderService';
-import { formatCurrency } from '@/utils/currencyFormatter';
+import useRemainingTime from '@/hook/useRemainingTime';
 
 import GroupIcon from '../svg/group';
 
@@ -15,6 +12,7 @@ import GroupIcon from '../svg/group';
 const CardContainer = styled.div`
   display: flex;
   padding: 1rem 0;
+  cursor: pointer;
 `;
 
 // 이미지 컨테이너
@@ -71,8 +69,9 @@ const InfoItem = styled.p`
   gap: 0.3rem;
 `;
 
-const Information = styled.p`
+const Information = styled.p<{ $isCritical?: boolean }>`
   font-size: var(--font-size-sm);
+  color: ${({ $isCritical }) => $isCritical && 'var(--warning)'};
 `;
 
 // 주문 타입
@@ -81,59 +80,59 @@ const OrderTypeLabel = styled.p`
   color: var(--primary);
 `;
 
-const TeamOrderItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
-  const { data: restaurantData } = useQuery<RestaurantSummary>({
-    queryKey: ['restaurantInfo', item.storeId],
-    queryFn: () => getRestaurantInfo(item.storeId),
-    enabled: !!item.storeId,
-  });
+const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
+  const router = useRouter();
+  const { time: remainingTime, $isCritical } = useRemainingTime(
+    item.paymentAvailableAt,
+  );
 
-  const { data: headCountData } = useQuery<{ currentHeadCount: number }>({
+  const { data: headCountData, isLoading } = useQuery<{
+    currentHeadCount: number;
+  }>({
     queryKey: ['headCount', item.meetingId],
     queryFn: () => getCurrentHeadCount(item.meetingId),
-    enabled: !!item.meetingId,
   });
 
-  const deliveryPrice = restaurantData
-    ? formatCurrency(restaurantData.deliveryPrice)
-    : 0;
+  const handleClick = () => {
+    router.push(`/teamOrder/${item.storeId}`);
+  };
 
   return (
-    <CardContainer>
+    <CardContainer onClick={handleClick}>
       <ImageContainer>
-        {restaurantData?.image[0] && (
+        {item.images[0] && (
           <Image
-            src={restaurantData.image[0].url}
-            alt="restaurant Image"
+            src={item.images[0].url}
+            alt="Restaurant Image"
             fill
+            sizes="50vw"
             style={{ objectFit: 'cover' }}
+            priority
           />
         )}
       </ImageContainer>
       <InfoSection>
-        <Information>4분 뒤 마감</Information>
-        <RestaurantName>{restaurantData?.name}</RestaurantName>
+        <Information $isCritical={$isCritical}>{remainingTime}</Information>
+        <RestaurantName>{item.storeName}</RestaurantName>
         <InfoItem>
-          <Image
-            src="./timer.svg"
-            alt="Delivery Time"
-            width="18"
-            height="18"
-            priority
-          />
-          <span>{restaurantData?.deliveryTime}</span>
+          <Image src="/timer.svg" alt="Delivery Time" width="18" height="18" />
+          <span>{item.deliveryTimeRange}</span>
         </InfoItem>
         <InfoItem>
-          <Image src="./fee.svg" alt="Delivery Fee" width="18" height="18" />
-          <span>{deliveryPrice}</span>
+          <Image src="/fee.svg" alt="Delivery Fee" width="18" height="18" />
+          <span>{item.deliveryFeeRange}</span>
         </InfoItem>
       </InfoSection>
       <AdditionalInfo>
         <ParticipantCount>
           <GroupIcon color="var(--primary)" width={18} height={18} />
-          <Information>{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</Information>
+          <Information>
+            {isLoading
+              ? '0'
+              : `${headCountData?.currentHeadCount ?? 0} / ${item.participantMax}`}
+          </Information>
         </ParticipantCount>
-        <OrderTypeLabel>{item.orderType}</OrderTypeLabel>
+        <OrderTypeLabel>{item.purchaseType}</OrderTypeLabel>
       </AdditionalInfo>
     </CardContainer>
   );

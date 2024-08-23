@@ -3,8 +3,7 @@ import localFont from 'next/font/local';
 import type { Metadata } from 'next';
 import MswComponent from '@/components/msw.component';
 import StyledComponentsRegistry from '@/lib/registry';
-
-import Providers from './providers';
+import Providers from '@/providers/provider';
 
 const font = localFont({
   src: 'fonts/SF-Pro.ttf',
@@ -15,7 +14,7 @@ const font = localFont({
 
 export const metadata: Metadata = {
   title: '밥드실분',
-  description: 'delievery group app for university students',
+  description: 'delivery group app for university students',
   icons: {
     icon: '/favicon.ico',
   },
@@ -43,12 +42,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <MswComponent />
-        <div id="layout-wrapper">
-          <div id="main-content">
-            <Providers>
-              <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-            </Providers>
-          </div>
+        <div id="main-content">
+          <Providers>
+            <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+          </Providers>
         </div>
       </body>
     </html>

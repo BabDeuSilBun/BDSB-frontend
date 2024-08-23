@@ -17,17 +17,38 @@ interface ModalProps {
   address1?: string;
   address2?: string;
   openTime?: string;
+  closeTime?: string;
+  dayOfWeek?: string;
   buttonText?: string;
   buttonText1?: string;
   buttonText2?: string;
   onButtonClick1?: () => void;
   onButtonClick2?: () => void;
   onButtonClick3?: () => void;
+  onClose?: () => void;
+  context?: 'leaderBefore' | 'leaderAfter' | 'participant';
 }
 
+const mediaQueries = {
+  tablet: `@media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max))`,
+  desktop: `@media (min-width: var(--breakpoint-desktop))`,
+};
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+`;
+
 const ModalContainer = styled.div`
-  width: 90%;
-  max-width: 20.5rem; /* 328px in 360px mobile screen */
+  max-width: 330px;
   background-color: var(--background);
   box-shadow: 0px 4px 8px var(--shadow);
   border-radius: var(--border-radius-lg);
@@ -40,58 +61,98 @@ const ModalContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1000;
+  z-index: 1002;
+  ${mediaQueries.tablet} {
+    max-width: 25rem; /* Slightly larger modal for tablets */
+  }
+  ${mediaQueries.desktop} {
+    max-width: 30rem; /* Larger modal for desktops */
+  }
 `;
 
-const Image = styled.img`
-  width: 90%;
-  max-width: 18rem; /* 288px in 360px mobile screen */
+const ModalImage = styled.img`
+  width: 100%;
   height: auto;
   border-radius: var(--border-radius-lg);
+  @media (min-width: var(--breakpoint-tablet-min)) and (max-width: var(--breakpoint-tablet-max)) {
+    max-width: 22rem; /* Slightly larger image for tablets */
+  }
+
+  @media (min-width: var(--breakpoint-desktop)) {
+    max-width: 26rem; /* Larger image for desktops */
+  }
 `;
 
 const Title1 = styled.h2`
   margin-top: var(--spacing-md);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-lg); /* 20px */
   font-weight: var(--font-semi-bold);
   color: var(--text);
+  ${mediaQueries.tablet} {
+    font-size: var(--font-size-xl); /* 22px */
+  }
+  ${mediaQueries.desktop} {
+    font-size: var(--font-size-xxl); /* 24px */
+  }
 `;
 
-const Title2 = styled.h2`
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-semi-bold);
-  color: var(--text);
+const Title2 = styled(Title1)`
+  margin-top: 0;
 `;
 
 const Description = styled.p`
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-sm); /* 14px */
   color: var(--text);
   margin-top: var(--spacing-sm);
   margin-bottom: var(--spacing-lg);
+  word-break: keep-all;
+  white-space: normal;
+  overflow-wrap: break-word;
+  ${mediaQueries.tablet} {
+    font-size: var(--font-size-md); /* 16px */
+  }
+  ${mediaQueries.desktop} {
+    font-size: var(--font-size-lg); /* 20px */
+  }
 `;
 
-const Table = styled.table`
+const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   margin-bottom: var(--spacing-lg);
-  border-collapse: collapse;
-  table-layout: fixed;
-  th,
-  td {
-    font-size: var(--font-size-sm);
-    color: var(--text);
-    padding: var(--spacing-xs);
-    text-align: left;
-    vertical-align: top;
+`;
+
+const InfoRow = styled.div`
+  display: flex;
+  padding: var(--spacing-xs);
+  align-items: flex-start;
+  justify-content: space-between;
+  font-size: var(--font-size-sm); /* 14px */
+  color: var(--text);
+
+  ${mediaQueries.tablet} {
+    font-size: var(--font-size-md); /* 16px */
   }
-  th {
-    width: 40%;
-    padding-left: 0;
-    font-weight: var(--font-semi-bold);
+
+  ${mediaQueries.desktop} {
+    font-size: var(--font-size-lg); /* 20px */
   }
-  td {
-    word-wrap: break-word;
-    padding-right: 0;
-  }
+`;
+
+const InfoTitle = styled.div`
+  flex-basis: 30%;
+  font-weight: var(--font-semi-bold);
+  padding-left: 0;
+  text-align: left;
+`;
+
+const InfoDescription = styled.div`
+  flex-basis: 70%;
+  word-break: keep-all;
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-align: left;
 `;
 
 const Modal: React.FC<ModalProps> = ({
@@ -103,47 +164,119 @@ const Modal: React.FC<ModalProps> = ({
   address1,
   address2,
   openTime,
+  closeTime,
+  dayOfWeek,
   buttonText,
   buttonText1,
   buttonText2,
   onButtonClick1,
   onButtonClick2,
   onButtonClick3,
+  onClose = () => {},
+  context,
 }) => {
+  const renderButtons = () => {
+    switch (context) {
+      case 'leaderBefore':
+        return (
+          <BtnGroup>
+            <HalfBtnPurple onClick={onButtonClick1}>
+              {buttonText1 || '모임 만들기'}
+            </HalfBtnPurple>
+            <HalfBtnLight onClick={onButtonClick2}>
+              {buttonText2 || '닫기'}
+            </HalfBtnLight>
+          </BtnGroup>
+        );
+      case 'leaderAfter':
+        return (
+          <BtnGroup>
+            <HalfBtnPurple onClick={onButtonClick1}>
+              {buttonText1 || '공동메뉴'}
+            </HalfBtnPurple>
+            <HalfBtnLight onClick={onButtonClick2}>
+              {buttonText2 || '개별메뉴'}
+            </HalfBtnLight>
+          </BtnGroup>
+        );
+      case 'participant':
+        return (
+          <BtnGroup>
+            <HalfBtnPurple onClick={onButtonClick1}>
+              {buttonText1 || '개별메뉴'}
+            </HalfBtnPurple>
+            <HalfBtnLight onClick={onButtonClick2}>
+              {buttonText2 || '닫기'}
+            </HalfBtnLight>
+          </BtnGroup>
+        );
+      default:
+        if (type === 'info') {
+          return (
+            <BaseBtn onClick={onButtonClick3} style={{ width: '17.625rem' }}>
+              {buttonText || '닫기'}
+            </BaseBtn>
+          );
+        }
+        if (type === 'text') {
+          return (
+            <BtnGroup>
+              <HalfBtnPurple onClick={onButtonClick1}>
+                {buttonText1 || '계속하기'}
+              </HalfBtnPurple>
+              <HalfBtnLight onClick={onButtonClick2}>
+                {buttonText2 || '종료하기'}
+              </HalfBtnLight>
+            </BtnGroup>
+          );
+        }
+        return (
+          <BaseBtn onClick={onButtonClick3} style={{ width: '17.625rem' }}>
+            {buttonText || '닫기'}
+          </BaseBtn>
+        );
+    }
+  };
+
   return (
-    <ModalContainer>
-      {type === 'image' && imageUrl && <Image src={imageUrl} alt={title1} />}
-      <Title1>{title1}</Title1>
-      <Title2>{title2}</Title2>
-      <Description>{description}</Description>
-      {type === 'info' && (
-        <Table>
-          <tbody>
-            <tr>
-              <th>주소</th>
-              <td>
-                {address1}
-                {address2}
-              </td>
-            </tr>
-            <tr>
-              <th>운영시간</th>
-              <td>{openTime}</td>
-            </tr>
-          </tbody>
-        </Table>
-      )}
-      {type === 'text' || type === 'image' ? (
-        <BtnGroup>
-          <HalfBtnPurple onClick={onButtonClick1}>{buttonText1}</HalfBtnPurple>
-          <HalfBtnLight onClick={onButtonClick2}>{buttonText2}</HalfBtnLight>
-        </BtnGroup>
-      ) : (
-        <BaseBtn onClick={onButtonClick3} style={{ width: '17.625rem' }}>
-          {buttonText}
-        </BaseBtn> /* 282px in 360px mobile screen */
-      )}
-    </ModalContainer>
+    <ModalOverlay onClick={onClose}>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
+        {/* Modal Content */}
+        {type === 'image' && imageUrl && (
+          <ModalImage src={imageUrl} alt={title1} sizes="50vw" />
+        )}
+        <Title1>{title1}</Title1>
+        <Title2>{title2}</Title2>
+        <Description>{description}</Description>
+        {type === 'info' ? (
+          <>
+            <InfoContainer>
+              <InfoRow>
+                <InfoTitle>주소</InfoTitle>
+                <InfoDescription>
+                  {address1}
+                  <br />
+                  {address2}
+                </InfoDescription>
+              </InfoRow>
+              <InfoRow>
+                <InfoTitle>운영시간</InfoTitle>
+                <InfoDescription>
+                  {openTime} ~ {closeTime}
+                </InfoDescription>
+              </InfoRow>
+              <InfoRow>
+                <InfoTitle>휴무일</InfoTitle>
+                <InfoDescription>{dayOfWeek}</InfoDescription>
+              </InfoRow>
+            </InfoContainer>
+            {renderButtons()}
+          </>
+        ) : (
+          renderButtons()
+        )}
+      </ModalContainer>
+    </ModalOverlay>
   );
 };
 

@@ -1,7 +1,7 @@
 const ArrowLeftIcon = ({
   color = 'var(--primary)',
-  width = 18,
-  height = 18,
+  width = 24,
+  height = 24,
   'aria-label': ariaLabel = 'Arrow Left Icon',
   ...props
 }: React.SVGProps<SVGSVGElement> & {
@@ -20,9 +20,9 @@ const ArrowLeftIcon = ({
     {...props}
   >
     <path
-      d="M15 6C15 6 9.00001 10.4189 9 12C8.99999 13.5812 15 18 15 18"
+      d="M16 20.5L7 11.5L16 2.5"
       stroke={color}
-      strokeWidth="1.5"
+      strokeWidth="1.8"
       strokeLinecap="round"
       strokeLinejoin="round"
     />

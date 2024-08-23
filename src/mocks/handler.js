@@ -1,29 +1,17 @@
-import { http, HttpResponse } from 'msw';
-import { TEAM_ORDERLIST_API_URL } from '@/services/teamOrderService';
-import { RESTAURANT_LIST_API_URL } from '@/services/restaurantService';
-
-import { meetings, stores } from './mockdata';
+import { restaurantHandlers } from './handlers/restaurantHandlers';
+import { teamOrderHandlers } from './handlers/teamOrderHandlers';
+import { menuHandlers } from './handlers/menuHandlers';
+import { teamPurchaseHandlers } from './handlers/teamPurchaseHandlers';
+import { individualPurchaseHandlers } from './handlers/individualPurchaseHandlers';
+import { myDataHandlers } from './handlers/myDataHandler';
+import { authHandlers } from './handlers/authHandlers';
 
 export const handler = [
-  http.get(RESTAURANT_LIST_API_URL, () => {
-    return HttpResponse.json(stores);
-  }),
-  http.get('/api/stores/:storeId', (req) => {
-    const storeId = Number(req.params.storeId);
-    const store = stores.find((s) => s.storeId === storeId);
-    if (store) {
-      return HttpResponse.json(store);
-    }
-    return HttpResponse.status(404).json({ message: 'Store not found' });
-  }),
-  http.get(TEAM_ORDERLIST_API_URL, () => {
-    return HttpResponse.json(meetings);
-  }),
-  http.get('/api/users/meetings/:meetingId/headcount', (req) => {
-    const meetingId = Number(req.params.meetingId);
-    const headcount = {
-      currentHeadCount: 5,
-    };
-    return HttpResponse.json(headcount);
-  }),
+  ...restaurantHandlers,
+  ...teamOrderHandlers,
+  ...menuHandlers,
+  ...teamPurchaseHandlers,
+  ...individualPurchaseHandlers,
+  ...myDataHandlers,
+  ...authHandlers,
 ];

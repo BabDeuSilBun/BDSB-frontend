@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { RESTAURANT_CATEGORIES, RestaurantCategory } from '@/constant/category';
@@ -22,29 +23,37 @@ const Wrapper = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  width: 42px;
-  height: 42px;
-  margin-bottom: 0.5rem;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.8rem;
   position: relative;
-  background-color: var(--gray200);
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 const CategoryName = styled.p`
   font-size: var(--font-size-xs);
+  color: var(--text);
 `;
 
 function CategoryItem() {
+  const router = useRouter();
+
+  const handleClick = (category: string) => {
+    router.push(`/category/${category}`);
+  };
+
   return (
     <Container>
       {Object.keys(RESTAURANT_CATEGORIES).map((category) => (
-        <Wrapper key={category}>
+        <Wrapper key={category} onClick={() => handleClick(category)}>
           <ImageWrapper>
             <Image
               src={RESTAURANT_CATEGORIES[category as RestaurantCategory]}
               alt={category}
               fill
-              style={{ objectFit: 'cover' }}
+              sizes="50vw"
+              style={{ objectFit: 'contain' }}
               priority
             />
           </ImageWrapper>

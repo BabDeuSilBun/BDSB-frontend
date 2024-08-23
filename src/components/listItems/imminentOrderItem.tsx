@@ -1,12 +1,12 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
-import { MeetingSummary } from '@/types/meeting';
-import { RestaurantSummary } from '@/types/restaurant';
-import { getRestaurantInfo } from '@/services/restaurantService';
+import { MeetingType } from '@/types/coreTypes';
 import { getCurrentHeadCount } from '@/services/teamOrderService';
+import useRemainingTime from '@/hook/useRemainingTime';
 
 import GroupIcon from '../svg/group';
 
@@ -19,6 +19,7 @@ const CardContainer = styled.div`
   background-color: white;
   box-shadow: 1.48px 1.48px 7px var(--shadow);
   margin-bottom: 1rem;
+  cursor: pointer;
 `;
 
 // 상단 이미지 컨테이너
@@ -73,8 +74,9 @@ const StoreTitle = styled.h4`
   overflow: hidden;
 `;
 
-const Information = styled.p`
-  font-size: var(--font-size-xs);
+const Information = styled.p<{ $isCritical?: boolean }>`
+  font-size: var(--font-size-sm);
+  color: ${({ $isCritical }) => $isCritical && 'var(--warning)'};
 `;
 
 // 주문 타입
@@ -85,12 +87,11 @@ const OrderTypeText = styled.p`
   color: var(--primary);
 `;
 
-const ImminentItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
-  const { data: storeData } = useQuery<RestaurantSummary>({
-    queryKey: ['restaurantInfo', item.storeId],
-    queryFn: () => getRestaurantInfo(item.storeId),
-    enabled: !!item.storeId,
-  });
+const ImminentOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
+  const { time: remainingTime, $isCritical } = useRemainingTime(
+    item.paymentAvailableAt,
+  );
+  const router = useRouter();
 
   const { data: headCountData } = useQuery<{ currentHeadCount: number }>({
     queryKey: ['headCount', item.meetingId],
@@ -98,21 +99,27 @@ const ImminentItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
     enabled: !!item.meetingId,
   });
 
+  const handleClick = () => {
+    router.push(`/teamOrder/${item.storeId}`);
+  };
+
   return (
-    <CardContainer>
+    <CardContainer onClick={handleClick}>
       <ImageSection>
-        {storeData?.image[0] && (
+        {item.images[0] && (
           <ImageWrapper>
             <Image
-              src={storeData.image[0].url}
+              src={item.images[0].url}
               alt="Store Image"
               fill
+              sizes="50vw"
               style={{ objectFit: 'cover' }}
+              priority
             />
           </ImageWrapper>
         )}
         <InfoOverlay>
-          <Information>4분 뒤 마감</Information>
+          <Information $isCritical={$isCritical}>{remainingTime}</Information>
           <ParticipantCount>
             <GroupIcon color="white" width={16} height={18} />
             <Information>{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</Information>
@@ -120,11 +127,11 @@ const ImminentItem: React.FC<{ item: MeetingSummary }> = ({ item }) => {
         </InfoOverlay>
       </ImageSection>
       <InfoSection>
-        <StoreTitle>{storeData?.name}</StoreTitle>
-        <OrderTypeText>{item.orderType}</OrderTypeText>
+        <StoreTitle>{item.storeName}</StoreTitle>
+        <OrderTypeText>{item.purchaseType}</OrderTypeText>
       </InfoSection>
     </CardContainer>
   );
 };
 
-export default ImminentItem;
+export default ImminentOrderItem;

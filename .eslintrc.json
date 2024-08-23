@@ -32,7 +32,7 @@
     },
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".mjs"],
         "moduleDirectory": ["node_modules", "src/"]
       }
     }
@@ -47,7 +47,8 @@
         "js": "never",
         "jsx": "never",
         "ts": "never",
-        "tsx": "never"
+        "tsx": "never",
+        "mjs": "never"
       }
     ],
     "import/no-extraneous-dependencies": [
@@ -80,8 +81,16 @@
         ]
       }
     ],
+    "react/button-has-type": "off",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
-    "react/function-component-definition": "off"
+    "react/function-component-definition": "off",
+    "react/no-array-index-key": "off",
+    "no-nested-ternary": "off",
+    "import/prefer-default-export": "off",
+    "consistent-return": "off",
+    "no-underscore-dangle": "off",
+    "no-console": "off",
+    "no-alert": "off"
   }
 }

@@ -4,6 +4,7 @@
   --secondary: #e7ecff; /* Same as purple100 */
   --background: #ffffff;
   --text: #010b13;
+  --caption: #b4bac6; /* Same as gray300 */
 
   /* Grayscale */
   --gray100: #f8f8f8;
@@ -21,7 +22,7 @@
 
   /* Additional colors */
   --warning: #fe4e39; /* Red */
-  --shadow: rgba(91, 99, 116, 0.2); /* Shadow color */
+  --shadow: rgba(91, 99, 116, 0.15); /* Shadow color */
 
   /* Font sizes */
   --font-size-xs: 0.75rem; /* 12px */
@@ -56,37 +57,37 @@
   --breakpoint-desktop: 1024px; /* min-width for desktops */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Main colors */
-    --primary: #6f6cf6; /* Same as purple400 */
-    --secondary: #141414; /* Same as purple100 */
-    --background: #2c3138; /* Same as gray100 */
-    --text: #f8f8f8;
+/* @media (prefers-color-scheme: dark) {
+  :root { */
+/* Main colors */
+/* --primary: #6f6cf6; Same as purple400 */
+/* --secondary: #141414; Same as purple100 */
+/* --background: #2c3138; Same as gray100 */
+/* --text: #f8f8f8; */
 
-    /* Grayscale */
-    --gray100: #2c3138;
+/* Grayscale */
+/* --gray100: #2c3138;
     --gray200: #363841;
     --gray300: #757880;
     --gray400: #b4bac6;
-    --gray500: #dde1e8;
+    --gray500: #dde1e8; */
 
-    /* Purple scale */
-    --purple100: #141414;
+/* Purple scale */
+/* --purple100: #141414;
     --purple200: #282828;
     --purple300: #8d8bfb;
     --purple400: #6f6cf6;
-    --purple500: #6851f5;
+    --purple500: #6851f5; */
 
-    /* Additional colors */
-    --error: #ff6a62; /* Red */
-    --shadow: rgba(255, 255, 255, 0.3); /* Shadow color */
-  }
+/* Additional colors */
+/* --error: #ff6a62; Red */
+/* --shadow: rgba(255, 255, 255, 0.3); Shadow color */
+/* }
 
   html {
     color-scheme: dark;
   }
-}
+} */
 
 @font-face {
   font-family: 'SUIT';
@@ -117,78 +118,24 @@ input:disabled {
   text-indent: -9999px;
 }
 
-.scroll-x {
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.scroll-x::-webkit-scrollbar {
-  display: none;
-}
-
-/* Global Css Styles */
+/* Global CSS Styles */
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-}
-
-html {
-  height: 100%;
-}
-
-body {
-  color: var(--text);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  border-radius: 2px;
-}
-
-#layout-wrapper {
-  width: 360px;
-  height: 815px;
-  display: flex;
-  flex-direction: column;
+  word-spacing: -2px;
 }
 
 #main-content {
+  color: var(--text);
   flex: 1;
   display: flex;
-  position: relative;
   flex-direction: column;
-  width: 360px;
-  max-width: 360px;
-  height: 100%;
-  color: var(--text);
+  width: 100vw;
+  height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
   background-color: var(--background);
-  box-shadow: 1.48px 1.48px 7px var(--shadow);
-}
-
-/* 스크롤바 스타일 (Webkit 기반 브라우저) */
-::-webkit-scrollbar {
-  width: 10px; /* 스크롤바의 너비 */
-  height: 6px; /* 스크롤바의 높이 (수평 스크롤바) */
-}
-
-::-webkit-scrollbar-track {
-  background: var(--gray200); /* 트랙 배경 색상 */
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--gray300); /* 핸들의 배경 색상 */
-  border-radius: var(--border-radius-default); /* 모서리 둥글게 */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--gray400); /* 핸들 마우스 오버 시 색상 */
 }
 
 a {
@@ -198,42 +145,57 @@ a {
 
 /* Input, Text Area, Selector Styles */
 input[type='text'],
+input[type='search'],
+input[type='email'],
 input[type='password'],
+input[type='tel'],
+input[type='number'],
+input,
 textarea,
 select {
   width: 100%;
-  padding: var(--spacing-sm); /* 1rem */
-  font-size: var(--font-size-md); /* 1rem */
+  padding: var(--spacing-sm);
+  font-size: var(--font-size-md);
   color: var(--gray500);
   background-color: var(--background);
   border: 1px solid var(--gray200);
-  border-radius: var(--border-radius-md); /* 0.5rem */
+  border-radius: var(--border-radius-md);
   box-shadow: none;
   outline: none;
   transition: border-color 0.2s;
 }
 
-input[type='text']:focus,
-input[type='password']:focus,
+input:focus,
 textarea:focus,
 select:focus {
   border-color: var(--primary);
+  outline: none;
 }
 
-input[type='text']::placeholder,
-input[type='password']::placeholder,
+input::placeholder,
 textarea::placeholder,
 selector::placeholder {
-  color: var(--gray400);
+  color: var(--gray300);
 }
 
-input[type='text']:disabled,
-input[type='password']:disabled,
+textarea::placeholder {
+  font-size: var(--font-size-sm);
+}
+
+input:disabled,
 textarea:disabled,
 select:disabled {
   background-color: var(--gray100);
   color: var(--gray300);
   cursor: not-allowed;
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: url('/remove.svg') center center no-repeat;
+  cursor: pointer;
 }
 
 select {
@@ -256,6 +218,40 @@ button {
 
 button:focus {
   outline: none;
+}
+
+/* Scroll Styles */
+
+/* 스크롤바 스타일 (Webkit 기반 브라우저) */
+::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+  height: 6px; /* 스크롤바의 높이 (수평 스크롤바) */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray200); /* 트랙 배경 색상 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray300); /* 핸들의 배경 색상 */
+  border-radius: var(--border-radius-default); /* 모서리 둥글게 */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray400); /* 핸들 마우스 오버 시 색상 */
+}
+
+.scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scroll-x::-webkit-scrollbar {
+  display: none;
 }
 
 /* Media Queries */
