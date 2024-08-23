@@ -9,17 +9,14 @@
     "import",
     "jsx-a11y",
     "react",
-    "react-hooks",
-    "@tanstack/query",
-    "prettier"
+    "prettier",
+    "@tanstack/query"
   ],
   "extends": [
     "next/core-web-vitals",
     "airbnb",
-    "airbnb/hooks",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:@tanstack/eslint-plugin-query/recommended",
     "plugin:prettier/recommended",
@@ -91,6 +88,8 @@
     "consistent-return": "off",
     "no-underscore-dangle": "off",
     "no-console": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off"
   }
 }

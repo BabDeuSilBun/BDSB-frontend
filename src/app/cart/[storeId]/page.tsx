@@ -1,24 +1,24 @@
-'use client';
+// 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { getRestaurantInfo } from '@/services/restaurantService';
-import { useOrderStore } from '@/state/orderStore';
-import Loading from '@/app/loading';
-import Container from '@/styles/container';
-import Header from '@/components/layout/header';
-import StoreInfo from '@/components/cart/storeInfo';
-import CartItem from '@/components/cart/cartItem';
-import Amount from '@/components/cart/amount';
-import Footer from '@/components/layout/footer';
-import styled from 'styled-components';
+// import { useEffect, useState } from 'react';
+// import { useParams, useRouter } from 'next/navigation';
+// import { useQuery } from '@tanstack/react-query';
+// import { getRestaurantInfo } from '@/services/restaurantService';
+// import { useOrderStore } from '@/state/orderStore';
+// import Loading from '@/app/loading';
+// import Container from '@/styles/container';
+// import Header from '@/components/layout/header';
+// import StoreInfo from '@/components/cart/storeInfo';
+// import CartItem from '@/components/cart/cartItem';
+// import Amount from '@/components/cart/amount';
+// import Footer from '@/components/layout/footer';
+// import styled from 'styled-components';
 
-const CustomContainer = styled(Container)`
-  margin-top: 60px;
-  padding: var(--spacing-sm);
-  background-color: var(--gray100);
-`;
+// const CustomContainer = styled(Container)`
+//   margin-top: 60px;
+//   padding: var(--spacing-sm);
+//   background-color: var(--gray100);
+// `;
 
 const CartPage = () => {
    // Hooks for navigation and params

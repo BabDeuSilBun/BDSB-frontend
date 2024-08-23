@@ -1,4 +1,5 @@
 import { Divider, SkeletonText } from '@chakra-ui/react';
+import { InquiryType } from '@/types/myDataTypes';
 import styled from 'styled-components';
 import { formatDateTime } from '@/utils/formateDateTime';
 
@@ -21,7 +22,7 @@ const InquiryDetail = ({
   isLoading,
   error,
 }: {
-  detailData: any;
+  detailData: InquiryType;
   isLoading: boolean;
   error: Error | null;
 }) => {
@@ -44,7 +45,7 @@ const InquiryDetail = ({
       <Divider />
       {detailData && detailData.status === 'COMPLETED' && (
         <AnswerContainer>
-          <span>{formattedFullDate ? formattedFullDate : 'yyyy-mm-dd'}</span>
+          <span>{formattedFullDate || 'yyyy-mm-dd'}</span>
           <div>
             {isLoading ? (
               <SkeletonText

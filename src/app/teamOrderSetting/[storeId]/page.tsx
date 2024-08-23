@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
@@ -34,7 +33,8 @@ const TeamOrderSettingPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isButtonActive, formData, setStoreId } = useOrderStore();
+  const { isButtonActive, setStoreId } = useOrderStore();
+  // const { isButtonActive, formData, setStoreId } = useOrderStore();
 
   useEffect(() => {
     if (storeId) {

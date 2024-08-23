@@ -53,15 +53,15 @@ const Step2 = () => {
   const roundToNearestTen = (num: number) => {
     return Math.floor(num / 10) * 10;
   };
-  
+
   const deliveryPrice = store.deliveryPrice || 0;
-  
+
   const maxIndividualDeliveryFee = roundToNearestTen(
-    store.deliveryPrice / Math.max(minHeadcount, 1)
+    store.deliveryPrice / Math.max(minHeadcount, 1),
   );
-  
+
   const minIndividualDeliveryFee = roundToNearestTen(
-    store.deliveryPrice / Math.max(maxHeadcount, 1)
+    store.deliveryPrice / Math.max(maxHeadcount, 1),
   );
 
   useEffect(() => {
