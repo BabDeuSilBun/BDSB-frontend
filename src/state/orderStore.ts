@@ -14,10 +14,10 @@ interface Address {
 
 interface OrderFormData {
   storeId: number;
-  purchaseType: string;
+  purchaseType: string | null;
   minHeadcount: number;
   maxHeadcount: number;
-  orderType: string;
+  orderType: string | null;
   isEarlyPaymentAvailable: boolean;
   paymentAvailableAt: Date;
   time: Time;
@@ -33,7 +33,7 @@ interface OrderStore {
   setPurchaseType: (purchaseType: string | null) => void;
   setMinHeadcount: (minHeadcount: number) => void;
   setMaxHeadcount: (maxHeadcount: number) => void;
-  setOrderType: (orderType: string) => void;
+  setOrderType: (orderType: string | null) => void;
   setIsEarlyPaymentAvailable: (isAvailable: boolean) => void;
   setPaymentAvailableAt: (date: Date, time: Time) => void;
   setTime: (time: Partial<Time>) => void;

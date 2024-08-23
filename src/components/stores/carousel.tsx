@@ -6,10 +6,10 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Box, IconButton, Text } from '@chakra-ui/react';
-import { Image } from '@/types/types';
+import { ImageType } from '@/types/types';
 
 interface CarouselProps {
-  images: Image[];
+  images: ImageType[];
 }
 
 const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
@@ -21,11 +21,11 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     const $side = '10px';
 
     const representativeImage = images.find(
-      (img: Image) => img.isRepresentative,
+      (img: ImageType) => img.isRepresentative,
     );
     const sortedImages = images
-      .filter((img: Image) => !img.isRepresentative)
-      .sort((a: Image, b: Image) => (a.sequence || 0) - (b.sequence || 0));
+      .filter((img: ImageType) => !img.isRepresentative)
+      .sort((a: ImageType, b: ImageType) => (a.sequence || 0) - (b.sequence || 0));
 
     const orderedImages = representativeImage
       ? [representativeImage, ...sortedImages]
@@ -129,7 +129,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
             beforeChange={settings.beforeChange}
             ref={(sliderRef) => setSlider(sliderRef)}
           >
-            {orderedImages.map((image: Image) => (
+            {orderedImages.map((image: ImageType) => (
               <Box
                 key={image.imageId}
                 height="324px"

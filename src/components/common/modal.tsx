@@ -192,7 +192,7 @@ const Modal: React.FC<ModalProps> = ({
         return (
           <BtnGroup>
             <HalfBtnPurple onClick={onButtonClick1}>
-              {buttonText1 || '공통메뉴'}
+              {buttonText1 || '공동메뉴'}
             </HalfBtnPurple>
             <HalfBtnLight onClick={onButtonClick2}>
               {buttonText2 || '개별메뉴'}
