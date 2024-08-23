@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+// import axios from 'axios';
+
 import InquirySkeleton from '@/components/listItems/skeletons/inquirySkeleton';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getInquiries, getInquiryImages } from '@/services/myDataService';
@@ -9,18 +11,16 @@ import styled from 'styled-components';
 import {
   Divider,
   Flex,
-  Skeleton,
-  useDisclosure,
   Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
 } from '@chakra-ui/react';
-import Image from 'next/image';
-import axios from 'axios';
+// import Image from 'next/image';
 
 import TriggerButton from './triggerButton';
 import InquiryImages from './inquiryImages';
@@ -207,7 +207,7 @@ const InquiryHistory = () => {
         ) : (
           <div>문의 내역이 없습니다.</div>
         )}
-        <div ref={lastElementRef}></div>
+        <div ref={lastElementRef} />
       </Container>
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>

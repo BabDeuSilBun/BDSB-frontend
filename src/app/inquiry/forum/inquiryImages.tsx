@@ -28,9 +28,9 @@ const InquiryImages: React.FC<InquiryImagesProps> = ({
   if (isError) {
     return (
       <>
-        <ImageWrapper>{'no Image'}</ImageWrapper>
-        <ImageWrapper>{'no Image'}</ImageWrapper>
-        <ImageWrapper>{'no Image'}</ImageWrapper>
+        <ImageWrapper>no Image</ImageWrapper>
+        <ImageWrapper>no Image</ImageWrapper>
+        <ImageWrapper>no Image</ImageWrapper>
       </>
     );
   }
