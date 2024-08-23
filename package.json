@@ -1,6 +1,7 @@
 {
   "name": "bdsb",
   "version": "0.1.0",
+  "proxy": "http://3.34.19.176'",
   "private": true,
   "description": "bdsb: Team order delivery app for univ students",
   "scripts": {
