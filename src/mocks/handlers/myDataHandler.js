@@ -10,8 +10,8 @@ import { evaluates, myData, paginatedPoints } from '../mockData/myData';
 import { applyFiltersAndSorting } from '../filteringAndSorting';
 import {
   inquiries,
-  paginatedInquiries,
   inquiryImages,
+  paginatedInquiries,
 } from '../mockData/inquiries';
 
 export const myDataHandlers = [
@@ -84,6 +84,30 @@ export const myDataHandlers = [
     } catch (error) {
       console.error('Error parsing URL:', error);
       return HttpResponse.status(500).json({ message: 'Error parsing URL' });
+    }
+  }),
+
+  http.post(INQUIRY_LIST_API_URL, async ({ request }) => {
+    try {
+      const formData = await request.formData();
+
+      const title = formData.get('title');
+      const content = formData.get('content');
+      const images = formData.getAll('images');
+
+      if (title && content && images.length >= 0 && images.length <= 3) {
+        return HttpResponse.json(
+          { message: '문의 등록 성공' },
+          { status: 200 },
+        );
+      }
+
+      return HttpResponse.json(
+        { message: '잘못된 요청입니다.' },
+        { status: 400 },
+      );
+    } catch (error) {
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
     }
   }),
 
