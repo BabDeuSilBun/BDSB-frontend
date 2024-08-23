@@ -21,7 +21,7 @@ const InquiryForum = () => {
     initialType === 'history' ? 'history' : 'contact',
   );
   const [isButtonActive, setIsActive] = useState(false);
-  const [formData, setFormData] = useState<FormData | null>(null); // FormData 상태 추가
+  const [formData, setFormData] = useState<FormData | null>(null);
 
   useEffect(() => {
     if (pageType) {
@@ -57,7 +57,8 @@ const InquiryForum = () => {
           position="fixed"
           w="100%"
           isFitted
-          aria-label="문의 내역, 문의 하기"
+          aria-label="문의 내역 및 문의 하기"
+          aria-labelledby="inquiry-tabs"
           bg="white"
           index={pageType === 'contact' ? 0 : 1}
           onChange={(index) => setPageType(index === 0 ? 'contact' : 'history')}

@@ -6,6 +6,7 @@ import { Flex } from '@chakra-ui/react';
 import styled from 'styled-components';
 import SettingDescription from '@/components/meetings/settingDescription';
 import Image from 'next/image';
+import ImagePreviewComponent from './imagePreview';
 
 const Container = styled.div`
   text-align: left;
@@ -73,7 +74,7 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]); // 이미지 URL 저장
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   useEffect(() => {
     if (title.trim() && content.trim()) {
@@ -160,17 +161,12 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
 
           <ImagePreviewContainer>
             {imagePreviews.map((preview, index) => (
-              <ImageWrapper key={index}>
-                <ImagePreview src={preview} alt={`preview-${index}`} />
-                <DeleteButton onClick={() => handleRemoveImage(index)}>
-                  <Image
-                    src="/remove.svg"
-                    width="20"
-                    height="20"
-                    alt="remove"
-                  />
-                </DeleteButton>
-              </ImageWrapper>
+              <ImagePreviewComponent
+                key={index}
+                src={preview}
+                alt={`preview-${index}`}
+                onRemove={() => handleRemoveImage(index)}
+              />
             ))}
           </ImagePreviewContainer>
         </Flex>
