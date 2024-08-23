@@ -84,7 +84,6 @@ export default function CartItem({
   onQuantityChange,
   onAddItem,
 }: CartItemProps) {
-
   const [totalPrice, setTotalPrice] = useState(price * quantity);
 
   useEffect(() => {
@@ -114,7 +113,11 @@ export default function CartItem({
         >
           {badgeText}
         </Badge>
-        <Counter value={quantity} onValueChange={onQuantityChange} size="small" />
+        <Counter
+          value={quantity}
+          onValueChange={onQuantityChange}
+          size="small"
+        />
       </QuantityContainer>
       <Divider
         orientation="horizontal"
@@ -130,7 +133,7 @@ export default function CartItem({
           color: 'var(--text)',
           height: 'auto',
           margin: 'none',
-          padding:'none',
+          padding: 'none',
           fontSize: 'var(--font-size-sm)',
           fontWeight: 'var(--font-regular)',
           _hover: {

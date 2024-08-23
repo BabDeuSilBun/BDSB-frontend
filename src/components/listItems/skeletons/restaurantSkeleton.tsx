@@ -1,13 +1,9 @@
-import { Skeleton } from '@chakra-ui/react';
+import { Skeleton, Box } from '@chakra-ui/react';
 import styled from 'styled-components';
 
 const Flexbox = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const FlexItem = styled.div`
-  flex: 1;
 `;
 
 const RestaurantSkeleton = () => {
@@ -21,12 +17,12 @@ const RestaurantSkeleton = () => {
         ml="4"
         borderRadius="lg"
       />
-      <FlexItem>
+      <Box flex="1">
         <Skeleton mt="4" width="140px" height="20px" />
         <Skeleton mt="2" width="100px" height="16px" />
         <Skeleton mt="2" width="100px" height="16px" />
         <Skeleton mt="2" width="100px" height="16px" />
-      </FlexItem>
+      </Box>
     </Flexbox>
   );
 };
