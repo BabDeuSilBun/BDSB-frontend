@@ -1,73 +1,73 @@
-// import styled from 'styled-components';
+import styled from 'styled-components';
 // import InfoBox from '@/components/common/infoBox';
 // import { formatCurrency } from '@/utils/currencyFormatter';
 
-// const Container = styled.div`
-//   background-color: var(--background);
-//   margin: var(--spacing-sm) 0;
-//   padding-bottom: 70px;
-// `;
+const Container = styled.div`
+  background-color: var(--background);
+  margin: var(--spacing-sm) 0;
+  padding-bottom: 70px;
+`;
 
-// const MenuTypeTitle = styled.h2`
-//   color: var(--text);
-//   font-size: var(--font-size-md);
-//   font-weight: var(--font-semi-bold);
-//   text-align: left;
-//   padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-sm);
-// `;
+const MenuTypeTitle = styled.h2`
+  color: var(--text);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-semi-bold);
+  text-align: left;
+  padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-sm);
+`;
 
-// const MenuContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   gap: 0.08rem;
-// `;
+const MenuContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+`;
 
-// const MenuItemRow = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   padding: var(--spacing-xs) var(--spacing-sm);
-//   background-color: var(--background);
-// `;
+const MenuItemRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background-color: var(--background);
+`;
 
-// const MenuItemName = styled.div`
-//   font-size: var(--font-size-md);
-//   color: var(--text);
-//   font-weight: var(--font-regular);
-//   text-align: left;
-// `;
+const MenuItemName = styled.div`
+  font-size: var(--font-size-md);
+  color: var(--text);
+  font-weight: var(--font-regular);
+  text-align: left;
+`;
 
-// const MenuItemPrice = styled.div`
-//   font-size: var(--font-size-md);
-//   color: var(--text);
-//   font-weight: var(--font-regular);
-//   text-align: right;
-// `;
+const MenuItemPrice = styled.div`
+  font-size: var(--font-size-md);
+  color: var(--text);
+  font-weight: var(--font-regular);
+  text-align: right;
+`;
 
-// const InfoboxWrapper = styled.div`
-//   padding: var(--spacing-sm);
-// `;
+const InfoboxWrapper = styled.div`
+  padding: var(--spacing-sm);
+`;
 
-// const TotalTitle = styled.h1`
-//   color: var(--text);
-//   font-size: var(--font-size-lg);
-//   font-weight: var(--font-semi-bold);
-//   text-align: left;
-// `;
+const TotalTitle = styled.h1`
+  color: var(--text);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-semi-bold);
+  text-align: left;
+`;
 
-// const TotalPrice = styled.div`
-//   font-size: var(--font-size-xl);
-//   color: var(--text);
-//   font-weight: var(--font-semi-bold);
-//   text-align: right;
-// `;
+const TotalPrice = styled.div`
+  font-size: var(--font-size-xl);
+  color: var(--text);
+  font-weight: var(--font-semi-bold);
+  text-align: right;
+`;
 
-// const Description = styled.p`
-//   font-size: var(--font-size-xs);
-//   color: var(--gray400);
-//   font-weight: var(--font-regular);
-//   text-align: justify;
-//   padding: var(--spacing-sm);
-// `;
+const Description = styled.p`
+  font-size: var(--font-size-xs);
+  color: var(--gray400);
+  font-weight: var(--font-regular);
+  text-align: justify;
+  padding: var(--spacing-sm);
+`;
 
 const Amount = () => {
   //   <Container>
