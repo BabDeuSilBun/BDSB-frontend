@@ -17,26 +17,29 @@ interface OrderFormData {
   purchaseType: string;
   minHeadcount: number;
   maxHeadcount: number;
+  orderType: string;
   isEarlyPaymentAvailable: boolean;
   paymentAvailableAt: Date;
+  time: Time;
   deliveredAddress: Address;
   metAddress: Address;
   description: string;
-  time: Time;
 }
 
 interface OrderStore {
   formData: OrderFormData;
+  isButtonActive: boolean;
   setStoreId: (storeId: number) => void;
   setPurchaseType: (purchaseType: string | null) => void;
   setMinHeadcount: (minHeadcount: number) => void;
   setMaxHeadcount: (maxHeadcount: number) => void;
+  setOrderType: (orderType: string) => void;
   setIsEarlyPaymentAvailable: (isAvailable: boolean) => void;
-  setPaymentAvailableAt: () => void;
+  setPaymentAvailableAt: (date: Date, time: Time) => void;
+  setTime: (time: Partial<Time>) => void;
   setDeliveredAddress: (address: Address) => void;
   setMetAddress: (address: Address) => void;
   setDescription: (description: string) => void;
-  setTime: (time: Partial<Time>) => void;
   setButtonActive: (isActive: boolean) => void;
 }
 
@@ -44,6 +47,7 @@ export const useOrderStore = create<OrderStore>((set) => ({
   formData: {
     storeId: 0,
     purchaseType: '',
+    orderType: '',
     minHeadcount: 1,
     maxHeadcount: 1,
     isEarlyPaymentAvailable: false,
@@ -61,6 +65,7 @@ export const useOrderStore = create<OrderStore>((set) => ({
     description: '',
     time: { amPm: '오전', hour: '', minute: '' },
   },
+  isButtonActive: false,
   setStoreId: (storeId) =>
     set((state) => ({
       formData: { ...state.formData, storeId },
@@ -77,13 +82,38 @@ export const useOrderStore = create<OrderStore>((set) => ({
     set((state) => ({
       formData: { ...state.formData, maxHeadcount },
     })),
-  setIsEarlyPaymentAvailable: (isAvailable) =>
+  setOrderType: (orderType) =>
     set((state) => ({
-      formData: { ...state.formData, isEarlyPaymentAvailable: isAvailable },
+      formData: { ...state.formData, orderType },
     })),
-  setPaymentAvailableAt: () =>
+  setIsEarlyPaymentAvailable: () =>
     set((state) => ({
-      formData: { ...state.formData, paymentAvailableAt: new Date() },
+      formData: {
+        ...state.formData,
+        isEarlyPaymentAvailable: state.formData.orderType === '바로 주문',
+      },
+    })),
+  setPaymentAvailableAt: (date: Date, time: Time) => {
+    const adjustedDate = new Date(date);
+    adjustedDate.setHours(
+      time.amPm === '오후' && time.hour !== '12'
+        ? parseInt(time.hour, 10) + 12
+        : parseInt(time.hour, 10),
+    );
+    adjustedDate.setMinutes(parseInt(time.minute, 10));
+    set((state) => ({
+      formData: { ...state.formData, paymentAvailableAt: adjustedDate },
+    }));
+  },
+  setTime: (newTime) =>
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        time: {
+          ...state.formData.time,
+          ...newTime,
+        },
+      },
     })),
   setDeliveredAddress: (address) =>
     set((state) => ({
@@ -96,16 +126,6 @@ export const useOrderStore = create<OrderStore>((set) => ({
   setDescription: (description) =>
     set((state) => ({
       formData: { ...state.formData, description },
-    })),
-  setTime: (newTime) =>
-    set((state) => ({
-      formData: {
-        ...state.formData,
-        time: {
-          ...state.formData.time,
-          ...newTime,
-        },
-      },
     })),
   setButtonActive: (isActive) => set({ isButtonActive: isActive }),
 }));

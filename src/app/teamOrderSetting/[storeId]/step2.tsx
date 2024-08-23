@@ -14,6 +14,7 @@ import SettingDescription from '@/components/meetings/settingDescription';
 import DeliveryFees from '@/components/meetings/deliveryFee';
 
 const Step2 = () => {
+  // State management using the order store
   const {
     formData,
     setMinHeadcount,
@@ -24,32 +25,43 @@ const Step2 = () => {
   const { minHeadcount = 1, maxHeadcount = 1, description } = formData;
   const { storeId } = useParams();
 
+  // Fetching restaurant information based on storeId
   const { data: store } = useQuery<RestaurantType>({
     queryKey: ['storeInfo', storeId],
     queryFn: () => getRestaurantInfo(Number(storeId)),
     enabled: !!storeId,
   });
 
-  useEffect(() => {
-    const isActive = minHeadcount > 0 && maxHeadcount >= minHeadcount;
-    setButtonActive(isActive);
-  }, [minHeadcount, maxHeadcount, setButtonActive]);
-
+  // Fetching user data
   useQuery({
     queryKey: ['myData'],
     queryFn: getMyData,
   });
 
+  // Effect to handle button activation logic
+  useEffect(() => {
+    const isActive = minHeadcount > 0 && maxHeadcount >= minHeadcount;
+    setButtonActive(isActive);
+  }, [minHeadcount, maxHeadcount, setButtonActive]);
+
   if (!store) {
     return null;
   }
 
+  // Calculate delivery fees
+  const roundToNearestTen = (num: number) => {
+    return Math.floor(num / 10) * 10;
+  };
+  
   const deliveryPrice = store.deliveryPrice || 0;
-
-  const maxIndividualDeliveryFee =
-    store.deliveryPrice / Math.max(minHeadcount, 1);
-  const minIndividualDeliveryFee =
-    store.deliveryPrice / Math.max(maxHeadcount, 1);
+  
+  const maxIndividualDeliveryFee = roundToNearestTen(
+    store.deliveryPrice / Math.max(minHeadcount, 1)
+  );
+  
+  const minIndividualDeliveryFee = roundToNearestTen(
+    store.deliveryPrice / Math.max(maxHeadcount, 1)
+  );
 
   return (
     <>

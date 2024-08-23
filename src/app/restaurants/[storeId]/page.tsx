@@ -28,6 +28,8 @@ const StorePage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { storeId } = useParams();
+
+  // State hooks
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [context, setContext] = useState<string | null>(null);
   const [selectedMenu, setSelectedMenu] = useState<{
@@ -36,10 +38,38 @@ const StorePage = () => {
     description: string;
     image: string;
   } | null>(null);
-
   const [isHeaderTransparent, setIsHeaderTransparent] = useState(true);
+
+  // Refs for IntersectionObserver
   const observer = useRef<IntersectionObserver | null>(null);
   const lastElementRef = useRef<HTMLDivElement | null>(null);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  // Effect to handle header transparency based on carousel visibility
+  useEffect(() => {
+    const checkRef = () => {
+      if (carouselRef.current) {
+        const handleHeaderIntersect = ([
+          entry,
+        ]: IntersectionObserverEntry[]) => {
+          setIsHeaderTransparent(entry.isIntersecting);
+        };
+
+        const headerObserver = new IntersectionObserver(handleHeaderIntersect, {
+          threshold: 0.5,
+        });
+
+        headerObserver.observe(carouselRef.current);
+
+        return () => {
+          headerObserver.disconnect();
+        };
+      }
+      setTimeout(checkRef, 100);
+    };
+
+    checkRef();
+  }, []);
 
   // Fetch store information
   const {
@@ -110,7 +140,7 @@ const StorePage = () => {
     enabled: !!selectedMenu?.menuId,
   });
 
-  // Modal and context handling
+  // Modal handlers
   const openModal = (
     modalName: string,
     menuItem?: {
@@ -170,10 +200,7 @@ const StorePage = () => {
           $isTransparent={isHeaderTransparent}
         />
       </HeaderContainer>
-      <Carousel
-        images={store.images}
-        setIsHeaderTransparent={setIsHeaderTransparent}
-      />
+      <Carousel images={store.images} ref={carouselRef} />
       <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} />
 
       {/* Context-specific code */}

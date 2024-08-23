@@ -72,6 +72,7 @@ interface HeaderProps {
   onExit?: () => void;
   isPostcodeOpen?: boolean;
   onClosePostcodeModal?: () => void;
+  $isTransparent?: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({
