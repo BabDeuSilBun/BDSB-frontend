@@ -2,6 +2,14 @@ import styled from 'styled-components';
 import InfoBox from '@/components/common/infoBox';
 import { formatCurrency } from '@/utils/currencyFormatter';
 
+interface AmountProps {
+  orderAmount: number;
+  maxDeliveryFee: number;
+  minCommonMenuDiscount: number;
+  availablePoints: number;
+  totalPrice: number;
+}
+
 const Container = styled.div`
   background-color: var(--background);
   margin: var(--spacing-sm) 0;
@@ -69,25 +77,31 @@ const Description = styled.p`
   padding: var(--spacing-sm);
 `;
 
-const Amount = () => (
+const Amount: React.FC<AmountProps> = ({
+  orderAmount,
+  maxDeliveryFee,
+  minCommonMenuDiscount,
+  availablePoints,
+  totalPrice,
+}) => (
   <Container>
     <MenuTypeTitle>결제 예상 금액</MenuTypeTitle>
     <MenuContainer>
       <MenuItemRow>
         <MenuItemName>주문 금액</MenuItemName>
-        <MenuItemPrice>{formatCurrency(60000)}</MenuItemPrice>
+        <MenuItemPrice>{formatCurrency(orderAmount)}</MenuItemPrice>
       </MenuItemRow>
       <MenuItemRow>
         <MenuItemName>최대 배송비</MenuItemName>
-        <MenuItemPrice>{formatCurrency(60000)}</MenuItemPrice>
+        <MenuItemPrice>{formatCurrency(maxDeliveryFee)}</MenuItemPrice>
       </MenuItemRow>
       <MenuItemRow>
         <MenuItemName>공통 메뉴 최소 할인</MenuItemName>
-        <MenuItemPrice>{formatCurrency(60000)}</MenuItemPrice>
+        <MenuItemPrice>{formatCurrency(minCommonMenuDiscount)}</MenuItemPrice>
       </MenuItemRow> 
       <MenuItemRow>
         <MenuItemName>사용 사능한 포인트</MenuItemName>
-        <MenuItemPrice>{formatCurrency(60000)}</MenuItemPrice>
+        <MenuItemPrice>{formatCurrency(availablePoints)}</MenuItemPrice>
       </MenuItemRow>
     </MenuContainer>
     <InfoboxWrapper>
@@ -103,7 +117,7 @@ const Amount = () => (
     </InfoboxWrapper>
     <MenuItemRow>
       <TotalTitle>총 결제 예상 금액</TotalTitle>
-      <TotalPrice>{formatCurrency(60000)}</TotalPrice>
+      <TotalPrice>{formatCurrency(totalPrice)}</TotalPrice>
     </MenuItemRow>
     <Description>
     (주)밥드실분은 통신판매중개자이며, 통신판매의 당사자가 아닙니다.

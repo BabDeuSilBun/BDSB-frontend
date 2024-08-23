@@ -26,7 +26,7 @@ const CartPage = () => {
    const { storeId } = useParams();
 
   const [quantity, setQuantity] = useState(1);
-  const [totalPrice, setTotalPrice] = useState(19000); 
+  const [menuTotalPrice, setMenuTotalPrice] = useState(19000); 
 
   // Fetch store data
   const {
@@ -42,7 +42,7 @@ const CartPage = () => {
 
   const handleQuantityChange = (newQuantity: number) => {
     setQuantity(newQuantity);
-    setTotalPrice(19000 * newQuantity);
+    setMenuTotalPrice(19000 * newQuantity);
   };
 
   const handleAddItem = () => {
@@ -61,6 +61,11 @@ const CartPage = () => {
     ? `${deliveredAddress.streetAddress} ${deliveredAddress.detailAddress}`
     : '배송지 정보 없음';
 
+  const orderAmount = 60000;
+  const maxDeliveryFee = 5000;
+  const minCommonMenuDiscount = 3000;
+  const availablePoints = 2000;
+  const totalPrice = orderAmount + maxDeliveryFee - minCommonMenuDiscount - availablePoints;
 
   return (
     <>
@@ -82,7 +87,13 @@ const CartPage = () => {
           onAddItem={handleAddItem}
         />
       </CustomContainer>
-      <Amount />
+      <Amount
+        orderAmount={orderAmount}
+        maxDeliveryFee={maxDeliveryFee}
+        minCommonMenuDiscount={minCommonMenuDiscount}
+        availablePoints={availablePoints}
+        totalPrice={totalPrice}
+      />
       <Footer
         type="button"
         buttonText="36,500원 주문하고 모임 완성하기"
