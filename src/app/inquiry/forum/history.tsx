@@ -57,17 +57,6 @@ const ImagesContainer = styled.ul`
   margin-bottom: 1rem;
 `;
 
-const ImageWrapper = styled.div`
-  border-radius: var(--border-radius-md);
-  overflow: hidden;
-  background: var(--gray200);
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  width: 100px;
-  height: 100px;
-`;
-
 const InquiryHistory = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const observer = useRef<IntersectionObserver | null>(null);
