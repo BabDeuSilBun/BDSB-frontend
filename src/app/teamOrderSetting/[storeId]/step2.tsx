@@ -21,6 +21,7 @@ const Step2 = () => {
     setMaxHeadcount,
     setDescription,
     setButtonActive,
+    setMaxIndividualDeliveryFee,
   } = useOrderStore();
   const { minHeadcount = 1, maxHeadcount = 1, description } = formData;
   const { storeId } = useParams();
@@ -62,6 +63,10 @@ const Step2 = () => {
   const minIndividualDeliveryFee = roundToNearestTen(
     store.deliveryPrice / Math.max(maxHeadcount, 1)
   );
+
+  useEffect(() => {
+    setMaxIndividualDeliveryFee(maxIndividualDeliveryFee);
+  }, [maxIndividualDeliveryFee, setMaxIndividualDeliveryFee]);
 
   return (
     <>

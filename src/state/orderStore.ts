@@ -24,6 +24,7 @@ interface OrderFormData {
   deliveredAddress: Address;
   metAddress: Address;
   description: string;
+  maxIndividualDeliveryFee: number;
 }
 
 interface OrderStore {
@@ -41,6 +42,7 @@ interface OrderStore {
   setMetAddress: (address: Address) => void;
   setDescription: (description: string) => void;
   setButtonActive: (isActive: boolean) => void;
+  setMaxIndividualDeliveryFee: (fee: number) => void;
 }
 
 export const useOrderStore = create<OrderStore>((set) => ({
@@ -64,6 +66,7 @@ export const useOrderStore = create<OrderStore>((set) => ({
     },
     description: '',
     time: { amPm: '오전', hour: '', minute: '' },
+    maxIndividualDeliveryFee: 0,
   },
   isButtonActive: false,
   setStoreId: (storeId) =>
@@ -128,4 +131,8 @@ export const useOrderStore = create<OrderStore>((set) => ({
       formData: { ...state.formData, description },
     })),
   setButtonActive: (isActive) => set({ isButtonActive: isActive }),
+  setMaxIndividualDeliveryFee: (fee) =>
+    set((state) => ({
+      formData: { ...state.formData, maxIndividualDeliveryFee: fee },
+    })),
 }));

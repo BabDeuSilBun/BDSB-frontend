@@ -28,6 +28,10 @@ const CartPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [menuTotalPrice, setMenuTotalPrice] = useState(19000); 
 
+  const {
+    formData: { maxIndividualDeliveryFee },
+  } = useOrderStore();
+
   // Fetch store data
   const {
     data: store,
@@ -89,7 +93,7 @@ const CartPage = () => {
       </CustomContainer>
       <Amount
         orderAmount={orderAmount}
-        maxDeliveryFee={maxDeliveryFee}
+        maxDeliveryFee={maxIndividualDeliveryFee}
         minCommonMenuDiscount={minCommonMenuDiscount}
         availablePoints={availablePoints}
         totalPrice={totalPrice}
