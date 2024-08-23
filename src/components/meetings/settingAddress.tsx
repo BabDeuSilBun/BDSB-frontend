@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, FC, useEffect } from 'react';
 
 import { useOrderStore } from '@/state/orderStore';
 import DaumPostcodeEmbed, { Address } from 'react-daum-postcode';
@@ -33,11 +33,11 @@ const IconWrapper = styled.div`
   transform: translate(0, -50%);
 `;
 
-const AddressBtn = styled.button`
+const AddressBtn = styled.button<{ $hasAddress: boolean }>`
   width: 100%;
   padding: var(--spacing-sm);
   font-size: var(--font-size-md);
-  color: var(--gray300);
+  color: ${({ $hasAddress }) => ($hasAddress ? 'var(--text)' : 'var(--gray300)')};
   background-color: var(--background);
   border: 1px solid var(--gray200);
   border-radius: var(--border-radius-md);
@@ -60,7 +60,17 @@ const PostcodeWrapper = styled.div<{ $isOpen: boolean }>`
   z-index: 1000;
 `;
 
-const SettingAddress = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
+interface SettingAddressProps {
+  isPostcodeOpen: boolean;
+  setIsPostcodeOpen: (open: boolean) => void;
+  onAddressChange?: (addressData: Address) => void;
+}
+
+const SettingAddress: FC<SettingAddressProps> = ({
+  isPostcodeOpen,
+  setIsPostcodeOpen,
+  onAddressChange,
+}) => {
   const { formData, setDeliveredAddress, setButtonActive } = useOrderStore();
   const { streetAddress = '', detailAddress = '' } =
     formData?.deliveredAddress || {};
@@ -70,25 +80,17 @@ const SettingAddress = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
   }, [setButtonActive, streetAddress, detailAddress]);
 
   const handleComplete = (data: Address) => {
-    let fullAddress = data.address;
-    let extraAddress = '';
-
-    if (data.addressType === 'R') {
-      if (data.bname !== '') {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== '') {
-        extraAddress +=
-          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
-    }
-
-    setDeliveredAddress({
-      streetAddress: fullAddress,
+    const formattedAddress = {
+      streetAddress: data.address,
       postal: data.zonecode,
       detailAddress: '',
-    });
+    };
+
+    setDeliveredAddress(formattedAddress);
+
+    if (onAddressChange) {
+      onAddressChange(data);
+    }
 
     setIsPostcodeOpen(false);
   };
@@ -104,7 +106,9 @@ const SettingAddress = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
     <div>
       <Flex>
         <Wrapper onClick={() => setIsPostcodeOpen(true)}>
-          <AddressBtn>{streetAddress || '우편번호 검색'}</AddressBtn>
+          <AddressBtn $hasAddress={!!streetAddress}>
+            {streetAddress || '우편번호 검색'}
+          </AddressBtn>
           <IconWrapper>
             <SearchIcon color="var(--gray300)" />
           </IconWrapper>
