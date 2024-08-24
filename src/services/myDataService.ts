@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 
 import {
   EvaluateType,
@@ -8,7 +8,7 @@ import {
 } from '@/types/myDataTypes';
 import { GetListParams } from '@/types/types';
 
-import { apiClient } from './apiClient';
+import { apiClient, apiClientWithCredentials } from './apiClient';
 
 // import { httpClientForCredentials } from './auth/authClient';
 
@@ -21,7 +21,8 @@ export const getMyData = async (): Promise<MyDataType> => {
   try {
     // 실제 로그인 될 때 고쳐야 함
     // await httpClientForCredentials.get<MyDataType>(MY_PROFILE_URL);
-    const response = await axios.get<MyDataType>(MY_PROFILE_API_URL);
+    const response =
+      await apiClientWithCredentials.get<MyDataType>(MY_PROFILE_API_URL);
     return response.data;
   } catch (error) {
     console.error('Error fetching my data:', error);
@@ -33,7 +34,9 @@ export const getMyData = async (): Promise<MyDataType> => {
 
 export const getMyEvaluates = async (): Promise<EvaluateType> => {
   try {
-    const response = await axios.get<EvaluateType>(EVALUATE_LIST_API_URL);
+    const response = await apiClientWithCredentials.get<EvaluateType>(
+      EVALUATE_LIST_API_URL,
+    );
     // await httpClientForCredentials.get<EvaluateType>(EVALUATE_LIST_URL);
     return response.data;
   } catch (error) {
