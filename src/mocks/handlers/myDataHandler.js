@@ -153,4 +153,16 @@ export const myDataHandlers = [
       message: 'InquiryImages is not found',
     });
   }),
+
+  http.delete(`${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`, () => {
+    return HttpResponse.status(204).json({
+      message: 'Image deleted successfully',
+    });
+  }),
+
+  http.patch(`${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`, () => {
+    return HttpResponse.status(201).json({
+      message: 'Image updated successfully',
+    });
+  }),
 ];

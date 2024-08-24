@@ -56,7 +56,6 @@ const options = [
 function TeamOrderList() {
   const [selectedSort, setSelectedSort] = useState<string>('deadline');
   const [isOpen, setIsOpen] = useState(false);
-  const observer = useRef<IntersectionObserver | null>(null);
   const lastElementRef = useRef<HTMLDivElement | null>(null);
 
   // Fetch imminent orders
@@ -91,25 +90,27 @@ function TeamOrderList() {
   useEffect(() => {
     if (isFetchingNextPage) return;
 
+    const currentElement = lastElementRef.current;
+
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
       if (entries[0].isIntersecting && hasNextPage) {
         fetchNextPage();
       }
     };
 
-    observer.current = new IntersectionObserver(handleIntersect, {
+    const observerInstance = new IntersectionObserver(handleIntersect, {
       root: null,
       rootMargin: '0px',
       threshold: 1.0,
     });
 
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
+    if (currentElement) {
+      observerInstance.observe(currentElement);
     }
 
     return () => {
-      if (observer.current && lastElementRef.current) {
-        observer.current.unobserve(lastElementRef.current);
+      if (observerInstance && currentElement) {
+        observerInstance.unobserve(currentElement);
       }
     };
   }, [isFetchingNextPage, hasNextPage, fetchNextPage]);

@@ -6,6 +6,12 @@ export interface ImageType {
   isRepresentative?: boolean;
 }
 
+export interface ImageArrayType {
+  imageId: number;
+  url: string;
+  sequence: number;
+}
+
 export interface Address {
   postal: string;
   streetAddress: string;
