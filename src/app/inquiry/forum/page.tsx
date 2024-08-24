@@ -54,7 +54,6 @@ const InquiryForum = () => {
       <Container>
         <Tabs
           align="center"
-          position="fixed"
           w="100%"
           isFitted
           aria-label="문의 내역 및 문의 하기"
