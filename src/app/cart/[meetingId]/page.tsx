@@ -1,7 +1,9 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
+import router from 'next/router';
 import { useQuery } from '@tanstack/react-query';
+import { getTeamOrderInfo } from '@/services/teamOrderService';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { useOrderStore } from '@/state/orderStore';
 import Loading from '@/app/loading';
@@ -21,34 +23,49 @@ const CustomContainer = styled(Container)`
 
 const CartPage = () => {
   // Hooks for navigation and params
-  const router = useRouter();
-  const { storeId } = useParams();
+  const { meetingId } = useParams();
+  const searchParams = useSearchParams();
 
-  const storeIdString = Array.isArray(storeId) ? storeId[0] : storeId;
+  // Fetch meeting data to get storeId
+  const {
+    data: meeting,
+    isLoading: isLoadingMeeting,
+    isError: isErrorMeeting,
+  } = useQuery({
+    queryKey: ['meetingInfo', meetingId],
+    queryFn: () => getTeamOrderInfo(Number(meetingId)),
+  });
+
+  const storeId = searchParams.get('storeId'); // Extract storeId from query params
 
   const {
     formData: { maxIndividualDeliveryFee },
   } = useOrderStore();
 
-  // Fetch store data
+  // Fetch store data based on the storeId from meeting data
   const {
     data: store,
     isLoading: isLoadingStore,
     isError: isErrorStore,
   } = useQuery({
-    queryKey: ['storeInfo', storeId],
-    queryFn: () => getRestaurantInfo(Number(storeId)),
-  });
+    queryKey: ['storeInfo', meeting?.storeId],
+    queryFn: () => getRestaurantInfo(Number(meeting?.storeId)),
+    enabled: !!meeting?.storeId,
+  })
 
   const deliveredAddress = useOrderStore(
     (state) => state.formData.deliveredAddress,
   );
 
-  if (isLoadingStore) {
+  if (isLoadingMeeting || isLoadingStore) {
     return <Loading />;
   }
 
-  if (isErrorStore) {
+  if (isErrorMeeting) {
+    return <p>Error loading meeting data</p>;
+  }
+
+  if (isErrorStore || !store) {
     return <p>Error loading restaurant data</p>;
   }
 
@@ -73,7 +90,7 @@ const CartPage = () => {
           deliveryTime={store.deliveryTimeRange}
           location={location}
           onClick={() =>
-            router.push(`/restaurants/${storeId}?context=leaderAfter`)
+            router.push(`/restaurants/${store.id}?context=leaderAfter&meetingId=${meetingId}`)
           }
         />
         <CartItem
@@ -82,7 +99,7 @@ const CartPage = () => {
           imageUrl="https://via.placeholder.com/150"
           badgeText="공동 메뉴"
           quantity={1}
-          storeId={storeIdString}
+          storeId={String(meeting?.storeId)}
         />
       </CustomContainer>
       <Amount

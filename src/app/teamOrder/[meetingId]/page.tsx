@@ -249,7 +249,9 @@ const TeamOrderPage = () => {
   // Handle click to redirect to restaurant page
   const handleClick = () => {
     if (meeting) {
-      router.push(`/restaurants/${meeting.storeId}?context=participant`);
+      router.push(
+        `/restaurants/${meeting.storeId}?context=participant&meetingId=${meetingId}`,
+      );
     }
   };
 

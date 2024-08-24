@@ -107,19 +107,19 @@ const Amount: React.FC<AmountProps> = ({
     <InfoboxWrapper>
       <InfoBox
         textItems={[
-          { id: 1, text: '자세한 계산방법이 궁금해요!', $textStyle: 'Title' },
+          { id: '1', text: '자세한 계산방법이 궁금해요!', $textStyle: 'Title' },
           {
-            id: 2,
+            id: '2',
             text: '최대 배송비: 총 배송비 ÷ 최소 모집 인원 수',
             $textStyle: 'Description',
           },
           {
-            id: 3,
+            id: '3',
             text: '공통 메뉴 최소 할인: 공통 메뉴 음식 가격 ÷ 최소 모집 인원 수 x',
             $textStyle: 'Description',
           },
           {
-            id: 4,
+            id: '4',
             text: '본인을 제외한 최소 모집 인원 수',
             $textStyle: 'Description',
           },

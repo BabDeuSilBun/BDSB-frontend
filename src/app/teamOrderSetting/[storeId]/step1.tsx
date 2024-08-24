@@ -18,7 +18,8 @@ import { CustomDropdown } from '@/components/common/dropdown';
 import InfoBox from '@/components/common/infoBox';
 import ErrorMessage from '@/components/meetings/errorMessage';
 import DefaultAddress from '@/components/meetings/defaultAddress';
-import { Address } from 'react-daum-postcode';
+import { Address as DaumPostcodeAddress } from 'react-daum-postcode';
+import { StoredAddress } from '@/state/orderStore'; 
 
 interface Step1Props {
   isPostcodeOpen: boolean;
@@ -52,14 +53,14 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
   const { storeId } = useParams();
 
   // Dropdown options
-  const options1 = [
-    { id: 1, name: '함께 식사', value: '함께 식사' },
-    { id: 2, name: '각자 식사', value: '각자 식사' },
+  const optionsPurchaseType = [
+    { id: 'together', name: '함께 식사', value: '함께 식사' },
+    { id: 'individual', name: '각자 식사', value: '각자 식사' },
   ];
 
-  const options2 = [
-    { id: 1, name: '바로 주문', value: '바로 주문' },
-    { id: 2, name: '예약 주문', value: '예약 주문' },
+  const optionsOrderType = [
+    { id: 'instant', name: '바로 주문', value: '바로 주문' },
+    { id: 'reservation', name: '예약 주문', value: '예약 주문' },
   ];
 
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
@@ -101,8 +102,8 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
     }
   }, [myData, isUsingDefaultAddress, setDefaultAddress, setDeliveredAddress]);
 
-  const handleAddressChange = (addressData: Address) => {
-    const formattedAddress = {
+  const handleAddressChange = (addressData: DaumPostcodeAddress) => {
+    const formattedAddress: StoredAddress = {
       postal: addressData.zonecode,
       streetAddress: `${addressData.address}${
         addressData.bname ? `, ${addressData.bname}` : ''
@@ -111,13 +112,21 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
     };
 
     setDeliveredAddress(formattedAddress);
-    setMetAddress((prevAddress) => ({
-      ...prevAddress,
+
+    const updatedMetAddress: StoredAddress = {
+      ...formData.metAddress,
       postal: formattedAddress.postal,
       streetAddress: formattedAddress.streetAddress,
-      detailAddress: prevAddress.detailAddress,
-    }));
+      detailAddress: formData.metAddress.detailAddress,
+    };
+  
+    setMetAddress(updatedMetAddress);
+  
+    setIsUsingDefaultAddress(false);
+  };
 
+  const handleChangeAddress = () => {
+    setDeliveredAddress({ postal: '', streetAddress: '', detailAddress: '' });
     setIsUsingDefaultAddress(false);
   };
 
@@ -229,7 +238,7 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
         postal: deliveredAddress.postal,
       });
     }
-  }, [deliveredAddress, metAddress, setMetAddress]);
+  }, [deliveredAddress, setMetAddress]);
 
   useEffect(() => {
     if (time.hour && time.minute) {
@@ -264,7 +273,7 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
       <SettingImage />
       <SettingLabel text="팀 주문 방식" />
       <CustomDropdown
-        options={options1}
+        options={optionsPurchaseType}
         selectedValue={purchaseType}
         onSelect={handleSelectPurchaseType}
         isOpen={isDropdownOpen1}
@@ -277,29 +286,29 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
             text: '함께 식사:',
             $textStyle: 'Title',
             sameRow: true,
-            id: 1,
+            id: 'together-meal-title',
           },
           {
             text: '다 같이 한 장소에서 수령하여 함께 식사해요.',
             $textStyle: 'Description',
-            id: 2,
+            id: 'together-meal-description',
           },
           {
             text: '각자 식사:',
             $textStyle: 'Title',
             sameRow: true,
-            id: 3,
+            id: 'individual-meal-title',
           },
           {
             text: '각자 설정한 주소로 수령하여 편하게 식사해요.',
             $textStyle: 'Description',
-            id: 4,
+            id: 'individual-meal-description',
           },
         ]}
         showIcon={false}
       />
       <CustomDropdown
-        options={options2}
+        options={optionsOrderType}
         selectedValue={orderType}
         onSelect={handleSelectOrderType}
         isOpen={isDropdownOpen2}
@@ -312,23 +321,23 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
             text: '바로 주문:',
             $textStyle: 'Title',
             sameRow: true,
-            id: 5,
+            id: 'instant-order-title',
           },
           {
             text: '최대 모집 인원이 모일 시 바로 주문합니다.',
             $textStyle: 'Description',
-            id: 6,
+            id: 'instant-order-description',
           },
           {
             text: '예약 주문:',
             $textStyle: 'Title',
             sameRow: true,
-            id: 7,
+            id: 'reservation-order-title',
           },
           {
             text: '주문 대기 시간에 맞춰 주문합니다.',
             $textStyle: 'Description',
-            id: 8,
+            id: 'reservation-order-description',
           },
         ]}
         showIcon={false}
@@ -338,9 +347,9 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
         <p>기본 주소 불러오는 중입니다...</p>
       ) : isUsingDefaultAddress && defaultAddress ? (
         <DefaultAddress
-          streetAddress={defaultAddress.streetAddress}
-          detailAddress={defaultAddress.detailAddress}
-          onChangeAddress={() => setIsUsingDefaultAddress(false)}
+          streetAddress={defaultAddress?.streetAddress || ''}
+          detailAddress={defaultAddress?.detailAddress || ''}
+          onChangeAddress={handleChangeAddress}
         />
       ) : (
         <SettingAddress
@@ -353,7 +362,7 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
       <input
         type="text"
         placeholder="모임 장소"
-        value={metAddress.detailAddress}
+        value={metAddress.detailAddress || ''}
         onChange={(e) =>
           setMetAddress({ ...metAddress, detailAddress: e.target.value })
         }

@@ -6,7 +6,7 @@ interface Time {
   minute: string;
 }
 
-interface Address {
+export interface StoredAddress {
   postal: string;
   streetAddress: string;
   detailAddress: string;
@@ -21,8 +21,8 @@ interface OrderFormData {
   isEarlyPaymentAvailable: boolean;
   paymentAvailableAt: Date;
   time: Time;
-  deliveredAddress: Address;
-  metAddress: Address;
+  deliveredAddress: StoredAddress;
+  metAddress: StoredAddress;
   description: string;
   maxIndividualDeliveryFee: number;
 }
@@ -39,8 +39,8 @@ interface OrderStore {
   setIsEarlyPaymentAvailable: (isAvailable: boolean) => void;
   setPaymentAvailableAt: (date: Date, time: Time) => void;
   setTime: (time: Partial<Time>) => void;
-  setDeliveredAddress: (address: Address) => void;
-  setMetAddress: (address: Address) => void;
+  setDeliveredAddress: (address: StoredAddress) => void;
+  setMetAddress: (address: StoredAddress) => void;
   setDescription: (description: string) => void;
   setButtonActive: (isActive: boolean) => void;
   setMaxIndividualDeliveryFee: (fee: number) => void;
@@ -90,7 +90,11 @@ export const useOrderStore = create<OrderStore>((set) => ({
     })),
   setOrderType: (orderType) =>
     set((state) => ({
-      formData: { ...state.formData, orderType },
+      formData: {
+        ...state.formData,
+        orderType,
+        isEarlyPaymentAvailable: orderType === '바로 주문',
+      },
     })),
   setIsEarlyPaymentAvailable: () =>
     set((state) => ({

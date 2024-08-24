@@ -109,7 +109,7 @@ const StoreInfo: React.FC<StoreInfoProps> = ({ store, onInfoButtonClick }) => {
                   {
                     text: '평균 도착 시간으로, 실제 도착 시간과 차이가 생길 수 있어요.',
                     $textStyle: 'withIcon',
-                    id: 1,
+                    id: '1',
                   },
                 ]}
                 width="9rem"
