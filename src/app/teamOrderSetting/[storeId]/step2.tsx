@@ -21,6 +21,7 @@ const Step2 = () => {
     setMaxHeadcount,
     setDescription,
     setButtonActive,
+    setMaxIndividualDeliveryFee,
   } = useOrderStore();
   const { minHeadcount = 1, maxHeadcount = 1, description } = formData;
   const { storeId } = useParams();
@@ -43,6 +44,24 @@ const Step2 = () => {
     const isActive = minHeadcount > 0 && maxHeadcount >= minHeadcount;
     setButtonActive(isActive);
   }, [minHeadcount, maxHeadcount, setButtonActive]);
+
+  if (!store) {
+    return null;
+  }
+
+  // Effect to set max individual delivery fee
+  useEffect(() => {
+    if (store) {
+      const roundToNearestTen = (num: number) => Math.floor(num / 10) * 10;
+
+      const deliveryPrice = store.deliveryPrice || 0;
+      const maxFee = roundToNearestTen(
+        deliveryPrice / Math.max(minHeadcount, 1),
+      );
+
+      setMaxIndividualDeliveryFee(maxFee);
+    }
+  }, [store, minHeadcount, setMaxIndividualDeliveryFee]);
 
   if (!store) {
     return null;

@@ -1,16 +1,22 @@
+import axios from 'axios';
 import Cookies from 'js-cookie';
 
-import { apiClientWithCredentials } from '../apiClient';
+// 인증이 필요한 API 클라이언트 생성
+// const response = await httpClientForCredentials.get('/user/profile');
+export const httpClientForCredentials = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_SERVER_API_URL,
+  withCredentials: true,
+});
 
 // AccessToken 설정 함수
 export const setAuthToken = (token: string) => {
-  apiClientWithCredentials.defaults.headers.common.Authorization = `Bearer ${token}`;
+  httpClientForCredentials.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
 // 토큰 갱신 함수
 export const onSilentRefresh = async () => {
   try {
-    const res = await apiClientWithCredentials.post('/api/refresh-token');
+    const res = await httpClientForCredentials.post('/api/refresh-token');
     const newToken = res.headers.Authorization;
     Cookies.set('jwtToken', newToken);
     setAuthToken(newToken);
@@ -25,7 +31,7 @@ interface NextRouter {
 
 // 인터셉터 설정 함수
 export const setupInterceptors = (router: NextRouter) => {
-  apiClientWithCredentials.interceptors.response.use(
+  httpClientForCredentials.interceptors.response.use(
     (response) => response, // 정상적인 응답
     async (error) => {
       const originalRequest = error.config;
@@ -38,12 +44,12 @@ export const setupInterceptors = (router: NextRouter) => {
         if (refreshToken) {
           try {
             const res =
-              await apiClientWithCredentials.post('/api/refresh-token');
+              await httpClientForCredentials.post('/api/refresh-token');
             const newJwtToken = res.headers.Authorization;
 
             setAuthToken(newJwtToken);
             Cookies.set('jwtToken', newJwtToken);
-            return apiClientWithCredentials(originalRequest);
+            return httpClientForCredentials(originalRequest);
           } catch (refreshError) {
             console.error('Token refresh failed:', refreshError);
             router.push('/auth/signIn');
