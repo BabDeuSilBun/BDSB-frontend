@@ -62,6 +62,26 @@ const PortalButtonWrapper = styled.div`
   z-index: 2000;
 `;
 
+const CartQuantityCircle = styled.div`
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+`;
+
+const CartIconContainer = styled.div`
+  position: relative;
+`;
+
 interface HeaderProps {
   buttonLeft?: 'hamburger' | 'back';
   buttonRight?: 'home' | 'exit';
@@ -73,6 +93,7 @@ interface HeaderProps {
   isPostcodeOpen?: boolean;
   onClosePostcodeModal?: () => void;
   $isTransparent?: boolean;
+  $cartQuantity?: number;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -88,6 +109,7 @@ const Header: React.FC<HeaderProps> = ({
   isPostcodeOpen = false,
   onClosePostcodeModal,
   $isTransparent = false,
+  $cartQuantity = 0,
 }) => {
   const router = useRouter();
   const { isOpen, onToggle } = useDisclosure();
@@ -133,15 +155,17 @@ const Header: React.FC<HeaderProps> = ({
         </Flex>
         <Flex $side="center">{text}</Flex>
         <Flex $side="right">
-          {buttonRight && (
-            <button type="button" onClick={handleRightButtonClick}>
-              {Icons[buttonRight](iconColor)}
-            </button>
-          )}
           {buttonRightSecondary && (
-            <button type="button" onClick={handleRightSecondaryButtonClick}>
-              {Icons[buttonRightSecondary](iconColor)}
-            </button>
+            <CartIconContainer>
+              <button type="button" onClick={handleRightSecondaryButtonClick}>
+                {Icons[buttonRightSecondary](iconColor)}
+              </button>
+              {$cartQuantity > 0 && (
+                <CartQuantityCircle>
+                  {Math.round($cartQuantity)}
+                </CartQuantityCircle>
+              )}
+            </CartIconContainer>
           )}
         </Flex>
       </HeaderContainer>
