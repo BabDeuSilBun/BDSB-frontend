@@ -68,7 +68,7 @@ const CartQuantityCircle = styled.div`
   right: -8px;
   width: 20px;
   height: 20px;
-  background-color: red;
+  background-color: var(--primary);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -80,6 +80,8 @@ const CartQuantityCircle = styled.div`
 
 const CartIconContainer = styled.div`
   position: relative;
+  display: flex;
+  align-items: center;
 `;
 
 interface HeaderProps {
@@ -155,6 +157,11 @@ const Header: React.FC<HeaderProps> = ({
         </Flex>
         <Flex $side="center">{text}</Flex>
         <Flex $side="right">
+          {buttonRight && (
+            <button type="button" onClick={handleRightButtonClick}>
+              {Icons[buttonRight](iconColor)}
+            </button>
+          )}
           {buttonRightSecondary && (
             <CartIconContainer>
               <button type="button" onClick={handleRightSecondaryButtonClick}>
