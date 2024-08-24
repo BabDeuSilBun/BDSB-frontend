@@ -93,10 +93,16 @@ const InquiryHistory = () => {
       inquiryId: number;
       imageId: number;
     }) => {
+      console.log(
+        `Deleting image with inquiryId: ${inquiryId} and imageId: ${imageId}`,
+      );
       await axios.delete(`/api/users/inquiries/${inquiryId}/images/${imageId}`);
     },
     onError: (error) => {
       console.error('이미지 삭제 중 오류가 발생했습니다.', error);
+    },
+    onSuccess: () => {
+      console.log('이미지 삭제 성공');
     },
   });
 
@@ -111,6 +117,9 @@ const InquiryHistory = () => {
       imageId: number;
       sequence: number;
     }) => {
+      console.log(
+        `Updating image with inquiryId: ${inquiryId} and imageId: ${imageId}`,
+      );
       await axios.put(`/api/users/inquiries/${inquiryId}/images/${imageId}`, {
         sequence,
       });
@@ -133,6 +142,9 @@ const InquiryHistory = () => {
       const editedImage = editedImages.find(
         (img) => img.imageId === originalImage.imageId,
       );
+
+      console.log(`edited:`, editedImage);
+      console.log(`original:`, originalImage);
 
       if (!editedImage) {
         deleteImageMutation.mutate({

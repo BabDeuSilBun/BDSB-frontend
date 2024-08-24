@@ -86,7 +86,9 @@ export const inquiries: InquiryType[] = [
     title: 'DummyText',
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    status: 'PENDING',
+    answer:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+    status: 'COMPLETED',
     createdAt: '2024-07-23T10:40:00',
     updatedAt: '2024-07-23T10:40:00',
   },
@@ -95,7 +97,9 @@ export const inquiries: InquiryType[] = [
     title: 'DummyText',
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    status: 'PENDING',
+    answer:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+    status: 'COMPLETED',
     createdAt: '2024-07-23T10:40:00',
     updatedAt: '2024-07-23T10:40:00',
   },
@@ -104,7 +108,9 @@ export const inquiries: InquiryType[] = [
     title: 'DummyText',
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    status: 'PENDING',
+    answer:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+    status: 'COMPLETED',
     createdAt: '2024-07-23T10:40:00',
     updatedAt: '2024-07-23T10:40:00',
   },
@@ -113,7 +119,9 @@ export const inquiries: InquiryType[] = [
     title: 'DummyText',
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    status: 'PENDING',
+    answer:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+    status: 'COMPLETED',
     createdAt: '2024-07-23T10:40:00',
     updatedAt: '2024-07-23T10:40:00',
   },
@@ -122,7 +130,9 @@ export const inquiries: InquiryType[] = [
     title: 'Dummy Text',
     content:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    status: 'PENDING',
+    answer:
+      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+    status: 'COMPLETED',
     createdAt: '2024-07-23T10:40:00',
     updatedAt: '2024-07-23T10:40:00',
   },

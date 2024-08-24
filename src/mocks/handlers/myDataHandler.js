@@ -154,39 +154,15 @@ export const myDataHandlers = [
     });
   }),
 
-  http.delete(`${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`, (req) => {
-    const inquiryId = Number(req.params.inquiryId);
-
-    const selectedInquiry = inquiries.find(
-      (item) => item.inquiryId === inquiryId,
-    );
-
-    if (selectedInquiry) {
-      return HttpResponse.status(204).json({
-        message: 'Image deleted successfully',
-      });
-    }
-
-    return HttpResponse.status(404).json({
-      message: 'Inquiry or image not found',
+  http.delete(`${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`, () => {
+    return HttpResponse.status(204).json({
+      message: 'Image deleted successfully',
     });
   }),
 
-  http.post(`${INQUIRY_LIST_API_URL}/:inquiryId/images`, (req) => {
-    const inquiryId = Number(req.params.inquiryId);
-
-    const selectedInquiry = inquiries.find(
-      (item) => item.inquiryId === inquiryId,
-    );
-
-    if (selectedInquiry) {
-      return HttpResponse.status(201).json({
-        message: 'Image added successfully',
-      });
-    }
-
-    return HttpResponse.status(404).json({
-      message: 'Inquiry not found',
+  http.patch(`${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`, () => {
+    return HttpResponse.status(201).json({
+      message: 'Image updated successfully',
     });
   }),
 ];

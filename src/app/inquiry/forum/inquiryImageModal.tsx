@@ -68,7 +68,13 @@ const InquiryImageModal: React.FC<InquiryImageModalProps> = ({
       newImages.splice(index + 1, 0, movedImage); // 아래로 이동
     }
 
-    setEditedImages(newImages); // 변경된 배열을 상태로 설정
+    // 이동 후 각 이미지의 sequence 값 업데이트
+    const updatedImages = newImages.map((image, idx) => ({
+      ...image,
+      sequence: idx + 1,
+    }));
+
+    setEditedImages(updatedImages); // 변경된 배열을 상태로 설정
   };
 
   // 이미지를 삭제하는 함수
