@@ -6,10 +6,11 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getMenuInfo, getMenuList } from '@/services/menuService';
+import { useCartStore } from '@/state/cartStore';
 import Loading from '@/app/loading';
 import Header from '@/components/layout/header';
 import Carousel from '@/components/stores/carousel';
-// import StoreInfo from '@/components/stores/storeInfo';
+import StoreInfo from '@/components/stores/storeInfo';
 import MenuItem from '@/components/listItems/menuItem';
 import Footer from '@/components/layout/footer';
 import Modal from '@/components/common/modal';
@@ -28,6 +29,8 @@ const StorePage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { storeId } = useParams();
+
+  const { cartQuantity, addToCart } = useCartStore();
 
   // State hooks
   const [activeModal, setActiveModal] = useState<string | null>(null);
@@ -140,6 +143,12 @@ const StorePage = () => {
     enabled: !!selectedMenu?.menuId,
   });
 
+  // Function to handle adding items to the cart
+  const handleAddToCart = () => {
+    addToCart(1);
+    closeModal();
+  };
+
   // Modal handlers
   const openModal = (
     modalName: string,
@@ -163,13 +172,21 @@ const StorePage = () => {
     setSelectedMenu(null);
   };
 
-  // const handleInfoButtonClick = () => {
-  //   setActiveModal('infoModal');
-  // };
+  const handleInfoButtonClick = () => {
+    setActiveModal('infoModal');
+  };
 
   const onButtonClick1 = () => {
-    if (context === 'leaderBefore')
-      router.push(`/teamOrderSetting/${storeId}?`);
+    if (context === 'leaderBefore') {
+      router.push(`/teamOrderSetting/${storeId}`);
+    } else if (context === 'leaderAfter' || context === 'participant') {
+      const meetingId = searchParams.get('meetingId') || 'temporary-meeting-id'; // Use temporary meetingId if not available
+      if (!meetingId) {
+        console.error('No meetingId found');
+      } else {
+        router.push(`/cart/${meetingId}?storeId=${storeId}`);
+      }
+    }
   };
 
   useEffect(() => {
@@ -196,12 +213,13 @@ const StorePage = () => {
           buttonLeft="back"
           buttonRight="home"
           buttonRightSecondary="cart"
+          $cartQuantity={Math.round(cartQuantity)}
           iconColor={isHeaderTransparent ? 'white' : 'black'}
           $isTransparent={isHeaderTransparent}
         />
       </HeaderContainer>
       <Carousel images={store.images} ref={carouselRef} />
-      {/* <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} /> */}
+      <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} />
 
       {/* Context-specific code */}
       {context &&
@@ -234,7 +252,9 @@ const StorePage = () => {
             <Footer
               type="button"
               buttonText={
-                context === 'participant' ? '장바구니로 이동' : '모임 만들기'
+                context === 'participant' || context === 'leaderAfter'
+                  ? '장바구니로 이동'
+                  : '모임 만들기'
               }
               onButtonClick={onButtonClick1}
             />
@@ -271,8 +291,8 @@ const StorePage = () => {
               ? context
               : undefined
           }
-          onButtonClick1={onButtonClick1}
-          onButtonClick2={closeModal}
+          onButtonClick1={handleAddToCart} // Call handleAddToCart on "공동메뉴" or "개별메뉴" click
+          onButtonClick2={context === 'leaderAfter' ? handleAddToCart : closeModal} // Call handleAddToCart only in 'leaderAfter', otherwise closeModal
           onClose={closeModal}
         />
       )}

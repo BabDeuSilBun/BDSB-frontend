@@ -15,6 +15,8 @@ import Step2 from '@/app/teamOrderSetting/[storeId]/step2';
 import Footer from '@/components/layout/footer';
 import Modal from '@/components/common/modal';
 import styled from 'styled-components';
+import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 const CustomContainer = styled(Container)`
   display: flex;
@@ -33,8 +35,7 @@ const TeamOrderSettingPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isButtonActive, setStoreId } = useOrderStore();
-  // const { isButtonActive, formData, setStoreId } = useOrderStore();
+  const { isButtonActive, formData, setStoreId } = useOrderStore();
 
   useEffect(() => {
     if (storeId) {
@@ -54,35 +55,42 @@ const TeamOrderSettingPage = () => {
     queryFn: getMyData,
   });
 
-  // Handle form submission
-  // const handleSubmit = async () => {
-  //   const requestBody = {
-  //     storeId: formData.storeId,
-  //     purchaseType: formData.purchaseType,
-  //     minHeadcount: formData.minHeadcount,
-  //     maxHeadcount: formData.maxHeadcount,
-  //     isEarlyPaymentAvailable: formData.isEarlyPaymentAvailable,
-  //     paymentAvailableAt: formData.paymentAvailableAt,
-  //     deliveredAddress: formData.deliveredAddress,
-  //     metAddress: formData.metAddress,
-  //     description: formData.description,
-  //   };
+// Handle form submission and team order creation
+const handleSubmit = async () => {
+  const requestBody = {
+    storeId: formData.storeId,
+    purchaseType: formData.purchaseType,
+    minHeadcount: formData.minHeadcount,
+    maxHeadcount: formData.maxHeadcount,
+    isEarlyPaymentAvailable: formData.isEarlyPaymentAvailable,
+    paymentAvailableAt: formData.paymentAvailableAt,
+    deliveredAddress: formData.deliveredAddress,
+    metAddress: formData.metAddress,
+    description: formData.description,
+  };
 
-  //   console.log('Submitting request with body:', requestBody);
+  console.log('Submitting request with body:', requestBody);
 
-  //   try {
-  //     const response = await axios.post('/api/users/meetings', requestBody);
-  //     console.log('Response from server:', response);
-  //     router.push(`/restaurants/${storeId}?context=leaderAfter`);
-  //   } catch (error) {
-  //     console.error('Error submitting request:', error);
-  //   }
-  // };
+  try {
+    // const response = await axios.post('/api/users/meetings', requestBody);
+    // const { meetingId } = response.data;
+
+    const tempMeetingId = storeId; // Use the storeId as the temporary meetingId
+    
+    console.log('Response from server:', requestBody);
+
+    // Temporarily redirect with the temporary meetingId
+    router.push(`/restaurants/${storeId}?context=leaderAfter&meetingId=${tempMeetingId}`);
+    // router.push(`/restaurants/${storeId}?context=leaderAfter&meetingId=${meetingId}`);
+  } catch (error) {
+    console.error('Error submitting request:', error);
+  }
+};
 
   // Handle step navigation
-  const handleNextStep = () => {
+  const handleNextStep = async () => {
     if (currentStep === 2) {
-      router.push(`/restaurants/${storeId}?context=leaderAfter`);
+      await handleSubmit();
     } else {
       setCurrentStep((prevStep) => prevStep + 1);
     }
@@ -112,7 +120,7 @@ const TeamOrderSettingPage = () => {
   };
 
   const handleModalExit = () => {
-    router.push(`/restaurants/${storeId}?context=leaderAfter`);
+    router.push(`/restaurants/${storeId}?context=leaderBefore`);
   };
 
   return (

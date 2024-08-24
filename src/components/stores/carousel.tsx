@@ -25,7 +25,9 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     );
     const sortedImages = images
       .filter((img: ImageType) => !img.isRepresentative)
-      .sort((a: ImageType, b: ImageType) => (a.sequence || 0) - (b.sequence || 0));
+      .sort(
+        (a: ImageType, b: ImageType) => (a.sequence || 0) - (b.sequence || 0),
+      );
 
     const orderedImages = representativeImage
       ? [representativeImage, ...sortedImages]

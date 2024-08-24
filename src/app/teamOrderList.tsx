@@ -46,10 +46,10 @@ const GroupTitle = styled.h3`
 
 // Sort options
 const options = [
-  { id: 1, value: 'deadline', name: '주문이 임박한 순' },
-  { id: 2, value: 'delivery-fee', name: '배달비가 낮은 순' },
-  { id: 3, value: 'min-price', name: '최소주문금액이 낮은 순' },
-  { id: 4, value: 'delivery-time', name: '배송시간이 짧은 순' },
+  { id: '1', value: 'deadline', name: '주문이 임박한 순' },
+  { id: '2', value: 'delivery-fee', name: '배달비가 낮은 순' },
+  { id: '3', value: 'min-price', name: '최소주문금액이 낮은 순' },
+  { id: '4', value: 'delivery-time', name: '배송시간이 짧은 순' },
 ];
 
 // Main Component

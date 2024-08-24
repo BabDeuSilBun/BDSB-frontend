@@ -36,6 +36,7 @@ const IconWrapper = styled.div`
 const AddressBtn = styled.button<{ $hasAddress: boolean }>`
   width: 100%;
   padding: var(--spacing-sm);
+  padding-right: 2.5rem;
   font-size: var(--font-size-md);
   color: ${({ $hasAddress }) =>
     $hasAddress ? 'var(--text)' : 'var(--gray300)'};
