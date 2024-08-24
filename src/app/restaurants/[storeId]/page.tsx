@@ -213,6 +213,7 @@ const StorePage = () => {
           buttonLeft="back"
           buttonRight="home"
           buttonRightSecondary="cart"
+          $cartQuantity={Math.round(cartQuantity)}
           iconColor={isHeaderTransparent ? 'white' : 'black'}
           $isTransparent={isHeaderTransparent}
         />
