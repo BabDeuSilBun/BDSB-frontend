@@ -6,6 +6,7 @@ import { Flex } from '@chakra-ui/react';
 import styled from 'styled-components';
 import SettingDescription from '@/components/meetings/settingDescription';
 import Image from 'next/image';
+
 import ImagePreviewComponent from './imagePreview';
 
 const Container = styled.div`
@@ -40,29 +41,6 @@ const AddPicBtn = styled.label`
 const ImagePreviewContainer = styled.div`
   display: flex;
   gap: 0.5rem;
-`;
-
-const ImageWrapper = styled.div`
-  position: relative;
-  width: 4.5rem;
-  height: 4.5rem;
-`;
-
-const DeleteButton = styled.button`
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-`;
-
-const ImagePreview = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: var(--border-radius-md);
 `;
 
 interface Prop {

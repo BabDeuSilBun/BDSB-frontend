@@ -1,5 +1,3 @@
-const Chat = () => {
-  return <></>;
-};
+const Chat = () => {};
 
 export default Chat;

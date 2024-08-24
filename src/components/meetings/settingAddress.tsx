@@ -37,7 +37,8 @@ const AddressBtn = styled.button<{ $hasAddress: boolean }>`
   width: 100%;
   padding: var(--spacing-sm);
   font-size: var(--font-size-md);
-  color: ${({ $hasAddress }) => ($hasAddress ? 'var(--text)' : 'var(--gray300)')};
+  color: ${({ $hasAddress }) =>
+    $hasAddress ? 'var(--text)' : 'var(--gray300)'};
   background-color: var(--background);
   border: 1px solid var(--gray200);
   border-radius: var(--border-radius-md);

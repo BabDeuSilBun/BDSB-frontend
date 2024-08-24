@@ -9,13 +9,13 @@
     "import",
     "jsx-a11y",
     "react",
-    "react-hooks",
-    "@tanstack/query",
-    "prettier"
+    "prettier",
+    "@tanstack/query"
   ],
   "extends": [
-    "next/core-web-vitals",
     "airbnb",
+    "airbnb/hooks",
+    "next/core-web-vitals",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jsx-a11y/recommended",
@@ -89,6 +89,10 @@
     "consistent-return": "off",
     "no-underscore-dangle": "off",
     "no-console": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

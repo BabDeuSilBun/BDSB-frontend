@@ -25,7 +25,7 @@ const Counter: React.FC<CounterProps> = ({
   minValue = 0,
   onValueChange,
   disableDecrementCondition = (currentValue) => currentValue <= minValue,
-  size = 'regular'
+  size = 'regular',
 }) => {
   const { getInputProps, getIncrementButtonProps } = useNumberInput({
     step: 1,
@@ -59,7 +59,8 @@ const Counter: React.FC<CounterProps> = ({
           color: disableDecrementCondition(value)
             ? 'var(--gray300)'
             : 'var(--text)',
-          fontSize: size === 'small' ? 'var(--font-size-lg)' : 'var(--font-size-xxl)',
+          fontSize:
+            size === 'small' ? 'var(--font-size-lg)' : 'var(--font-size-xxl)',
           fontWeight: 'var(--font-regular)',
           borderRadius: '0',
           cursor: disableDecrementCondition(value) ? 'not-allowed' : 'pointer',
@@ -76,7 +77,11 @@ const Counter: React.FC<CounterProps> = ({
         }}
       >
         {value === 1 ? (
-          <DeleteIcon color="var(--gray300)" width={size === 'small' ? 20 : 24} height={size === 'small' ? 20 : 24} />
+          <DeleteIcon
+            color="var(--gray300)"
+            width={size === 'small' ? 20 : 24}
+            height={size === 'small' ? 20 : 24}
+          />
         ) : (
           '-'
         )}
@@ -94,7 +99,10 @@ const Counter: React.FC<CounterProps> = ({
           height: size === 'small' ? '30px !important' : '40px !important',
           boxSizing: 'border-box !important',
           textAlign: 'center',
-          fontSize: size === 'small' ? 'var(--font-size-sm) !important' : 'var(--font-size-md) !important',
+          fontSize:
+            size === 'small'
+              ? 'var(--font-size-sm) !important'
+              : 'var(--font-size-md) !important',
           fontWeight: 'var(--font-regular) !important',
           color: 'var(--text)',
           borderTop: 'none !important',
@@ -121,7 +129,8 @@ const Counter: React.FC<CounterProps> = ({
           height: size === 'small' ? '30px !important' : '40px !important',
           bg: 'transparent',
           color: 'var(--text)',
-          fontSize: size === 'small' ? 'var(--font-size-lg)' : 'var(--font-size-xxl)',
+          fontSize:
+            size === 'small' ? 'var(--font-size-lg)' : 'var(--font-size-xxl)',
           fontWeight: 'var(--font-regular)',
           borderRadius: '0',
           _hover: { bg: 'var(--gray200)' },
