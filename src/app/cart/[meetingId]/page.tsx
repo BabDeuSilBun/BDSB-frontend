@@ -339,6 +339,14 @@ const CartPage = () => {
   //   },
   // });
 
+  // Determine footer button text based on context
+  const footerButtonText =
+    context === 'leaderAfter'
+      ? `${formatCurrency(totalPrice)} 주문하고 모임 완성하기`
+      : context === 'participant'
+        ? `${formatCurrency(totalPrice)} 주문하고 모임 참여하기`
+        : '';
+
   if (
     isLoadingMeeting ||
     isLoadingStore ||
@@ -407,7 +415,7 @@ const CartPage = () => {
       />
       <Footer
         type="button"
-        buttonText={`${formatCurrency(totalPrice)} 주문하고 모임 완성하기`}
+        buttonText={footerButtonText}
         onButtonClick={() => {
           const { individualItems, teamItems } =
             splitCartItemsByType(cartItems);
