@@ -1,5 +1,7 @@
 // import axios from 'axios';
 
+import { apiClient, apiClientWithCredentials } from './apiClient';
+
 import {
   EvaluateType,
   InquiryResponse,
@@ -8,14 +10,14 @@ import {
 } from '@/types/myDataTypes';
 import { GetListParams } from '@/types/types';
 
-import { apiClient, apiClientWithCredentials } from './apiClient';
-
 // import { httpClientForCredentials } from './auth/authClient';
 
-export const MY_PROFILE_API_URL = '/api/users/my-page';
+export const ACCOUNT_API_URL = '/api/users/account';
+export const ADDRESS_API_URL = `/api/users/address`;
 export const EVALUATE_LIST_API_URL = '/api/users/evaluates';
-export const POINT_LIST_API_URL = '/api/users/points';
 export const INQUIRY_LIST_API_URL = `/api/users/inquires`;
+export const MY_PROFILE_API_URL = '/api/users/my-page';
+export const POINT_LIST_API_URL = '/api/users/points';
 
 export const getMyData = async (): Promise<MyDataType> => {
   try {
@@ -30,6 +32,30 @@ export const getMyData = async (): Promise<MyDataType> => {
       '내 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
     );
   }
+};
+
+export const postAccount = async (
+  owner: string,
+  bankAccount: number,
+  selectedBank: string,
+) => {
+  await apiClient.put(ADDRESS_API_URL, {
+    owner: owner.trim(),
+    bankAccount: bankAccount?.toString(),
+    selectedBank,
+  });
+};
+
+export const postNewAddress = async (
+  postal: string,
+  streetAddress: string,
+  detailAddress: string,
+) => {
+  await apiClient.put(ADDRESS_API_URL, {
+    postal: postal.trim(),
+    streetAddress,
+    detailAddress,
+  });
 };
 
 export const getMyEvaluates = async (): Promise<EvaluateType> => {

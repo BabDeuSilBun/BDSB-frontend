@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import Header from '@/components/layout/header';
-import Footer from '@/components/layout/footer';
-import Container from '@/styles/container';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import InquiryContact from './contact';
 import InquiryHistory from './history';
+
+import Header from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
+import Container from '@/styles/container';
 
 const InquiryForum = () => {
   const router = useRouter();
@@ -27,6 +28,7 @@ const InquiryForum = () => {
     if (pageType) {
       router.replace(`/inquiry/forum/?type=${pageType}`, { scroll: false });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageType]);
 
   const onClickSubmitBtn = async () => {

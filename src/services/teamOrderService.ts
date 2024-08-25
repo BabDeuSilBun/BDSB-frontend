@@ -1,7 +1,7 @@
+import { apiClient } from './apiClient';
+
 import { MeetingsResponse, MeetingType } from '@/types/coreTypes';
 import { GetListParams } from '@/types/types';
-
-import { apiClient } from './apiClient';
 
 export const TEAM_ORDER_LIST_API_URL = '/api/users/meetings';
 const HEADCOUNT_API_URL = '/api/users/meetings/{meetingId}/headcount';

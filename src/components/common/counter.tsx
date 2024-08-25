@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import { Button, HStack, Input, useNumberInput } from '@chakra-ui/react';
+
 import DeleteIcon from '@/components/svg/delete';
 
 const CounterContainer = styled(HStack)<{ size: 'small' | 'regular' }>`

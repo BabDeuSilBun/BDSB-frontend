@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import InfoBox from '@/components/common/infoBox';
 import { MeetingType } from '@/types/coreTypes';
 

@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 
 import styled from 'styled-components';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { SmallCustomDropdown } from '@/components/common/dropdown';
 import { Divider } from '@chakra-ui/react';
+
+import { SmallCustomDropdown } from '@/components/common/dropdown';
 import TeamOrderItem from '@/components/listItems/teamOrderItem';
 import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
 import { getTeamOrderList } from '@/services/teamOrderService';

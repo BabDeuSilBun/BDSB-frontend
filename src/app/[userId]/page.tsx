@@ -1,16 +1,17 @@
 'use client';
 
-import Header from '@/components/layout/header';
 import styled from 'styled-components';
 import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
-import { getMyData, getMyEvaluates } from '@/services/myDataService';
-import { BaseBtnInactive } from '@/styles/button';
 import { useRouter } from 'next/navigation';
-import Container from '@/styles/container';
-import GroupIcon from '@/components/svg/group';
 import { Divider } from '@chakra-ui/react';
 import { Skeleton } from '@chakra-ui/react';
+
+import { getMyData, getMyEvaluates } from '@/services/myDataService';
+import { BaseBtnInactive } from '@/styles/button';
+import Container from '@/styles/container';
+import GroupIcon from '@/components/svg/group';
+import Header from '@/components/layout/header';
 
 const ImageWrapper = styled.div`
   display: flex;
@@ -166,7 +167,7 @@ const MyPage = () => {
                 <ListItem key={index}>
                   <GroupIcon color="var(--gray400)" />
                   <p>{0}</p>
-                  <Skeleton width={200} height={54}/>
+                  <Skeleton width={200} height={54} />
                 </ListItem>
               ))
             : positiveEvaluates &&

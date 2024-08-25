@@ -1,10 +1,4 @@
 import { http, HttpResponse } from 'msw';
-import {
-  EVALUATE_LIST_API_URL,
-  INQUIRY_LIST_API_URL,
-  MY_PROFILE_API_URL,
-  POINT_LIST_API_URL,
-} from '@/services/myDataService';
 
 import { evaluates, myData, paginatedPoints } from '../mockData/myData';
 import { applyFiltersAndSorting } from '../filteringAndSorting';
@@ -13,6 +7,15 @@ import {
   inquiryImages,
   paginatedInquiries,
 } from '../mockData/inquiries';
+
+import {
+  ACCOUNT_API_URL,
+  ADDRESS_API_URL,
+  EVALUATE_LIST_API_URL,
+  INQUIRY_LIST_API_URL,
+  MY_PROFILE_API_URL,
+  POINT_LIST_API_URL,
+} from '@/services/myDataService';
 
 export const myDataHandlers = [
   http.get(MY_PROFILE_API_URL, () => {
@@ -35,7 +38,7 @@ export const myDataHandlers = [
     }
   }),
 
-  http.post('/api/users/account', async ({ request }) => {
+  http.post(ACCOUNT_API_URL, async ({ request }) => {
     try {
       const { owner, bankAccount, selectedBank } = await request.json();
 
@@ -50,6 +53,26 @@ export const myDataHandlers = [
         { message: '잘못된 요청입니다.' },
         { status: 400 },
       );
+    } catch (error) {
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
+    }
+  }),
+
+  http.put(ADDRESS_API_URL, async ({ request }) => {
+    try {
+      const { postal, streetAddress, detailAddress } = await request.json();
+      console.log('update address', postal, streetAddress, detailAddress);
+      // if (postal && streetAddress && detailAddress) {
+      //   return HttpResponse.json(
+      //     { message: '주소 변경 성공' },
+      //     { status: 200 },
+      //   );
+      // }
+
+      // return HttpResponse.json(
+      //   { message: '잘못된 요청입니다.' },
+      //   { status: 400 },
+      // );
     } catch (error) {
       return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
     }

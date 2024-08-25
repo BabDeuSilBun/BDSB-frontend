@@ -1,8 +1,11 @@
 'use client';
 
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
+// import { useParams, useSearchParams } from 'next/navigation';
 import router from 'next/router';
 import { useQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
+
 import { getTeamOrderInfo } from '@/services/teamOrderService';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { useOrderStore } from '@/state/orderStore';
@@ -13,7 +16,6 @@ import StoreInfo from '@/components/cart/storeInfo';
 import CartItem from '@/components/cart/cartItem';
 import Amount from '@/components/cart/amount';
 import Footer from '@/components/layout/footer';
-import styled from 'styled-components';
 
 const CustomContainer = styled(Container)`
   margin-top: 60px;
@@ -24,7 +26,7 @@ const CustomContainer = styled(Container)`
 const CartPage = () => {
   // Hooks for navigation and params
   const { meetingId } = useParams();
-  const searchParams = useSearchParams();
+  //const searchParams = useSearchParams();
 
   // Fetch meeting data to get storeId
   const {
@@ -36,7 +38,7 @@ const CartPage = () => {
     queryFn: () => getTeamOrderInfo(Number(meetingId)),
   });
 
-  const storeId = searchParams.get('storeId'); // Extract storeId from query params
+  //const storeId = searchParams.get('storeId'); // Extract storeId from query params
 
   const {
     formData: { maxIndividualDeliveryFee },
@@ -51,7 +53,7 @@ const CartPage = () => {
     queryKey: ['storeInfo', meeting?.storeId],
     queryFn: () => getRestaurantInfo(Number(meeting?.storeId)),
     enabled: !!meeting?.storeId,
-  })
+  });
 
   const deliveredAddress = useOrderStore(
     (state) => state.formData.deliveredAddress,
@@ -90,7 +92,9 @@ const CartPage = () => {
           deliveryTime={store.deliveryTimeRange}
           location={location}
           onClick={() =>
-            router.push(`/restaurants/${store.id}?context=leaderAfter&meetingId=${meetingId}`)
+            router.push(
+              `/restaurants/${store.id}?context=leaderAfter&meetingId=${meetingId}`,
+            )
           }
         />
         <CartItem

@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@chakra-ui/react';
+
 import InfoIcon from '@/components/svg/info';
 
 interface InfoButtonProps {

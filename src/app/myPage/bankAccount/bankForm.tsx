@@ -1,6 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
+
 import { BANK_INFO } from '@/constant/bankInfo';
 import Container from '@/styles/container';
 

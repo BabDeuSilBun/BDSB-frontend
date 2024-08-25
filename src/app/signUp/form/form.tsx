@@ -1,6 +1,5 @@
 'use client';
 
-import { useSignUpStore } from '@/state/authStore';
 import styled from 'styled-components';
 
 import Step0Name from '../steps/step0Name';
@@ -10,6 +9,8 @@ import Step3Campus from '../steps/step3Campus';
 import Step4Department from '../steps/step4Department';
 import Step5Address from '../steps/step5Address';
 import Step6Password from '../steps/step6Password';
+
+import { useSignUpStore } from '@/state/authStore';
 
 const Container = styled.section`
   margin-top: 90px;

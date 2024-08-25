@@ -1,8 +1,9 @@
 import { http, HttpResponse } from 'msw';
-import { RESTAURANT_LIST_API_URL } from '@/services/restaurantService';
 
 import { applyFiltersAndSorting } from '../filteringAndSorting';
 import { paginatedStores, stores } from '../mockData/restaurants';
+
+import { RESTAURANT_LIST_API_URL } from '@/services/restaurantService';
 
 export const restaurantHandlers = [
   http.get(RESTAURANT_LIST_API_URL, async (req) => {

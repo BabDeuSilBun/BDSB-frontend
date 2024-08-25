@@ -2,9 +2,10 @@
 
 import { ChangeEvent, useEffect, useState } from 'react';
 
+import styled from 'styled-components';
+
 import { useSignUpStore } from '@/state/authStore';
 import { validateSignInput } from '@/utils/validateSignInput';
-import styled from 'styled-components';
 
 const ErrorMessage = styled.p`
   color: red;

@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react';
 
 import { Flex } from '@chakra-ui/react';
 import styled from 'styled-components';
-import SettingDescription from '@/components/meetings/settingDescription';
 import Image from 'next/image';
 
 import ImagePreviewComponent from './imagePreview';
+
+import SettingDescription from '@/components/meetings/settingDescription';
 
 const Container = styled.div`
   text-align: left;
@@ -86,6 +87,7 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
     return () => {
       newPreviews.forEach((url) => URL.revokeObjectURL(url));
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedImages]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
