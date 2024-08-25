@@ -13,7 +13,7 @@ import SettingLabel from '@/components/meetings/settingLabel';
 import SettingHeadcount from '@/components/meetings/settingHeadcount';
 import SettingDescription from '@/components/meetings/settingDescription';
 import DeliveryFees from '@/components/meetings/deliveryFee';
-import { paymentFormatter } from '@/utils/paymentFormatter'; 
+import { paymentFormatter } from '@/utils/paymentFormatter';
 
 const Step2 = () => {
   // State management using the order store
@@ -46,10 +46,6 @@ const Step2 = () => {
     const isActive = minHeadcount > 0 && maxHeadcount >= minHeadcount;
     setButtonActive(isActive);
   }, [minHeadcount, maxHeadcount, setButtonActive]);
-
-  if (!store) {
-    return null;
-  }
 
   // Effect to set max individual delivery fee
   useEffect(() => {

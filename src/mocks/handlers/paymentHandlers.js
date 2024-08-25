@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
-import { paymentResponse, paymentDoneResponse } from '@/mocks/mockData/payment';
+
+import { paymentDoneResponse, paymentResponse } from '@/mocks/mockData/payment';
 
 export const paymentHandlers = [
   http.post('/api/users/meetings/:meetingId/purchases/payment', () => {

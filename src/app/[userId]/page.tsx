@@ -87,11 +87,7 @@ const MyPage = () => {
     queryFn: getMyData,
   });
 
-  const {
-    data: evaluates,
-    isLoading: evaluatesLoading,
-    isError: evaluatesError,
-  } = useQuery({
+  const { data: evaluates, isLoading: evaluatesLoading } = useQuery({
     queryKey: ['MyEvaluates'],
     queryFn: getMyEvaluates,
   });

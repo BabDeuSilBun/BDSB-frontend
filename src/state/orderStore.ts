@@ -103,34 +103,34 @@ export const useOrderStore = create<OrderStore>((set) => ({
         isEarlyPaymentAvailable: state.formData.orderType === '바로 주문',
       },
     })),
-    setPaymentAvailableAt: (time: Time) => {
-      const currentDate = new Date();
-    
-      let hour = parseInt(time.hour, 10);
-      if (time.amPm === '오후' && hour !== 12) {
-        hour += 12;
-      } else if (time.amPm === '오전' && hour === 12) {
-        hour = 0;
-      }
-    
-      currentDate.setHours(hour);
-      currentDate.setMinutes(parseInt(time.minute, 10));
-      currentDate.setSeconds(0);
-      currentDate.setMilliseconds(0);
-    
-      if (isNaN(currentDate.getTime())) {
-        console.error('Invalid time value');
-        return;
-      }
-    
-      const isoDate = new Date(
-        currentDate.getTime() - currentDate.getTimezoneOffset() * 60000
-      ).toISOString();
-    
-      set((state) => ({
-        formData: { ...state.formData, paymentAvailableAt: isoDate },
-      }));
-    },
+  setPaymentAvailableAt: (time: Time) => {
+    const currentDate = new Date();
+
+    let hour = parseInt(time.hour, 10);
+    if (time.amPm === '오후' && hour !== 12) {
+      hour += 12;
+    } else if (time.amPm === '오전' && hour === 12) {
+      hour = 0;
+    }
+
+    currentDate.setHours(hour);
+    currentDate.setMinutes(parseInt(time.minute, 10));
+    currentDate.setSeconds(0);
+    currentDate.setMilliseconds(0);
+
+    if (isNaN(currentDate.getTime())) {
+      console.error('Invalid time value');
+      return;
+    }
+
+    const isoDate = new Date(
+      currentDate.getTime() - currentDate.getTimezoneOffset() * 60000,
+    ).toISOString();
+
+    set((state) => ({
+      formData: { ...state.formData, paymentAvailableAt: isoDate },
+    }));
+  },
   setTime: (newTime) =>
     set((state) => ({
       formData: {

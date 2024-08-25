@@ -9,7 +9,7 @@ export interface CartItem {
 
 interface CartState {
   cartItems: CartItem[];
-  cartQuantity: number; 
+  cartQuantity: number;
   addToCart: (item: CartItem) => void;
   updateQuantity: (menuId: number, storeId: string, quantity: number) => void;
   resetCart: () => void;
@@ -21,43 +21,50 @@ export const useCartStore = create<CartState>((set) => ({
   addToCart: (newItem: CartItem) =>
     set((state) => {
       const existingItem = state.cartItems.find(
-        (item) => item.menuId === newItem.menuId && item.storeId === newItem.storeId
+        (item) =>
+          item.menuId === newItem.menuId && item.storeId === newItem.storeId,
       );
       let updatedItems;
       if (existingItem) {
         updatedItems = state.cartItems.map((item) =>
           item.menuId === newItem.menuId && item.storeId === newItem.storeId
             ? { ...item, quantity: item.quantity + newItem.quantity }
-            : item
+            : item,
         );
       } else {
         updatedItems = [...state.cartItems, newItem];
       }
       return {
         cartItems: updatedItems,
-        cartQuantity: updatedItems.reduce((acc, item) => acc + item.quantity, 0),
+        cartQuantity: updatedItems.reduce(
+          (acc, item) => acc + item.quantity,
+          0,
+        ),
       };
     }),
   updateQuantity: (menuId: number, storeId: string, quantity: number) =>
     set((state) => {
       const existingItem = state.cartItems.find(
-        (item) => item.menuId === menuId && item.storeId === storeId
+        (item) => item.menuId === menuId && item.storeId === storeId,
       );
-  
+
       // Prevent unnecessary updates
       if (existingItem && existingItem.quantity === quantity) {
         return state;
       }
-  
+
       const updatedItems = state.cartItems.map((item) =>
         item.menuId === menuId && item.storeId === storeId
           ? { ...item, quantity }
-          : item
+          : item,
       );
-  
+
       return {
         cartItems: updatedItems,
-        cartQuantity: updatedItems.reduce((acc, item) => acc + item.quantity, 0),
+        cartQuantity: updatedItems.reduce(
+          (acc, item) => acc + item.quantity,
+          0,
+        ),
       };
     }),
   resetCart: () =>

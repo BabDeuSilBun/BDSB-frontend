@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+
 import { useRouter, useSearchParams } from 'next/navigation';
+import styled from 'styled-components';
+
 import Container from '@/styles/container';
 import Header from '@/components/layout/header';
 import SettingImage from '@/components/meetings/settingImage';
 import { BaseBtn } from '@/styles/button';
-import styled from 'styled-components';
 
 const CustomContainer = styled(Container)`
   display: flex;
@@ -22,8 +24,8 @@ type ContextType = 'leaderAfter' | 'participant' | null;
 const PaymentSuccess = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const context = searchParams.get('context') as ContextType; 
-  const [isHeaderTransparent, setIsHeaderTransparent] = useState(true);
+  const context = searchParams.get('context') as ContextType;
+  const [isHeaderTransparent] = useState(true);
 
   const handleTitles = (context: ContextType) => {
     switch (context) {
@@ -54,7 +56,7 @@ const PaymentSuccess = () => {
   };
 
   const { title, subTitle } = handleTitles(context);
-  
+
   return (
     <>
       <Header
@@ -63,17 +65,11 @@ const PaymentSuccess = () => {
         onExit={handleExit}
       />
       <CustomContainer>
-        <SettingImage
-          title={title}
-          subTitle={subTitle}
-        />
-        <BaseBtn onClick={handleReturnToHome}>
-          홈 화면으로 가기
-        </BaseBtn>
+        <SettingImage title={title} subTitle={subTitle} />
+        <BaseBtn onClick={handleReturnToHome}>홈 화면으로 가기</BaseBtn>
       </CustomContainer>
     </>
   );
-}; 
+};
 
 export default PaymentSuccess;
-

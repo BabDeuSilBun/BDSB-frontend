@@ -197,6 +197,16 @@ const StorePage = () => {
     }
   };
 
+  const onModalClick1 = () => {
+    if (context === 'leaderBefore') {
+      router.push(`/teamOrderSetting/${storeId}`);
+    } else if (context === 'leaderAfter') {
+      handleAddToCart('team');
+    } else if (context === 'participant') {
+      handleAddToCart('individual');
+    }
+  };
+
   useEffect(() => {
     const contextParam = searchParams.get('context');
     setContext(contextParam);
@@ -224,8 +234,8 @@ const StorePage = () => {
           $cartQuantity={Math.round(cartQuantity)}
           iconColor={isHeaderTransparent ? 'white' : 'black'}
           $isTransparent={isHeaderTransparent}
-          meetingId={searchParams.get('meetingId') || undefined} 
-          storeId={String(storeId)}  
+          meetingId={searchParams.get('meetingId') || undefined}
+          storeId={String(storeId)}
         />
       </HeaderContainer>
       <Carousel images={store.images} ref={carouselRef} />
@@ -301,9 +311,11 @@ const StorePage = () => {
               ? context
               : undefined
           }
-          onButtonClick1={() => handleAddToCart('team')} // Call handleAddToCart with 'team' for 공통메뉴
+          onButtonClick1={onModalClick1}
           onButtonClick2={
-            context === 'leaderAfter' ? () => handleAddToCart('individual') : closeModal
+            context === 'leaderAfter'
+              ? () => handleAddToCart('individual')
+              : closeModal
           } // Call handleAddToCart with 'individual' 개별메뉴 in 'leaderAfter', otherwise closeModal
           onClose={closeModal}
         />

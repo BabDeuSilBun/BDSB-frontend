@@ -20,7 +20,6 @@ import { CustomDropdown } from '@/components/common/dropdown';
 import InfoBox from '@/components/common/infoBox';
 import ErrorMessage from '@/components/meetings/errorMessage';
 import DefaultAddress from '@/components/meetings/defaultAddress';
-import { Address as DaumPostcodeAddress } from 'react-daum-postcode';
 import { StoredAddress } from '@/state/orderStore';
 
 interface Step1Props {
@@ -240,6 +239,7 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
         postal: deliveredAddress.postal,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deliveredAddress, setMetAddress]);
 
   useEffect(() => {

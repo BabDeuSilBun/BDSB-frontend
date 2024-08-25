@@ -15,7 +15,8 @@ interface CartItemProps {
   imageUrl: string;
   badgeText: string;
   quantity: number;
-  storeId: string;
+  storeId: number;
+  meetingId: number;
   showAddButton?: boolean;
   onQuantityChange?: (newQuantity: number) => void;
 }
@@ -86,6 +87,7 @@ export default function CartItems({
   badgeText,
   quantity: initialQuantity,
   storeId,
+  meetingId,
   showAddButton = false,
   onQuantityChange,
 }: CartItemProps) {
@@ -104,7 +106,9 @@ export default function CartItems({
   }, [quantity, onQuantityChange]);
 
   const handleAddItem = () => {
-    router.push(`/restaurants/${storeId}?context=leaderAfter`);
+    router.push(
+      `/restaurants/${storeId}?context=leaderAfter&meetingId=${meetingId}`,
+    );
   };
 
   return (

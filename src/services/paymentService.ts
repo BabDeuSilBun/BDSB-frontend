@@ -1,8 +1,11 @@
-import { PaymentResponse, PaymentDoneResponse } from '@/types/paymentTypes';
 import { apiClient } from './apiClient';
 
-const PAYMENT_PREPARE_API_URL = '/api/users/meetings/{meetingId}/purchases/payment';
-const PAYMENT_DONE_API_URL = '/api/users/meetings/{meetingId}/purchases/payment/done';
+import { PaymentDoneResponse, PaymentResponse } from '@/types/paymentTypes';
+
+const PAYMENT_PREPARE_API_URL =
+  '/api/users/meetings/{meetingId}/purchases/payment';
+const PAYMENT_DONE_API_URL =
+  '/api/users/meetings/{meetingId}/purchases/payment/done';
 
 // Function to prepare the payment
 export const preparePayment = async (
@@ -12,7 +15,10 @@ export const preparePayment = async (
   point: number,
 ): Promise<PaymentResponse> => {
   try {
-    const url = PAYMENT_PREPARE_API_URL.replace('{meetingId}', meetingId.toString());
+    const url = PAYMENT_PREPARE_API_URL.replace(
+      '{meetingId}',
+      meetingId.toString(),
+    );
     const response = await apiClient.post<PaymentResponse>(url, {
       pg,
       payMethod,
@@ -21,7 +27,9 @@ export const preparePayment = async (
     return response.data;
   } catch (error) {
     console.error('Error preparing payment:', error);
-    throw new Error('결제를 준비하는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+    throw new Error(
+      '결제를 준비하는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
   }
 };
 
@@ -32,7 +40,10 @@ export const verifyPayment = async (
   portoneUid: string,
 ): Promise<PaymentDoneResponse> => {
   try {
-    const url = PAYMENT_DONE_API_URL.replace('{meetingId}', meetingId.toString());
+    const url = PAYMENT_DONE_API_URL.replace(
+      '{meetingId}',
+      meetingId.toString(),
+    );
     const response = await apiClient.post<PaymentDoneResponse>(url, {
       transactionId,
       portoneUid,
@@ -40,6 +51,8 @@ export const verifyPayment = async (
     return response.data;
   } catch (error) {
     console.error('Error verifying payment:', error);
-    throw new Error('결제 검증에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+    throw new Error(
+      '결제 검증에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
   }
 };
