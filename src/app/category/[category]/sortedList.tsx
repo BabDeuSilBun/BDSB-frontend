@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useParams } from 'next/navigation';
-import { RestaurantCategory } from '@/constant/category';
 import { Divider } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
+
+import { RestaurantCategory } from '@/constant/category';
 import { getRestaurantsList } from '@/services/restaurantService';
 import RestaurantsItem from '@/components/listItems/restaurantItem';
 import { SmallCustomDropdown } from '@/components/common/dropdown';

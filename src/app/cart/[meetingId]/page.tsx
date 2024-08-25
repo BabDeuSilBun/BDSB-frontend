@@ -322,7 +322,9 @@ const CartPage = () => {
           deliveryTime={store.deliveryTimeRange}
           location={location}
           onClick={() =>
-            router.push(`/restaurants/${store.id}?context=leaderAfter&meetingId=${meetingId}`)
+            router.push(
+              `/restaurants/${store.id}?context=leaderAfter&meetingId=${meetingId}`,
+            )
           }
         />
         {cartItems.map((item: CartItem, index: number) => { 

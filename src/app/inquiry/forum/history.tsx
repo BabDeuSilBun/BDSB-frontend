@@ -2,21 +2,24 @@
 
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import { ImageArrayType } from '@/types/types';
-import InquirySkeleton from '@/components/listItems/skeletons/inquirySkeleton';
+
 import {
-  useQuery,
   useInfiniteQuery,
   useMutation,
+  useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { getInquiries, getInquiryImages } from '@/services/myDataService';
-import { formatDateTime } from '@/utils/formateDateTime';
 import styled from 'styled-components';
 import { Divider, Flex, useDisclosure } from '@chakra-ui/react';
+
 import InquiryImageModal from './inquiryImageModal';
 import TriggerButton from './triggerButton';
 import InquiryImages from './inquiryImages';
+
+import { formatDateTime } from '@/utils/formateDateTime';
+import { getInquiries, getInquiryImages } from '@/services/myDataService';
+import InquirySkeleton from '@/components/listItems/skeletons/inquirySkeleton';
+import { ImageArrayType } from '@/types/types';
 
 const Container = styled.div`
   text-align: left;

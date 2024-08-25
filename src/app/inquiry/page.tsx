@@ -1,6 +1,6 @@
-import Header from '@/components/layout/header';
-
 import InquiryMethod from './method';
+
+import Header from '@/components/layout/header';
 
 const Inquiry = () => {
   return (

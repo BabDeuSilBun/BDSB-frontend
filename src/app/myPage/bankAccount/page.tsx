@@ -1,16 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
-import Header from '@/components/layout/header';
-import Footer from '@/components/layout/footer';
-import { validateBankAccount } from '@/utils/validateBankAccount';
-import { BANK_INFO } from '@/constant/bankInfo';
 import { useDisclosure } from '@chakra-ui/react';
 
 import BankForm from './bankForm';
 import BankDrawer from './bankDrawer';
+
+import { postAccount } from '@/services/myDataService';
+import Header from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
+import { validateBankAccount } from '@/utils/validateBankAccount';
+import { BANK_INFO } from '@/constant/bankInfo';
 
 const BankAccount = () => {
   const [isButtonActive, setIsActive] = useState(false);
@@ -39,11 +40,7 @@ const BankAccount = () => {
 
   const onClickSubmitBtn = async () => {
     try {
-      await axios.post(`/api/users/account`, {
-        owner: owner.trim(),
-        bankAccount: bankAccount?.toString(),
-        selectedBank,
-      });
+      await postAccount(owner, bankAccount as number, selectedBank as string);
       alert('계좌 번호가 변경되었습니다.');
     } catch (error) {
       console.error('Error during signup:', error);

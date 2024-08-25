@@ -5,12 +5,13 @@ import { useEffect, useState } from 'react';
 import { Portal, useDisclosure } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { useRouter, useSearchParams } from 'next/navigation';
-import ChatIcon from '@/components/svg/chat';
-import SearchIcon from '@/components/svg/search';
 
 import HamburgerBtn from '../common/hamburgerBtn';
 
 import HeaderDrawer from './headerDrawer';
+
+import ChatIcon from '@/components/svg/chat';
+import SearchIcon from '@/components/svg/search';
 
 const HeaderContainer = styled.header`
   background-color: var(--background);

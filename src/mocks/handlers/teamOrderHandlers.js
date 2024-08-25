@@ -1,8 +1,9 @@
 import { http, HttpResponse } from 'msw';
-import { TEAM_ORDER_LIST_API_URL } from '@/services/teamOrderService';
 
 import { applyFiltersAndSorting } from '../filteringAndSorting';
 import { meetings, paginatedMeetings } from '../mockData/meetings';
+
+import { TEAM_ORDER_LIST_API_URL } from '@/services/teamOrderService';
 
 export const teamOrderHandlers = [
   http.get(TEAM_ORDER_LIST_API_URL, (req) => {

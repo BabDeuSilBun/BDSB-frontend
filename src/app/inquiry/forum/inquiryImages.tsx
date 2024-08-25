@@ -2,8 +2,9 @@
 
 import styled from 'styled-components';
 import Image from 'next/image';
-import { ImageType } from '@/types/types';
 import { Skeleton } from '@chakra-ui/react';
+
+import { ImageType } from '@/types/types';
 
 const ImageWrapper = styled.div`
   border-radius: var(--border-radius-md);

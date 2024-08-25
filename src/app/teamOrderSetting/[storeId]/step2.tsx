@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { RestaurantType } from '@/types/coreTypes';
 import { getMyData } from '@/services/myDataService';

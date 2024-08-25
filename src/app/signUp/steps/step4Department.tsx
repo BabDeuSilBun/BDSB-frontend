@@ -3,8 +3,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { debounce } from 'lodash';
 
-import { useSignUpStore } from '@/state/authStore';
 import { useInfiniteQuery } from '@tanstack/react-query';
+
+import { useSignUpStore } from '@/state/authStore';
 import AutoCompleteComboBox from '@/components/common/autoCompleteComboBox';
 import { getMajorsList } from '@/services/auth/signUpService';
 

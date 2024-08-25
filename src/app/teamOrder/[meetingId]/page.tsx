@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useParams, useRouter } from 'next/navigation';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
+
 import { getRestaurantInfo } from '@/services/restaurantService';
 import {
   getCurrentHeadCount,
@@ -26,7 +28,6 @@ import MeetingStatus from '@/components/meetings/meetingStatus';
 import MeetingInfo from '@/components/meetings/meetingInfo';
 import TeamPurchaseItems from '@/components/meetings/teamPurchaseItems';
 import Footer from '@/components/layout/footer';
-import styled from 'styled-components';
 import { formatCurrency } from '@/utils/currencyFormatter';
 import useRemainingTime from '@/hook/useRemainingTime';
 

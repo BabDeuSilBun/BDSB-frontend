@@ -5,6 +5,8 @@ import { debounce } from 'lodash';
 
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+import { Address as DaumPostcodeAddress } from 'react-daum-postcode';
+
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getMyData } from '@/services/myDataService';
 import { RestaurantType } from '@/types/coreTypes';
@@ -119,9 +121,9 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
       streetAddress: formattedAddress.streetAddress,
       detailAddress: formData.metAddress.detailAddress,
     };
-  
+
     setMetAddress(updatedMetAddress);
-  
+
     setIsUsingDefaultAddress(false);
   };
 

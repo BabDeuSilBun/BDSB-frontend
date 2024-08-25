@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { Badge, Divider } from '@chakra-ui/react';
-import GroupIcon from '@/components/svg/group';
 import Image from 'next/image';
+
+import GroupIcon from '@/components/svg/group';
 import { MeetingType } from '@/types/coreTypes';
 
 const StatusContainer = styled.div`

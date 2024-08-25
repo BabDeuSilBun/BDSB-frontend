@@ -1,8 +1,9 @@
 import { Drawer, DrawerContent, DrawerOverlay } from '@chakra-ui/react';
 import styled from 'styled-components';
-import { BANK_INFO } from '@/constant/bankInfo';
 
 import BankImages from './bankImages';
+
+import { BANK_INFO } from '@/constant/bankInfo';
 
 interface BankDrawerProps {
   isOpen: boolean;

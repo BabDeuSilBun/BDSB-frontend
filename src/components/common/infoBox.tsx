@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import styled from 'styled-components';
+
 import InfoBoxIcon from '@/components/svg/infoBoxIcon';
 
 interface InfoBoxProps {

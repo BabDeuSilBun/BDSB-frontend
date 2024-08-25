@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
+
 import { formatCurrency } from '@/utils/currencyFormatter';
 import { TeamPurchasesResponse, TeamPurchaseType } from '@/types/coreTypes';
 import { ItemType } from '@/types/types';

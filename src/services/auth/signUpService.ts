@@ -1,7 +1,7 @@
+import { apiClient } from '../apiClient';
+
 import { SchoolsResponse } from '@/types/authTypes';
 import { GetListParams } from '@/types/types';
-
-import { apiClient } from '../apiClient';
 
 export const SCHOOL_LIST_API_URL = '/api/schools';
 export const MAJOR_LIST_API_URL = '/api/users/signup/majors';

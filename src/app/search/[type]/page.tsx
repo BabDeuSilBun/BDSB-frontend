@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react';
 
 import styled from 'styled-components';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import BackIcon from '@/components/svg/arrowLeft';
-import SearchIcon from '@/components/svg/search';
 
 import RecentKeywords from '../recentKeywords';
 import RestaurantSearchResults from '../restaurantSearchResults';
 import TeamOrderSearchResults from '../teamOrderSearchResults';
+
+import SearchIcon from '@/components/svg/search';
+import BackIcon from '@/components/svg/arrowLeft';
 
 interface keyInterface {
   id: number;

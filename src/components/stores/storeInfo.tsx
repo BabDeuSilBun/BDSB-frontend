@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import InfoBox from '@/components/common/infoBox';
 import { Divider } from '@chakra-ui/react';
+
+import InfoBox from '@/components/common/infoBox';
 import { formatCurrency } from '@/utils/currencyFormatter';
 import CallButton from '@/components/stores/callButton';
 import InfoButton from '@/components/stores/infoButton';

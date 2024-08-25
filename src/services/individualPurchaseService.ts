@@ -1,10 +1,10 @@
+import { apiClient } from './apiClient';
+
 import {
   IndividualPurchasesResponse,
   IndividualPurchaseType,
 } from '@/types/coreTypes';
 import { GetListParams } from '@/types/types';
-
-import { apiClient } from './apiClient';
 
 export const INDIVIDUAL_PURCHASE_LIST_API_URL =
   '/api/users/meetings/{meetingId}/individual-purchases';

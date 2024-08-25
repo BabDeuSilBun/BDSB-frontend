@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
+
 import { RestaurantType } from '@/types/coreTypes';
 import { formatCurrency } from '@/utils/currencyFormatter';
 
