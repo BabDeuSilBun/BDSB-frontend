@@ -19,7 +19,7 @@ interface OrderFormData {
   maxHeadcount: number;
   orderType: string | null;
   isEarlyPaymentAvailable: boolean;
-  paymentAvailableAt: Date;
+  paymentAvailableAt: string;
   time: Time;
   deliveredAddress: StoredAddress;
   metAddress: StoredAddress;
@@ -37,7 +37,7 @@ interface OrderStore {
   setMaxHeadcount: (maxHeadcount: number) => void;
   setOrderType: (orderType: string | null) => void;
   setIsEarlyPaymentAvailable: (isAvailable: boolean) => void;
-  setPaymentAvailableAt: (date: Date, time: Time) => void;
+  setPaymentAvailableAt: (time: Time) => void;
   setTime: (time: Partial<Time>) => void;
   setDeliveredAddress: (address: StoredAddress) => void;
   setMetAddress: (address: StoredAddress) => void;
@@ -55,7 +55,7 @@ export const useOrderStore = create<OrderStore>((set) => ({
     minHeadcount: 1,
     maxHeadcount: 1,
     isEarlyPaymentAvailable: false,
-    paymentAvailableAt: new Date(),
+    paymentAvailableAt: '',
     deliveredAddress: {
       postal: '',
       streetAddress: '',
@@ -103,18 +103,34 @@ export const useOrderStore = create<OrderStore>((set) => ({
         isEarlyPaymentAvailable: state.formData.orderType === '바로 주문',
       },
     })),
-  setPaymentAvailableAt: (date: Date, time: Time) => {
-    const adjustedDate = new Date(date);
-    adjustedDate.setHours(
-      time.amPm === '오후' && time.hour !== '12'
-        ? parseInt(time.hour, 10) + 12
-        : parseInt(time.hour, 10),
-    );
-    adjustedDate.setMinutes(parseInt(time.minute, 10));
-    set((state) => ({
-      formData: { ...state.formData, paymentAvailableAt: adjustedDate },
-    }));
-  },
+    setPaymentAvailableAt: (time: Time) => {
+      const currentDate = new Date();
+    
+      let hour = parseInt(time.hour, 10);
+      if (time.amPm === '오후' && hour !== 12) {
+        hour += 12;
+      } else if (time.amPm === '오전' && hour === 12) {
+        hour = 0;
+      }
+    
+      currentDate.setHours(hour);
+      currentDate.setMinutes(parseInt(time.minute, 10));
+      currentDate.setSeconds(0);
+      currentDate.setMilliseconds(0);
+    
+      if (isNaN(currentDate.getTime())) {
+        console.error('Invalid time value');
+        return;
+      }
+    
+      const isoDate = new Date(
+        currentDate.getTime() - currentDate.getTimezoneOffset() * 60000
+      ).toISOString();
+    
+      set((state) => ({
+        formData: { ...state.formData, paymentAvailableAt: isoDate },
+      }));
+    },
   setTime: (newTime) =>
     set((state) => ({
       formData: {

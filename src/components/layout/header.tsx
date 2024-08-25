@@ -96,6 +96,8 @@ interface HeaderProps {
   onClosePostcodeModal?: () => void;
   $isTransparent?: boolean;
   $cartQuantity?: number;
+  meetingId?: string;
+  storeId?: string;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -112,6 +114,8 @@ const Header: React.FC<HeaderProps> = ({
   onClosePostcodeModal,
   $isTransparent = false,
   $cartQuantity = 0,
+  meetingId,
+  storeId,
 }) => {
   const router = useRouter();
   const { isOpen, onToggle } = useDisclosure();
@@ -140,7 +144,11 @@ const Header: React.FC<HeaderProps> = ({
 
   const handleRightSecondaryButtonClick = () => {
     if (buttonRightSecondary === 'cart') {
-      router.push('/cart');
+      if (meetingId && storeId) {
+        router.push(`/cart/${meetingId}?storeId=${storeId}`);
+      } else {
+        router.push('/cart');
+      }
     }
   };
 

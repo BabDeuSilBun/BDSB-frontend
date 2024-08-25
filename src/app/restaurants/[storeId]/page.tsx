@@ -144,9 +144,16 @@ const StorePage = () => {
   });
 
   // Function to handle adding items to the cart
-  const handleAddToCart = () => {
-    addToCart(1);
-    closeModal();
+  const handleAddToCart = (type: 'individual' | 'team') => {
+    if (selectedMenu) {
+      addToCart({
+        menuId: selectedMenu.menuId,
+        quantity: 1,
+        storeId: String(storeId),
+        type,
+      });
+      closeModal();
+    }
   };
 
   // Modal handlers
@@ -184,7 +191,7 @@ const StorePage = () => {
       if (!meetingId) {
         console.error('No meetingId found');
       } else {
-        router.push(`/cart/${meetingId}?storeId=${storeId}`);
+        router.push(`/cart/${meetingId}?storeId=${storeId}&context=${context}`);
       }
     }
   };
@@ -216,6 +223,8 @@ const StorePage = () => {
           $cartQuantity={Math.round(cartQuantity)}
           iconColor={isHeaderTransparent ? 'white' : 'black'}
           $isTransparent={isHeaderTransparent}
+          meetingId={searchParams.get('meetingId') || undefined} 
+          storeId={String(storeId)}  
         />
       </HeaderContainer>
       <Carousel images={store.images} ref={carouselRef} />
@@ -291,8 +300,10 @@ const StorePage = () => {
               ? context
               : undefined
           }
-          onButtonClick1={handleAddToCart} // Call handleAddToCart on "공동메뉴" or "개별메뉴" click
-          onButtonClick2={context === 'leaderAfter' ? handleAddToCart : closeModal} // Call handleAddToCart only in 'leaderAfter', otherwise closeModal
+          onButtonClick1={() => handleAddToCart('team')} // Call handleAddToCart with 'team' for 공통메뉴
+          onButtonClick2={
+            context === 'leaderAfter' ? () => handleAddToCart('individual') : closeModal
+          } // Call handleAddToCart with 'individual' 개별메뉴 in 'leaderAfter', otherwise closeModal
           onClose={closeModal}
         />
       )}
