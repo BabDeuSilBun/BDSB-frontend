@@ -1,7 +1,7 @@
+import { apiClient } from './apiClient';
+
 import { TeamPurchasesResponse, TeamPurchaseType } from '@/types/coreTypes';
 import { GetListParams } from '@/types/types';
-
-import { apiClient } from './apiClient';
 
 export const TEAM_PURCHASE_LIST_API_URL =
   '/api/users/meetings/{meetingId}/team-purchases';

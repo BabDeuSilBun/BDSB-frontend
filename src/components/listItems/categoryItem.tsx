@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styled from 'styled-components';
+
 import { RESTAURANT_CATEGORIES, RestaurantCategory } from '@/constant/category';
 
 const Container = styled.div`

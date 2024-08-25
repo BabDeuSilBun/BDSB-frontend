@@ -1,6 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
+
 import Counter from '@/components/common/counter';
 
 const Container = styled.div`

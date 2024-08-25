@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
+
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getMenuInfo, getMenuList } from '@/services/menuService';
 import { useCartStore } from '@/state/cartStore';
@@ -14,7 +16,6 @@ import StoreInfo from '@/components/stores/storeInfo';
 import MenuItem from '@/components/listItems/menuItem';
 import Footer from '@/components/layout/footer';
 import Modal from '@/components/common/modal';
-import styled from 'styled-components';
 
 const HeaderContainer = styled.div`
   width: 100vw;
@@ -292,7 +293,9 @@ const StorePage = () => {
               : undefined
           }
           onButtonClick1={handleAddToCart} // Call handleAddToCart on "공동메뉴" or "개별메뉴" click
-          onButtonClick2={context === 'leaderAfter' ? handleAddToCart : closeModal} // Call handleAddToCart only in 'leaderAfter', otherwise closeModal
+          onButtonClick2={
+            context === 'leaderAfter' ? handleAddToCart : closeModal
+          } // Call handleAddToCart only in 'leaderAfter', otherwise closeModal
           onClose={closeModal}
         />
       )}

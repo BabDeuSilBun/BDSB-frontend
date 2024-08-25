@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { formatDateTime } from '@/utils/formateDateTime';
 import { InquiryType } from '@/types/myDataTypes';
 

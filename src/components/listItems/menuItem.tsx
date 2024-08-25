@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
+
 import { formatCurrency } from '@/utils/currencyFormatter';
 
 interface MenuItemProps {

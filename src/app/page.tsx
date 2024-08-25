@@ -1,13 +1,14 @@
-import MainHeader from '@/components/layout/mainHeader';
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-import { getTeamOrderList } from '@/services/teamOrderService';
-import { getRestaurantsList } from '@/services/restaurantService';
 
 import ClientComponent from './clientComponent';
+
+import MainHeader from '@/components/layout/mainHeader';
+import { getTeamOrderList } from '@/services/teamOrderService';
+import { getRestaurantsList } from '@/services/restaurantService';
 
 export default async function Home() {
   const queryClient = new QueryClient();

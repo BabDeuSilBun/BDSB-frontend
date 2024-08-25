@@ -10,16 +10,20 @@
     "jsx-a11y",
     "react",
     "prettier",
-    "@tanstack/query"
+    "@tanstack/query",
+    "react-hooks"
   ],
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "extends": [
-    "airbnb",
-    "airbnb/hooks",
-    "next/core-web-vitals",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:@tanstack/eslint-plugin-query/recommended",
+    "plugin:react-hooks/recommended",
     "plugin:prettier/recommended",
     "prettier",
     "eslint-config-prettier"
@@ -42,11 +46,11 @@
       "error",
       "ignorePackages",
       {
+        "": "never",
         "js": "never",
         "jsx": "never",
         "ts": "never",
-        "tsx": "never",
-        "mjs": "never"
+        "tsx": "never"
       }
     ],
     "import/no-extraneous-dependencies": [

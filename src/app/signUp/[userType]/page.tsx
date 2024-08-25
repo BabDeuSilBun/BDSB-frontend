@@ -3,12 +3,13 @@
 import { useEffect } from 'react';
 import axios from 'axios';
 
-import Header from '@/components/layout/header';
-import Footer from '@/components/layout/footer';
 import { useParams, useRouter } from 'next/navigation';
-import { useSignUpStore } from '@/state/authStore';
 
 import SignUpForm from '../form/form';
+
+import Header from '@/components/layout/header';
+import Footer from '@/components/layout/footer';
+import { useSignUpStore } from '@/state/authStore';
 
 const SignUp = () => {
   const router = useRouter();

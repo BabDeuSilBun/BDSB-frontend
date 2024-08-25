@@ -1,13 +1,14 @@
-import Header from '@/components/layout/header';
-import AccordionTabs from '@/components/layout/accordionTabs';
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-import { getRestaurantsList } from '@/services/restaurantService';
 
 import SortedList from './sortedList';
+
+import Header from '@/components/layout/header';
+import AccordionTabs from '@/components/layout/accordionTabs';
+import { getRestaurantsList } from '@/services/restaurantService';
 
 export default async function Home() {
   const queryClient = new QueryClient();

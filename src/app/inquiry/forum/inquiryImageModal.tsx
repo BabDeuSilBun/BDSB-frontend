@@ -1,11 +1,9 @@
-import { BtnGroup, HalfBtnLight, HalfBtnPurple } from '@/styles/button';
-import { ImageArrayType } from '@/types/types';
+import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
 import {
   Divider,
   Flex,
-  Wrap,
-  WrapItem,
   Modal,
   ModalBody,
   ModalContent,
@@ -13,9 +11,13 @@ import {
   ModalHeader,
   ModalOverlay,
   VStack,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react';
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+
+import { BtnGroup, HalfBtnLight, HalfBtnPurple } from '@/styles/button';
+import { ImageArrayType } from '@/types/types';
 
 const ImageWrapper = styled.div`
   border-radius: var(--border-radius-md);

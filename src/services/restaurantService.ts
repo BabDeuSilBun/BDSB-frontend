@@ -1,7 +1,7 @@
+import { apiClient } from './apiClient';
+
 import { RestaurantsResponse } from '@/types/coreTypes';
 import { GetListParams } from '@/types/types';
-
-import { apiClient } from './apiClient';
 
 export const RESTAURANT_LIST_API_URL = '/api/stores';
 const RESTAURANT_API_URL = '/api/stores/{storeId}';

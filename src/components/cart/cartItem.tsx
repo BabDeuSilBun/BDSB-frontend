@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 import { Badge, Button, Divider } from '@chakra-ui/react';
+
 import Counter from '@/components/common/counter';
 import { formatCurrency } from '@/utils/currencyFormatter';
 

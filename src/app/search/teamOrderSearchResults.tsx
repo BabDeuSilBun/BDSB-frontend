@@ -5,11 +5,12 @@ import { useEffect, useRef, useState } from 'react';
 import { Divider } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
+
 import { SmallCustomDropdown } from '@/components/common/dropdown';
 import TeamOrderSkeleton from '@/components/listItems/skeletons/teamOrderSkeleton';
 import TeamOrderItem from '@/components/listItems/teamOrderItem';
 import { getTeamOrderList } from '@/services/teamOrderService';
-import { useSearchParams } from 'next/navigation';
 
 const Container = styled.section`
   margin: 120px 1rem 0 1rem;

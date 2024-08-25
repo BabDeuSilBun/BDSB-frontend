@@ -2,9 +2,10 @@
 
 import { ChangeEvent, FC, useEffect } from 'react';
 
-import { useOrderStore } from '@/state/orderStore';
 import DaumPostcodeEmbed, { Address } from 'react-daum-postcode';
 import styled from 'styled-components';
+
+import { useOrderStore } from '@/state/orderStore';
 import SearchIcon from '@/components/svg/search';
 
 const Caption = styled.p`

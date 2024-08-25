@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import styled from 'styled-components';
 import { useParams, useRouter } from 'next/navigation';
+
 import { RESTAURANT_CATEGORIES, RestaurantCategory } from '@/constant/category';
 
 const Container = styled.div.attrs({ className: 'scroll-x' })`

@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
+
 import { formatDateTime } from '@/utils/formateDateTime';
 import { PointType } from '@/types/myDataTypes';
 

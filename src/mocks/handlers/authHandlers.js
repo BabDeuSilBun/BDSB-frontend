@@ -1,12 +1,13 @@
 import { http, HttpResponse } from 'msw';
-import {
-  MAJOR_LIST_API_URL,
-  SCHOOL_LIST_API_URL,
-} from '@/services/auth/signUpService';
 
 import { applyFiltersAndSorting } from '../filteringAndSorting';
 import { paginatedSchools } from '../mockData/schools';
 import { paginatedMajors } from '../mockData/majors';
+
+import {
+  MAJOR_LIST_API_URL,
+  SCHOOL_LIST_API_URL,
+} from '@/services/auth/signUpService';
 
 export const authHandlers = [
   http.post('/api/users/signin', async ({ request }) => {

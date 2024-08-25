@@ -4,10 +4,11 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import styled from 'styled-components';
+import { useMutation } from '@tanstack/react-query';
+
 import { BaseBtn, BaseBtnInactive } from '@/styles/button';
 import { validateSignInput } from '@/utils/validateSignInput';
 import { useSignUpStore } from '@/state/authStore';
-import { useMutation } from '@tanstack/react-query';
 
 const Caption = styled.p<{ warning?: boolean }>`
   font-size: var(--font-size-xs);

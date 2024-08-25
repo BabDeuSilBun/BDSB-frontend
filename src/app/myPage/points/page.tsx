@@ -1,6 +1,6 @@
-import Header from '@/components/layout/header';
-
 import MyPoint from './MyPoint';
+
+import Header from '@/components/layout/header';
 
 const Page = () => {
   return (

@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { RoundBtnFilled, SmallRdBtn } from '@/styles/button';
 import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
-import Container from '@/styles/container';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+
+import Container from '@/styles/container';
+import { RoundBtnFilled, SmallRdBtn } from '@/styles/button';
 import { getMyData, getPointDetailList } from '@/services/myDataService';
 import PointItem from '@/components/listItems/pointItem';
 import PointSkeleton from '@/components/listItems/skeletons/pointSkeleton';

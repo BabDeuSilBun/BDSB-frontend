@@ -1,6 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
+
 import { BaseBtn, BaseBtnInactive, BtnGroup } from '@/styles/button';
 
 const FooterContainer = styled.footer<{ $padding?: string }>`

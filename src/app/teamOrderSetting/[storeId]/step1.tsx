@@ -5,6 +5,8 @@ import { debounce } from 'lodash';
 
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+import { Address as DaumPostcodeAddress } from 'react-daum-postcode';
+
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getMyData } from '@/services/myDataService';
 import { RestaurantType } from '@/types/coreTypes';
@@ -18,8 +20,7 @@ import { CustomDropdown } from '@/components/common/dropdown';
 import InfoBox from '@/components/common/infoBox';
 import ErrorMessage from '@/components/meetings/errorMessage';
 import DefaultAddress from '@/components/meetings/defaultAddress';
-import { Address as DaumPostcodeAddress } from 'react-daum-postcode';
-import { StoredAddress } from '@/state/orderStore'; 
+import { StoredAddress } from '@/state/orderStore';
 
 interface Step1Props {
   isPostcodeOpen: boolean;
@@ -119,9 +120,9 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
       streetAddress: formattedAddress.streetAddress,
       detailAddress: formData.metAddress.detailAddress,
     };
-  
+
     setMetAddress(updatedMetAddress);
-  
+
     setIsUsingDefaultAddress(false);
   };
 
