@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import axios from 'axios';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { v4 as uuidv4 } from 'uuid';
 
 import { useParams, useRouter } from 'next/navigation';

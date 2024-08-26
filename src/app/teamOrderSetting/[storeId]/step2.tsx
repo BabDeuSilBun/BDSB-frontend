@@ -13,6 +13,7 @@ import SettingLabel from '@/components/meetings/settingLabel';
 import SettingHeadcount from '@/components/meetings/settingHeadcount';
 import SettingDescription from '@/components/meetings/settingDescription';
 import DeliveryFees from '@/components/meetings/deliveryFee';
+import { paymentFormatter } from '@/utils/paymentFormatter';
 
 const Step2 = () => {
   // State management using the order store
@@ -46,17 +47,11 @@ const Step2 = () => {
     setButtonActive(isActive);
   }, [minHeadcount, maxHeadcount, setButtonActive]);
 
-  if (!store) {
-    return null;
-  }
-
   // Effect to set max individual delivery fee
   useEffect(() => {
     if (store) {
-      const roundToNearestTen = (num: number) => Math.floor(num / 10) * 10;
-
       const deliveryPrice = store.deliveryPrice || 0;
-      const maxFee = roundToNearestTen(
+      const maxFee = paymentFormatter(
         deliveryPrice / Math.max(minHeadcount, 1),
       );
 
@@ -69,17 +64,13 @@ const Step2 = () => {
   }
 
   // Calculate delivery fees
-  const roundToNearestTen = (num: number) => {
-    return Math.floor(num / 10) * 10;
-  };
-
   const deliveryPrice = store.deliveryPrice || 0;
 
-  const maxIndividualDeliveryFee = roundToNearestTen(
+  const maxIndividualDeliveryFee = paymentFormatter(
     store.deliveryPrice / Math.max(minHeadcount, 1),
   );
 
-  const minIndividualDeliveryFee = roundToNearestTen(
+  const minIndividualDeliveryFee = paymentFormatter(
     store.deliveryPrice / Math.max(maxHeadcount, 1),
   );
 

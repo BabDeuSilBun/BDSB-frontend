@@ -169,4 +169,6 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
   },
 );
 
+Carousel.displayName = 'Carousel';
+
 export default Carousel;

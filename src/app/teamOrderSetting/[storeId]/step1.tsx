@@ -197,7 +197,7 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
     const formattedTime = `${hour}:${minute}`;
     setTime(updatedTime);
 
-    setPaymentAvailableAt(new Date(), updatedTime);
+    setPaymentAvailableAt(updatedTime);
 
     if (store?.openTime && store?.closeTime) {
       const [openHour, openMinute] = store.openTime.split(':').map(Number);
@@ -239,11 +239,12 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
         postal: deliveredAddress.postal,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deliveredAddress, setMetAddress]);
 
   useEffect(() => {
     if (time.hour && time.minute) {
-      setPaymentAvailableAt(new Date(), time);
+      setPaymentAvailableAt(time);
     }
   }, [time, setPaymentAvailableAt]);
 
@@ -271,7 +272,10 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
 
   return (
     <>
-      <SettingImage />
+      <SettingImage
+        title="팀 주문 시작"
+        subTitle="팀 주문에 함께 할 모임원들을 초대해요"
+      />
       <SettingLabel text="팀 주문 방식" />
       <CustomDropdown
         options={optionsPurchaseType}
