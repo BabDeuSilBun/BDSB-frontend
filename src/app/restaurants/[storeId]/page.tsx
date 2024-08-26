@@ -6,6 +6,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getMenuInfo, getMenuList } from '@/services/menuService';
 import { useCartStore } from '@/state/cartStore';
@@ -45,8 +46,6 @@ const StorePage = () => {
   const [isHeaderTransparent, setIsHeaderTransparent] = useState(true);
 
   // Refs for IntersectionObserver
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
   // Effect to handle header transparency based on carousel visibility
@@ -105,37 +104,11 @@ const StorePage = () => {
   });
 
   // Handle infinite scrolling
-  useEffect(() => {
-    if (isFetchingNextPage) return;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    };
-
-    // Initialize IntersectionObserver
-    observer.current = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    // Capture the current value of lastElementRef.current
-    const currentLastElementRef = lastElementRef.current;
-
-    // Observe the last element
-    if (currentLastElementRef) {
-      observer.current.observe(currentLastElementRef);
-    }
-
-    // Cleanup function to unobserve the last element
-    return () => {
-      if (observer.current && currentLastElementRef) {
-        observer.current.unobserve(currentLastElementRef);
-      }
-    };
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   // Fetch selected menu information when modal is opened
   useQuery({

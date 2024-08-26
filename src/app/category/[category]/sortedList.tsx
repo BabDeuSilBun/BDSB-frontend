@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { useParams } from 'next/navigation';
 import { Divider } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { RestaurantCategory } from '@/constant/category';
 import { getRestaurantsList } from '@/services/restaurantService';
 import RestaurantsItem from '@/components/listItems/restaurantItem';
@@ -24,9 +25,9 @@ const DropDownWrapper = styled.div`
 `;
 
 const options = [
-  { id: '1', value: 'delivery-fee', name: '배달비가 낮은 순' },
-  { id: '2', value: 'min-price', name: '최소주문금액이 낮은 순' },
-  { id: '3', value: 'delivery-time', name: '배송시간이 짧은 순' },
+  { value: 'delivery-fee', name: '배달비가 낮은 순' },
+  { value: 'min-price', name: '최소주문금액이 낮은 순' },
+  { value: 'delivery-time', name: '배송시간이 짧은 순' },
 ];
 
 function SortedList() {
@@ -35,8 +36,6 @@ function SortedList() {
 
   const [selectedSort, setSelectedSort] = useState<string>('delivery-fee');
   const [isOpen, setIsOpen] = useState(false);
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
 
   const {
     data,
@@ -59,31 +58,11 @@ function SortedList() {
     },
   });
 
-  useEffect(() => {
-    if (isFetchingNextPage) return;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    };
-
-    observer.current = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
-    }
-
-    return () => {
-      if (observer.current && lastElementRef.current) {
-        observer.current.unobserve(lastElementRef.current);
-      }
-    };
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   const handleSelect = (value: string | null) => {
     if (value !== null) {

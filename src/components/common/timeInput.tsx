@@ -96,8 +96,8 @@ const TimeInput: React.FC<TimeInputProps> = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const amPmOptions = [
-    { id: '1', name: '오전', value: '오전' },
-    { id: '2', name: '오후', value: '오후' },
+    { name: '오전', value: '오전' },
+    { name: '오후', value: '오후' },
   ];
 
   const handleDropdownToggle = () => {

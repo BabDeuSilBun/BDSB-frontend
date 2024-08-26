@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import Container from '@/styles/container';
 import { RoundBtnFilled, SmallRdBtn } from '@/styles/button';
 import { getMyData, getPointDetailList } from '@/services/myDataService';
@@ -44,8 +45,6 @@ const SortingBtns = styled.div`
 
 const MyPoint = () => {
   const [activeBtn, setActiveBtn] = useState('전체');
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
 
   const handleBtnClick = (btnType: string) => {
     setActiveBtn(btnType);
@@ -80,31 +79,11 @@ const MyPoint = () => {
     },
   });
 
-  useEffect(() => {
-    if (isFetchingNextPage) return;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    };
-
-    observer.current = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
-    }
-
-    return () => {
-      if (observer.current && lastElementRef.current) {
-        observer.current.unobserve(lastElementRef.current);
-      }
-    };
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   return (
     <ContainerSection>
