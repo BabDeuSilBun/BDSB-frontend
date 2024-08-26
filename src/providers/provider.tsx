@@ -1,8 +1,8 @@
 'use client';
 
+import AuthProvider from './authProvider';
 import ChakraProvider from './chakraProvider';
 import QueryClientProvider from './queryClientProvider';
-import AuthProvider from './authProvider';
 
 function Providers({ children }: { children: React.ReactNode }) {
   return (

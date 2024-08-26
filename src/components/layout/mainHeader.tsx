@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from 'react';
 
-import { Portal, useDisclosure } from '@chakra-ui/react';
-import styled from 'styled-components';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import HamburgerBtn from '../common/hamburgerBtn';
+import { Portal, useDisclosure } from '@chakra-ui/react';
+import styled from 'styled-components';
 
 import HeaderDrawer from './headerDrawer';
+import HamburgerBtn from '../common/hamburgerBtn';
 
 import ChatIcon from '@/components/svg/chat';
 import SearchIcon from '@/components/svg/search';

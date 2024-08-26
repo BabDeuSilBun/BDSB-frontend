@@ -3,8 +3,9 @@
 import { useState } from 'react';
 
 import Image from 'next/image';
-import styled from 'styled-components';
+
 import { Tab, TabList, Tabs } from '@chakra-ui/react';
+import styled from 'styled-components';
 
 import SignInForm from './form';
 

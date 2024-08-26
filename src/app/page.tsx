@@ -7,8 +7,8 @@ import {
 import ClientComponent from './clientComponent';
 
 import MainHeader from '@/components/layout/mainHeader';
-import { getTeamOrderList } from '@/services/teamOrderService';
 import { getRestaurantsList } from '@/services/restaurantService';
+import { getTeamOrderList } from '@/services/teamOrderService';
 
 export default async function Home() {
   const queryClient = new QueryClient();

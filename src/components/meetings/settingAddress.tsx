@@ -5,8 +5,8 @@ import { ChangeEvent, FC, useEffect } from 'react';
 import DaumPostcodeEmbed, { Address } from 'react-daum-postcode';
 import styled from 'styled-components';
 
-import { useOrderStore } from '@/state/orderStore';
 import SearchIcon from '@/components/svg/search';
+import { useOrderStore } from '@/state/orderStore';
 
 const Caption = styled.p`
   font-size: var(--font-size-xs);

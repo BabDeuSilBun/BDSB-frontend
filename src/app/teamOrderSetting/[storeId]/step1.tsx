@@ -1,26 +1,27 @@
 'use client';
 
-import { FC, useEffect, useMemo, useState } from 'react';
 import { debounce } from 'lodash';
+import { FC, useEffect, useMemo, useState } from 'react';
 
 import { useParams } from 'next/navigation';
+
 import { useQuery } from '@tanstack/react-query';
 import { Address as DaumPostcodeAddress } from 'react-daum-postcode';
 
-import { getRestaurantInfo } from '@/services/restaurantService';
-import { getMyData } from '@/services/myDataService';
-import { RestaurantType } from '@/types/coreTypes';
-import { MyDataType } from '@/types/myDataTypes';
-import { useOrderStore } from '@/state/orderStore';
-import SettingImage from '@/components/meetings/settingImage';
-import SettingLabel from '@/components/meetings/settingLabel';
-import SettingAddress from '@/components/meetings/settingAddress';
-import TimeInput from '@/components/common/timeInput';
 import { CustomDropdown } from '@/components/common/dropdown';
 import InfoBox from '@/components/common/infoBox';
-import ErrorMessage from '@/components/meetings/errorMessage';
+import TimeInput from '@/components/common/timeInput';
 import DefaultAddress from '@/components/meetings/defaultAddress';
+import ErrorMessage from '@/components/meetings/errorMessage';
+import SettingAddress from '@/components/meetings/settingAddress';
+import SettingImage from '@/components/meetings/settingImage';
+import SettingLabel from '@/components/meetings/settingLabel';
+import { getMyData } from '@/services/myDataService';
+import { getRestaurantInfo } from '@/services/restaurantService';
+import { useOrderStore } from '@/state/orderStore';
 import { StoredAddress } from '@/state/orderStore';
+import { RestaurantType } from '@/types/coreTypes';
+import { MyDataType } from '@/types/myDataTypes';
 
 interface Step1Props {
   isPostcodeOpen: boolean;

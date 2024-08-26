@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react';
 
 import { useDisclosure } from '@chakra-ui/react';
 
-import BankForm from './bankForm';
 import BankDrawer from './bankDrawer';
+import BankForm from './bankForm';
 
-import { postAccount } from '@/services/myDataService';
-import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { validateBankAccount } from '@/utils/validateBankAccount';
+import Header from '@/components/layout/header';
 import { BANK_INFO } from '@/constant/bankInfo';
+import { postAccount } from '@/services/myDataService';
+import { validateBankAccount } from '@/utils/validateBankAccount';
 
 const BankAccount = () => {
   const [isButtonActive, setIsActive] = useState(false);

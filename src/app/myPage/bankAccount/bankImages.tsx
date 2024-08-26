@@ -1,7 +1,8 @@
 'use client';
 
-import styled from 'styled-components';
 import Image from 'next/image';
+
+import styled from 'styled-components';
 
 const ImageWrapper = styled.div`
   display: flex;

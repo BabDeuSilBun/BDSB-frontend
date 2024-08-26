@@ -1,7 +1,7 @@
 'use client';
 
-import styled from 'styled-components';
 import { Spinner } from '@chakra-ui/react';
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
   display: flex;

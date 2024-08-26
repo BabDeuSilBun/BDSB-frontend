@@ -1,18 +1,19 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
-import styled from 'styled-components';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { Divider } from '@chakra-ui/react';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
 
 import { SmallCustomDropdown } from '@/components/common/dropdown';
-import TeamOrderItem from '@/components/listItems/teamOrderItem';
 import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
-import { getTeamOrderList } from '@/services/teamOrderService';
-import { MeetingsResponse } from '@/types/coreTypes';
 import ImminentOrderSkeleton from '@/components/listItems/skeletons/imminentOrderSkeleton';
 import TeamOrderSkeleton from '@/components/listItems/skeletons/teamOrderSkeleton';
+import TeamOrderItem from '@/components/listItems/teamOrderItem';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getTeamOrderList } from '@/services/teamOrderService';
+import { MeetingsResponse } from '@/types/coreTypes';
 
 // Styled Components
 const ListContainer = styled.section`
@@ -47,17 +48,16 @@ const GroupTitle = styled.h3`
 
 // Sort options
 const options = [
-  { id: '1', value: 'deadline', name: '주문이 임박한 순' },
-  { id: '2', value: 'delivery-fee', name: '배달비가 낮은 순' },
-  { id: '3', value: 'min-price', name: '최소주문금액이 낮은 순' },
-  { id: '4', value: 'delivery-time', name: '배송시간이 짧은 순' },
+  { value: 'deadline', name: '주문이 임박한 순' },
+  { value: 'delivery-fee', name: '배달비가 낮은 순' },
+  { value: 'min-price', name: '최소주문금액이 낮은 순' },
+  { value: 'delivery-time', name: '배송시간이 짧은 순' },
 ];
 
 // Main Component
 function TeamOrderList() {
   const [selectedSort, setSelectedSort] = useState<string>('deadline');
   const [isOpen, setIsOpen] = useState(false);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
 
   // Fetch imminent orders
   const {
@@ -88,33 +88,11 @@ function TeamOrderList() {
     },
   });
 
-  useEffect(() => {
-    if (isFetchingNextPage) return;
-
-    const currentElement = lastElementRef.current;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    };
-
-    const observerInstance = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    if (currentElement) {
-      observerInstance.observe(currentElement);
-    }
-
-    return () => {
-      if (observerInstance && currentElement) {
-        observerInstance.unobserve(currentElement);
-      }
-    };
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   const handleSelect = (value: string | null) => {
     if (value !== null) {
@@ -195,7 +173,6 @@ function TeamOrderList() {
                 </div>
               )),
             )}
-            {/* {!hasNextPage && <div>all fetched</div>} */}
           </>
         )}
         {status === 'success' && !data && <div>모집 중인 모임이 없습니다.</div>}

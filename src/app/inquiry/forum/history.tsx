@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
 
+import { Divider, Flex, useDisclosure } from '@chakra-ui/react';
 import {
   useInfiniteQuery,
   useMutation,
@@ -10,16 +11,16 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import styled from 'styled-components';
-import { Divider, Flex, useDisclosure } from '@chakra-ui/react';
 
 import InquiryImageModal from './inquiryImageModal';
-import TriggerButton from './triggerButton';
 import InquiryImages from './inquiryImages';
+import TriggerButton from './triggerButton';
 
-import { formatDateTime } from '@/utils/formateDateTime';
-import { getInquiries, getInquiryImages } from '@/services/myDataService';
 import InquirySkeleton from '@/components/listItems/skeletons/inquirySkeleton';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getInquiries, getInquiryImages } from '@/services/myDataService';
 import { ImageArrayType } from '@/types/types';
+import { formatDateTime } from '@/utils/formateDateTime';
 
 const Container = styled.div`
   text-align: left;
@@ -55,8 +56,6 @@ const ImagesContainer = styled.ul`
 
 const InquiryHistory = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
   const [selectedInquiryId, setSelectedInquiryId] = useState<number | null>(
     null,
   );
@@ -172,30 +171,11 @@ const InquiryHistory = () => {
     onClose();
   };
 
-  useEffect(() => {
-    if (isFetchingNextPage) return;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    };
-
-    observer.current = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
-    }
-
-    return () => {
-      if (observer.current && lastElementRef.current) {
-        observer.current.unobserve(lastElementRef.current);
-      }
-    };
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   return (
     <>
@@ -215,11 +195,16 @@ const InquiryHistory = () => {
         ) : data && data.pages.length > 0 ? (
           <>
             {data.pages.map((page) =>
-              page.content.map((item) => {
+              page.content.map((item, index) => {
                 const { formattedFullDate } = formatDateTime(item.updatedAt);
 
                 return (
-                  <div key={item.inquiryId}>
+                  <div
+                    key={item.inquiryId}
+                    ref={
+                      index === page.content.length - 1 ? lastElementRef : null
+                    }
+                  >
                     <TriggerButton
                       isSelected={selectedInquiryId === item.inquiryId}
                       onClick={() =>

@@ -1,5 +1,6 @@
-import styled from 'styled-components';
 import Image from 'next/image';
+
+import styled from 'styled-components';
 
 const ImageContainer = styled.div`
   width: 100vw;

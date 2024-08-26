@@ -3,15 +3,16 @@
 import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
+
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import UpdateAddress from './updateAddress';
 
-import { postNewAddress } from '@/services/myDataService';
-import Container from '@/styles/container';
 import Footer from '@/components/layout/footer';
+import { postNewAddress } from '@/services/myDataService';
 import { getMyData } from '@/services/myDataService';
+import Container from '@/styles/container';
 
 const ContainerBox = styled(Container)`
   padding: 1rem;

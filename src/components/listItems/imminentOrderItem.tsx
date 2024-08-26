@@ -1,15 +1,16 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import styled from 'styled-components';
+import { useRouter } from 'next/navigation';
+
 import { useQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
 
 import GroupIcon from '../svg/group';
 
-import { MeetingType } from '@/types/coreTypes';
-import { getCurrentHeadCount } from '@/services/teamOrderService';
 import useRemainingTime from '@/hook/useRemainingTime';
+import { getCurrentHeadCount } from '@/services/teamOrderService';
+import { MeetingType } from '@/types/coreTypes';
 
 // 스타일 컨테이너
 const CardContainer = styled.div`

@@ -3,19 +3,21 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
+
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
-import { getRestaurantInfo } from '@/services/restaurantService';
-import { getMenuInfo, getMenuList } from '@/services/menuService';
-import { useCartStore } from '@/state/cartStore';
 import Loading from '@/app/loading';
+import Modal from '@/components/common/modal';
+import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import MenuItem from '@/components/listItems/menuItem';
 import Carousel from '@/components/stores/carousel';
 import StoreInfo from '@/components/stores/storeInfo';
-import MenuItem from '@/components/listItems/menuItem';
-import Footer from '@/components/layout/footer';
-import Modal from '@/components/common/modal';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getMenuInfo, getMenuList } from '@/services/menuService';
+import { getRestaurantInfo } from '@/services/restaurantService';
+import { useCartStore } from '@/state/cartStore';
 
 const HeaderContainer = styled.div`
   width: 100vw;
@@ -45,8 +47,6 @@ const StorePage = () => {
   const [isHeaderTransparent, setIsHeaderTransparent] = useState(true);
 
   // Refs for IntersectionObserver
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
   // Effect to handle header transparency based on carousel visibility
@@ -105,37 +105,11 @@ const StorePage = () => {
   });
 
   // Handle infinite scrolling
-  useEffect(() => {
-    if (isFetchingNextPage) return;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    };
-
-    // Initialize IntersectionObserver
-    observer.current = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    // Capture the current value of lastElementRef.current
-    const currentLastElementRef = lastElementRef.current;
-
-    // Observe the last element
-    if (currentLastElementRef) {
-      observer.current.observe(currentLastElementRef);
-    }
-
-    // Cleanup function to unobserve the last element
-    return () => {
-      if (observer.current && currentLastElementRef) {
-        observer.current.unobserve(currentLastElementRef);
-      }
-    };
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   // Fetch selected menu information when modal is opened
   useQuery({

@@ -1,20 +1,19 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
 import { debounce } from 'lodash';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { useSignUpStore } from '@/state/authStore';
 import AutoCompleteComboBox from '@/components/common/autoCompleteComboBox';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getMajorsList } from '@/services/auth/signUpService';
+import { useSignUpStore } from '@/state/authStore';
 
 const Step4Department = () => {
   const { departmentName, setDepartmentName, setDepartment } = useSignUpStore();
   const [inputValue, setInputValue] = useState('');
   const [debouncedValue, setDebouncedValue] = useState('');
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLLIElement | null>(null);
   const suggestionsListRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
@@ -45,35 +44,12 @@ const Step4Department = () => {
       enabled: true,
     });
 
-  useEffect(() => {
-    if (isFetchingNextPage) return;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    };
-
-    if (observer.current) {
-      observer.current.disconnect();
-    }
-
-    observer.current = new IntersectionObserver(handleIntersect, {
-      root: suggestionsListRef.current,
-      rootMargin: '0px',
-      threshold: 0.1,
-    });
-
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
-    }
-
-    return () => {
-      if (observer.current && lastElementRef.current) {
-        observer.current.unobserve(lastElementRef.current);
-      }
-    };
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+  const lastElementRef = useInfiniteScroll<HTMLLIElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+    root: suggestionsListRef.current,
+  });
 
   const suggestions =
     data?.pages.flatMap((page) =>

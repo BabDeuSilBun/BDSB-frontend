@@ -1,11 +1,11 @@
-import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
+import styled from 'styled-components';
 
 import InfoBox from '@/components/common/infoBox';
-import { formatCurrency } from '@/utils/currencyFormatter';
 import CallButton from '@/components/stores/callButton';
 import InfoButton from '@/components/stores/infoButton';
 import { RestaurantType } from '@/types/coreTypes';
+import { formatCurrency } from '@/utils/currencyFormatter';
 
 interface StoreInfoProps {
   store: RestaurantType;

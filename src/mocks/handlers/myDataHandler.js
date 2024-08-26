@@ -1,12 +1,12 @@
 import { http, HttpResponse } from 'msw';
 
-import { evaluates, myData, paginatedPoints } from '../mockData/myData';
 import { applyFiltersAndSorting } from '../filteringAndSorting';
 import {
   inquiries,
   inquiryImages,
   paginatedInquiries,
 } from '../mockData/inquiries';
+import { evaluates, myData, paginatedPoints } from '../mockData/myData';
 
 import {
   ACCOUNT_API_URL,

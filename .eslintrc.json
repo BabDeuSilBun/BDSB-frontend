@@ -50,7 +50,8 @@
         "js": "never",
         "jsx": "never",
         "ts": "never",
-        "tsx": "never"
+        "tsx": "never",
+        "mjs": "never"
       }
     ],
     "import/no-extraneous-dependencies": [
@@ -72,14 +73,30 @@
       "error",
       {
         "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
         "groups": [
           "builtin",
           "external",
           "internal",
-          "parent",
-          "sibling",
+          ["parent", "sibling"],
           "index",
-          "object"
+          "object",
+          "type"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "next/**",
+            "group": "external",
+            "position": "after"
+          }
         ]
       }
     ],

@@ -1,25 +1,26 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { v4 as uuidv4 } from 'uuid';
 
 import { useParams, useRouter } from 'next/navigation';
+
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
-import { getRestaurantInfo } from '@/services/restaurantService';
-import { RestaurantType } from '@/types/coreTypes';
-import { getMyData } from '@/services/myDataService';
-import { useOrderStore } from '@/state/orderStore';
-import Container from '@/styles/container';
-import Header from '@/components/layout/header';
 import Step1 from '@/app/teamOrderSetting/[storeId]/step1';
 import Step2 from '@/app/teamOrderSetting/[storeId]/step2';
-import Footer from '@/components/layout/footer';
 import Modal from '@/components/common/modal';
+import Footer from '@/components/layout/footer';
+import Header from '@/components/layout/header';
+import { getMyData } from '@/services/myDataService';
+import { getRestaurantInfo } from '@/services/restaurantService';
+import { useOrderStore } from '@/state/orderStore';
+import Container from '@/styles/container';
+import { RestaurantType } from '@/types/coreTypes';
 
 const CustomContainer = styled(Container)`
   display: flex;
