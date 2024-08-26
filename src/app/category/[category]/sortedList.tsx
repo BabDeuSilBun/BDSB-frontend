@@ -2,17 +2,17 @@
 
 import { useState } from 'react';
 
-import { useParams } from 'next/navigation';
 import { Divider } from '@chakra-ui/react';
-import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import styled from 'styled-components';
 
-import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
-import { RestaurantCategory } from '@/constant/category';
-import { getRestaurantsList } from '@/services/restaurantService';
-import RestaurantsItem from '@/components/listItems/restaurantItem';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
+import RestaurantsItem from '@/components/listItems/restaurantItem';
 import RestaurantSkeleton from '@/components/listItems/skeletons/restaurantSkeleton';
+import { RestaurantCategory } from '@/constant/category';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getRestaurantsList } from '@/services/restaurantService';
 
 const ListContainer = styled.section`
   margin: 120px 0 20px;

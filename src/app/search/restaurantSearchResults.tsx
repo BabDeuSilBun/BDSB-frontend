@@ -3,14 +3,14 @@
 import { useState } from 'react';
 
 import { Divider } from '@chakra-ui/react';
-import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
+import styled from 'styled-components';
 
-import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
-import RestaurantSkeleton from '@/components/listItems/skeletons/restaurantSkeleton';
 import RestaurantItem from '@/components/listItems/restaurantItem';
+import RestaurantSkeleton from '@/components/listItems/skeletons/restaurantSkeleton';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getRestaurantsList } from '@/services/restaurantService';
 
 const Container = styled.section`

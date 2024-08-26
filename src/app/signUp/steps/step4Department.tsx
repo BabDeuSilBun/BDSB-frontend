@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
 import { debounce } from 'lodash';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
-import { useSignUpStore } from '@/state/authStore';
 import AutoCompleteComboBox from '@/components/common/autoCompleteComboBox';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getMajorsList } from '@/services/auth/signUpService';
+import { useSignUpStore } from '@/state/authStore';
 
 const Step4Department = () => {
   const { departmentName, setDepartmentName, setDepartment } = useSignUpStore();

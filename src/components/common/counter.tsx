@@ -1,7 +1,7 @@
 'use client';
 
-import styled from 'styled-components';
 import { Button, HStack, Input, useNumberInput } from '@chakra-ui/react';
+import styled from 'styled-components';
 
 import DeleteIcon from '@/components/svg/delete';
 

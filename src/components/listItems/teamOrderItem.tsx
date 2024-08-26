@@ -1,13 +1,13 @@
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import styled from 'styled-components';
 import { useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import styled from 'styled-components';
 
 import GroupIcon from '../svg/group';
 
-import { MeetingType } from '@/types/coreTypes';
-import { getCurrentHeadCount } from '@/services/teamOrderService';
 import useRemainingTime from '@/hook/useRemainingTime';
+import { getCurrentHeadCount } from '@/services/teamOrderService';
+import { MeetingType } from '@/types/coreTypes';
 
 // 카드 레이아웃 컨테이너
 const CardContainer = styled.div`

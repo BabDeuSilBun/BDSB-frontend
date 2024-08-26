@@ -1,8 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import Image from 'next/image';
 
 import { useSignUpStore } from '@/state/authStore';
 

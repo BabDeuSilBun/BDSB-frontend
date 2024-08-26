@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -9,8 +9,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import InquiryContact from './contact';
 import InquiryHistory from './history';
 
-import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
+import Header from '@/components/layout/header';
 import Container from '@/styles/container';
 
 const InquiryForum = () => {

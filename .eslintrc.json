@@ -72,6 +72,7 @@
     "import/order": [
       "error",
       {
+        "alphabetize": { "order": "asc" },
         "newlines-between": "always",
         "groups": [
           "builtin",

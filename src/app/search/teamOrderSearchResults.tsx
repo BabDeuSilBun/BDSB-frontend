@@ -3,14 +3,14 @@
 import { useState } from 'react';
 
 import { Divider } from '@chakra-ui/react';
-import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
+import styled from 'styled-components';
 
-import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
 import TeamOrderSkeleton from '@/components/listItems/skeletons/teamOrderSkeleton';
 import TeamOrderItem from '@/components/listItems/teamOrderItem';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getTeamOrderList } from '@/services/teamOrderService';
 
 const Container = styled.section`

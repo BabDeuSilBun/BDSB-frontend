@@ -2,17 +2,17 @@
 
 import { useEffect } from 'react';
 
-import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 
-import { getRestaurantInfo } from '@/services/restaurantService';
-import { RestaurantType } from '@/types/coreTypes';
-import { getMyData } from '@/services/myDataService';
-import { useOrderStore } from '@/state/orderStore';
-import SettingLabel from '@/components/meetings/settingLabel';
-import SettingHeadcount from '@/components/meetings/settingHeadcount';
-import SettingDescription from '@/components/meetings/settingDescription';
 import DeliveryFees from '@/components/meetings/deliveryFee';
+import SettingDescription from '@/components/meetings/settingDescription';
+import SettingHeadcount from '@/components/meetings/settingHeadcount';
+import SettingLabel from '@/components/meetings/settingLabel';
+import { getMyData } from '@/services/myDataService';
+import { getRestaurantInfo } from '@/services/restaurantService';
+import { useOrderStore } from '@/state/orderStore';
+import { RestaurantType } from '@/types/coreTypes';
 import { paymentFormatter } from '@/utils/paymentFormatter';
 
 const Step2 = () => {

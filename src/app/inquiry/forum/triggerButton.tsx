@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import { formatDateTime } from '@/utils/formateDateTime';
 import { InquiryType } from '@/types/myDataTypes';
+import { formatDateTime } from '@/utils/formateDateTime';
 
 const TriggerButtonContainer = styled.div<{ $isSelected?: boolean }>`
   display: flex;

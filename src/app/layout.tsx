@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
-import localFont from 'next/font/local';
 import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 
 import MswComponent from '@/components/msw.component';
 import StyledComponentsRegistry from '@/lib/registry';

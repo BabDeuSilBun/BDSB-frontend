@@ -2,10 +2,22 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { useParams, useRouter } from 'next/navigation';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useParams, useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
+import Loading from '@/app/loading';
+import Footer from '@/components/layout/footer';
+import Header from '@/components/layout/header';
+import MainImage from '@/components/meetings/mainImage';
+import MeetingInfo from '@/components/meetings/meetingInfo';
+import MeetingStatus from '@/components/meetings/meetingStatus';
+import TeamPurchaseItems from '@/components/meetings/teamPurchaseItems';
+import useRemainingTime from '@/hook/useRemainingTime';
+import {
+  getIndividualPurchaseInfo,
+  getIndividualPurchaseList,
+} from '@/services/individualPurchaseService';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import {
   getCurrentHeadCount,
@@ -15,21 +27,9 @@ import {
   getTeamPurchaseInfo,
   getTeamPurchaseList,
 } from '@/services/teamPurchaseService';
-import {
-  getIndividualPurchaseInfo,
-  getIndividualPurchaseList,
-} from '@/services/individualPurchaseService';
-import { IndividualPurchaseType, TeamPurchaseType } from '@/types/coreTypes';
-import Loading from '@/app/loading';
 import Container from '@/styles/container';
-import Header from '@/components/layout/header';
-import MainImage from '@/components/meetings/mainImage';
-import MeetingStatus from '@/components/meetings/meetingStatus';
-import MeetingInfo from '@/components/meetings/meetingInfo';
-import TeamPurchaseItems from '@/components/meetings/teamPurchaseItems';
-import Footer from '@/components/layout/footer';
+import { IndividualPurchaseType, TeamPurchaseType } from '@/types/coreTypes';
 import { formatCurrency } from '@/utils/currencyFormatter';
-import useRemainingTime from '@/hook/useRemainingTime';
 
 // Styled components
 const RemainingAmountText = styled.div`

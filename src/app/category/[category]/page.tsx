@@ -6,8 +6,8 @@ import {
 
 import SortedList from './sortedList';
 
-import Header from '@/components/layout/header';
 import AccordionTabs from '@/components/layout/accordionTabs';
+import Header from '@/components/layout/header';
 import { getRestaurantsList } from '@/services/restaurantService';
 
 export default async function Home() {

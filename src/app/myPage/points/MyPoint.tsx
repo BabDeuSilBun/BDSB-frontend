@@ -2,16 +2,16 @@
 
 import { useState } from 'react';
 
-import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
 
-import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
-import Container from '@/styles/container';
-import { RoundBtnFilled, SmallRdBtn } from '@/styles/button';
-import { getMyData, getPointDetailList } from '@/services/myDataService';
 import PointItem from '@/components/listItems/pointItem';
 import PointSkeleton from '@/components/listItems/skeletons/pointSkeleton';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getMyData, getPointDetailList } from '@/services/myDataService';
+import { RoundBtnFilled, SmallRdBtn } from '@/styles/button';
+import Container from '@/styles/container';
 
 const ContainerSection = styled(Container)`
   display: flex;

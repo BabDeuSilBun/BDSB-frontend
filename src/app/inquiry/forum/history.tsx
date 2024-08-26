@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
 
+import { Divider, Flex, useDisclosure } from '@chakra-ui/react';
 import {
   useInfiniteQuery,
   useMutation,
@@ -10,17 +11,16 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import styled from 'styled-components';
-import { Divider, Flex, useDisclosure } from '@chakra-ui/react';
 
 import InquiryImageModal from './inquiryImageModal';
-import TriggerButton from './triggerButton';
 import InquiryImages from './inquiryImages';
+import TriggerButton from './triggerButton';
 
-import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
-import { formatDateTime } from '@/utils/formateDateTime';
-import { getInquiries, getInquiryImages } from '@/services/myDataService';
 import InquirySkeleton from '@/components/listItems/skeletons/inquirySkeleton';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getInquiries, getInquiryImages } from '@/services/myDataService';
 import { ImageArrayType } from '@/types/types';
+import { formatDateTime } from '@/utils/formateDateTime';
 
 const Container = styled.div`
   text-align: left;

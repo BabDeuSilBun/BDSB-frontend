@@ -4,25 +4,25 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
+import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
-import { getTeamOrderInfo } from '@/services/teamOrderService';
-import { getRestaurantInfo } from '@/services/restaurantService';
+import Loading from '@/app/loading';
+import Amount from '@/components/cart/amount';
+import CartItems from '@/components/cart/cartItems';
+import StoreInfo from '@/components/cart/storeInfo';
+import Footer from '@/components/layout/footer';
+import Header from '@/components/layout/header';
 import { getMenuInfo } from '@/services/menuService';
 import { getMyData } from '@/services/myDataService';
 import { preparePayment, verifyPayment } from '@/services/paymentService';
-import { useOrderStore } from '@/state/orderStore';
+import { getRestaurantInfo } from '@/services/restaurantService';
+import { getTeamOrderInfo } from '@/services/teamOrderService';
 import { CartItem, useCartStore } from '@/state/cartStore';
-import Loading from '@/app/loading';
+import { useOrderStore } from '@/state/orderStore';
 import Container from '@/styles/container';
-import Header from '@/components/layout/header';
-import StoreInfo from '@/components/cart/storeInfo';
-import CartItems from '@/components/cart/cartItems';
-import Amount from '@/components/cart/amount';
-import Footer from '@/components/layout/footer';
 import { formatCurrency } from '@/utils/currencyFormatter';
 import { paymentFormatter } from '@/utils/paymentFormatter';
 

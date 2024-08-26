@@ -1,17 +1,17 @@
 'use client';
 
-import styled from 'styled-components';
-import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { Divider } from '@chakra-ui/react';
 import { Skeleton } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import styled from 'styled-components';
 
+import Header from '@/components/layout/header';
+import GroupIcon from '@/components/svg/group';
 import { getMyData, getMyEvaluates } from '@/services/myDataService';
 import { BaseBtnInactive } from '@/styles/button';
 import Container from '@/styles/container';
-import GroupIcon from '@/components/svg/group';
-import Header from '@/components/layout/header';
 
 const ImageWrapper = styled.div`
   display: flex;

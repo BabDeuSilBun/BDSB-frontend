@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-import styled from 'styled-components';
 import { useParams, useRouter } from 'next/navigation';
+import styled from 'styled-components';
 
 import ExitIcon from '@/components/svg/exit';
 

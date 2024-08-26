@@ -1,13 +1,13 @@
 'use client';
 
-import styled from 'styled-components';
-import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import styled from 'styled-components';
 
+import Header from '@/components/layout/header';
 import { getMyData } from '@/services/myDataService';
 import { RoundBtnFilled } from '@/styles/button';
-import Header from '@/components/layout/header';
 import Container from '@/styles/container';
 
 const ImageWrapper = styled.div`

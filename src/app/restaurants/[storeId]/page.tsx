@@ -2,21 +2,21 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
 
-import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
-import { getRestaurantInfo } from '@/services/restaurantService';
-import { getMenuInfo, getMenuList } from '@/services/menuService';
-import { useCartStore } from '@/state/cartStore';
 import Loading from '@/app/loading';
+import Modal from '@/components/common/modal';
+import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import MenuItem from '@/components/listItems/menuItem';
 import Carousel from '@/components/stores/carousel';
 import StoreInfo from '@/components/stores/storeInfo';
-import MenuItem from '@/components/listItems/menuItem';
-import Footer from '@/components/layout/footer';
-import Modal from '@/components/common/modal';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getMenuInfo, getMenuList } from '@/services/menuService';
+import { getRestaurantInfo } from '@/services/restaurantService';
+import { useCartStore } from '@/state/cartStore';
 
 const HeaderContainer = styled.div`
   width: 100vw;

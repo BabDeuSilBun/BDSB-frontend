@@ -3,15 +3,15 @@
 import { useState } from 'react';
 
 import { Divider } from '@chakra-ui/react';
-import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
 
-import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
-import CategoryItem from '@/components/listItems/categoryItem';
-import { getRestaurantsList } from '@/services/restaurantService';
 import BigRestaurantItem from '@/components/listItems/bigRestaurantItem';
+import CategoryItem from '@/components/listItems/categoryItem';
 import BigRestaurantItemSkeleton from '@/components/listItems/skeletons/bigRestaurantSkeleton';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getRestaurantsList } from '@/services/restaurantService';
 
 const ListContainer = styled.section`
   margin: 110px 0 20px;

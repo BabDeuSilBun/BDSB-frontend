@@ -1,8 +1,8 @@
 import { http, HttpResponse } from 'msw';
 
 import { applyFiltersAndSorting } from '../filteringAndSorting';
-import { paginatedSchools } from '../mockData/schools';
 import { paginatedMajors } from '../mockData/majors';
+import { paginatedSchools } from '../mockData/schools';
 
 import {
   MAJOR_LIST_API_URL,

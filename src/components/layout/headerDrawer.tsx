@@ -1,6 +1,6 @@
 import { Drawer, DrawerContent, DrawerOverlay } from '@chakra-ui/react';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import styled from 'styled-components';
 
 const DrawerBody = styled.div`

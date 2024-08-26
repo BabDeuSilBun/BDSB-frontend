@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import Image from 'next/image';
 import {
   Divider,
   Flex,
@@ -14,6 +13,7 @@ import {
   Wrap,
   WrapItem,
 } from '@chakra-ui/react';
+import Image from 'next/image';
 import styled from 'styled-components';
 
 import { BtnGroup, HalfBtnLight, HalfBtnPurple } from '@/styles/button';

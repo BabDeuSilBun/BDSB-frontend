@@ -2,10 +2,10 @@
 
 import { forwardRef, useState } from 'react';
 
+import { Box, IconButton, Text } from '@chakra-ui/react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { Box, IconButton, Text } from '@chakra-ui/react';
 
 import { ImageType } from '@/types/types';
 

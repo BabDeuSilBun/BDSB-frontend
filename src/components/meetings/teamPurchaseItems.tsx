@@ -1,9 +1,9 @@
-import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
+import styled from 'styled-components';
 
-import { formatCurrency } from '@/utils/currencyFormatter';
 import { TeamPurchasesResponse, TeamPurchaseType } from '@/types/coreTypes';
 import { ItemType } from '@/types/types';
+import { formatCurrency } from '@/utils/currencyFormatter';
 
 const MenuTypeTitle = styled.h2`
   color: var(--primary);

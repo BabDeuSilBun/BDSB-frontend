@@ -1,14 +1,14 @@
 'use client';
 
-import { useEffect } from 'react';
 import axios from 'axios';
+import { useEffect } from 'react';
 
 import { useParams, useRouter } from 'next/navigation';
 
 import SignUpForm from '../form/form';
 
-import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
+import Header from '@/components/layout/header';
 import { useSignUpStore } from '@/state/authStore';
 
 const SignUp = () => {

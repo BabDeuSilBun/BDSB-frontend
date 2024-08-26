@@ -2,18 +2,18 @@
 
 import { useState } from 'react';
 
-import styled from 'styled-components';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { Divider } from '@chakra-ui/react';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
 
-import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
-import TeamOrderItem from '@/components/listItems/teamOrderItem';
 import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
-import { getTeamOrderList } from '@/services/teamOrderService';
-import { MeetingsResponse } from '@/types/coreTypes';
 import ImminentOrderSkeleton from '@/components/listItems/skeletons/imminentOrderSkeleton';
 import TeamOrderSkeleton from '@/components/listItems/skeletons/teamOrderSkeleton';
+import TeamOrderItem from '@/components/listItems/teamOrderItem';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getTeamOrderList } from '@/services/teamOrderService';
+import { MeetingsResponse } from '@/types/coreTypes';
 
 // Styled Components
 const ListContainer = styled.section`

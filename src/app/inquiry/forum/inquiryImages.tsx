@@ -1,8 +1,8 @@
 'use client';
 
-import styled from 'styled-components';
-import Image from 'next/image';
 import { Skeleton } from '@chakra-ui/react';
+import Image from 'next/image';
+import styled from 'styled-components';
 
 import { ImageType } from '@/types/types';
 
