@@ -1,0 +1,23 @@
+# Next.js 빌드 폴더를 제외
+.next/
+
+# Build output directories
+dist/
+build/
+out/
+
+# Static files
+public/
+
+# Environment files
+.env
+.env.production
+.env.development
+
+# ESLint, Jest, Babel, Webpack configuration files
+*.config.js
+*.config.ts
+
+# Temporary files
+tmp/
+temp/
