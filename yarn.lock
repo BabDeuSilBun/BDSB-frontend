@@ -3682,8 +3682,8 @@ __metadata:
     eslint: "npm:8.57.0"
     eslint-config-next: "npm:14.2.5"
     eslint-config-prettier: "npm:^9.1.0"
-    eslint-import-resolver-typescript: "npm:3.4.2"
-    eslint-plugin-import: "npm:2.29.1"
+    eslint-import-resolver-typescript: "npm:^3.4.2"
+    eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsx-a11y: "npm:^6.9.0"
     eslint-plugin-prettier: "npm:^5.2.1"
     eslint-plugin-react: "npm:^7.35.0"
@@ -4489,7 +4489,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"enhanced-resolve@npm:^5.10.0, enhanced-resolve@npm:^5.12.0":
+"enhanced-resolve@npm:^5.12.0":
   version: 5.17.1
   resolution: "enhanced-resolve@npm:5.17.1"
   dependencies:
@@ -4776,25 +4776,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-import-resolver-typescript@npm:3.4.2":
-  version: 3.4.2
-  resolution: "eslint-import-resolver-typescript@npm:3.4.2"
-  dependencies:
-    debug: "npm:^4.3.4"
-    enhanced-resolve: "npm:^5.10.0"
-    get-tsconfig: "npm:^4.2.0"
-    globby: "npm:^13.1.2"
-    is-core-module: "npm:^2.9.0"
-    is-glob: "npm:^4.0.3"
-    synckit: "npm:^0.8.3"
-  peerDependencies:
-    eslint: "*"
-    eslint-plugin-import: "*"
-  checksum: 10c0/83e26e69678e043894afa6acfa0f3b0aae5121a428a75378dec0ae6b39ae9c34ee4b038f1ad50ab3a91d85330cff28f42b735bee02156059c9fab16f6d91554e
-  languageName: node
-  linkType: hard
-
-"eslint-import-resolver-typescript@npm:^3.5.2":
+"eslint-import-resolver-typescript@npm:^3.4.2, eslint-import-resolver-typescript@npm:^3.5.2":
   version: 3.6.1
   resolution: "eslint-import-resolver-typescript@npm:3.6.1"
   dependencies:
@@ -4824,7 +4806,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:2.29.1, eslint-plugin-import@npm:^2.28.1":
+"eslint-plugin-import@npm:^2.28.1, eslint-plugin-import@npm:^2.29.1":
   version: 2.29.1
   resolution: "eslint-plugin-import@npm:2.29.1"
   dependencies:
@@ -5119,7 +5101,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.2.9, fast-glob@npm:^3.3.0, fast-glob@npm:^3.3.1":
+"fast-glob@npm:^3.2.9, fast-glob@npm:^3.3.1":
   version: 3.3.2
   resolution: "fast-glob@npm:3.3.2"
   dependencies:
@@ -5443,7 +5425,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"get-tsconfig@npm:^4.2.0, get-tsconfig@npm:^4.5.0":
+"get-tsconfig@npm:^4.5.0":
   version: 4.7.6
   resolution: "get-tsconfig@npm:4.7.6"
   dependencies:
@@ -5568,19 +5550,6 @@ __metadata:
     merge2: "npm:^1.4.1"
     slash: "npm:^3.0.0"
   checksum: 10c0/b39511b4afe4bd8a7aead3a27c4ade2b9968649abab0a6c28b1a90141b96ca68ca5db1302f7c7bd29eab66bf51e13916b8e0a3d0ac08f75e1e84a39b35691189
-  languageName: node
-  linkType: hard
-
-"globby@npm:^13.1.2":
-  version: 13.2.2
-  resolution: "globby@npm:13.2.2"
-  dependencies:
-    dir-glob: "npm:^3.0.1"
-    fast-glob: "npm:^3.3.0"
-    ignore: "npm:^5.2.4"
-    merge2: "npm:^1.4.1"
-    slash: "npm:^4.0.0"
-  checksum: 10c0/a8d7cc7cbe5e1b2d0f81d467bbc5bc2eac35f74eaded3a6c85fc26d7acc8e6de22d396159db8a2fc340b8a342e74cac58de8f4aee74146d3d146921a76062664
   languageName: node
   linkType: hard
 
@@ -5772,7 +5741,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ignore@npm:^5.2.0, ignore@npm:^5.2.4, ignore@npm:^5.3.1":
+"ignore@npm:^5.2.0, ignore@npm:^5.3.1":
   version: 5.3.2
   resolution: "ignore@npm:5.3.2"
   checksum: 10c0/f9f652c957983634ded1e7f02da3b559a0d4cc210fca3792cb67f1b153623c9c42efdc1c4121af171e295444459fc4a9201101fb041b1104a3c000bccb188337
@@ -5924,7 +5893,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-core-module@npm:^2.11.0, is-core-module@npm:^2.13.0, is-core-module@npm:^2.13.1, is-core-module@npm:^2.9.0":
+"is-core-module@npm:^2.11.0, is-core-module@npm:^2.13.0, is-core-module@npm:^2.13.1":
   version: 2.15.1
   resolution: "is-core-module@npm:2.15.1"
   dependencies:
@@ -8543,13 +8512,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slash@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "slash@npm:4.0.0"
-  checksum: 10c0/b522ca75d80d107fd30d29df0549a7b2537c83c4c4ecd12cd7d4ea6c8aaca2ab17ada002e7a1d78a9d736a0261509f26ea5b489082ee443a3a810586ef8eff18
-  languageName: node
-  linkType: hard
-
 "slick-carousel@npm:^1.8.1":
   version: 1.8.1
   resolution: "slick-carousel@npm:1.8.1"
@@ -8936,16 +8898,6 @@ __metadata:
   version: 3.2.4
   resolution: "symbol-tree@npm:3.2.4"
   checksum: 10c0/dfbe201ae09ac6053d163578778c53aa860a784147ecf95705de0cd23f42c851e1be7889241495e95c37cabb058edb1052f141387bef68f705afc8f9dd358509
-  languageName: node
-  linkType: hard
-
-"synckit@npm:^0.8.3":
-  version: 0.8.8
-  resolution: "synckit@npm:0.8.8"
-  dependencies:
-    "@pkgr/core": "npm:^0.1.0"
-    tslib: "npm:^2.6.2"
-  checksum: 10c0/c3d3aa8e284f3f84f2f868b960c9f49239b364e35f6d20825a448449a3e9c8f49fe36cdd5196b30615682f007830d46f2ea354003954c7336723cb821e4b6519
   languageName: node
   linkType: hard
 
