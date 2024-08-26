@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 
-import { Tab, TabList, Tabs } from '@chakra-ui/react';
 import Image from 'next/image';
+
+import { Tab, TabList, Tabs } from '@chakra-ui/react';
 import styled from 'styled-components';
 
 import SignInForm from './form';

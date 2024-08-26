@@ -3,8 +3,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useRouter, useSearchParams } from 'next/navigation';
+
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 
 import InquiryContact from './contact';
 import InquiryHistory from './history';

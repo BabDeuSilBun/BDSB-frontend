@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useParams, useRouter } from 'next/navigation';
+
 import styled from 'styled-components';
 
 import { RESTAURANT_CATEGORIES, RestaurantCategory } from '@/constant/category';

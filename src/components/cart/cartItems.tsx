@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
-import { Badge, Button, Divider } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
+
+import { Badge, Button, Divider } from '@chakra-ui/react';
 import styled from 'styled-components';
 
 import Counter from '@/components/common/counter';

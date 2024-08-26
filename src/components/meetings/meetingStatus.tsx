@@ -1,5 +1,6 @@
-import { Badge, Divider } from '@chakra-ui/react';
 import Image from 'next/image';
+
+import { Badge, Divider } from '@chakra-ui/react';
 import styled from 'styled-components';
 
 import GroupIcon from '@/components/svg/group';

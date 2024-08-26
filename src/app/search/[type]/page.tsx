@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
+
 import styled from 'styled-components';
 
 import RecentKeywords from '../recentKeywords';

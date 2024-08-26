@@ -1,10 +1,11 @@
 'use client';
 
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 import { Divider } from '@chakra-ui/react';
 import { Skeleton } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
 import Header from '@/components/layout/header';

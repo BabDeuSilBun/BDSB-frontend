@@ -2,8 +2,9 @@
 
 import { useEffect } from 'react';
 
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
+
+import { useQuery } from '@tanstack/react-query';
 
 import DeliveryFees from '@/components/meetings/deliveryFee';
 import SettingDescription from '@/components/meetings/settingDescription';

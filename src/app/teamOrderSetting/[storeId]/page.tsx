@@ -6,8 +6,9 @@ import { useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { v4 as uuidv4 } from 'uuid';
 
-import { useQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
+
+import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import Step1 from '@/app/teamOrderSetting/[storeId]/step1';

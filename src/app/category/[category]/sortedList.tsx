@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 
+import { useParams } from 'next/navigation';
+
 import { Divider } from '@chakra-ui/react';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 import styled from 'styled-components';
 
 import { SmallCustomDropdown } from '@/components/common/dropdown';

@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 
-import { Flex } from '@chakra-ui/react';
 import Image from 'next/image';
+
+import { Flex } from '@chakra-ui/react';
 import styled from 'styled-components';
 
 import ImagePreviewComponent from './imagePreview';
