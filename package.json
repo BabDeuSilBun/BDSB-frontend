@@ -45,8 +45,7 @@
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.12",
     "uuid": "^10.0.0",
-    "zustand": "^4.5.4",
-    "eslint-plugin-import": "2.27.5"
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",
@@ -69,8 +68,8 @@
     "eslint": "8.57.0",
     "eslint-config-next": "14.2.5",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-import-resolver-typescript": "^3.4.2",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint-import-resolver-typescript": "3.4.2",
+    "eslint-plugin-import": "2.29.1",
     "eslint-plugin-jsx-a11y": "^6.9.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.35.0",
