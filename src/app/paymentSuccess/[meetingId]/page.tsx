@@ -1,10 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import styled from 'styled-components';
-
 import Container from '@/styles/container';
 import Header from '@/components/layout/header';
 import SettingImage from '@/components/meetings/settingImage';
