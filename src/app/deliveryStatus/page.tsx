@@ -3,8 +3,8 @@
 import styled from 'styled-components';
 
 import DeliveryStatusHeader from '@/components/deliveryStatus/deliveryStatusHeader';
-import Container from '@/styles/container';
 import Status from '@/components/deliveryStatus/status';
+import Container from '@/styles/container';
 
 const CustomContainer = styled(Container)`
   display: flex;

@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 
-import styled from 'styled-components';
-import { Badge, Button, Text } from '@chakra-ui/react';
-import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import Image from 'next/image';
+
+import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
+import { Badge, Button, Text } from '@chakra-ui/react';
+import styled from 'styled-components';
 
 import OrderDetails from '@/components/deliveryStatus/orderDetails';
 
