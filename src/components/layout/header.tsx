@@ -69,7 +69,7 @@ const CartQuantityCircle = styled.div`
   right: -8px;
   width: 20px;
   height: 20px;
-  background-color: red;
+  background-color: var(--primary);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -81,6 +81,8 @@ const CartQuantityCircle = styled.div`
 
 const CartIconContainer = styled.div`
   position: relative;
+  display: flex;
+  align-items: center;
 `;
 
 interface HeaderProps {
@@ -95,6 +97,8 @@ interface HeaderProps {
   onClosePostcodeModal?: () => void;
   $isTransparent?: boolean;
   $cartQuantity?: number;
+  meetingId?: string;
+  storeId?: string;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -111,6 +115,8 @@ const Header: React.FC<HeaderProps> = ({
   onClosePostcodeModal,
   $isTransparent = false,
   $cartQuantity = 0,
+  meetingId,
+  storeId,
 }) => {
   const router = useRouter();
   const { isOpen, onToggle } = useDisclosure();
@@ -139,7 +145,11 @@ const Header: React.FC<HeaderProps> = ({
 
   const handleRightSecondaryButtonClick = () => {
     if (buttonRightSecondary === 'cart') {
-      router.push('/cart');
+      if (meetingId && storeId) {
+        router.push(`/cart/${meetingId}?storeId=${storeId}`);
+      } else {
+        router.push('/cart');
+      }
     }
   };
 
@@ -156,6 +166,11 @@ const Header: React.FC<HeaderProps> = ({
         </Flex>
         <Flex $side="center">{text}</Flex>
         <Flex $side="right">
+          {buttonRight && (
+            <button type="button" onClick={handleRightButtonClick}>
+              {Icons[buttonRight](iconColor)}
+            </button>
+          )}
           {buttonRightSecondary && (
             <CartIconContainer>
               <button type="button" onClick={handleRightSecondaryButtonClick}>

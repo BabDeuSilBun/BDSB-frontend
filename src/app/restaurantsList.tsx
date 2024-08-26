@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { Divider } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
 import CategoryItem from '@/components/listItems/categoryItem';
 import { getRestaurantsList } from '@/services/restaurantService';
@@ -23,16 +24,14 @@ const DropDownWrapper = styled.div`
 `;
 
 const options = [
-  { id: '1', value: 'delivery-fee', name: '배달비가 낮은 순' },
-  { id: '2', value: 'min-price', name: '최소주문금액이 낮은 순' },
-  { id: '3', value: 'delivery-time', name: '배송시간이 짧은 순' },
+  { value: 'delivery-fee', name: '배달비가 낮은 순' },
+  { value: 'min-price', name: '최소주문금액이 낮은 순' },
+  { value: 'delivery-time', name: '배송시간이 짧은 순' },
 ];
 
 function RestaurantsList() {
   const [selectedSort, setSelectedSort] = useState<string>('delivery-fee');
   const [isOpen, setIsOpen] = useState(false);
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
 
   const {
     data,
@@ -51,34 +50,11 @@ function RestaurantsList() {
     },
   });
 
-  useEffect(() => {
-    if (isFetchingNextPage) return;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    };
-
-    // Initialize IntersectionObserver
-    observer.current = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    // Observe the last element
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
-    }
-
-    // Cleanup function to unobserve the last element
-    return () => {
-      if (observer.current && lastElementRef.current) {
-        observer.current.unobserve(lastElementRef.current);
-      }
-    };
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   const handleSelect = (value: string | null) => {
     if (value !== null) {
@@ -92,7 +68,6 @@ function RestaurantsList() {
 
   return (
     <ListContainer>
-      {/* 항상 렌더링되는 컴포넌트들 */}
       <CategoryItem />
       <Divider />
       <DropDownWrapper>
@@ -105,7 +80,6 @@ function RestaurantsList() {
         />
       </DropDownWrapper>
 
-      {/* 상태에 따른 조건부 렌더링 */}
       {status === 'pending' ? (
         <>
           <BigRestaurantItemSkeleton />

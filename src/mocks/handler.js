@@ -5,6 +5,7 @@ import { teamPurchaseHandlers } from './handlers/teamPurchaseHandlers';
 import { individualPurchaseHandlers } from './handlers/individualPurchaseHandlers';
 import { myDataHandlers } from './handlers/myDataHandler';
 import { authHandlers } from './handlers/authHandlers';
+import { paymentHandlers } from './handlers/paymentHandlers';
 
 export const handler = [
   ...restaurantHandlers,
@@ -14,4 +15,5 @@ export const handler = [
   ...individualPurchaseHandlers,
   ...myDataHandlers,
   ...authHandlers,
+  ...paymentHandlers,
 ];

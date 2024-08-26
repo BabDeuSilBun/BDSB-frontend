@@ -15,7 +15,10 @@ interface CartItemProps {
   imageUrl: string;
   badgeText: string;
   quantity: number;
-  storeId: string;
+  storeId: number;
+  meetingId: number;
+  showAddButton?: boolean;
+  onQuantityChange?: (newQuantity: number) => void;
 }
 
 const Container = styled.div`
@@ -77,13 +80,16 @@ const QuantityContainer = styled.div`
   align-items: center;
 `;
 
-export default function CartItem({
+export default function CartItems({
   menuName,
   price,
   imageUrl,
   badgeText,
   quantity: initialQuantity,
   storeId,
+  meetingId,
+  showAddButton = false,
+  onQuantityChange,
 }: CartItemProps) {
   const [quantity, setQuantity] = useState(initialQuantity);
   const [totalPrice, setTotalPrice] = useState(price * quantity);
@@ -93,8 +99,16 @@ export default function CartItem({
     setTotalPrice(price * quantity);
   }, [price, quantity]);
 
+  useEffect(() => {
+    if (onQuantityChange) {
+      onQuantityChange(quantity);
+    }
+  }, [quantity, onQuantityChange]);
+
   const handleAddItem = () => {
-    router.push(`/restaurants/${storeId}?context=leaderAfter`);
+    router.push(
+      `/restaurants/${storeId}?context=leaderAfter&meetingId=${meetingId}`,
+    );
   };
 
   return (
@@ -129,29 +143,31 @@ export default function CartItem({
           borderColor: 'var(--gray200)',
         }}
       />
-      <Button
-        onClick={handleAddItem}
-        sx={{
-          backgroundColor: 'transparent',
-          color: 'var(--text)',
-          height: 'auto',
-          margin: 'none',
-          padding: 'none',
-          fontSize: 'var(--font-size-sm)',
-          fontWeight: 'var(--font-regular)',
-          _hover: {
+      {showAddButton && (
+        <Button
+          onClick={handleAddItem}
+          sx={{
             backgroundColor: 'transparent',
-          },
-          _active: {
-            backgroundColor: 'transparent',
-          },
-          _focus: {
-            boxShadow: 'none',
-          },
-        }}
-      >
-        + 메뉴 추가
-      </Button>
+            color: 'var(--text)',
+            height: 'auto',
+            margin: 'none',
+            padding: 'none',
+            fontSize: 'var(--font-size-sm)',
+            fontWeight: 'var(--font-regular)',
+            _hover: {
+              backgroundColor: 'transparent',
+            },
+            _active: {
+              backgroundColor: 'transparent',
+            },
+            _focus: {
+              boxShadow: 'none',
+            },
+          }}
+        >
+          + 메뉴 추가
+        </Button>
+      )}
     </Container>
   );
 }

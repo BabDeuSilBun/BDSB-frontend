@@ -30,6 +30,7 @@ const ArrowButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: var(--font-size-sm);
+  font-weight: var(--font-semi-bold);
   color: var(--gray400);
   padding-bottom: var(--spacing-xs);
 `;

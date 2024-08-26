@@ -6,7 +6,7 @@ import { formatCurrency } from '@/utils/currencyFormatter';
 interface AmountProps {
   orderAmount: number;
   maxDeliveryFee: number;
-  minCommonMenuDiscount: number;
+  minTeamPurchaseDiscount: number;
   availablePoints: number;
   totalPrice: number;
 }
@@ -81,7 +81,7 @@ const Description = styled.p`
 const Amount: React.FC<AmountProps> = ({
   orderAmount,
   maxDeliveryFee,
-  minCommonMenuDiscount,
+  minTeamPurchaseDiscount,
   availablePoints,
   totalPrice,
 }) => (
@@ -98,7 +98,7 @@ const Amount: React.FC<AmountProps> = ({
       </MenuItemRow>
       <MenuItemRow>
         <MenuItemName>공통 메뉴 최소 할인</MenuItemName>
-        <MenuItemPrice>{formatCurrency(minCommonMenuDiscount)}</MenuItemPrice>
+        <MenuItemPrice>{formatCurrency(minTeamPurchaseDiscount)}</MenuItemPrice>
       </MenuItemRow>
       <MenuItemRow>
         <MenuItemName>사용 사능한 포인트</MenuItemName>
