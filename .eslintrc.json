@@ -69,6 +69,21 @@
         "allowSeparatedGroups": true
       }
     ],
+    "import/order": [
+      "warning",
+      {
+        "newlines-between": "always",
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "object"
+        ]
+      }
+    ],
     "react/button-has-type": "off",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
