@@ -7,7 +7,7 @@ const nextConfig = {
     domains: ['via.placeholder.com'],
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: process.env.VERCEL === '1',
   },
 };
 
