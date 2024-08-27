@@ -80,7 +80,7 @@ const Step2Email = () => {
       codeValue: string;
     }) => {
       const { data: codeCheck } = await apiClient.post(
-        '/api/signup/verify-code',
+        '/api/signup/email-verify/confirm',
         {
           email: emailValue,
           code: codeValue,
