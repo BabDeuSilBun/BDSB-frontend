@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { useSearchParams } from 'next/navigation';
 
 import { Divider } from '@chakra-ui/react';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -30,8 +32,28 @@ const options = [
 ];
 
 function RestaurantsList() {
-  const [selectedSort, setSelectedSort] = useState<string>('delivery-fee');
   const [isOpen, setIsOpen] = useState(false);
+  const searchParams = useSearchParams();
+  const [selectedSort, setSelectedSort] = useState<string>('deadline');
+  const [schoolId, setSchoolId] = useState<number | null>(null);
+
+  useEffect(() => {
+    // 초기 로드 시 localStorage에서 schoolId 가져오기
+    const storedSchoolId = localStorage.getItem('selectedSchoolId');
+    if (storedSchoolId) {
+      setSchoolId(Number(storedSchoolId));
+    }
+
+    // searchParams가 바뀔 때마다 schoolId 업데이트
+    const schoolIdParam = searchParams.get('schoolId');
+    if (schoolIdParam) {
+      const newSchoolId = Number(schoolIdParam);
+      if (newSchoolId !== schoolId) {
+        setSchoolId(newSchoolId);
+        localStorage.setItem('selectedSchoolId', newSchoolId.toString());
+      }
+    }
+  }, [searchParams]);
 
   const {
     data,
@@ -41,9 +63,13 @@ function RestaurantsList() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ['restaurantsList', selectedSort],
+    queryKey: ['restaurantsList', selectedSort, schoolId],
     queryFn: ({ pageParam = 0 }) =>
-      getRestaurantsList({ page: pageParam, sortCriteria: selectedSort }),
+      getRestaurantsList({
+        page: pageParam,
+        sortCriteria: selectedSort,
+        schoolId: schoolId,
+      }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;

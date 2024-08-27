@@ -44,7 +44,7 @@ export interface Response {
 }
 
 export interface GetListParams {
-  schoolId?: string;
+  schoolId?: number | null;
   sortCriteria?: string | null;
   page?: number;
   size?: number;

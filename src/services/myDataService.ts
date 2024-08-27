@@ -3,6 +3,7 @@
 import { apiClient, apiClientWithCredentials } from './apiClient';
 
 import {
+  CampusResponse,
   EvaluateType,
   InquiryResponse,
   MyDataType,
@@ -18,6 +19,7 @@ export const EVALUATE_LIST_API_URL = '/api/users/evaluates';
 export const INQUIRY_LIST_API_URL = `/api/users/inquires`;
 export const MY_PROFILE_API_URL = '/api/users/my-page';
 export const POINT_LIST_API_URL = '/api/users/points';
+export const CAMPUS_LIST_API_URL = '/api/users/points';
 
 export const getMyData = async (): Promise<MyDataType> => {
   try {
@@ -30,6 +32,28 @@ export const getMyData = async (): Promise<MyDataType> => {
     console.error('Error fetching my data:', error);
     throw new Error(
       '내 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
+  }
+};
+
+export const getCampusList = async ({
+  page = 0,
+  schoolId = undefined,
+  size = 10,
+}: GetListParams): Promise<CampusResponse> => {
+  try {
+    const response = await apiClient.get<CampusResponse>(CAMPUS_LIST_API_URL, {
+      params: {
+        schoolId,
+        size,
+        page,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching university lists:', error);
+    throw new Error(
+      '캠퍼스 목록을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
     );
   }
 };
