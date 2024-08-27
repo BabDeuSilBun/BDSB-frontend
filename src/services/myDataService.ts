@@ -1,6 +1,4 @@
-// import axios from 'axios';
-
-import { apiClient, apiClientWithCredentials } from './apiClient';
+import { apiClientWithCredentials } from './apiClient';
 
 import {
   CampusResponse,
@@ -10,8 +8,6 @@ import {
   PointsResponse,
 } from '@/types/myDataTypes';
 import { GetListParams } from '@/types/types';
-
-// import { httpClientForCredentials } from './auth/authClient';
 
 export const ACCOUNT_API_URL = '/api/users/account';
 export const ADDRESS_API_URL = `/api/users/address`;
@@ -23,8 +19,6 @@ export const CAMPUS_LIST_API_URL = '/api/users/points';
 
 export const getMyData = async (): Promise<MyDataType> => {
   try {
-    // 실제 로그인 될 때 고쳐야 함
-    // await httpClientForCredentials.get<MyDataType>(MY_PROFILE_URL);
     const response =
       await apiClientWithCredentials.get<MyDataType>(MY_PROFILE_API_URL);
     return response.data;
@@ -42,13 +36,16 @@ export const getCampusList = async ({
   size = 10,
 }: GetListParams): Promise<CampusResponse> => {
   try {
-    const response = await apiClient.get<CampusResponse>(CAMPUS_LIST_API_URL, {
-      params: {
-        schoolId,
-        size,
-        page,
+    const response = await apiClientWithCredentials.get<CampusResponse>(
+      CAMPUS_LIST_API_URL,
+      {
+        params: {
+          schoolId,
+          size,
+          page,
+        },
       },
-    });
+    );
     return response.data;
   } catch (error) {
     console.error('Error fetching university lists:', error);
@@ -63,7 +60,7 @@ export const postAccount = async (
   bankAccount: number,
   selectedBank: string,
 ) => {
-  await apiClient.put(ADDRESS_API_URL, {
+  await apiClientWithCredentials.put(ADDRESS_API_URL, {
     owner: owner.trim(),
     bankAccount: bankAccount?.toString(),
     selectedBank,
@@ -75,7 +72,7 @@ export const postNewAddress = async (
   streetAddress: string,
   detailAddress: string,
 ) => {
-  await apiClient.put(ADDRESS_API_URL, {
+  await apiClientWithCredentials.put(ADDRESS_API_URL, {
     postal: postal.trim(),
     streetAddress,
     detailAddress,
@@ -87,7 +84,6 @@ export const getMyEvaluates = async (): Promise<EvaluateType> => {
     const response = await apiClientWithCredentials.get<EvaluateType>(
       EVALUATE_LIST_API_URL,
     );
-    // await httpClientForCredentials.get<EvaluateType>(EVALUATE_LIST_URL);
     return response.data;
   } catch (error) {
     console.error('Error fetching my evaluates:', error);
@@ -103,13 +99,16 @@ export const getPointDetailList = async ({
   sortCriteria = '전체',
 }: GetListParams): Promise<PointsResponse> => {
   try {
-    const response = await apiClient.get<PointsResponse>(POINT_LIST_API_URL, {
-      params: {
-        sortCriteria,
-        size,
-        page,
+    const response = await apiClientWithCredentials.get<PointsResponse>(
+      POINT_LIST_API_URL,
+      {
+        params: {
+          sortCriteria,
+          size,
+          page,
+        },
       },
-    });
+    );
     return response.data;
   } catch (error) {
     console.error('Error fetching points detail lists:', error);
@@ -124,7 +123,7 @@ export const getInquiries = async ({
   size = 10,
 }: GetListParams): Promise<InquiryResponse> => {
   try {
-    const response = await apiClient.get<InquiryResponse>(
+    const response = await apiClientWithCredentials.get<InquiryResponse>(
       INQUIRY_LIST_API_URL,
       {
         params: {
@@ -144,7 +143,7 @@ export const getInquiries = async ({
 
 export const getInquiryImages = async (inquiryId: number) => {
   try {
-    const response = await apiClient.get(
+    const response = await apiClientWithCredentials.get(
       `${INQUIRY_LIST_API_URL}/${inquiryId}/images`,
     );
     return response.data;
