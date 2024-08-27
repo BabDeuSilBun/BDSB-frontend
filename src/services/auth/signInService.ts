@@ -43,11 +43,12 @@ export async function handleSignIn(
     });
 
     const jwtToken = res.headers.Authorization;
-    Cookies.set('jwtToken', jwtToken, {
-      secure: true,
-      sameSite: 'Strict',
-    });
-    setAuthToken(jwtToken);
+    // Cookies.set('jwtToken', jwtToken, {
+    //   secure: true,
+    //   sameSite: 'Strict',
+    // });
+    console.log(res.headers);
+    // setAuthToken(jwtToken);
     console.log(jwtToken);
     // router.push('/');
   } catch (error) {
