@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { useSearchParams } from 'next/navigation';
 
 import { Divider } from '@chakra-ui/react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
@@ -15,7 +17,6 @@ import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getTeamOrderList } from '@/services/teamOrderService';
 import { MeetingsResponse } from '@/types/coreTypes';
 
-// Styled Components
 const ListContainer = styled.section`
   margin: 110px 0 20px;
 `;
@@ -46,7 +47,6 @@ const GroupTitle = styled.h3`
   font-size: var(--font-size-xl);
 `;
 
-// Sort options
 const options = [
   { value: 'deadline', name: '주문이 임박한 순' },
   { value: 'delivery-fee', name: '배달비가 낮은 순' },
@@ -54,12 +54,30 @@ const options = [
   { value: 'delivery-time', name: '배송시간이 짧은 순' },
 ];
 
-// Main Component
 function TeamOrderList() {
-  const [selectedSort, setSelectedSort] = useState<string>('deadline');
   const [isOpen, setIsOpen] = useState(false);
+  const searchParams = useSearchParams();
+  const [selectedSort, setSelectedSort] = useState<string>('deadline');
+  const [schoolId, setSchoolId] = useState<number | null>(null);
 
-  // Fetch imminent orders
+  useEffect(() => {
+    // 초기 로드 시 localStorage에서 schoolId 가져오기
+    const storedSchoolId = localStorage.getItem('selectedSchoolId');
+    if (storedSchoolId) {
+      setSchoolId(Number(storedSchoolId));
+    }
+
+    // searchParams가 바뀔 때마다 schoolId 업데이트
+    const schoolIdParam = searchParams.get('schoolId');
+    if (schoolIdParam) {
+      const newSchoolId = Number(schoolIdParam);
+      if (newSchoolId !== schoolId) {
+        setSchoolId(newSchoolId);
+        localStorage.setItem('selectedSchoolId', newSchoolId.toString());
+      }
+    }
+  }, [searchParams]);
+
   const {
     data: imminentData,
     status: imminentStatus,
@@ -70,7 +88,6 @@ function TeamOrderList() {
       getTeamOrderList({ page: 0, size: 4, sortCriteria: 'deadline' }),
   });
 
-  // Fetch paginated team orders
   const {
     data,
     error,
@@ -79,13 +96,18 @@ function TeamOrderList() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ['teamOrderList', selectedSort],
+    queryKey: ['teamOrderList', selectedSort, schoolId],
     queryFn: ({ pageParam = 0 }) =>
-      getTeamOrderList({ page: pageParam, sortCriteria: selectedSort }),
+      getTeamOrderList({
+        page: pageParam,
+        sortCriteria: selectedSort,
+        schoolId: schoolId,
+      }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
     },
+    enabled: !!schoolId,
   });
 
   const lastElementRef = useInfiniteScroll<HTMLDivElement>({
