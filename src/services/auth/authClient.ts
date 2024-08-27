@@ -46,10 +46,10 @@ export const setupInterceptors = (router: NextRouter) => {
             return apiClientWithCredentials(originalRequest);
           } catch (refreshError) {
             console.error('Token refresh failed:', refreshError);
-            router.push('/auth/signIn');
+            router.push('/signIn');
           }
         } else {
-          router.push('/auth/signIn');
+          router.push('/signIn');
         }
       }
       return Promise.reject(error);
