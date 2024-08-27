@@ -67,7 +67,7 @@ const Map: React.FC<MapProps> = ({
 
           const mapContainer = document.getElementById('map') as HTMLElement;
           const mapOption = {
-            center: new window.kakao.maps.LatLng(37.5665, 126.978), // Default center
+            center: new window.kakao.maps.LatLng(37.4599, 126.9519), // Seoul National University coordinates
             level: 4, // Map zoom level
           };
 
@@ -100,6 +100,12 @@ const Map: React.FC<MapProps> = ({
               }
             } else {
               console.error('Failed to load restaurant address:', status);
+              const fallbackPosition = new window.kakao.maps.LatLng(
+                37.4599,
+                126.9519,
+              ); // Seoul National University fallback
+              placeMarker(fallbackPosition, map);
+              map.setCenter(fallbackPosition);
             }
           });
 
@@ -115,6 +121,12 @@ const Map: React.FC<MapProps> = ({
               }
             } else {
               console.error('Failed to load delivery address:', status);
+              const fallbackPosition = new window.kakao.maps.LatLng(
+                37.4599,
+                126.9519,
+              ); // Seoul National University fallback
+              placeMarker(fallbackPosition, map);
+              map.setCenter(fallbackPosition);
             }
           });
 
@@ -151,13 +163,28 @@ const Map: React.FC<MapProps> = ({
                     'Failed to load delivery address for polyline:',
                     status,
                   );
+                  const fallbackPosition = new window.kakao.maps.LatLng(
+                    37.4599,
+                    126.9519,
+                  ); // Seoul National University fallback
+                  const linePath = [fallbackPosition, riderLatLng];
+
+                  const polyline = new window.kakao.maps.Polyline({
+                    path: linePath,
+                    strokeWeight: 5,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 0.8,
+                    strokeStyle: 'solid',
+                  });
+
+                  polyline.setMap(map);
                 }
               });
             }
           }
         } else if (retries < maxRetries) {
           console.log('Retrying... Kakao Maps API is not fully initialized.');
-          setTimeout(() => attemptInitialization(retries + 1), retryDelay); // Retry after 1 second
+          setTimeout(() => attemptInitialization(retries + 1), retryDelay);
         } else {
           console.error(
             'Kakao Maps API failed to initialize after max retries.',
