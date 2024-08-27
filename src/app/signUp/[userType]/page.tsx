@@ -75,11 +75,7 @@ const SignUp = () => {
             };
 
       try {
-        const response = await apiClient.post(
-          `/api/${userType}/signup`,
-          userData,
-        );
-        console.log('Success:', response.data);
+        await apiClient.post(`/api/${userType}/signup`, userData);
         router.push('/signIn');
       } catch (error) {
         console.error('Error during signup:', error);
