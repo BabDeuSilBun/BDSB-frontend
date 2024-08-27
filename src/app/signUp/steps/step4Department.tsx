@@ -11,13 +11,19 @@ import { getMajorsList } from '@/services/auth/signUpService';
 import { useSignUpStore } from '@/state/authStore';
 
 const Step4Department = () => {
-  const { departmentName, setDepartmentName, setDepartment } = useSignUpStore();
+  const { departmentName, setDepartmentName, setDepartment, setButtonActive } =
+    useSignUpStore();
   const [inputValue, setInputValue] = useState('');
   const [debouncedValue, setDebouncedValue] = useState('');
   const suggestionsListRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
-    if (departmentName) setInputValue(departmentName);
+    if (departmentName) {
+      setInputValue(departmentName);
+      setButtonActive(true);
+    } else {
+      setButtonActive(false);
+    }
   }, [departmentName]);
 
   const debouncedInputValue = useMemo(
@@ -62,7 +68,6 @@ const Step4Department = () => {
   const handleSelectMajor = (id: number, name: string) => {
     if (setDepartment) setDepartment(id);
     if (setDepartmentName) setDepartmentName(name);
-    setInputValue('');
   };
 
   return (

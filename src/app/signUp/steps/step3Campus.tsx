@@ -9,13 +9,19 @@ import { getSchoolsList } from '@/services/auth/signUpService';
 import { useSignUpStore } from '@/state/authStore';
 
 const Step3Campus = () => {
-  const { campusName, setCampusName, setCampus } = useSignUpStore();
+  const { campusName, setCampusName, setCampus, setButtonActive } =
+    useSignUpStore();
   const [inputValue, setInputValue] = useState('');
   const [debouncedValue, setDebouncedValue] = useState(inputValue);
   const suggestionsListRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
-    if (campusName) setInputValue(campusName);
+    if (campusName) {
+      setInputValue(campusName);
+      setButtonActive(true);
+    } else {
+      setButtonActive(false);
+    }
   }, [campusName]);
 
   const debouncedInputValue = useMemo(

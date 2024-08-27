@@ -93,6 +93,7 @@ const Step2Email = () => {
         return;
       }
       setButtonActive(true);
+      setEmailVerified(true);
       setEmail(verifiedEmail);
     },
     onError: () => {
