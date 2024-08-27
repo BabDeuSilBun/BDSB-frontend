@@ -1,6 +1,5 @@
 'use client';
 
-import axios from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
@@ -80,10 +79,13 @@ const Step2Email = () => {
       emailValue: string;
       codeValue: string;
     }) => {
-      const { data: codeCheck } = await axios.post('/api/signup/verify-code', {
-        email: emailValue,
-        code: codeValue,
-      });
+      const { data: codeCheck } = await apiClient.post(
+        '/api/signup/verify-code',
+        {
+          email: emailValue,
+          code: codeValue,
+        },
+      );
 
       if (!codeCheck.result) {
         setButtonActive(false);

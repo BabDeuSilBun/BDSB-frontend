@@ -8,10 +8,12 @@ interface CreateApiClientParams {
 export const createApiClient = ({
   withCredentials = false, // 기본값은 false
 }: CreateApiClientParams = {}): AxiosInstance => {
-  const baseURL =
-    process.env.NODE_ENV === 'development'
-      ? process.env.NEXT_PUBLIC_SERVER_API_URL
-      : process.env.NEXT_PUBLIC_BACKEND_URL;
+  // const baseURL =
+  //   process.env.NODE_ENV === 'development'
+  //     ? process.env.NEXT_PUBLIC_SERVER_API_URL
+  //     : process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   return axios.create({
     baseURL,
