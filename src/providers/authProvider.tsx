@@ -12,7 +12,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setupInterceptors(router);
-    getRemainingTime();
+    getRemainingTime(router);
   }, [router]);
 
   return children;

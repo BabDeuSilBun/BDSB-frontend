@@ -3,7 +3,11 @@ import { jwtDecode } from 'jwt-decode';
 
 import { onSilentRefresh } from '@/services/auth/authClient';
 
-export const getRemainingTime = () => {
+interface NextRouter {
+  push: (path: string) => void;
+}
+
+export const getRemainingTime = (router: NextRouter) => {
   const token = Cookies.get('jwtToken');
 
   if (token) {
@@ -26,5 +30,6 @@ export const getRemainingTime = () => {
     }
   } else {
     console.log('jwtToken이 쿠키에 존재하지 않습니다.');
+    router.push('/signIn');
   }
 };
