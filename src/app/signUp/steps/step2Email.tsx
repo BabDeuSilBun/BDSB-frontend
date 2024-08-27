@@ -51,7 +51,7 @@ const Step2Email = () => {
     mutationFn: async (emailInput: string) => {
       const { data: duplicationCheck } = await apiClient.post(
         `/api/${userType}/email-duplicated`,
-        { emailInput },
+        { email: emailInput },
       );
 
       if (!duplicationCheck.usable) {
