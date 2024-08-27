@@ -1,9 +1,9 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 
 import { apiClient } from '../apiClient';
 
-import { setAuthToken } from '@/services/auth/authClient';
+// import { setAuthToken } from '@/services/auth/authClient';
 import { validateSignInput } from '@/utils/validateSignInput';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
