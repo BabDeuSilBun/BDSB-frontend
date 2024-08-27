@@ -6,9 +6,10 @@ import { apiClient } from '../apiClient';
 import { setAuthToken } from '@/services/auth/authClient';
 import { validateSignInput } from '@/utils/validateSignInput';
 
-// interface NextRouter {
-//   push: (path: string) => void;
-// }
+/* eslint-disable @typescript-eslint/no-unused-vars */
+interface NextRouter {
+  push: (path: string) => void;
+}
 
 export async function handleSignIn(
   email: string,
@@ -48,7 +49,7 @@ export async function handleSignIn(
     });
     setAuthToken(jwtToken);
     console.log(jwtToken);
-    //router.push('/');
+    // router.push('/');
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const status = error.response?.status;
