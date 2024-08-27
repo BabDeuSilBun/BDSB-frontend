@@ -1,7 +1,6 @@
 'use client';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import { useParams, useSearchParams } from 'next/navigation';

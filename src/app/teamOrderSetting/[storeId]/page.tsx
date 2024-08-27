@@ -1,7 +1,5 @@
 'use client';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { v4 as uuidv4 } from 'uuid';
@@ -76,18 +74,14 @@ const TeamOrderSettingPage = () => {
     console.log('Submitting request with body:', requestBody);
 
     try {
-      // const response = await axios.post('/api/users/meetings', requestBody);
-      // const { meetingId } = response.data;
-
-      const tempMeetingId = storeId; // Use the storeId as the temporary meetingId
-
+      // Use the storeId as the temporary meetingId
+      const tempMeetingId = storeId;
       console.log('Response from server:', requestBody);
 
       // Temporarily redirect with the temporary meetingId
       router.push(
         `/restaurants/${storeId}?context=leaderAfter&meetingId=${tempMeetingId}`,
       );
-      // router.push(`/restaurants/${storeId}?context=leaderAfter&meetingId=${meetingId}`);
     } catch (error) {
       console.error('Error submitting request:', error);
     }

@@ -1,6 +1,8 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+import { apiClient } from '../apiClient';
+
 import { setAuthToken } from '@/services/auth/authClient';
 import { validateSignInput } from '@/utils/validateSignInput';
 
@@ -34,7 +36,7 @@ export async function handleSignIn(
   setError('');
 
   try {
-    const res = await axios.post(`api/${userType}/signin`, {
+    const res = await apiClient.post(`api/${userType}/signin`, {
       email,
       password,
     });

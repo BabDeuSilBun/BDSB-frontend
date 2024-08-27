@@ -6,6 +6,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 
+import { apiClient } from '@/services/apiClient';
 import { useSignUpStore } from '@/state/authStore';
 import { BaseBtn, BaseBtnInactive } from '@/styles/button';
 import { validateSignInput } from '@/utils/validateSignInput';
@@ -48,7 +49,7 @@ const Step2Email = () => {
 
   const emailMutation = useMutation({
     mutationFn: async (emailInput: string) => {
-      const { data: duplicationCheck } = await axios.post(
+      const { data: duplicationCheck } = await apiClient.post(
         `/api/${userType}/email-duplicated`,
         { emailInput },
       );
@@ -60,7 +61,7 @@ const Step2Email = () => {
       }
 
       try {
-        await axios.post('/api/signup/email-verify', { email });
+        await apiClient.post('/api/signup/email-verify', { email });
         setErrorMessage('');
       } catch (error) {
         console.log('오류 발생');
@@ -131,11 +132,13 @@ const Step2Email = () => {
         aria-label="이메일 주소 입력"
         aria-required="true"
       />
-      {validateSignInput('email', tempEmail) ? (
-        <BaseBtn onClick={handleEmailSend}>메일 전송하기</BaseBtn>
-      ) : (
-        <BaseBtnInactive>메일 전송하기</BaseBtnInactive>
-      )}
+      <BaseBtn
+        onClick={
+          validateSignInput('email', tempEmail) ? handleEmailSend : undefined
+        }
+      >
+        메일 전송하기
+      </BaseBtn>
       {errorMessage && <Caption warning>{errorMessage}</Caption>}
       <Caption>메일이 오지 않았을 경우, 스팸 메일함을 확인해주세요.</Caption>
       <input

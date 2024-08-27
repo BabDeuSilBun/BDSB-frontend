@@ -1,6 +1,5 @@
 'use client';
 
-import axios from 'axios';
 import { useState } from 'react';
 
 import { Divider, Flex, useDisclosure } from '@chakra-ui/react';
@@ -18,6 +17,7 @@ import TriggerButton from './triggerButton';
 
 import InquirySkeleton from '@/components/listItems/skeletons/inquirySkeleton';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { apiClientWithCredentials } from '@/services/apiClient';
 import { getInquiries, getInquiryImages } from '@/services/myDataService';
 import { ImageArrayType } from '@/types/types';
 import { formatDateTime } from '@/utils/formateDateTime';
@@ -98,7 +98,9 @@ const InquiryHistory = () => {
       console.log(
         `Deleting image with inquiryId: ${inquiryId} and imageId: ${imageId}`,
       );
-      await axios.delete(`/api/users/inquiries/${inquiryId}/images/${imageId}`);
+      await apiClientWithCredentials.delete(
+        `/api/users/inquiries/${inquiryId}/images/${imageId}`,
+      );
     },
     onError: (error) => {
       console.error('이미지 삭제 중 오류가 발생했습니다.', error);
@@ -122,9 +124,12 @@ const InquiryHistory = () => {
       console.log(
         `Updating image with inquiryId: ${inquiryId} and imageId: ${imageId}`,
       );
-      await axios.put(`/api/users/inquiries/${inquiryId}/images/${imageId}`, {
-        sequence,
-      });
+      await apiClientWithCredentials.put(
+        `/api/users/inquiries/${inquiryId}/images/${imageId}`,
+        {
+          sequence,
+        },
+      );
     },
     onError: (error) => {
       console.error('이미지 순서 변경 중 오류가 발생했습니다.', error);
