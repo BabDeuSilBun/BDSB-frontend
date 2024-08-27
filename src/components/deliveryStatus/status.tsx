@@ -477,7 +477,7 @@ const Status: React.FC<StatusProps> = () => {
           </OrderDetailsContainer>
         ) : (
           <Map
-            status={status}
+            orderStatus={status}
             deliveryAddress="서울 특별시 한국대학교 땡땡구 33번길 12"
             restaurantAddress={store?.address || ''}
             riderPosition={

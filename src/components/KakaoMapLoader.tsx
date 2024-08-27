@@ -13,7 +13,7 @@ const KakaoMapLoader = () => {
     };
 
     const script = document.createElement('script');
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=b16cd4f753d59b3e2a0eff8e4c137407&libraries=services,clusterer,drawing`;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=b16cd4f753d59b3e2a0eff8e4c137407&libraries=services`;
     script.async = true;
     script.onload = handleLoad;
     script.onerror = handleError;
