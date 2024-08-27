@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { apiClient } from '../apiClient';
 
-// import { setAuthToken } from '@/services/auth/authClient';
+import { setAuthToken } from '@/services/auth/authClient';
 import { validateSignInput } from '@/utils/validateSignInput';
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -48,7 +48,7 @@ export async function handleSignIn(
     //   sameSite: 'Strict',
     // });
     console.log(res.headers);
-    // setAuthToken(jwtToken);
+    setAuthToken(jwtToken);
     console.log(jwtToken);
     // router.push('/');
   } catch (error) {
@@ -58,15 +58,14 @@ export async function handleSignIn(
 
       if (status === 401 && data && data.errorCode) {
         switch (data.errorCode) {
-          case 'JWT_EXPIRED':
+          case 'JWT_EXPIRED': // JWT 만료
             console.log('로그인에 실패했습니다. 다시 로그인해 주세요.');
-            setError('로그인에 실패했습니다. 다시 로그인해 주세요.'); // JWT 만료
+            setError('로그인에 실패했습니다. 다시 로그인해 주세요.');
             break;
           case 'PASSWORD_NOT_MATCH':
             console.log('이메일 혹은 비밀번호가 일치하지 않습니다.');
             setError('이메일 혹은 비밀번호가 일치하지 않습니다.');
             break;
-          // 다른 에러 코드 처리
           default:
             setError('로그인에 실패했습니다. 다시 시도해 주세요.');
         }
