@@ -2,8 +2,8 @@
 
 import styled from 'styled-components';
 
-import DeliveryStatusHeader from '@/components/deliveryStatus/deliveryStatusHeader';
 import Status from '@/components/deliveryStatus/status';
+import Header from '@/components/layout/header';
 import Container from '@/styles/container';
 
 const CustomContainer = styled(Container)`
@@ -15,16 +15,13 @@ const CustomContainer = styled(Container)`
 `;
 
 const DeliveryStatus = () => {
+  const currentStatus = '배달완료'; // '주문접수', '배달시작', '배달거의완료', '배달완료'
+
   return (
     <>
-      <DeliveryStatusHeader />
+      <Header buttonLeft="exit" text="배달 현황" buttonRight="refresh" />
       <CustomContainer>
-        <Status
-          title="맛있게 만들고 있어요"
-          description="맛있게 드실 수 있도록 사장님께서 메뉴를 조리하고 있어요"
-          badgeDescription="15"
-          progress={66}
-        />
+        <Status status={currentStatus} arrivalTime="오후 2:30" />
       </CustomContainer>
     </>
   );

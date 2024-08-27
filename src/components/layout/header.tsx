@@ -12,12 +12,14 @@ import ArrowLeft from '@/components/svg/arrowLeft';
 import CartIcon from '@/components/svg/cart';
 import ExitIcon from '@/components/svg/exit';
 import HomeIcon from '@/components/svg/home';
+import RefreshIcon from '@/components/svg/refresh';
 
 const Icons = {
   back: (color: string) => <ArrowLeft color={color} />,
   home: (color: string) => <HomeIcon color={color} />,
   exit: (color: string) => <ExitIcon color={color} />,
   cart: (color: string) => <CartIcon color={color} />,
+  refresh: (color: string) => <RefreshIcon color={color} />,
 };
 
 const HeaderContainer = styled.header<{ $isTransparent: boolean }>`
@@ -86,8 +88,8 @@ const CartIconContainer = styled.div`
 `;
 
 interface HeaderProps {
-  buttonLeft?: 'hamburger' | 'back';
-  buttonRight?: 'home' | 'exit';
+  buttonLeft?: 'hamburger' | 'back' | 'exit';
+  buttonRight?: 'home' | 'exit' | 'refresh';
   buttonRightSecondary?: 'cart';
   iconColor?: string;
   text?: string;
@@ -130,6 +132,8 @@ const Header: React.FC<HeaderProps> = ({
       } else {
         router.back();
       }
+    } else if (buttonLeft === 'exit') {
+      router.push('/');
     }
   };
 
@@ -140,6 +144,8 @@ const Header: React.FC<HeaderProps> = ({
       router.push('/');
     } else if (buttonRight === 'exit' && onExit) {
       onExit();
+    } else if (buttonRight === 'refresh') {
+      router.refresh();
     }
   };
 

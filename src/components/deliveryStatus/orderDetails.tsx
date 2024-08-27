@@ -1,7 +1,11 @@
 'use client';
 
-import styled from 'styled-components';
+import { useEffect, useRef } from 'react';
+
 import { Divider } from '@chakra-ui/react';
+import styled from 'styled-components';
+
+import Loading from '@/app/loading';
 
 interface OrderDetailsProps {
   storeName: string;
@@ -9,18 +13,20 @@ interface OrderDetailsProps {
   info2Description: string;
   info3Description: string;
   purchaseType1: string;
-  menuItem1Name: string;
-  menuItem1Price: string;
-  menuItem1Quantity: number;
+  menuItems1: { name: string; price: number; quantity: number }[];
+  fetchNextPage1: () => void;
+  hasNextPage1: boolean;
+  isFetchingNextPage1: boolean;
   purchaseType2: string;
-  menuItem2Name: string;
-  menuItem2Price: string;
-  menuItem2Quantity: number;
+  menuItems2: { name: string; price: number; quantity: number }[];
+  fetchNextPage2: () => void;
+  hasNextPage2: boolean;
+  isFetchingNextPage2: boolean;
 }
 
 const Container = styled.div`
   width: 100%;
-  padding: var(--spacing-lg) 0;
+  padding: var(--spacing-lg) 0 var(--spacing-xs);
 `;
 
 const StoreName = styled.h2`
@@ -41,7 +47,7 @@ const InfoTitle = styled.p`
   font-size: var(--font-size-sm);
   font-weight: var(--font-semi-bold);
   color: var(--text);
-  margin-right: var(--spacing-lg);
+  margin-right: var(--spacing-md);
 `;
 
 const InfoDescription = styled.p`
@@ -99,14 +105,69 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
   info2Description,
   info3Description,
   purchaseType1,
-  menuItem1Name,
-  menuItem1Price,
-  menuItem1Quantity,
+  menuItems1,
+  fetchNextPage1,
+  hasNextPage1,
+  isFetchingNextPage1,
   purchaseType2,
-  menuItem2Name,
-  menuItem2Price,
-  menuItem2Quantity,
+  menuItems2,
+  fetchNextPage2,
+  hasNextPage2,
+  isFetchingNextPage2,
 }) => {
+  const lastElementRef1 = useRef<HTMLDivElement | null>(null);
+  const lastElementRef2 = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (isFetchingNextPage1 || !hasNextPage1) return;
+
+    const currentRef = lastElementRef1.current;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage1();
+        }
+      },
+      { threshold: 1.0 },
+    );
+
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [isFetchingNextPage1, hasNextPage1, fetchNextPage1]);
+
+  useEffect(() => {
+    if (isFetchingNextPage2 || !hasNextPage2) return;
+
+    const currentRef2 = lastElementRef2.current;
+
+    const observer2 = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage2();
+        }
+      },
+      { threshold: 1.0 },
+    );
+
+    if (currentRef2) {
+      observer2.observe(currentRef2);
+    }
+
+    return () => {
+      if (currentRef2) {
+        observer2.unobserve(currentRef2);
+      }
+    };
+  }, [isFetchingNextPage2, hasNextPage2, fetchNextPage2]);
+
   return (
     <Container>
       <StoreName>{storeName}</StoreName>
@@ -139,23 +200,35 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({
 
       <MenuTypeContainer>
         <PurchaseTypeTitle>{purchaseType1}</PurchaseTypeTitle>
-        <MenuItem>
-          <MenuItemName>
-            {menuItem1Name} x {menuItem1Quantity}
-          </MenuItemName>
-          <MenuItemPrice>{menuItem1Price}</MenuItemPrice>
-        </MenuItem>
+        {menuItems1.map((item, index) => (
+          <MenuItem
+            key={index}
+            ref={index === menuItems1.length - 1 ? lastElementRef1 : null}
+          >
+            <MenuItemName>
+              {item.name} x {item.quantity}
+            </MenuItemName>
+            <MenuItemPrice>{`${item.price.toLocaleString()}원`}</MenuItemPrice>
+          </MenuItem>
+        ))}
       </MenuTypeContainer>
+      {isFetchingNextPage1 && <Loading />}
 
       <MenuTypeContainer>
         <PurchaseTypeTitle>{purchaseType2}</PurchaseTypeTitle>
-        <MenuItem>
-          <MenuItemName>
-            {menuItem2Name} x {menuItem2Quantity}
-          </MenuItemName>
-          <MenuItemPrice>{menuItem2Price}</MenuItemPrice>
-        </MenuItem>
+        {menuItems2.map((item, index) => (
+          <MenuItem
+            key={index}
+            ref={index === menuItems2.length - 1 ? lastElementRef2 : null}
+          >
+            <MenuItemName>
+              {item.name} x {item.quantity}
+            </MenuItemName>
+            <MenuItemPrice>{`${item.price.toLocaleString()}원`}</MenuItemPrice>
+          </MenuItem>
+        ))}
       </MenuTypeContainer>
+      {isFetchingNextPage2 && <Loading />}
     </Container>
   );
 };

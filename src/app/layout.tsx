@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 
 import type { Metadata } from 'next';
 
+import KakaoMapLoader from '@/components/KakaoMapLoader';
 import MswComponent from '@/components/msw.component';
 import StyledComponentsRegistry from '@/lib/registry';
 import Providers from '@/providers/provider';
@@ -43,6 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
+        <KakaoMapLoader />
         <MswComponent />
         <div id="main-content">
           <Providers>
