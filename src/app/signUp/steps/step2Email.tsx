@@ -61,7 +61,7 @@ const Step2Email = () => {
       }
 
       try {
-        await apiClient.post('/api/signup/email-verify', { email });
+        await apiClient.post('/api/signup/email-verify', { email: emailInput });
         setErrorMessage('');
       } catch (error) {
         console.log('오류 발생');
