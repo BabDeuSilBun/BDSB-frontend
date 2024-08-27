@@ -146,7 +146,6 @@ const MainHeader = () => {
     queryFn: getMyData,
   });
 
-  console.log(dropdownRef.current);
   const lastElementRef = useInfiniteScroll<HTMLLIElement>({
     hasNextPage,
     isFetchingNextPage,
