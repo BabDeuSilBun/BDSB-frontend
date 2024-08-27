@@ -18,7 +18,6 @@ export function useInfiniteScroll<T extends HTMLElement>({
 
   useEffect(() => {
     if (isFetchingNextPage) return;
-
     const currentElement = lastElementRef.current;
 
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
@@ -30,7 +29,7 @@ export function useInfiniteScroll<T extends HTMLElement>({
     const observerInstance = new IntersectionObserver(handleIntersect, {
       root,
       rootMargin: '0px',
-      threshold: 1.0,
+      threshold: 0.1,
     });
 
     if (currentElement) {

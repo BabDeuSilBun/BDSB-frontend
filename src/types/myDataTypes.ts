@@ -21,6 +21,12 @@ export interface MyDataType {
   isBanned: boolean;
 }
 
+export interface CampusType {
+  schoolId: number;
+  school: string;
+  campus: string;
+}
+
 export interface EvaluateType {
   positiveEvaluate: {
     content: string;
@@ -56,4 +62,8 @@ export interface PointsResponse extends Response {
 
 export interface InquiryResponse extends Response {
   content: InquiryType[];
+}
+
+export interface CampusResponse extends Response {
+  content: CampusType[];
 }

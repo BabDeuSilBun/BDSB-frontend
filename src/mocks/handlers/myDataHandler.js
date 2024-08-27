@@ -7,10 +7,12 @@ import {
   paginatedInquiries,
 } from '../mockData/inquiries';
 import { evaluates, myData, paginatedPoints } from '../mockData/myData';
+import { paginatedCampuses } from '../mockData/schools';
 
 import {
   ACCOUNT_API_URL,
   ADDRESS_API_URL,
+  CAMPUS_LIST_API_URL,
   EVALUATE_LIST_API_URL,
   INQUIRY_LIST_API_URL,
   MY_PROFILE_API_URL,
@@ -24,6 +26,27 @@ export const myDataHandlers = [
     } catch (error) {
       return HttpResponse.status(404).json({
         message: `My data not found: ${error}`,
+      });
+    }
+  }),
+
+  http.get(CAMPUS_LIST_API_URL, async (req) => {
+    const { request } = await req;
+    const urlString = request.url.toString();
+
+    try {
+      const url = new URL(urlString);
+      const pageParam = Number(url.searchParams.get('page')) || 0;
+      const paginatedResponse = paginatedCampuses[pageParam];
+
+      if (!paginatedResponse) {
+        return HttpResponse.json({ message: 'Page not found' });
+      }
+
+      return HttpResponse.json(paginatedResponse);
+    } catch (error) {
+      return HttpResponse.status(404).json({
+        message: `Campus list not found: ${error}`,
       });
     }
   }),
