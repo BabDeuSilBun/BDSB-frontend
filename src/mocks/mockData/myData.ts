@@ -25,7 +25,7 @@ export const myData: MyDataType = {
   image: 'https://via.placeholder.com/50x50',
   meetingCount: 10,
   school: '식신대학교',
-  campus: '서울캠퍼스',
+  campus: '천안캠퍼스',
   major: '호텔조리학과',
   isBanned: false,
 };
