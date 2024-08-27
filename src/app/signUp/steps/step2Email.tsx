@@ -54,6 +54,7 @@ const Step2Email = () => {
       );
 
       if (!duplicationCheck.usable) {
+        console.log('중복된 이메일입니다.');
         setErrorMessage('중복된 이메일입니다.');
         return;
       }
@@ -62,6 +63,7 @@ const Step2Email = () => {
         await axios.post('/api/signup/email-verify', { email });
         setErrorMessage('');
       } catch (error) {
+        console.log('오류 발생');
         setErrorMessage('이메일 전송 중 오류가 발생했습니다.');
         setEmailVerified(false);
         throw error;
