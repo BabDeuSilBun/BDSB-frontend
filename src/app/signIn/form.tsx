@@ -3,7 +3,7 @@
 import { FormEvent, useState } from 'react';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 import styled from 'styled-components';
 
@@ -46,11 +46,12 @@ export default function SignInForm({ userType }: Props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [Error, setError] = useState('');
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleBtnClick = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    handleSignIn(email, password, userType, setError, router);
+    // handleSignIn(email, password, userType, setError, router);
+    handleSignIn(email, password, userType, setError);
   };
 
   return (
