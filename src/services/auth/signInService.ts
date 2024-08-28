@@ -1,5 +1,5 @@
 import axios from 'axios';
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
 import { apiClient } from '../apiClient';
 
@@ -42,12 +42,12 @@ export async function handleSignIn(
       password,
     });
 
-    const jwtToken = res.data.token;
-    // Cookies.set('jwtToken', jwtToken, {
-    //   secure: true,
-    //   sameSite: 'Strict',
-    // });
-    console.log(`res.headers: ${res.data}`);
+    const jwtToken = res.data.accessToken;
+    Cookies.set('jwtToken', jwtToken, {
+      secure: true,
+      sameSite: 'Strict',
+    });
+    console.log(`res.body: ${res.data.accessToken}`);
     setAuthToken(jwtToken);
     console.log(`jwtToken: ${jwtToken}`);
     // router.push('/');
