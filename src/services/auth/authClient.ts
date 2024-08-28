@@ -4,8 +4,24 @@ import { apiClientWithCredentials } from '../apiClient';
 
 // AccessToken 설정 함수
 export const setAuthToken = (token: string) => {
-  apiClientWithCredentials.defaults.headers.common.Authorization = `Bearer ${token}`;
+  if (token) {
+    apiClientWithCredentials.defaults.headers.common.Authorization = `Bearer ${token}`;
+  } else {
+    delete apiClientWithCredentials.defaults.headers.common.Authorization;
+  }
 };
+
+// 요청 인터셉터 설정
+apiClientWithCredentials.interceptors.request.use((config) => {
+  console.log('Request Headers:', config.headers);
+  return config;
+});
+
+// 서버 응답 로그 확인
+apiClientWithCredentials.interceptors.response.use((response) => {
+  console.log('Response Headers:', response.headers);
+  return response;
+});
 
 // 토큰 갱신 함수
 export const onSilentRefresh = async () => {

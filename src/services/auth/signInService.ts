@@ -47,7 +47,9 @@ export async function handleSignIn(
       sameSite: 'Strict',
     });
     setAuthToken(jwtToken);
-    router.push('/');
+    const token = Cookies.get('jwtToken');
+    console.log('Stored JWT Token:', token);
+    router.push('/signIn');
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const status = error.response?.status;
