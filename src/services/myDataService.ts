@@ -15,7 +15,7 @@ export const EVALUATE_LIST_API_URL = '/api/users/evaluates';
 export const INQUIRY_LIST_API_URL = `/api/users/inquires`;
 export const MY_PROFILE_API_URL = '/api/users/my-page';
 export const POINT_LIST_API_URL = '/api/users/points';
-export const CAMPUS_LIST_API_URL = '/api/users/points';
+export const CAMPUS_LIST_API_URL = '/api/campus';
 
 export const getMyData = async (): Promise<MyDataType> => {
   try {
