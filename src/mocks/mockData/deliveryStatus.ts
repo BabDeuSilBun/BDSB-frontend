@@ -19,24 +19,25 @@ export const getDeliveryStatusMockData = (): DeliveryStatusMockData[] => {
   // Generate the status data with decreasing remaining times: 20min, 10min, 5min, and 0min
   const remainingTimes = [20, 10, 5, 0];
 
-  return statuses.map((status, index) => ({
-    status,
+  return statuses.map((orderStatus, index) => ({
+    orderStatus, // Use 'orderStatus' to match the DeliveryStatusMockData interface
     arrivalTime: arrivalTimeFormatted,
     remainingTime: remainingTimes[index],
+    restaurantPosition: { lat: 37.4599, lng: 126.9519 }, // Seoul National University
+    deliveryPosition: { lat: 37.4665, lng: 126.9527 }, // A location near SNU
+    riderPosition: { lat: 37.461, lng: 126.9509 }, // Another nearby location
   }));
 };
 
 const formatTime = (date: Date): string => {
   const hours = date.getHours();
   const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
 
   const period = hours >= 12 ? '오후' : '오전';
   const formattedHours = hours > 12 ? hours - 12 : hours;
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-  const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
 
-  return `${period} ${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  return `${period} ${formattedHours}:${formattedMinutes}`;
 };
 
 export const simulateDeliveryStatus = (
@@ -47,6 +48,6 @@ export const simulateDeliveryStatus = (
   mockData.forEach((data, index) => {
     setTimeout(() => {
       callback(data);
-    }, index * 2000);
+    }, index * 5000);
   });
 };

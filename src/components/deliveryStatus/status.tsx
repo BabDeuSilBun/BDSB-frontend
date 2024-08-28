@@ -284,7 +284,7 @@ const Status: React.FC<StatusProps> = () => {
     return null;
   }
 
-  const { status, arrivalTime, remainingTime } = statusData;
+  const { orderStatus, arrivalTime, remainingTime } = statusData;
 
   // // Function to calculate remaining time (real calculation, commented out for simulation function)
   // const calculateRemainingTime = (arrivalTime: string): number => {
@@ -337,7 +337,7 @@ const Status: React.FC<StatusProps> = () => {
   };
 
   const { title, description, progress, showCookingIcon, showRiderIcon } =
-    statusDetails[status];
+    statusDetails[orderStatus];
 
   return (
     <>
@@ -477,14 +477,10 @@ const Status: React.FC<StatusProps> = () => {
           </OrderDetailsContainer>
         ) : (
           <Map
-            orderStatus={status}
-            deliveryAddress="서울 특별시 한국대학교 땡땡구 33번길 12"
-            restaurantAddress={store?.address || ''}
-            riderPosition={
-              status === '배달시작' || status === '배달거의완료'
-                ? { lat: 37.5665, lng: 126.978 }
-                : undefined
-            }
+            orderStatus={orderStatus}
+            deliveryPosition={statusData.deliveryPosition}
+            restaurantPosition={statusData.restaurantPosition}
+            riderPosition={statusData.riderPosition}
           />
         )}
       </StatusContainer>

@@ -5,7 +5,21 @@ export type DeliveryStatusType =
   | '배달완료';
 
 export interface DeliveryStatusMockData {
-  status: DeliveryStatusType;
+  orderStatus: DeliveryStatusType;
   arrivalTime: string;
   remainingTime: number;
+}
+
+export interface LatLng {
+  lat: number;
+  lng: number;
+}
+
+export interface DeliveryStatusMockData {
+  orderStatus: DeliveryStatusType;
+  arrivalTime: string;
+  remainingTime: number;
+  restaurantPosition: LatLng;
+  deliveryPosition: LatLng;
+  riderPosition?: LatLng;
 }
