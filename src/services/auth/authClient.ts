@@ -13,7 +13,10 @@ export const setAuthToken = (token: string) => {
 
 // 요청 인터셉터 설정
 apiClientWithCredentials.interceptors.request.use((config) => {
-  console.log('Request Headers:', config.headers);
+  console.log(
+    'Request Headers:',
+    config.headers ? config.headers : 'Headers are empty',
+  );
   return config;
 });
 

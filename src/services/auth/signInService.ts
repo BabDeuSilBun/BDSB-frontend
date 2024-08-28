@@ -43,13 +43,11 @@ export async function handleSignIn(
 
     const jwtToken = res.data.accessToken;
     Cookies.set('jwtToken', jwtToken, {
-      secure: true,
+      secure: process.env.NODE_ENV !== 'development',
       sameSite: 'Strict',
     });
     setAuthToken(jwtToken);
-    const token = Cookies.get('jwtToken');
-    console.log('Stored JWT Token:', token);
-    router.push('/signIn');
+    router.push('/');
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const status = error.response?.status;
