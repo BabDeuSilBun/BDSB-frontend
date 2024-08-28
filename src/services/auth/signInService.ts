@@ -6,7 +6,6 @@ import { apiClient } from '../apiClient';
 import { setAuthToken } from '@/services/auth/authClient';
 import { validateSignInput } from '@/utils/validateSignInput';
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 interface NextRouter {
   push: (path: string) => void;
 }
@@ -16,7 +15,7 @@ export async function handleSignIn(
   password: string,
   userType: string,
   setError: (error: string) => void,
-  // router: NextRouter,
+  router: NextRouter,
 ) {
   if (email.trim() === '') {
     setError('이메일을 입력해주세요.');
@@ -47,10 +46,8 @@ export async function handleSignIn(
       secure: true,
       sameSite: 'Strict',
     });
-    console.log(`res.body: ${res.data.accessToken}`);
     setAuthToken(jwtToken);
-    console.log(`jwtToken: ${jwtToken}`);
-    // router.push('/');
+    router.push('/');
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const status = error.response?.status;
