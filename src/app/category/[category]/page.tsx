@@ -14,15 +14,15 @@ export default async function Home() {
   const queryClient = new QueryClient();
   const initialPageParam = 0;
   const selectedSort = 'deadline';
-  const category = '치킨';
+  const categoryId = 6;
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ['sortedList', selectedSort, category],
+    queryKey: ['sortedList', selectedSort, categoryId],
     queryFn: ({ pageParam = 0 }) =>
       getRestaurantsList({
         page: pageParam,
         sortCriteria: selectedSort,
-        foodCategoryFilter: category,
+        foodCategoryFilter: categoryId,
       }),
     initialPageParam,
   });

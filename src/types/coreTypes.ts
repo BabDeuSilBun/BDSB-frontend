@@ -52,6 +52,12 @@ export interface MeetingType extends CommonType {
   description?: string;
 }
 
+// Restaurant type definition
+export interface CategoryType {
+  categoryId: number;
+  name: string;
+}
+
 // Menu type definition
 export interface MenuType {
   menuId: number;
@@ -75,6 +81,10 @@ export interface IndividualPurchaseType {
 
 export interface RestaurantsResponse extends Response {
   content: RestaurantType[];
+}
+
+export interface CategoriesResponse extends Response {
+  content: CategoryType[];
 }
 
 export interface MenusResponse extends Response {
