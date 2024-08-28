@@ -164,7 +164,9 @@ const Header: React.FC<HeaderProps> = ({
             </button>
           )}
         </Flex>
-        <Flex $side="center">{text}</Flex>
+        <Flex $side="center">
+          <h1>{text}</h1>
+        </Flex>
         <Flex $side="right">
           {buttonRight && (
             <button type="button" onClick={handleRightButtonClick}>

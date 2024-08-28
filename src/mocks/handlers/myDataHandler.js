@@ -200,15 +200,31 @@ export const myDataHandlers = [
     });
   }),
 
-  http.delete(`${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`, () => {
-    return HttpResponse.status(204).json({
-      message: 'Image deleted successfully',
-    });
-  }),
+  http.delete(
+    `${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`,
+    async (req) => {
+      const inquiryId = Number(req.params.inquiryId);
+      const imageId = Number(req.params.imageId);
+      return HttpResponse.status(204).json({
+        message: `Image number ${imageId} of ${inquiryId} deleted successfully`,
+      });
+    },
+  ),
 
-  http.patch(`${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`, () => {
-    return HttpResponse.status(201).json({
-      message: 'Image updated successfully',
-    });
-  }),
+  http.patch(
+    `${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`,
+    async (req) => {
+      try {
+        const inquiryId = Number(req.params.inquiryId);
+        const imageId = Number(req.params.imageId);
+        const { sequence } = await req.json();
+        return HttpResponse.status(201).json({
+          message: `Image number ${imageId} of ${inquiryId} is updated to ${sequence} successfully`,
+        });
+      } catch (error) {
+        console.error('Error parsing URL:', error);
+        return HttpResponse.status(500).json({ message: 'Error parsing URL' });
+      }
+    },
+  ),
 ];
