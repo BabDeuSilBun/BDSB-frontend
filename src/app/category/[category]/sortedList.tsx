@@ -34,7 +34,7 @@ const options = [
 
 function SortedList() {
   const params = useParams();
-  const categoryName = (params.category as RestaurantCategory) || '치킨';
+  const categoryName = decodeURIComponent(params.category as string) || '치킨';
 
   const [selectedSort, setSelectedSort] = useState<string>('delivery-fee');
   const [isOpen, setIsOpen] = useState(false);
@@ -50,18 +50,19 @@ function SortedList() {
   useEffect(() => {
     if (categoriesData) {
       const categories = categoriesData.pages.flatMap((page) => page.content);
-      console.log(categories);
 
+      console.log(categoryName);
       const matchedCategory = categories.find(
         (cat) => cat.name === categoryName,
       );
       if (matchedCategory) {
-        setCategoryId(matchedCategory.categoryId);
         console.log(matchedCategory);
+
+        setCategoryId(matchedCategory.categoryId);
+      } else {
+        console.log('there is no categories matched');
       }
-      console.log('fetched success');
     }
-    console.log('non fetched');
   }, [categoriesData, categoryName]);
 
   const {
