@@ -11,7 +11,6 @@ import styled from 'styled-components';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
 import RestaurantsItem from '@/components/listItems/restaurantItem';
 import RestaurantSkeleton from '@/components/listItems/skeletons/restaurantSkeleton';
-import { RestaurantCategory } from '@/constant/category';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getCategoriesList } from '@/services/restaurantService';
 import { getRestaurantsList } from '@/services/restaurantService';
