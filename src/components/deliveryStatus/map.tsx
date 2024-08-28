@@ -11,15 +11,13 @@ interface MapProps {
   deliveryPosition: DeliveryStatusMockData['deliveryPosition'];
   restaurantPosition: DeliveryStatusMockData['restaurantPosition'];
   riderPosition?: DeliveryStatusMockData['riderPosition'];
-  padding?: string;
-  margin?: string;
 }
 
 const MapContainer = styled.div`
   width: 100%;
-  height: 450px;
+  height: 455px;
   padding: 0;
-  margin: 10px 0 0;
+  margin: 5px 0 0;
 `;
 
 const Map: React.FC<MapProps> = ({
@@ -63,34 +61,48 @@ const Map: React.FC<MapProps> = ({
         if (window.kakao && window.kakao.maps && window.kakao.maps.LatLng) {
           const mapContainer = document.getElementById('map') as HTMLElement;
           const mapOption = {
-            center: new window.kakao.maps.LatLng(37.4599, 126.9519), // Seoul National University
+            center: new window.kakao.maps.LatLng(
+              deliveryPosition.lat, // Set the delivery position as the center
+              deliveryPosition.lng,
+            ),
             level: 5, // Map zoom level
+            draggable: false, // Disable dragging
+            scrollwheel: false, // Disable scroll zooming
+            disableDoubleClickZoom: true, // Disable double-click zoom
+            disableDoubleClick: true, // Disable double-click
           };
 
           const map = new window.kakao.maps.Map(mapContainer, mapOption);
 
-          const placeMarker = (
+          // Helper function to place custom markers with different colors
+          const placeCustomMarker = (
             position: kakao.maps.LatLng,
             map: kakao.maps.Map,
+            color: string,
           ) => {
-            const marker = new window.kakao.maps.Marker({
-              position,
+            const content = `<div style="width: 20px; height: 20px; background-color: ${color}; border-radius: 50%; border: 2px solid white;"></div>`;
+
+            const customOverlay = new window.kakao.maps.CustomOverlay({
+              position: position,
+              content: content,
+              yAnchor: 1,
             });
-            marker.setMap(map);
+
+            customOverlay.setMap(map);
           };
 
-          // Place markers for restaurant, delivery, and rider positions
+          // Place custom markers for restaurant, delivery, and rider positions
           const restaurantLatLng = new window.kakao.maps.LatLng(
             restaurantPosition.lat,
             restaurantPosition.lng,
           );
-          placeMarker(restaurantLatLng, map);
+          placeCustomMarker(restaurantLatLng, map, '#FF0000'); // Red for restaurant
 
           const deliveryLatLng = new window.kakao.maps.LatLng(
             deliveryPosition.lat,
             deliveryPosition.lng,
           );
-          placeMarker(deliveryLatLng, map);
+          placeCustomMarker(deliveryLatLng, map, '#00FF00'); // Green for delivery
 
           if (
             (orderStatus === '배달시작' || orderStatus === '배달거의완료') &&
@@ -100,20 +112,22 @@ const Map: React.FC<MapProps> = ({
               riderPosition.lat,
               riderPosition.lng,
             );
-            placeMarker(riderLatLng, map);
-            map.setCenter(riderLatLng);
+            placeCustomMarker(riderLatLng, map, '#0000FF'); // Blue for rider
 
             const linePath = [deliveryLatLng, riderLatLng];
             const polyline = new window.kakao.maps.Polyline({
               path: linePath,
               strokeWeight: 5,
-              strokeColor: '#FF0000',
+              strokeColor: 'var(--primary)',
               strokeOpacity: 0.8,
               strokeStyle: 'solid',
             });
 
             polyline.setMap(map);
           }
+
+          // Keep the delivery position centered
+          map.setCenter(deliveryLatLng);
         } else if (retries < maxRetries) {
           setTimeout(() => attemptInitialization(retries + 1), retryDelay);
         } else {

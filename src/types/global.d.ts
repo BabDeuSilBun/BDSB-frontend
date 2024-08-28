@@ -32,6 +32,9 @@ declare namespace kakao {
     }
 
     class Marker {
+      getPosition() {
+        throw new Error('Method not implemented.');
+      }
       constructor(options: object);
       setMap(map: Map): void;
     }

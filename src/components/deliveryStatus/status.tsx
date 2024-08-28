@@ -448,7 +448,7 @@ const Status: React.FC<StatusProps> = () => {
         >
           {isOpen ? '주문정보 닫기' : '주문정보 열기'}
         </Button>
-        {isOpen ? (
+        {isOpen && (
           <OrderDetailsContainer $isOpen={isOpen}>
             {teamPurchaseData?.pages.map((page, pageIndex) => (
               <OrderDetails
@@ -475,15 +475,17 @@ const Status: React.FC<StatusProps> = () => {
             ))}
             {(isFetchingNextPage1 || isFetchingNextPage2) && <Loading />}
           </OrderDetailsContainer>
-        ) : (
-          <Map
-            orderStatus={orderStatus}
-            deliveryPosition={statusData.deliveryPosition}
-            restaurantPosition={statusData.restaurantPosition}
-            riderPosition={statusData.riderPosition}
-          />
         )}
       </StatusContainer>
+
+      {!isOpen && (
+        <Map
+          orderStatus={orderStatus}
+          deliveryPosition={statusData.deliveryPosition}
+          restaurantPosition={statusData.restaurantPosition}
+          riderPosition={statusData.riderPosition}
+        />
+      )}
     </>
   );
 };

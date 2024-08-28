@@ -27,7 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "jest.config.ts"
+    "src/kakao.d.ts"
   ],
   "exclude": ["node_modules"]
 }
