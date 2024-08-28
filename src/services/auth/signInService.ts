@@ -42,12 +42,12 @@ export async function handleSignIn(
       password,
     });
 
-    const jwtToken = res.headers.Authorization;
+    const jwtToken = res.data.token;
     // Cookies.set('jwtToken', jwtToken, {
     //   secure: true,
     //   sameSite: 'Strict',
     // });
-    console.log(`res.headers: ${res.headers}`);
+    console.log(`res.headers: ${res.data}`);
     setAuthToken(jwtToken);
     console.log(`jwtToken: ${jwtToken}`);
     // router.push('/');

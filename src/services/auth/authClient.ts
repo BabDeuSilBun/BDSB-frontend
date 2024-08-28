@@ -39,7 +39,7 @@ export const setupInterceptors = (router: NextRouter) => {
           try {
             const res =
               await apiClientWithCredentials.post('/api/refresh-token');
-            const newJwtToken = res.headers.Authorization;
+            const newJwtToken = res.data.token;
 
             setAuthToken(newJwtToken);
             Cookies.set('jwtToken', newJwtToken);
