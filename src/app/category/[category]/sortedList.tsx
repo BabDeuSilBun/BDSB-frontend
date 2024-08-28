@@ -50,13 +50,18 @@ function SortedList() {
   useEffect(() => {
     if (categoriesData) {
       const categories = categoriesData.pages.flatMap((page) => page.content);
+      console.log(categories);
+
       const matchedCategory = categories.find(
         (cat) => cat.name === categoryName,
       );
       if (matchedCategory) {
         setCategoryId(matchedCategory.categoryId);
+        console.log(matchedCategory);
       }
+      console.log('fetched success');
     }
+    console.log('non fetched');
   }, [categoriesData, categoryName]);
 
   const {
