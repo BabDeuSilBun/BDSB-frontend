@@ -1,6 +1,5 @@
 'use client';
 
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -12,6 +11,7 @@ import InquiryHistory from './history';
 
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { apiClientWithCredentials } from '@/services/apiClient';
 import Container from '@/styles/container';
 
 const InquiryForum = () => {
@@ -42,7 +42,11 @@ const InquiryForum = () => {
           }
         : {};
 
-      await axios.post(`/api/users/inquires`, formData, config);
+      await apiClientWithCredentials.post(
+        `/api/users/inquires`,
+        formData,
+        config,
+      );
       console.log(formData);
       alert('문의가 접수되었습니다.');
       setPageType('history');

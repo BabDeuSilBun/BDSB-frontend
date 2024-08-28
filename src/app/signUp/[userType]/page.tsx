@@ -1,6 +1,5 @@
 'use client';
 
-import axios from 'axios';
 import { useEffect } from 'react';
 
 import { useParams, useRouter } from 'next/navigation';
@@ -9,6 +8,7 @@ import SignUpForm from '../form/form';
 
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { apiClient } from '@/services/apiClient';
 import { useSignUpStore } from '@/state/authStore';
 
 const SignUp = () => {
@@ -75,8 +75,7 @@ const SignUp = () => {
             };
 
       try {
-        const response = await axios.post(`/api/${userType}/signup`, userData);
-        console.log('Success:', response.data);
+        await apiClient.post(`/api/${userType}/signup`, userData);
         router.push('/signIn');
       } catch (error) {
         console.error('Error during signup:', error);

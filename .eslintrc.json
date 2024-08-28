@@ -70,7 +70,7 @@
       }
     ],
     "import/order": [
-      "error",
+      "warn",
       {
         "newlines-between": "always",
         "alphabetize": {

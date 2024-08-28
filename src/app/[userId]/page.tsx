@@ -143,7 +143,7 @@ const MyPage = () => {
         </Flexbox>
         <Flexbox>
           <BaseBtnInactive
-            onClick={() => router.push(`/${data?.nickname.trim()}`)}
+            onClick={() => router.push(`/${data?.nickname.trim()}/edit`)}
           >
             프로필수정
           </BaseBtnInactive>
