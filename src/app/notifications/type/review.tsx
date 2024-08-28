@@ -41,7 +41,7 @@ const Box = styled.div`
   }
 `;
 
-const NotificationDetail = () => {
+const ReviewLetter = () => {
   const nickname = '밥먹자';
 
   const { data } = useQuery({
@@ -69,4 +69,4 @@ const NotificationDetail = () => {
   );
 };
 
-export default NotificationDetail;
+export default ReviewLetter;
