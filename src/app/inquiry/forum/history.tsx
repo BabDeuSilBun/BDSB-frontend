@@ -18,6 +18,7 @@ import TriggerButton from './triggerButton';
 import InquirySkeleton from '@/components/listItems/skeletons/inquirySkeleton';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { apiClientWithCredentials } from '@/services/apiClient';
+import { INQUIRY_LIST_API_URL } from '@/services/myDataService';
 import { getInquiries, getInquiryImages } from '@/services/myDataService';
 import { ImageArrayType } from '@/types/types';
 import { formatDateTime } from '@/utils/formateDateTime';
@@ -99,7 +100,7 @@ const InquiryHistory = () => {
         `Deleting image with inquiryId: ${inquiryId} and imageId: ${imageId}`,
       );
       await apiClientWithCredentials.delete(
-        `/api/users/inquiries/${inquiryId}/images/${imageId}`,
+        `${INQUIRY_LIST_API_URL}/${inquiryId}/images/${imageId}`,
       );
     },
     onError: (error) => {
@@ -124,8 +125,8 @@ const InquiryHistory = () => {
       console.log(
         `Updating image with inquiryId: ${inquiryId} and imageId: ${imageId}`,
       );
-      await apiClientWithCredentials.put(
-        `/api/users/inquiries/${inquiryId}/images/${imageId}`,
+      await apiClientWithCredentials.patch(
+        `${INQUIRY_LIST_API_URL}/${inquiryId}/images/${imageId}`,
         {
           sequence,
         },
@@ -149,9 +150,6 @@ const InquiryHistory = () => {
       const editedImage = editedImages.find(
         (img) => img.imageId === originalImage.imageId,
       );
-
-      console.log(`edited:`, editedImage);
-      console.log(`original:`, originalImage);
 
       if (!editedImage) {
         deleteImageMutation.mutate({
