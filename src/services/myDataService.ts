@@ -96,7 +96,7 @@ export const getMyEvaluates = async (): Promise<EvaluateType> => {
 export const getPointDetailList = async ({
   page = 0,
   size = 10,
-  sortCriteria = null,
+  sortCriteria = 'earn',
 }: GetListParams): Promise<PointsResponse> => {
   try {
     const response = await apiClientWithCredentials.get<PointsResponse>(
