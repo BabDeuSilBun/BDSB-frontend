@@ -5,18 +5,19 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import { Divider } from '@chakra-ui/react';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+// import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import { SmallCustomDropdown } from '@/components/common/dropdown';
-import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
-import ImminentOrderSkeleton from '@/components/listItems/skeletons/imminentOrderSkeleton';
+// import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
+// import ImminentOrderSkeleton from '@/components/listItems/skeletons/imminentOrderSkeleton';
 import TeamOrderSkeleton from '@/components/listItems/skeletons/teamOrderSkeleton';
 import TeamOrderItem from '@/components/listItems/teamOrderItem';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getTeamOrderList } from '@/services/teamOrderService';
 import PaddingBox from '@/styles/paddingBox';
-import { MeetingsResponse } from '@/types/coreTypes';
+// import { MeetingsResponse } from '@/types/coreTypes';
 
 const ListContainer = styled.section`
   margin: 110px 0 20px;
@@ -83,16 +84,16 @@ function TeamOrderList() {
     }
   }, [searchParams]);
 
-  const {
-    data: imminentData,
-    isLoading: imminentLoading,
-    isError: imminentError,
-    error: imminentErrorStatus,
-  } = useQuery<MeetingsResponse>({
-    queryKey: ['imminentTeamOrders'],
-    queryFn: () =>
-      getTeamOrderList({ page: 0, size: 4, sortCriteria: 'deadline' }),
-  });
+  // const {
+  //   data: imminentData,
+  //   isLoading: imminentLoading,
+  //   isError: imminentError,
+  //   error: imminentErrorStatus,
+  // } = useQuery<MeetingsResponse>({
+  //   queryKey: ['imminentTeamOrders'],
+  //   queryFn: () =>
+  //     getTeamOrderList({ page: 0, size: 4, sortCriteria: 'deadline' }),
+  // });
 
   const {
     data,
@@ -135,7 +136,7 @@ function TeamOrderList() {
     <ListContainer>
       <SectionContainer $additional="0">
         <CardContainer>
-          {imminentError ? (
+          {/* {imminentError ? (
             <p>
               Error:{' '}
               {imminentErrorStatus?.message ||
@@ -154,7 +155,7 @@ function TeamOrderList() {
             ))
           ) : (
             <PaddingBox>합류 가능한 모임이 없습니다.</PaddingBox>
-          )}
+          )} */}
         </CardContainer>
       </SectionContainer>
 
