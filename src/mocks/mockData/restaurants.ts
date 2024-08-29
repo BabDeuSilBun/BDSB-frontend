@@ -8,19 +8,19 @@ export const stores: RestaurantType[] = [
     images: [
       {
         imageId: 201,
-        url: 'https://via.placeholder.com/300x200?text=Representative+Image',
+        url: 'https://bdsbmockdata.s3.ap-southeast-2.amazonaws.com/store1.jpg',
         sequence: 1,
         isRepresentative: true,
       },
       {
         imageId: 202,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://bdsbmockdata.s3.ap-southeast-2.amazonaws.com/store2.jpg',
         sequence: 2,
         isRepresentative: false,
       },
       {
         imageId: 203,
-        url: 'https://via.placeholder.com/300x200',
+        url: 'https://bdsbmockdata.s3.ap-southeast-2.amazonaws.com/store3.jpg',
         sequence: 3,
         isRepresentative: false,
       },
