@@ -80,7 +80,7 @@ const ListItem = styled.li`
   }
 `;
 
-const MyPage = () => {
+const Profile = () => {
   const router = useRouter();
 
   const { data, isLoading, isError } = useQuery({
@@ -142,9 +142,7 @@ const MyPage = () => {
           </span>
         </Flexbox>
         <Flexbox>
-          <BaseBtnInactive
-            onClick={() => router.push(`/${data?.nickname.trim()}/edit`)}
-          >
+          <BaseBtnInactive onClick={() => router.push(`/myPage/edit`)}>
             프로필수정
           </BaseBtnInactive>
         </Flexbox>
@@ -154,7 +152,7 @@ const MyPage = () => {
         <ListContainer>
           <EvaluateContainer>
             <h3>평가 배지</h3>
-            <button onClick={() => router.push('/myPage/evaluate')}>
+            <button onClick={() => router.push('/Profile/evaluate')}>
               {'>'}
             </button>
           </EvaluateContainer>
@@ -181,4 +179,4 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default Profile;

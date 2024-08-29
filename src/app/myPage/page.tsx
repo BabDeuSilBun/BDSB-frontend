@@ -102,7 +102,7 @@ const MyPage = () => {
                   ? '불러오는 중'
                   : data && data.nickname}
             </Nickname>
-            <AddressButton onClick={() => router.push('/myPage/manageAddress')}>
+            <AddressButton onClick={() => router.push('/myPage/edit/address')}>
               <Image
                 src="./map-pin.svg"
                 alt="map pin icon"
@@ -132,7 +132,7 @@ const MyPage = () => {
           </ListItem> */}
           <ListItem>
             <p>환불 계좌 입력</p>
-            <ListButton onClick={() => router.push('/myPage/bankAccount')}>
+            <ListButton onClick={() => router.push('/myPage/edit/bankAccount')}>
               {'>'}
             </ListButton>
           </ListItem>
