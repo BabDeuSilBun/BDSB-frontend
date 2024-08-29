@@ -118,7 +118,6 @@ const MainHeader = () => {
   const searchParams = useSearchParams();
   const [selectedMenu, setSelectedMenu] = useState<string>('teamOrder');
   const { isOpen, onToggle } = useDisclosure();
-  const [selectedSchool, setSelectedSchool] = useState('');
   const [selectedCampus, setSelectedCampus] = useState<string>('');
   const [selectedSchoolId, setSelectedSchoolId] = useState<number>();
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -163,7 +162,6 @@ const MainHeader = () => {
 
       if (storedCampus) {
         setSelectedSchoolId(storedCampus.schoolId);
-        setSelectedSchool(storedCampus.school);
         setSelectedCampus(storedCampus.campus);
       }
     } else if (myData && data) {
@@ -174,7 +172,6 @@ const MainHeader = () => {
       if (defaultCampus) {
         setSelectedCampus(defaultCampus.campus);
         setSelectedSchoolId(defaultCampus.schoolId);
-        setSelectedSchool(defaultCampus.school);
         if (!isNaN(Number(defaultCampus.schoolId))) {
           localStorage.setItem(
             'selectedSchoolId',
@@ -220,7 +217,7 @@ const MainHeader = () => {
           <HeaderDrawer onToggle={onToggle} $isOpen={isOpen} />
           <CampusDropdown>
             <SelectedCampus onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-              <h1>{`${selectedSchool} ${selectedCampus}` || '캠퍼스 선택'}</h1>
+              <h1>{`${myData?.school} ${selectedCampus}` || '캠퍼스 선택'}</h1>
               <ToggleBtn $isOpen={isDropdownOpen}>{'>'}</ToggleBtn>
             </SelectedCampus>
             {isDropdownOpen && (
