@@ -153,7 +153,7 @@ const MyPoint = () => {
           </>
         ) : status === 'error' ? (
           <p>Error: {error.message}</p>
-        ) : data && data.pages.length > 0 ? (
+        ) : data && data.pages[0].content.length > 0 ? (
           <>
             {data.pages.map((page) =>
               page.content.map((item, index) => (

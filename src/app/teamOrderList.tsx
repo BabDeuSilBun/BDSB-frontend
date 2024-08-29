@@ -15,6 +15,7 @@ import TeamOrderSkeleton from '@/components/listItems/skeletons/teamOrderSkeleto
 import TeamOrderItem from '@/components/listItems/teamOrderItem';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getTeamOrderList } from '@/services/teamOrderService';
+import PaddingBox from '@/styles/paddingBox';
 import { MeetingsResponse } from '@/types/coreTypes';
 
 const ListContainer = styled.section`
@@ -184,7 +185,7 @@ function TeamOrderList() {
           </>
         )}
         {status === 'error' && <p>Error: {error.message}</p>}
-        {status === 'success' && data && (
+        {data && data.pages[0].content.length > 0 ? (
           <>
             {data.pages.map((page) =>
               page.content.map((item, index) => (
@@ -200,8 +201,9 @@ function TeamOrderList() {
               )),
             )}
           </>
+        ) : (
+          <PaddingBox>모집 중인 모임이 없습니다.</PaddingBox>
         )}
-        {status === 'success' && !data && <div>모집 중인 모임이 없습니다.</div>}
       </SectionContainer>
     </ListContainer>
   );

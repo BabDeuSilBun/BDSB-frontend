@@ -14,6 +14,7 @@ import CategoryItem from '@/components/listItems/categoryItem';
 import BigRestaurantItemSkeleton from '@/components/listItems/skeletons/bigRestaurantSkeleton';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getRestaurantsList } from '@/services/restaurantService';
+import PaddingBox from '@/styles/paddingBox';
 
 const ListContainer = styled.section`
   margin: 110px 0 20px;
@@ -113,7 +114,7 @@ function RestaurantsList() {
         </>
       ) : status === 'error' ? (
         <p>Error: {error.message}</p>
-      ) : data && data.pages.length > 0 ? (
+      ) : data && data.pages[0].content.length > 0 ? (
         <>
           {data.pages.map((page) =>
             page.content.map((item, index) => (
@@ -127,7 +128,7 @@ function RestaurantsList() {
           )}
         </>
       ) : (
-        <div>주문 가능한 가게가 없습니다.</div>
+        <PaddingBox>주문 가능한 가게가 없습니다.</PaddingBox>
       )}
     </ListContainer>
   );
