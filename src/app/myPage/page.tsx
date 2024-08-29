@@ -84,7 +84,7 @@ const MyPage = () => {
       <Container>
         <Flexbox>
           <ImageWrapper>
-            {data && (
+            {data && data.image && (
               <Image
                 src={data.image}
                 alt="My Profile Image"

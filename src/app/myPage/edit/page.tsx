@@ -77,6 +77,12 @@ const EditUserInfo = () => {
             <span>{data ? data.email : '불러오는 중..'}</span>
           </ListItem>
           <ListItem>
+            <p>소속 캠퍼스</p>
+            <span>
+              {data ? `${data.school} ${data.campus}` : '불러오는 중..'}
+            </span>
+          </ListItem>
+          <ListItem>
             <p>소속 학과</p>
             <span>{data ? data.major : '불러오는 중..'}</span>
           </ListItem>
