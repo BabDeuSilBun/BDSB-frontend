@@ -152,30 +152,32 @@ const MainHeader = () => {
   });
 
   useEffect(() => {
-    const storedSchoolId = localStorage.getItem('selectedSchoolId');
+    if (data && data.pages) {
+      const storedSchoolId = localStorage.getItem('selectedSchoolId');
 
-    if (storedSchoolId && data && Array.isArray(data.pages)) {
-      const storedCampus = data.pages
-        .flatMap((page) => page.content || [])
-        .find((item) => item.schoolId === Number(storedSchoolId));
+      if (storedSchoolId) {
+        const storedCampus = data.pages
+          .flatMap((page) => page.content)
+          .find((item) => item.schoolId === Number(storedSchoolId));
 
-      if (storedCampus) {
-        setSelectedSchoolId(storedCampus.schoolId);
-        setSelectedCampus(storedCampus.campus);
-      }
-    } else if (myData && data && Array.isArray(data.pages)) {
-      const defaultCampus = data.pages
-        .flatMap((page) => page.content || [])
-        .find((item) => item.campus === myData.campus);
+        if (storedCampus) {
+          setSelectedSchoolId(storedCampus.schoolId);
+          setSelectedCampus(storedCampus.campus);
+        }
+      } else if (myData) {
+        const defaultCampus = data.pages
+          .flatMap((page) => page.content)
+          .find((item) => item.campus === myData.campus);
 
-      if (defaultCampus) {
-        setSelectedCampus(defaultCampus.campus);
-        setSelectedSchoolId(defaultCampus.schoolId);
-        if (!isNaN(Number(defaultCampus.schoolId))) {
-          localStorage.setItem(
-            'selectedSchoolId',
-            defaultCampus.schoolId.toString(),
-          );
+        if (defaultCampus) {
+          setSelectedCampus(defaultCampus.campus);
+          setSelectedSchoolId(defaultCampus.schoolId);
+          if (!isNaN(Number(defaultCampus.schoolId))) {
+            localStorage.setItem(
+              'selectedSchoolId',
+              defaultCampus.schoolId.toString(),
+            );
+          }
         }
       }
     }
