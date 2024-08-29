@@ -85,8 +85,9 @@ function TeamOrderList() {
 
   const {
     data: imminentData,
-    status: imminentStatus,
-    error: imminentError,
+    isLoading: imminentLoading,
+    isError: imminentError,
+    error: imminentErrorStatus,
   } = useQuery<MeetingsResponse>({
     queryKey: ['imminentTeamOrders'],
     queryFn: () =>
@@ -136,28 +137,26 @@ function TeamOrderList() {
       <SectionContainer $additional="0">
         <GroupTitle>임박한 모임</GroupTitle>
         <CardContainer>
-          {imminentStatus === 'pending' && (
+          {imminentError ? (
+            <p>
+              Error:{' '}
+              {imminentErrorStatus?.message ||
+                '알 수 없는 오류가 발생했습니다.'}
+            </p>
+          ) : imminentLoading ? (
             <>
               <ImminentOrderSkeleton />
               <ImminentOrderSkeleton />
               <ImminentOrderSkeleton />
               <ImminentOrderSkeleton />
             </>
+          ) : imminentData ? (
+            imminentData.content.map((item) => (
+              <ImminentOrderItem key={item.meetingId} item={item} />
+            ))
+          ) : (
+            <PaddingBox>합류 가능한 모임이 없습니다.</PaddingBox>
           )}
-          {imminentStatus === 'error' && (
-            <p>
-              Error:{' '}
-              {imminentError?.message || '알 수 없는 오류가 발생했습니다.'}
-            </p>
-          )}
-          {imminentStatus === 'success' &&
-            (imminentData?.content.length > 0 ? (
-              imminentData.content.map((item) => (
-                <ImminentOrderItem key={item.meetingId} item={item} />
-              ))
-            ) : (
-              <PaddingBox x>합류 가능한 모임이 없습니다.</PaddingBox>
-            ))}
         </CardContainer>
       </SectionContainer>
 
@@ -174,8 +173,9 @@ function TeamOrderList() {
             onToggle={handleToggle}
           />
         </DropDownWrapper>
-
-        {status === 'pending' && (
+        {status === 'error' ? (
+          <p>Error: {error.message}</p>
+        ) : status === 'pending' ? (
           <>
             <TeamOrderSkeleton />
             <TeamOrderSkeleton />
@@ -183,9 +183,7 @@ function TeamOrderList() {
             <TeamOrderSkeleton />
             <TeamOrderSkeleton />
           </>
-        )}
-        {status === 'error' && <p>Error: {error.message}</p>}
-        {data && data.pages[0].content.length > 0 ? (
+        ) : data && data.pages.length > 0 ? (
           <>
             {data.pages.map((page) =>
               page.content.map((item, index) => (

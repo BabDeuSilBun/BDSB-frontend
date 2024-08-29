@@ -231,7 +231,7 @@ export const getInquiryImages = async (inquiryId: number) => {
     const response = await apiClientWithCredentials.get(
       `${INQUIRY_LIST_API_URL}/${inquiryId}/images`,
     );
-    return response.data.length > 0 ? response.data : [];
+    return response.data;
   } catch (error) {
     console.error('Error fetching inquiry data:', error);
     throw new Error(

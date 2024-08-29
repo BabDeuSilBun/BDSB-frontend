@@ -53,21 +53,23 @@ const InquiryImages: React.FC<InquiryImagesProps> = ({
     );
   }
 
-  return (
-    <>
-      {images.map((item: ImageType) => (
-        <ImageWrapper key={item.imageId}>
-          <Image
-            src={item.url}
-            alt={`${item.sequence}번 째 이미지`}
-            fill
-            style={{ objectFit: 'cover' }}
-            priority
-          />
-        </ImageWrapper>
-      ))}
-    </>
-  );
+  if (images.length > 0) {
+    return (
+      <>
+        {images.map((item: ImageType) => (
+          <ImageWrapper key={item.imageId}>
+            <Image
+              src={item.url}
+              alt={`${item.sequence}번 째 이미지`}
+              fill
+              style={{ objectFit: 'cover' }}
+              priority
+            />
+          </ImageWrapper>
+        ))}
+      </>
+    );
+  }
 };
 
 export default InquiryImages;
