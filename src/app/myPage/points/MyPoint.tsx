@@ -3,12 +3,18 @@
 import { useState } from 'react';
 
 import { Divider } from '@chakra-ui/react';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import PointItem from '@/components/listItems/pointItem';
 import PointSkeleton from '@/components/listItems/skeletons/pointSkeleton';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { apiClientWithCredentials } from '@/services/apiClient';
 import { getMyData, getPointDetailList } from '@/services/myDataService';
 import { RoundBtnFilled, SmallRdBtn } from '@/styles/button';
 import Container from '@/styles/container';
@@ -46,6 +52,7 @@ const SortingBtns = styled.div`
 
 const MyPoint = () => {
   const [activeBtn, setActiveBtn] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const handleBtnClick = (btnType: string | null) => {
     setActiveBtn(btnType);
@@ -86,6 +93,23 @@ const MyPoint = () => {
     fetchNextPage,
   });
 
+  const mutation = useMutation({
+    mutationFn: () =>
+      apiClientWithCredentials.post('/api/users/point/withdrawal'),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myData'] });
+    },
+    onError: (error) => {
+      console.error('포인트 인출 중 오류 발생:', error);
+    },
+  });
+
+  const handlePointWithdrawal = () => {
+    if (confirm('전액 인출하시겠습니까?')) {
+      mutation.mutate();
+    }
+  };
+
   return (
     <ContainerSection>
       <Flex>
@@ -93,7 +117,12 @@ const MyPoint = () => {
           <h2>보유</h2>
           <h3>{`${isErrorUserData ? '포인트를 불러올 수 없음' : isLoadingUserData ? '0' : userData && userData.point}P`}</h3>
         </div>
-        <RoundBtnFilled>전액 인출하기</RoundBtnFilled>
+        <RoundBtnFilled
+          onClick={handlePointWithdrawal}
+          disabled={isLoadingUserData}
+        >
+          전액 인출하기
+        </RoundBtnFilled>
       </Flex>
       <SortingBtns>
         <SmallRdBtn
