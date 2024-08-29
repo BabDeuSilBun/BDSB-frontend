@@ -35,7 +35,7 @@ const options = [
 function RestaurantsList() {
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
-  const [selectedSort, setSelectedSort] = useState<string>('deadline');
+  const [selectedSort, setSelectedSort] = useState<string>('delivery-fee');
   const [schoolId, setSchoolId] = useState<number | null>(null);
 
   useEffect(() => {

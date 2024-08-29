@@ -30,6 +30,7 @@ const UpperContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 0.5rem;
+  padding: 0 1rem;
 `;
 
 const CampusDropdown = styled.div`
@@ -44,7 +45,7 @@ const CampusDropdown = styled.div`
 
 const SelectedCampus = styled.div`
   color: var(--gray500);
-  padding: 0.4rem 2rem 0.4rem 0;
+  padding: 0.4rem 2rem 0.4rem 0.4rem;
   border: none;
   cursor: pointer;
   text-overflow: ellipsis;
