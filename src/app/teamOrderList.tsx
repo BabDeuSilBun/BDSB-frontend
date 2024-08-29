@@ -5,16 +5,15 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import { Divider } from '@chakra-ui/react';
-// import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
-// import { SmallCustomDropdown } from '@/components/common/dropdown';
+import { SmallCustomDropdown } from '@/components/common/dropdown';
 import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
 import ImminentOrderSkeleton from '@/components/listItems/skeletons/imminentOrderSkeleton';
-// import TeamOrderSkeleton from '@/components/listItems/skeletons/teamOrderSkeleton';
-// import TeamOrderItem from '@/components/listItems/teamOrderItem';
-// import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import TeamOrderSkeleton from '@/components/listItems/skeletons/teamOrderSkeleton';
+import TeamOrderItem from '@/components/listItems/teamOrderItem';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getTeamOrderList } from '@/services/teamOrderService';
 import PaddingBox from '@/styles/paddingBox';
 import { MeetingsResponse } from '@/types/coreTypes';
@@ -39,27 +38,27 @@ const CardContainer = styled.div`
   }
 `;
 
-// const DropDownWrapper = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-// `;
+const DropDownWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
-// const GroupTitle = styled.h3`
-//   font-weight: var(--font-semi-bold);
-//   font-size: var(--font-size-xl);
-// `;
+const GroupTitle = styled.h3`
+  font-weight: var(--font-semi-bold);
+  font-size: var(--font-size-xl);
+`;
 
-// const options = [
-//   { value: 'deadline', name: '주문이 임박한 순' },
-//   { value: 'delivery-fee', name: '배달비가 낮은 순' },
-//   { value: 'min-price', name: '최소주문금액이 낮은 순' },
-//   { value: 'delivery-time', name: '배송시간이 짧은 순' },
-// ];
+const options = [
+  { value: 'deadline', name: '주문이 임박한 순' },
+  { value: 'delivery-fee', name: '배달비가 낮은 순' },
+  { value: 'min-price', name: '최소주문금액이 낮은 순' },
+  { value: 'delivery-time', name: '배송시간이 짧은 순' },
+];
 
 function TeamOrderList() {
-  // const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
-  // const [selectedSort, setSelectedSort] = useState<string>('deadline');
+  const [selectedSort, setSelectedSort] = useState<string>('deadline');
   const [schoolId, setSchoolId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -95,42 +94,42 @@ function TeamOrderList() {
       getTeamOrderList({ page: 0, size: 4, sortCriteria: 'deadline' }),
   });
 
-  // const {
-  //   data,
-  //   error,
-  //   fetchNextPage,
-  //   hasNextPage,
-  //   isFetchingNextPage,
-  //   status,
-  // } = useInfiniteQuery({
-  //   queryKey: ['teamOrderList', selectedSort, schoolId],
-  //   queryFn: ({ pageParam = 0 }) =>
-  //     getTeamOrderList({
-  //       page: pageParam,
-  //       sortCriteria: selectedSort,
-  //       schoolId: schoolId,
-  //     }),
-  //   initialPageParam: 0,
-  //   getNextPageParam: (lastPage) => {
-  //     return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
-  //   },
-  // });
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ['teamOrderList', selectedSort, schoolId],
+    queryFn: ({ pageParam = 0 }) =>
+      getTeamOrderList({
+        page: pageParam,
+        sortCriteria: selectedSort,
+        schoolId: schoolId,
+      }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
+    },
+  });
 
-  // const lastElementRef = useInfiniteScroll<HTMLDivElement>({
-  //   hasNextPage,
-  //   isFetchingNextPage,
-  //   fetchNextPage,
-  // });
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
-  // const handleSelect = (value: string | null) => {
-  //   if (value !== null) {
-  //     setSelectedSort(value);
-  //   }
-  // };
+  const handleSelect = (value: string | null) => {
+    if (value !== null) {
+      setSelectedSort(value);
+    }
+  };
 
-  // const handleToggle = () => {
-  //   setIsOpen(!isOpen);
-  // };
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <ListContainer>
@@ -161,7 +160,7 @@ function TeamOrderList() {
 
       <Divider />
 
-      {/* <SectionContainer>
+      <SectionContainer>
         <DropDownWrapper>
           <GroupTitle>모임 모아보기</GroupTitle>
           <SmallCustomDropdown
@@ -201,7 +200,7 @@ function TeamOrderList() {
         ) : (
           <PaddingBox zero>합류 가능한 모임이 없습니다.</PaddingBox>
         )}
-      </SectionContainer> */}
+      </SectionContainer>
     </ListContainer>
   );
 }
