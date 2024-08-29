@@ -137,7 +137,7 @@ function SortedList() {
                 key={item.storeId}
                 ref={index === page.content.length - 1 ? lastElementRef : null}
               >
-                <RestaurantsItem item={item} key={item.storeId} />
+                <RestaurantsItem item={item} />
                 <Divider />
               </div>
             )),
