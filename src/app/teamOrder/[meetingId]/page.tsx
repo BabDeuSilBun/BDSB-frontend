@@ -270,7 +270,7 @@ const TeamOrderPage = () => {
       <Header buttonLeft="back" text={meeting?.storeName} />
       <Container>
         <MainImage
-          src={meeting?.images[0]?.url || '/path/to/placeholder/image.jpg'}
+          src={meeting?.image[0]?.url || '/path/to/placeholder/image.jpg'}
           alt={meeting?.storeName || 'No image available'}
         />
         <MeetingStatus
