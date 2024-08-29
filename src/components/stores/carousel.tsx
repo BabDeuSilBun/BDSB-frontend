@@ -14,7 +14,7 @@ interface CarouselProps {
 }
 
 const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
-  ({ images }, ref) => {
+  ({ images = [] }, ref) => {
     const [slider, setSlider] = useState<Slider | null>(null);
     const [currentSlide, setCurrentSlide] = useState(1);
 

@@ -1,8 +1,10 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import { useRouter } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import UpdateImage from './updateImage';
@@ -47,11 +49,16 @@ const ListButton = styled.button.attrs({
 
 const EditUserInfo = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { data } = useQuery({
     queryKey: ['myData'],
     queryFn: getMyData,
   });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ['myData'] });
+  }, [queryClient]);
 
   return (
     <>
