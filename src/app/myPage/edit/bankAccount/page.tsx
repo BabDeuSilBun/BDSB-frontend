@@ -43,7 +43,7 @@ const BankAccount = () => {
       await postAccount(owner, bankAccount as number, selectedBank as string);
       alert('계좌 번호가 변경되었습니다.');
     } catch (error) {
-      console.error('Error during signup:', error);
+      console.error('Error during updating bank account:', error);
     }
   };
 
