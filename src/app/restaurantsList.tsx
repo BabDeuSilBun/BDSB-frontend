@@ -48,7 +48,7 @@ function RestaurantsList() {
     const schoolIdParam = searchParams.get('schoolId');
     if (schoolIdParam !== null && !isNaN(Number(schoolIdParam))) {
       const newSchoolId = Number(schoolIdParam);
-      if (newSchoolId !== schoolId) {
+      if (newSchoolId !== schoolId && !isNaN(newSchoolId)) {
         setSchoolId(newSchoolId);
         localStorage.setItem('selectedSchoolId', newSchoolId.toString());
       }

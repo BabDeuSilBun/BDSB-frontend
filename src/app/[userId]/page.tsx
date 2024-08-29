@@ -80,7 +80,7 @@ const ListItem = styled.li`
   }
 `;
 
-const MyPage = () => {
+const Profile = () => {
   const router = useRouter();
 
   const { data, isLoading, isError } = useQuery({
@@ -101,7 +101,7 @@ const MyPage = () => {
       <Container>
         <Flexbox>
           <ImageWrapper>
-            {data && (
+            {data && data.image && data.image !== 'null' && (
               <Image
                 src={data.image}
                 alt="My Profile Image"
@@ -142,9 +142,7 @@ const MyPage = () => {
           </span>
         </Flexbox>
         <Flexbox>
-          <BaseBtnInactive
-            onClick={() => router.push(`/${data?.nickname.trim()}/edit`)}
-          >
+          <BaseBtnInactive onClick={() => router.push(`/myPage/edit`)}>
             프로필수정
           </BaseBtnInactive>
         </Flexbox>
@@ -181,4 +179,4 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default Profile;
