@@ -85,8 +85,9 @@ function TeamOrderList() {
 
   const {
     data: imminentData,
-    status: imminentStatus,
-    error: imminentError,
+    isLoading: imminentLoading,
+    isError: imminentError,
+    error: imminentErrorStatus,
   } = useQuery<MeetingsResponse>({
     queryKey: ['imminentTeamOrders'],
     queryFn: () =>
@@ -136,19 +137,20 @@ function TeamOrderList() {
       <SectionContainer $additional="0">
         <GroupTitle>임박한 모임</GroupTitle>
         <CardContainer>
-          {imminentStatus === 'error' ? (
+          {imminentError ? (
             <p>
               Error:{' '}
-              {imminentError?.message || '알 수 없는 오류가 발생했습니다.'}
+              {imminentErrorStatus?.message ||
+                '알 수 없는 오류가 발생했습니다.'}
             </p>
-          ) : imminentStatus === 'pending' ? (
+          ) : imminentLoading ? (
             <>
               <ImminentOrderSkeleton />
               <ImminentOrderSkeleton />
               <ImminentOrderSkeleton />
               <ImminentOrderSkeleton />
             </>
-          ) : imminentStatus === 'success' && imminentData ? (
+          ) : imminentData ? (
             imminentData.content.map((item) => (
               <ImminentOrderItem key={item.meetingId} item={item} />
             ))
@@ -181,7 +183,7 @@ function TeamOrderList() {
             <TeamOrderSkeleton />
             <TeamOrderSkeleton />
           </>
-        ) : data && data.pages && data.pages.length > 0 ? (
+        ) : data && data.pages.length > 0 ? (
           <>
             {data.pages.map((page) =>
               page.content.map((item, index) => (
