@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-// import { useEffect, useState } from 'react';
-// import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { useSearchParams } from 'next/navigation';
 
 import { Divider } from '@chakra-ui/react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
@@ -56,34 +56,31 @@ const options = [
 
 function TeamOrderList() {
   const [isOpen, setIsOpen] = useState(false);
-  // const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
   const [selectedSort, setSelectedSort] = useState<string>('deadline');
-  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [schoolId, setSchoolId] = useState<number | null>(null);
 
-  // useEffect(() => {
-  //   // 초기 로드 시 localStorage에서 schoolId 가져오기
-  //   const storedSchoolId = localStorage.getItem('selectedSchoolId');
-  //   const parsedStoredSchoolId = storedSchoolId ? Number(storedSchoolId) : null;
+  useEffect(() => {
+    const storedSchoolId = localStorage.getItem('selectedSchoolId');
+    const parsedStoredSchoolId = storedSchoolId ? Number(storedSchoolId) : null;
 
-  //   if (parsedStoredSchoolId && !isNaN(parsedStoredSchoolId)) {
-  //     setSchoolId(parsedStoredSchoolId);
-  //   }
+    if (parsedStoredSchoolId && !isNaN(parsedStoredSchoolId)) {
+      setSchoolId(parsedStoredSchoolId);
+    }
 
-  //   // searchParams가 바뀔 때마다 schoolId 업데이트
-  //   const schoolIdParam = searchParams.get('schoolId');
-  //   const parsedSchoolIdParam = schoolIdParam ? Number(schoolIdParam) : null;
+    const schoolIdParam = searchParams.get('schoolId');
+    const parsedSchoolIdParam = schoolIdParam ? Number(schoolIdParam) : null;
 
-  //   if (parsedSchoolIdParam && !isNaN(parsedSchoolIdParam)) {
-  //     if (parsedSchoolIdParam !== schoolId) {
-  //       setSchoolId(parsedSchoolIdParam);
-  //       localStorage.setItem(
-  //         'selectedSchoolId',
-  //         parsedSchoolIdParam.toString(),
-  //       );
-  //     }
-  //   }
-  // }, [searchParams]);
+    if (parsedSchoolIdParam && !isNaN(parsedSchoolIdParam)) {
+      if (parsedSchoolIdParam !== schoolId) {
+        setSchoolId(parsedSchoolIdParam);
+        localStorage.setItem(
+          'selectedSchoolId',
+          parsedSchoolIdParam.toString(),
+        );
+      }
+    }
+  }, [searchParams]);
 
   const {
     data: imminentData,

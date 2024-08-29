@@ -175,10 +175,12 @@ const MainHeader = () => {
         setSelectedCampus(defaultCampus.campus);
         setSelectedSchoolId(defaultCampus.schoolId);
         setSelectedSchool(defaultCampus.school);
-        localStorage.setItem(
-          'selectedSchoolId',
-          defaultCampus.schoolId.toString(),
-        );
+        if (!isNaN(Number(defaultCampus.schoolId))) {
+          localStorage.setItem(
+            'selectedSchoolId',
+            defaultCampus.schoolId.toString(),
+          );
+        }
       }
     }
   }, [myData, data]);
@@ -204,7 +206,9 @@ const MainHeader = () => {
   const handleCampusClick = (campus: string, schoolId: number) => {
     setSelectedCampus(campus);
     setSelectedSchoolId(schoolId);
-    localStorage.setItem('selectedSchoolId', schoolId.toString());
+    if (!isNaN(Number(schoolId))) {
+      localStorage.setItem('selectedSchoolId', schoolId.toString());
+    }
     setIsDropdownOpen(false);
     router.push(`/?menu=${selectedMenu}&campus=${selectedSchoolId}`);
   };
