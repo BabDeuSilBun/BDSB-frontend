@@ -152,12 +152,12 @@ const MainHeader = () => {
   });
 
   useEffect(() => {
-    if (data && data.pages) {
+    if (data && Array.isArray(data.pages)) {
       const storedSchoolId = localStorage.getItem('selectedSchoolId');
 
       if (storedSchoolId) {
         const storedCampus = data.pages
-          .flatMap((page) => page.content)
+          .flatMap((page) => (Array.isArray(page.content) ? page.content : []))
           .find((item) => item.schoolId === Number(storedSchoolId));
 
         if (storedCampus) {
@@ -166,7 +166,7 @@ const MainHeader = () => {
         }
       } else if (myData) {
         const defaultCampus = data.pages
-          .flatMap((page) => page.content)
+          .flatMap((page) => (Array.isArray(page.content) ? page.content : []))
           .find((item) => item.campus === myData.campus);
 
         if (defaultCampus) {
