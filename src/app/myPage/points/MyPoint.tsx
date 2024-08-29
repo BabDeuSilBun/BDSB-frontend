@@ -12,6 +12,7 @@ import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getMyData, getPointDetailList } from '@/services/myDataService';
 import { RoundBtnFilled, SmallRdBtn } from '@/styles/button';
 import Container from '@/styles/container';
+import PaddingBox from '@/styles/paddingBox';
 
 const ContainerSection = styled(Container)`
   display: flex;
@@ -140,7 +141,7 @@ const MyPoint = () => {
             )}
           </>
         ) : (
-          <div>포인트 내역이 없습니다.</div>
+          <PaddingBox>문의 내역을 불러오지 못했습니다.</PaddingBox>
         )}
       </ul>
     </ContainerSection>

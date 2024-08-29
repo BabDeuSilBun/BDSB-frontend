@@ -84,14 +84,10 @@ const EditNickname = () => {
 
   const onClickSubmitBtn = useCallback(async () => {
     try {
-      const response = await updateUserProfile({
+      await updateUserProfile({
         nickname: inputValue,
       });
-      if (response && response.success) {
-        router.push('/myPage/edit');
-      } else {
-        console.error('닉네임 업데이트 실패:', response.message);
-      }
+      router.push('/myPage/edit');
     } catch (error) {
       console.error('Error during updating nickname:', error);
     }

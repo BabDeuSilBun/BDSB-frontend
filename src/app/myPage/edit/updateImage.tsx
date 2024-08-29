@@ -46,7 +46,8 @@ interface Props {
 }
 
 const UpdateImage = ({ image }: Props) => {
-  const [currentImage, setCurrentImage] = useState<string | undefined>(image);
+  const initialImage = image === 'null' || !image ? null : image;
+  const [currentImage, setCurrentImage] = useState<string | null>(initialImage);
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
