@@ -44,9 +44,9 @@ const SortingBtns = styled.div`
 `;
 
 const MyPoint = () => {
-  const [activeBtn, setActiveBtn] = useState('전체');
+  const [activeBtn, setActiveBtn] = useState<string | null>(null);
 
-  const handleBtnClick = (btnType: string) => {
+  const handleBtnClick = (btnType: string | null) => {
     setActiveBtn(btnType);
   };
 
@@ -96,19 +96,19 @@ const MyPoint = () => {
       </Flex>
       <SortingBtns>
         <SmallRdBtn
-          onClick={() => handleBtnClick('전체')}
+          onClick={() => handleBtnClick(null)}
           active={activeBtn === '전체'}
         >
           전체
         </SmallRdBtn>
         <SmallRdBtn
-          onClick={() => handleBtnClick('적립')}
+          onClick={() => handleBtnClick('earn')}
           active={activeBtn === '적립'}
         >
           적립
         </SmallRdBtn>
         <SmallRdBtn
-          onClick={() => handleBtnClick('사용')}
+          onClick={() => handleBtnClick('use')}
           active={activeBtn === '사용'}
         >
           사용

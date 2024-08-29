@@ -14,7 +14,7 @@ import { GetListParams } from '@/types/types';
 export const ACCOUNT_API_URL = '/api/users/account';
 export const ADDRESS_API_URL = `/api/users/address`;
 export const EVALUATE_LIST_API_URL = '/api/users/evaluates';
-export const INQUIRY_LIST_API_URL = `/api/users/inquires`;
+export const INQUIRY_LIST_API_URL = `/api/users/inquiries`;
 export const MY_PROFILE_API_URL = '/api/users/my-page';
 export const UPDATE_PROFILE_API_URL = '/api/users';
 export const UPDATE_NICKNAME_API_URL = '/api/random-nickname';
@@ -65,9 +65,9 @@ export const postAccount = async (
   selectedBank: string,
 ) => {
   await apiClientWithCredentials.put(ACCOUNT_API_URL, {
-    owner: owner.trim(),
-    bankAccount: bankAccount?.toString(),
-    selectedBank,
+    accountOwner: owner.trim(),
+    accountNumber: bankAccount?.toString(),
+    bankName: selectedBank,
   });
 };
 
@@ -111,23 +111,24 @@ export const updateUserProfile = async ({
     // 이미지 파일 추가 (이미지 삭제를 원할 경우 빈 문자열 전송)
     if (image instanceof File) {
       // 이미지 파일이 제공된 경우
-      formData.append('image', image);
+      formData.append('file', image);
     } else if (image === '') {
       // 이미지 삭제를 원할 경우 빈 문자열을 추가
-      formData.append('image', '');
+      formData.append('file', '');
     } else {
-      formData.append('image', 'null');
+      formData.append('file', 'null');
     }
 
     // 다른 데이터들을 JSON 문자열로 추가
-    formData.append('nickname', nickname !== null ? nickname : 'null');
-    formData.append('password', password !== null ? password : 'null');
-    formData.append('phoneNumber', phoneNumber !== null ? phoneNumber : 'null');
-    formData.append('majorId', majorId !== null ? majorId.toString() : 'null');
-    formData.append(
-      'schoolId',
-      schoolId !== null ? schoolId.toString() : 'null',
-    );
+    const requestData = {
+      nickname: nickname !== null ? nickname : null,
+      password: password !== null ? password : null,
+      phoneNumber: phoneNumber !== null ? phoneNumber : null,
+      majorId: majorId !== null ? majorId : null,
+      schoolId: schoolId !== null ? schoolId : null,
+    };
+
+    formData.append('request', JSON.stringify(requestData));
 
     const response = await apiClientWithCredentials.patch(
       UPDATE_PROFILE_API_URL,
@@ -163,7 +164,7 @@ export const getMyEvaluates = async (): Promise<EvaluateType> => {
 export const getPointDetailList = async ({
   page = 0,
   size = 10,
-  sortCriteria = 'earn',
+  sortCriteria = null,
 }: GetListParams): Promise<PointsResponse> => {
   try {
     const response = await apiClientWithCredentials.get<PointsResponse>(
@@ -213,7 +214,7 @@ export const getInquiryImages = async (inquiryId: number) => {
     const response = await apiClientWithCredentials.get(
       `${INQUIRY_LIST_API_URL}/${inquiryId}/images`,
     );
-    return response.data;
+    return response.data.length > 0 ? response.data : [];
   } catch (error) {
     console.error('Error fetching inquiry data:', error);
     throw new Error(

@@ -152,7 +152,7 @@ const Profile = () => {
         <ListContainer>
           <EvaluateContainer>
             <h3>평가 배지</h3>
-            <button onClick={() => router.push('/Profile/evaluate')}>
+            <button onClick={() => router.push('/myPage/evaluate')}>
               {'>'}
             </button>
           </EvaluateContainer>
