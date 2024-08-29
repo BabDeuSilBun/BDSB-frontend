@@ -107,7 +107,10 @@ const Profile = () => {
   });
 
   const activeData = isMyProfile ? myData : userData;
+  const activeDataLoading = isMyProfile ? isMyDataLoading : isUserDataLoading;
+  const activeDataError = isMyProfile ? isMyDataError : isUserDataError;
 
+  console.log(activeData);
   const { data: evaluates, isLoading: evaluatesLoading } = useQuery({
     queryKey: ['MyEvaluates'],
     queryFn: getMyEvaluates,
@@ -133,9 +136,9 @@ const Profile = () => {
             )}
           </ImageWrapper>
           <Nickname>
-            {isMyDataError || isUserDataError
+            {activeDataError
               ? '닉네임 없음'
-              : isMyDataLoading || isUserDataLoading
+              : activeDataLoading
                 ? '불러오는 중'
                 : activeData && activeData.nickname}
           </Nickname>
@@ -155,9 +158,9 @@ const Profile = () => {
           />
           <p>소속 학과</p>
           <span>
-            {isMyDataError || isUserDataError
+            {activeDataError
               ? '학부 데이터 없음'
-              : isMyDataLoading || isUserDataLoading
+              : activeDataLoading
                 ? '불러오는 중'
                 : activeData && activeData.major}
           </span>
