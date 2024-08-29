@@ -102,9 +102,9 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   return (
     <CardContainer onClick={handleClick}>
       <ImageContainer>
-        {item.images[0] && (
+        {item.image[0] && (
           <Image
-            src={item.images[0].url}
+            src={item.image[0].url}
             alt="Restaurant Image"
             fill
             sizes="50vw"

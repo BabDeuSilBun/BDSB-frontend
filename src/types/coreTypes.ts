@@ -16,22 +16,22 @@ interface MetAddress {
 // Common interface for shared fields across different types
 export interface CommonType {
   storeId: number;
-  images: ImageType[];
+  image: ImageType[];
   deliveryTimeRange: string;
   category: string;
 }
 
 // Restaurant type definition
 export interface RestaurantType extends CommonType {
-  name: string;
-  deliveryPrice: number;
-  minPurchasePrice: number;
-  description?: string;
-  entrepreneur_id?: number;
   address?: Address;
-  phoneNumber?: string;
-  openTime?: string;
   closeTime?: string;
+  deliveryPrice: number;
+  description?: string;
+  entrepreneurId?: number;
+  minPurchasePrice: number;
+  name: string;
+  openTime?: string;
+  phoneNumber?: string;
   dayOfWeek?: string;
 }
 
