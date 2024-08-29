@@ -1,4 +1,4 @@
-import { apiClientWithCredentials } from './apiClient';
+import { apiClient, apiClientWithCredentials } from './apiClient';
 
 import { UpdateUserProfileParams } from '@/types/myDataTypes';
 import {
@@ -9,6 +9,7 @@ import {
   NicknameType,
   PointsResponse,
 } from '@/types/myDataTypes';
+import { ProfileType } from '@/types/types';
 import { GetListParams } from '@/types/types';
 
 export const ACCOUNT_API_URL = '/api/users/account';
@@ -20,6 +21,19 @@ export const UPDATE_PROFILE_API_URL = '/api/users';
 export const UPDATE_NICKNAME_API_URL = '/api/random-nickname';
 export const POINT_LIST_API_URL = '/api/users/points';
 export const CAMPUS_LIST_API_URL = '/api/campus';
+
+// 예외로 여기 넣어놓습니다! 다른 유저 데이터
+export const getUserProfile = async (userId: string): Promise<ProfileType> => {
+  try {
+    const response = await apiClient.get<ProfileType>(`/api/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching selected user data:', error);
+    throw new Error(
+      '상대 프로필 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
+  }
+};
 
 export const getMyData = async (): Promise<MyDataType> => {
   try {
