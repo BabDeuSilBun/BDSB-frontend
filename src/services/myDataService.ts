@@ -17,7 +17,7 @@ export const EVALUATE_LIST_API_URL = '/api/users/evaluates';
 export const INQUIRY_LIST_API_URL = `/api/users/inquires`;
 export const MY_PROFILE_API_URL = '/api/users/my-page';
 export const UPDATE_PROFILE_API_URL = '/api/users';
-export const UPDATE_NICKNAME_API_URL = '/api/randomNickname';
+export const UPDATE_NICKNAME_API_URL = '/api/random-nickname';
 export const POINT_LIST_API_URL = '/api/users/points';
 export const CAMPUS_LIST_API_URL = '/api/campus';
 
