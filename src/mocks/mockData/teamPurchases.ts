@@ -627,14 +627,31 @@ export const paginatedTeamPurchases: {
           },
         ],
         pageable: {
+          offset: start,
           pageNumber: index,
           pageSize,
+          sort: {
+            empty: true,
+            unsorted: true,
+            sorted: false,
+          },
+          paged: true,
+          unpaged: false,
         },
         last: index === totalPages - 1,
         totalPages,
         size: pageSize,
         first: index === 0,
-      };
+        number: index,
+        numberOfElements: itemsForCurrentPage.length,
+        sort: {
+          empty: true,
+          unsorted: true,
+          sorted: false,
+        },
+        totalElements: allItems.length,
+        empty: itemsForCurrentPage.length === 0,
+      } as TeamPurchasesResponse;
     });
 
     acc[meetingId] = paginatedItems;

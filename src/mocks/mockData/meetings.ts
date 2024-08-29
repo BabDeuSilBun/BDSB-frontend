@@ -5,7 +5,7 @@ export const meetings: MeetingType[] = [
     meetingId: 1,
     storeId: 1,
     storeName: '맛있는 피자 집',
-    images: [
+    image: [
       {
         imageId: 301,
         url: 'https://via.placeholder.com/300x200',
@@ -38,7 +38,7 @@ export const meetings: MeetingType[] = [
     meetingId: 2,
     storeId: 2,
     storeName: '스시 마스터',
-    images: [
+    image: [
       {
         imageId: 302,
         url: 'https://via.placeholder.com/300x200',
@@ -71,7 +71,7 @@ export const meetings: MeetingType[] = [
     meetingId: 3,
     storeId: 3,
     storeName: '한식의 정석',
-    images: [
+    image: [
       {
         imageId: 303,
         url: 'https://via.placeholder.com/300x200',
@@ -104,7 +104,7 @@ export const meetings: MeetingType[] = [
     meetingId: 4,
     storeId: 4,
     storeName: '베이커리 하우스',
-    images: [
+    image: [
       {
         imageId: 304,
         url: 'https://via.placeholder.com/300x200',
@@ -137,7 +137,7 @@ export const meetings: MeetingType[] = [
     meetingId: 5,
     storeId: 5,
     storeName: '패스트푸드 천국',
-    images: [
+    image: [
       {
         imageId: 305,
         url: 'https://via.placeholder.com/300x200',
@@ -170,7 +170,7 @@ export const meetings: MeetingType[] = [
     meetingId: 6,
     storeId: 6,
     storeName: '중국집 대왕',
-    images: [
+    image: [
       {
         imageId: 306,
         url: 'https://via.placeholder.com/300x200',
@@ -203,7 +203,7 @@ export const meetings: MeetingType[] = [
     meetingId: 7,
     storeId: 7,
     storeName: '해산물 왕국',
-    images: [
+    image: [
       {
         imageId: 307,
         url: 'https://via.placeholder.com/300x200',
@@ -236,7 +236,7 @@ export const meetings: MeetingType[] = [
     meetingId: 8,
     storeId: 8,
     storeName: '떡볶이 명가',
-    images: [
+    image: [
       {
         imageId: 308,
         url: 'https://via.placeholder.com/300x200',
@@ -269,7 +269,7 @@ export const meetings: MeetingType[] = [
     meetingId: 9,
     storeId: 9,
     storeName: '퓨전 한식',
-    images: [
+    image: [
       {
         imageId: 309,
         url: 'https://via.placeholder.com/300x200',
@@ -302,7 +302,7 @@ export const meetings: MeetingType[] = [
     meetingId: 10,
     storeId: 10,
     storeName: '브런치 카페',
-    images: [
+    image: [
       {
         imageId: 310,
         url: 'https://via.placeholder.com/300x200',
@@ -335,7 +335,7 @@ export const meetings: MeetingType[] = [
     meetingId: 11,
     storeId: 11,
     storeName: '아메리칸 BBQ',
-    images: [
+    image: [
       {
         imageId: 311,
         url: 'https://via.placeholder.com/300x200',
@@ -368,7 +368,7 @@ export const meetings: MeetingType[] = [
     meetingId: 12,
     storeId: 12,
     storeName: '프랑스 레스토랑',
-    images: [
+    image: [
       {
         imageId: 312,
         url: 'https://via.placeholder.com/300x200',
@@ -401,7 +401,7 @@ export const meetings: MeetingType[] = [
     meetingId: 13,
     storeId: 13,
     storeName: '비건 카페',
-    images: [
+    image: [
       {
         imageId: 313,
         url: 'https://via.placeholder.com/300x200',
@@ -434,7 +434,7 @@ export const meetings: MeetingType[] = [
     meetingId: 14,
     storeId: 14,
     storeName: '디저트 카페',
-    images: [
+    image: [
       {
         imageId: 314,
         url: 'https://via.placeholder.com/300x200',
@@ -467,7 +467,7 @@ export const meetings: MeetingType[] = [
     meetingId: 15,
     storeId: 15,
     storeName: '갈비집',
-    images: [
+    image: [
       {
         imageId: 315,
         url: 'https://via.placeholder.com/300x200',
@@ -500,7 +500,7 @@ export const meetings: MeetingType[] = [
     meetingId: 16,
     storeId: 16,
     storeName: '파스타 하우스',
-    images: [
+    image: [
       {
         imageId: 316,
         url: 'https://via.placeholder.com/300x200',
@@ -537,24 +537,38 @@ const totalPages = Math.ceil(meetings.length / pageSize);
 export const paginatedMeetings: MeetingsResponse[] = Array.from(
   { length: totalPages },
   (_, index) => {
-    const start = index * pageSize; // 현재 페이지의 시작 인덱스
-    const end = start + pageSize; // 현재 페이지의 끝 인덱스
+    const start = index * pageSize;
+    const end = start + pageSize;
+    const content = meetings.slice(start, end);
+    const isLastPage = index === totalPages - 1;
 
     return {
-      content: meetings.slice(start, end), // 현재 페이지에 해당하는 데이터
+      content,
       pageable: {
-        pageNumber: index, // 현재 페이지 번호
-        pageSize, // 페이지당 데이터 개수
+        offset: start,
+        pageNumber: index,
+        pageSize,
         sort: {
-          empty: true, // 정렬 정보는 없는 경우이므로 true
-          unsorted: true, // 정렬이 되어 있지 않으므로 true
-          sorted: false, // 정렬되지 않은 경우이므로 false
+          empty: true,
+          unsorted: true,
+          sorted: false,
         },
+        paged: true,
+        unpaged: false,
       },
-      last: index === totalPages - 1, // 마지막 페이지 여부
-      totalPages, // 전체 페이지 수
-      size: pageSize, // 페이지당 데이터 개수
-      first: index === 0, // 첫 페이지 여부
+      last: isLastPage,
+      totalPages,
+      size: pageSize,
+      first: index === 0,
+      number: index,
+      numberOfElements: content.length,
+      sort: {
+        empty: true,
+        unsorted: true,
+        sorted: false,
+      },
+      totalElements: meetings.length,
+      empty: content.length === 0,
     };
   },
 );

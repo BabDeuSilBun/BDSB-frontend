@@ -523,7 +523,6 @@ export const paginatedIndividualPurchases: {
       );
 
       return {
-        meetingId,
         content: [
           {
             totalFee: totalFeeForPage,
@@ -531,18 +530,35 @@ export const paginatedIndividualPurchases: {
           },
         ],
         pageable: {
+          offset: start,
           pageNumber: index,
           pageSize,
+          sort: {
+            empty: true,
+            unsorted: true,
+            sorted: false,
+          },
+          paged: true,
+          unpaged: false,
         },
         last: index === totalPages - 1,
         totalPages,
         size: pageSize,
         first: index === 0,
-      };
+        number: index,
+        numberOfElements: itemsForCurrentPage.length,
+        sort: {
+          empty: true,
+          unsorted: true,
+          sorted: false,
+        },
+        totalElements: allItems.length,
+        empty: itemsForCurrentPage.length === 0,
+      } as IndividualPurchasesResponse;
     });
 
     acc[meetingId] = paginatedItems;
     return acc;
   },
-  {} as { [key: number]: IndividualPurchasesResponse[] },
+  {} as { [meetingId: number]: IndividualPurchasesResponse[] },
 );

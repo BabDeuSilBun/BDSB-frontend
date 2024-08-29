@@ -82,6 +82,7 @@ export const paginatedPoints: PointsResponse[] = Array.from(
     return {
       content,
       pageable: {
+        offset: start,
         pageNumber: index,
         pageSize,
         sort: {
@@ -89,11 +90,22 @@ export const paginatedPoints: PointsResponse[] = Array.from(
           unsorted: true,
           sorted: false,
         },
+        paged: true,
+        unpaged: false,
       },
       last: isLastPage,
       totalPages,
       size: pageSize,
       first: index === 0,
+      number: index,
+      numberOfElements: content.length,
+      sort: {
+        empty: true,
+        unsorted: true,
+        sorted: false,
+      },
+      totalElements: pointsDetails.length,
+      empty: content.length === 0,
     };
   },
 );
