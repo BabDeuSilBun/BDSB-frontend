@@ -110,7 +110,6 @@ const Profile = () => {
   const activeDataLoading = isMyProfile ? isMyDataLoading : isUserDataLoading;
   const activeDataError = isMyProfile ? isMyDataError : isUserDataError;
 
-  console.log(activeData);
   const { data: evaluates, isLoading: evaluatesLoading } = useQuery({
     queryKey: ['MyEvaluates'],
     queryFn: getMyEvaluates,

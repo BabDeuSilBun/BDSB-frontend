@@ -23,7 +23,6 @@ const HeaderContainer = styled.header`
   z-index: 1000;
   width: inherit;
   box-shadow: 0px 5px 5px var(--shadow);
-  padding: 0 1rem;
 `;
 
 const UpperContainer = styled.div`
@@ -155,18 +154,18 @@ const MainHeader = () => {
   useEffect(() => {
     const storedSchoolId = localStorage.getItem('selectedSchoolId');
 
-    if (storedSchoolId && data) {
+    if (storedSchoolId && data && Array.isArray(data.pages)) {
       const storedCampus = data.pages
-        .flatMap((page) => page.content)
+        .flatMap((page) => page.content || [])
         .find((item) => item.schoolId === Number(storedSchoolId));
 
       if (storedCampus) {
         setSelectedSchoolId(storedCampus.schoolId);
         setSelectedCampus(storedCampus.campus);
       }
-    } else if (myData && data) {
+    } else if (myData && data && Array.isArray(data.pages)) {
       const defaultCampus = data.pages
-        .flatMap((page) => page.content)
+        .flatMap((page) => page.content || [])
         .find((item) => item.campus === myData.campus);
 
       if (defaultCampus) {
