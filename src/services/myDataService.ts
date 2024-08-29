@@ -64,7 +64,7 @@ export const postAccount = async (
   bankAccount: number,
   selectedBank: string,
 ) => {
-  await apiClientWithCredentials.put(ADDRESS_API_URL, {
+  await apiClientWithCredentials.put(ACCOUNT_API_URL, {
     owner: owner.trim(),
     bankAccount: bankAccount?.toString(),
     selectedBank,
