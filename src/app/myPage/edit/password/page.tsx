@@ -60,7 +60,15 @@ const EditPassword = () => {
     if (currentPassword && !isCurrentPasswordValid) {
       setIsButtonActive(true);
     }
-  }, [currentPassword, setIsButtonActive, isCurrentPasswordValid]);
+    if (isCurrentPasswordValid && !newPasswordVerity) {
+      setIsButtonActive(false);
+    }
+  }, [
+    currentPassword,
+    setIsButtonActive,
+    isCurrentPasswordValid,
+    newPasswordVerity,
+  ]);
 
   const onClickSubmitBtn = async () => {
     if (!isCurrentPasswordValid) {
