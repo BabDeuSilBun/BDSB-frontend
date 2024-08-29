@@ -88,14 +88,10 @@ const EditPassword = () => {
       setErrorMessage('');
     } else {
       try {
-        const response = await updateUserProfile({
+        await updateUserProfile({
           password: newPassword,
         });
-        if (response && response.success) {
-          router.push('/myPage/edit');
-        } else {
-          console.error('비밀번호 업데이트 실패:', response.message);
-        }
+        router.push('/myPage/edit');
       } catch (error) {
         console.error('Error during updating password:', error);
       }

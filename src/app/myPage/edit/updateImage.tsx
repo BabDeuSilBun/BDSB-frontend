@@ -62,7 +62,7 @@ const UpdateImage = ({ image }: Props) => {
           image: file,
         });
 
-        if (response && response.success) {
+        if (response) {
           const reader = new FileReader();
           reader.onloadend = () => {
             setCurrentImage(reader.result as string); // 업로드된 이미지를 미리보기로 표시
