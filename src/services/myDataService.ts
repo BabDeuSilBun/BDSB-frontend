@@ -125,11 +125,14 @@ export const updateUserProfile = async ({
     // 이미지 파일 추가 (이미지 삭제를 원할 경우 빈 문자열 전송)
     if (image instanceof File) {
       // 이미지 파일이 제공된 경우
+      console.log('image updated');
       formData.append('file', image);
     } else if (image === '') {
       // 이미지 삭제를 원할 경우 빈 문자열을 추가
+      console.log('image gonna be deleted');
       formData.append('file', '');
     } else {
+      console.log('이미지 유지');
       formData.append('file', 'null');
     }
 

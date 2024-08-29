@@ -119,7 +119,7 @@ const MyPoint = () => {
         </div>
         <RoundBtnFilled
           onClick={handlePointWithdrawal}
-          disabled={isLoadingUserData}
+          disabled={isLoadingUserData || (userData && userData.point === 0)}
         >
           전액 인출하기
         </RoundBtnFilled>
