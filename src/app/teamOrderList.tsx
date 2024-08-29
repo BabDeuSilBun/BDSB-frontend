@@ -181,7 +181,7 @@ function TeamOrderList() {
             <TeamOrderSkeleton />
             <TeamOrderSkeleton />
           </>
-        ) : data && data.pages[0].content.length > 0 ? (
+        ) : data && data.pages && data.pages.length > 0 ? (
           <>
             {data.pages.map((page) =>
               page.content.map((item, index) => (
