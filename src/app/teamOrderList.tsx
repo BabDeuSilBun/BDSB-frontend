@@ -156,7 +156,7 @@ function TeamOrderList() {
                 <ImminentOrderItem key={item.meetingId} item={item} />
               ))
             ) : (
-              <div>모집 중인 모임이 없습니다.</div>
+              <PaddingBox x>합류 가능한 모임이 없습니다.</PaddingBox>
             ))}
         </CardContainer>
       </SectionContainer>
@@ -202,7 +202,7 @@ function TeamOrderList() {
             )}
           </>
         ) : (
-          <PaddingBox>모집 중인 모임이 없습니다.</PaddingBox>
+          <PaddingBox zero>합류 가능한 모임이 없습니다.</PaddingBox>
         )}
       </SectionContainer>
     </ListContainer>

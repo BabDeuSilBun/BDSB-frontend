@@ -196,7 +196,7 @@ const InquiryHistory = () => {
           </>
         ) : status === 'error' ? (
           <PaddingBox>문의 내역을 불러오지 못했습니다.</PaddingBox>
-        ) : data && data.pages.length > 0 ? (
+        ) : data && data.pages[0].content.length > 0 ? (
           <>
             {data.pages.map((page) =>
               page.content.map((item, index) => {
@@ -260,7 +260,7 @@ const InquiryHistory = () => {
             )}
           </>
         ) : (
-          <PaddingBox>문의 내역을 불러오지 못했습니다.</PaddingBox>
+          <PaddingBox>문의 내역이 없습니다.</PaddingBox>
         )}
       </Container>
 

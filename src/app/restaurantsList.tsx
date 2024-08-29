@@ -128,7 +128,7 @@ function RestaurantsList() {
           )}
         </>
       ) : (
-        <PaddingBox>주문 가능한 가게가 없습니다.</PaddingBox>
+        <PaddingBox>현재 주문 가능한 가게가 없습니다.</PaddingBox>
       )}
     </ListContainer>
   );

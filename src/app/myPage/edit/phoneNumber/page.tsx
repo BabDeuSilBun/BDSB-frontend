@@ -36,14 +36,10 @@ const EditPhoneNumber = () => {
 
   const onClickSubmitBtn = async () => {
     try {
-      const response = await updateUserProfile({
+      await updateUserProfile({
         phoneNumber: inputValue,
       });
-      if (response && response.success) {
-        router.push('/myPage/edit');
-      } else {
-        console.error('프로필 업데이트 실패:', response.message);
-      }
+      router.push('/myPage/edit');
     } catch (error) {
       console.error('Error during updating profile:', error);
     }

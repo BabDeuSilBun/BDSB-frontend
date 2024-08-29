@@ -170,7 +170,7 @@ const MyPoint = () => {
             )}
           </>
         ) : (
-          <PaddingBox>문의 내역을 불러오지 못했습니다.</PaddingBox>
+          <PaddingBox>포인트 내역이 없습니다.</PaddingBox>
         )}
       </ul>
     </ContainerSection>
