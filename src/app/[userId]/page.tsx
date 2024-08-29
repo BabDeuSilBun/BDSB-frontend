@@ -83,7 +83,7 @@ const ListItem = styled.li`
 const Profile = () => {
   const router = useRouter();
   const params = useParams();
-  const userID = params.id as string;
+  const userID = params.userId as string;
 
   const {
     data: myData,
@@ -101,7 +101,7 @@ const Profile = () => {
     isLoading: isUserDataLoading,
     isError: isUserDataError,
   } = useQuery({
-    queryKey: ['user', userID],
+    queryKey: ['userData', userID],
     queryFn: () => getUserProfile(userID),
     enabled: !isMyProfile, // 내 프로필이 아닐 때만 실행
   });
