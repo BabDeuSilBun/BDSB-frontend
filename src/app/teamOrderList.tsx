@@ -153,7 +153,7 @@ function TeamOrderList() {
               <ImminentOrderItem key={item.meetingId} item={item} />
             ))
           ) : (
-            <PaddingBox x>합류 가능한 모임이 없습니다.</PaddingBox>
+            <PaddingBox>합류 가능한 모임이 없습니다.</PaddingBox>
           )}
         </CardContainer>
       </SectionContainer>
@@ -171,7 +171,6 @@ function TeamOrderList() {
             onToggle={handleToggle}
           />
         </DropDownWrapper>
-        ==
         {status === 'error' ? (
           <p>Error: {error.message}</p>
         ) : status === 'pending' ? (
