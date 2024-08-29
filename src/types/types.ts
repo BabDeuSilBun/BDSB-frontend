@@ -48,7 +48,7 @@ export interface GetListParams {
   sortCriteria?: string | null;
   page?: number;
   size?: number;
-  foodCategoryFilter?: string;
+  foodCategoryFilter?: number;
   searchMenu?: string;
   schoolName?: string;
   majorName?: string;

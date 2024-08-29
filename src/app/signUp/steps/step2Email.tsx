@@ -1,11 +1,11 @@
 'use client';
 
-import axios from 'axios';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 import styled from 'styled-components';
 
+import { apiClient } from '@/services/apiClient';
 import { useSignUpStore } from '@/state/authStore';
 import { BaseBtn, BaseBtnInactive } from '@/styles/button';
 import { validateSignInput } from '@/utils/validateSignInput';
@@ -48,20 +48,22 @@ const Step2Email = () => {
 
   const emailMutation = useMutation({
     mutationFn: async (emailInput: string) => {
-      const { data: duplicationCheck } = await axios.post(
+      const { data: duplicationCheck } = await apiClient.post(
         `/api/${userType}/email-duplicated`,
-        { emailInput },
+        { email: emailInput },
       );
 
       if (!duplicationCheck.usable) {
+        console.log('중복된 이메일입니다.');
         setErrorMessage('중복된 이메일입니다.');
         return;
       }
 
       try {
-        await axios.post('/api/signup/email-verify', { email });
+        await apiClient.post('/api/signup/email-verify', { email: emailInput });
         setErrorMessage('');
       } catch (error) {
+        console.log('오류 발생');
         setErrorMessage('이메일 전송 중 오류가 발생했습니다.');
         setEmailVerified(false);
         throw error;
@@ -77,10 +79,13 @@ const Step2Email = () => {
       emailValue: string;
       codeValue: string;
     }) => {
-      const { data: codeCheck } = await axios.post('/api/signup/verify-code', {
-        email: emailValue,
-        code: codeValue,
-      });
+      const { data: codeCheck } = await apiClient.post(
+        '/api/signup/email-verify/confirm',
+        {
+          email: emailValue,
+          code: codeValue,
+        },
+      );
 
       if (!codeCheck.result) {
         setButtonActive(false);
@@ -88,6 +93,7 @@ const Step2Email = () => {
         return;
       }
       setButtonActive(true);
+      setEmailVerified(true);
       setEmail(verifiedEmail);
     },
     onError: () => {
@@ -129,11 +135,13 @@ const Step2Email = () => {
         aria-label="이메일 주소 입력"
         aria-required="true"
       />
-      {validateSignInput('email', tempEmail) ? (
-        <BaseBtn onClick={handleEmailSend}>메일 전송하기</BaseBtn>
-      ) : (
-        <BaseBtnInactive>메일 전송하기</BaseBtnInactive>
-      )}
+      <BaseBtn
+        onClick={
+          validateSignInput('email', tempEmail) ? handleEmailSend : undefined
+        }
+      >
+        메일 전송하기
+      </BaseBtn>
       {errorMessage && <Caption warning>{errorMessage}</Caption>}
       <Caption>메일이 오지 않았을 경우, 스팸 메일함을 확인해주세요.</Caption>
       <input

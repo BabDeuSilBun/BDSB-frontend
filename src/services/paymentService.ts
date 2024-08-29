@@ -1,4 +1,4 @@
-import { apiClient } from './apiClient';
+import { apiClientWithCredentials } from './apiClient';
 
 import { PaymentDoneResponse, PaymentResponse } from '@/types/paymentTypes';
 
@@ -19,7 +19,7 @@ export const preparePayment = async (
       '{meetingId}',
       meetingId.toString(),
     );
-    const response = await apiClient.post<PaymentResponse>(url, {
+    const response = await apiClientWithCredentials.post<PaymentResponse>(url, {
       pg,
       payMethod,
       point,
@@ -44,10 +44,13 @@ export const verifyPayment = async (
       '{meetingId}',
       meetingId.toString(),
     );
-    const response = await apiClient.post<PaymentDoneResponse>(url, {
-      transactionId,
-      portoneUid,
-    });
+    const response = await apiClientWithCredentials.post<PaymentDoneResponse>(
+      url,
+      {
+        transactionId,
+        portoneUid,
+      },
+    );
     return response.data;
   } catch (error) {
     console.error('Error verifying payment:', error);

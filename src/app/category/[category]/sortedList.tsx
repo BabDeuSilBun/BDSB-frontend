@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useParams } from 'next/navigation';
 
@@ -11,8 +11,8 @@ import styled from 'styled-components';
 import { SmallCustomDropdown } from '@/components/common/dropdown';
 import RestaurantsItem from '@/components/listItems/restaurantItem';
 import RestaurantSkeleton from '@/components/listItems/skeletons/restaurantSkeleton';
-import { RestaurantCategory } from '@/constant/category';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getCategoriesList } from '@/services/restaurantService';
 import { getRestaurantsList } from '@/services/restaurantService';
 
 const ListContainer = styled.section`
@@ -33,10 +33,36 @@ const options = [
 
 function SortedList() {
   const params = useParams();
-  const category = (params.category as RestaurantCategory) || '치킨';
+  const categoryName = decodeURIComponent(params.category as string) || '치킨';
 
   const [selectedSort, setSelectedSort] = useState<string>('delivery-fee');
   const [isOpen, setIsOpen] = useState(false);
+  const [categoryId, setCategoryId] = useState<number | null>(null);
+
+  const { data: categoriesData } = useInfiniteQuery({
+    queryKey: ['categoriesList'],
+    queryFn: () => getCategoriesList({ page: 0 }),
+    initialPageParam: 0,
+    getNextPageParam: () => undefined,
+  });
+
+  useEffect(() => {
+    if (categoriesData) {
+      const categories = categoriesData.pages.flatMap((page) => page.content);
+
+      console.log(categoryName);
+      const matchedCategory = categories.find(
+        (cat) => cat.name === categoryName,
+      );
+      if (matchedCategory) {
+        console.log(matchedCategory);
+
+        setCategoryId(matchedCategory.categoryId);
+      } else {
+        console.log('there is no categories matched');
+      }
+    }
+  }, [categoriesData, categoryName]);
 
   const {
     data,
@@ -46,17 +72,18 @@ function SortedList() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ['sortedList', selectedSort, category],
+    queryKey: ['sortedList', selectedSort, categoryId],
     queryFn: ({ pageParam = 0 }) =>
       getRestaurantsList({
         page: pageParam,
         sortCriteria: selectedSort,
-        foodCategoryFilter: category,
+        foodCategoryFilter: categoryId ?? 6,
       }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
     },
+    enabled: !!categoryId,
   });
 
   const lastElementRef = useInfiniteScroll<HTMLDivElement>({
