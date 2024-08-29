@@ -1,21 +1,39 @@
-import { apiClientWithCredentials } from './apiClient';
+import { apiClient, apiClientWithCredentials } from './apiClient';
 
+import { UpdateUserProfileParams } from '@/types/myDataTypes';
 import {
   CampusResponse,
   EvaluateType,
   InquiryResponse,
   MyDataType,
+  NicknameType,
   PointsResponse,
 } from '@/types/myDataTypes';
+import { ProfileType } from '@/types/types';
 import { GetListParams } from '@/types/types';
 
 export const ACCOUNT_API_URL = '/api/users/account';
 export const ADDRESS_API_URL = `/api/users/address`;
 export const EVALUATE_LIST_API_URL = '/api/users/evaluates';
-export const INQUIRY_LIST_API_URL = `/api/users/inquires`;
+export const INQUIRY_LIST_API_URL = `/api/users/inquiries`;
 export const MY_PROFILE_API_URL = '/api/users/my-page';
+export const UPDATE_PROFILE_API_URL = '/api/users';
+export const UPDATE_NICKNAME_API_URL = '/api/random-nickname';
 export const POINT_LIST_API_URL = '/api/users/points';
 export const CAMPUS_LIST_API_URL = '/api/campus';
+
+// 예외로 여기 넣어놓습니다! 다른 유저 데이터
+export const getUserProfile = async (userId: string): Promise<ProfileType> => {
+  try {
+    const response = await apiClient.get<ProfileType>(`/api/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching selected user data:', error);
+    throw new Error(
+      '상대 프로필 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
+  }
+};
 
 export const getMyData = async (): Promise<MyDataType> => {
   try {
@@ -60,10 +78,10 @@ export const postAccount = async (
   bankAccount: number,
   selectedBank: string,
 ) => {
-  await apiClientWithCredentials.put(ADDRESS_API_URL, {
-    owner: owner.trim(),
-    bankAccount: bankAccount?.toString(),
-    selectedBank,
+  await apiClientWithCredentials.put(ACCOUNT_API_URL, {
+    accountOwner: owner.trim(),
+    accountNumber: bankAccount?.toString(),
+    bankName: selectedBank,
   });
 };
 
@@ -77,6 +95,70 @@ export const postNewAddress = async (
     streetAddress,
     detailAddress,
   });
+};
+
+export const getRandomNickname = async (): Promise<NicknameType> => {
+  try {
+    const response = await apiClientWithCredentials.get<NicknameType>(
+      UPDATE_NICKNAME_API_URL,
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error creating new nickname:', error);
+    throw new Error(
+      '새로운 닉네임을 받아오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
+  }
+};
+
+export const updateUserProfile = async ({
+  nickname = null,
+  password = null,
+  image = null,
+  phoneNumber = null,
+  majorId = null,
+  schoolId = null,
+}: UpdateUserProfileParams) => {
+  try {
+    const formData = new FormData();
+
+    // 이미지 파일 추가 (이미지 삭제를 원할 경우 빈 문자열 전송)
+    if (image instanceof File) {
+      // 이미지 파일이 제공된 경우
+      formData.append('file', image);
+    } else if (image === '') {
+      // 이미지 삭제를 원할 경우 빈 문자열을 추가
+      formData.append('file', '');
+    } else {
+      formData.append('file', 'null');
+    }
+
+    // 다른 데이터들을 JSON 문자열로 추가
+    const requestData = {
+      nickname: nickname !== null ? nickname : null,
+      password: password !== null ? password : null,
+      phoneNumber: phoneNumber !== null ? phoneNumber : null,
+      majorId: majorId !== null ? majorId : null,
+      schoolId: schoolId !== null ? schoolId : null,
+    };
+
+    formData.append('request', JSON.stringify(requestData));
+
+    const response = await apiClientWithCredentials.patch(
+      UPDATE_PROFILE_API_URL,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('변경 실패:', error);
+    throw error;
+  }
 };
 
 export const getMyEvaluates = async (): Promise<EvaluateType> => {
@@ -96,7 +178,7 @@ export const getMyEvaluates = async (): Promise<EvaluateType> => {
 export const getPointDetailList = async ({
   page = 0,
   size = 10,
-  sortCriteria = 'earn',
+  sortCriteria = null,
 }: GetListParams): Promise<PointsResponse> => {
   try {
     const response = await apiClientWithCredentials.get<PointsResponse>(
@@ -146,7 +228,7 @@ export const getInquiryImages = async (inquiryId: number) => {
     const response = await apiClientWithCredentials.get(
       `${INQUIRY_LIST_API_URL}/${inquiryId}/images`,
     );
-    return response.data;
+    return response.data.length > 0 ? response.data : [];
   } catch (error) {
     console.error('Error fetching inquiry data:', error);
     throw new Error(

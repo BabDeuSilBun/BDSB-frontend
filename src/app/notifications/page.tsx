@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import styled from 'styled-components';
 
@@ -46,6 +47,7 @@ const data = [
   {
     type: 'request',
     image: 'https://via.placeholder.com/150x150',
+    connectedURL: '/reviews/write/12', // 리뷰 작성 페이지로 이동
     content: '밥드실분님, 교촌치킨 모임은 어떠셨나요?',
     extraContent: '여기를 눌러 모임원의 후기를 남겨주세요!',
     createdAt: '2024.08.28',
@@ -54,6 +56,7 @@ const data = [
   {
     type: 'review',
     image: 'https://via.placeholder.com/150x150',
+    connectedURL: '/reviews/view/123', // 특정 리뷰 확인 페이지로 이동
     content: '챈님이 보낸 교촌치킨 모임의 후기가 도착했어요!',
     extraContent: '여기를 눌러 따듯한 후기를 확인해보세요!',
     createdAt: '2024.08.28',
@@ -62,6 +65,7 @@ const data = [
   {
     type: 'delivery',
     image: 'https://via.placeholder.com/150x150',
+    connectedURL: '/deliveryStatus', // 배달 현황 페이지로 이동
     content: '밥드실분님, 교촌치킨 이 도착했어요.',
     extraContent: '도난 방지를 위해 빠르게 수령해주세요.',
     createdAt: '2024.08.28',
@@ -70,6 +74,7 @@ const data = [
   {
     type: 'participant',
     image: 'https://via.placeholder.com/150x150',
+    connectedURL: '/orderHistory/789', // 주문 내역 페이지로 이동
     content: '밥드실분님, 교촌치킨 모임에 합류하셨어요.',
     extraContent: '선택한 메뉴가 맞는지 한 번 더 확인해주세요.',
     createdAt: '2024.08.28',
@@ -78,13 +83,19 @@ const data = [
 ];
 
 const Notifications = () => {
+  const router = useRouter();
+
+  const moveToDetail = (url: string) => {
+    router.push(url);
+  };
+
   return (
     <Background>
       <Header text="알림" buttonRight="home" />
       <Container>
         {data &&
           data.map((item, index) => (
-            <Flex key={index}>
+            <Flex key={index} onClick={() => moveToDetail(item.connectedURL)}>
               <ImageWrapper>
                 {item.image && (
                   <Image

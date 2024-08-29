@@ -61,19 +61,23 @@ function TeamOrderList() {
   const [schoolId, setSchoolId] = useState<number | null>(null);
 
   useEffect(() => {
-    // 초기 로드 시 localStorage에서 schoolId 가져오기
     const storedSchoolId = localStorage.getItem('selectedSchoolId');
-    if (storedSchoolId) {
-      setSchoolId(Number(storedSchoolId));
+    const parsedStoredSchoolId = storedSchoolId ? Number(storedSchoolId) : null;
+
+    if (parsedStoredSchoolId && !isNaN(parsedStoredSchoolId)) {
+      setSchoolId(parsedStoredSchoolId);
     }
 
-    // searchParams가 바뀔 때마다 schoolId 업데이트
     const schoolIdParam = searchParams.get('schoolId');
-    if (schoolIdParam) {
-      const newSchoolId = Number(schoolIdParam);
-      if (newSchoolId !== schoolId) {
-        setSchoolId(newSchoolId);
-        localStorage.setItem('selectedSchoolId', newSchoolId.toString());
+    const parsedSchoolIdParam = schoolIdParam ? Number(schoolIdParam) : null;
+
+    if (parsedSchoolIdParam && !isNaN(parsedSchoolIdParam)) {
+      if (parsedSchoolIdParam !== schoolId) {
+        setSchoolId(parsedSchoolIdParam);
+        localStorage.setItem(
+          'selectedSchoolId',
+          parsedSchoolIdParam.toString(),
+        );
       }
     }
   }, [searchParams]);

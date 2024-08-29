@@ -99,7 +99,7 @@ const CurrentAddress = () => {
       </ContainerBox>
       <Footer
         type="button"
-        buttonText="변경 완료"
+        buttonText="변경하기"
         onButtonClick={isButtonActive ? onClickSubmitBtn : undefined}
         disabled={!isButtonActive}
       />
