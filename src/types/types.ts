@@ -53,3 +53,14 @@ export interface GetListParams {
   schoolName?: string;
   majorName?: string;
 }
+
+export interface ProfileType {
+  nickname: string;
+  image: string;
+  major: string;
+  meetingCount: number;
+  positiveEvaluate: {
+    content: string;
+    count: number;
+  }[];
+}
