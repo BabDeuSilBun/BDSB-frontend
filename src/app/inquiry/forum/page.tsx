@@ -43,7 +43,7 @@ const InquiryForum = () => {
         : {};
 
       await apiClientWithCredentials.post(
-        `/api/users/inquires`,
+        `/api/users/inquiries`,
         formData,
         config,
       );

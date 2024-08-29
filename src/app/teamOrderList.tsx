@@ -148,7 +148,7 @@ function TeamOrderList() {
               <ImminentOrderSkeleton />
               <ImminentOrderSkeleton />
             </>
-          ) : imminentData && imminentData?.content.length > 0 ? (
+          ) : imminentData ? (
             imminentData.content.map((item) => (
               <ImminentOrderItem key={item.meetingId} item={item} />
             ))
