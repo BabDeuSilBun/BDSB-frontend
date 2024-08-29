@@ -40,13 +40,13 @@ function RestaurantsList() {
   useEffect(() => {
     // 초기 로드 시 localStorage에서 schoolId 가져오기
     const storedSchoolId = localStorage.getItem('selectedSchoolId');
-    if (storedSchoolId) {
+    if (storedSchoolId !== null && !isNaN(Number(storedSchoolId))) {
       setSchoolId(Number(storedSchoolId));
     }
 
     // searchParams가 바뀔 때마다 schoolId 업데이트
     const schoolIdParam = searchParams.get('schoolId');
-    if (schoolIdParam) {
+    if (schoolIdParam !== null && !isNaN(Number(schoolIdParam))) {
       const newSchoolId = Number(schoolIdParam);
       if (newSchoolId !== schoolId) {
         setSchoolId(newSchoolId);
