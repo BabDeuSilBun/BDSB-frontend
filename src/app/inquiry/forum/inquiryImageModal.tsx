@@ -89,6 +89,7 @@ const InquiryImageModal: React.FC<InquiryImageModalProps> = ({
   const handleSave = () => {
     onSave(editedImages); // 수정된 이미지 배열을 부모 컴포넌트에 전달
     onClose(); // 모달 닫기
+    window.location.reload();
   };
 
   return (

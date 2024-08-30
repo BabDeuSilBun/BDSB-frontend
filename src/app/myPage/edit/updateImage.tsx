@@ -102,6 +102,7 @@ const UpdateImage = ({ image }: Props) => {
       try {
         await updateUserProfile({ image: imageFile });
         onClose(); // 저장 후 모달 닫기
+        window.location.reload();
       } catch (error) {
         console.error('프로필 이미지 업데이트 중 오류 발생:', error);
       }
@@ -114,6 +115,7 @@ const UpdateImage = ({ image }: Props) => {
       setCurrentImage(null);
       setImageFile(null);
       onClose(); // 삭제 후 모달 닫기
+      window.location.reload();
     } catch (error) {
       console.error('프로필 이미지 삭제 중 오류 발생:', error);
     }
