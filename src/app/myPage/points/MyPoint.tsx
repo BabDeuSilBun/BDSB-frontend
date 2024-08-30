@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { Divider } from '@chakra-ui/react';
 import {
   useInfiniteQuery,
@@ -53,6 +55,7 @@ const SortingBtns = styled.div`
 const MyPoint = () => {
   const [activeBtn, setActiveBtn] = useState<string | null>(null);
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const handleBtnClick = (btnType: string | null) => {
     setActiveBtn(btnType);
@@ -106,7 +109,16 @@ const MyPoint = () => {
 
   const handlePointWithdrawal = () => {
     if (confirm('전액 인출하시겠습니까?')) {
-      mutation.mutate();
+      if (
+        userData &&
+        userData.bankAccount &&
+        userData.bankAccount.bank !== null
+      ) {
+        mutation.mutate();
+      } else {
+        alert('환불 계좌가 없습니다.');
+        router.push('/myPage/edit/bankAccount');
+      }
     }
   };
 

@@ -26,6 +26,7 @@ export const authHandlers = [
         });
         const refreshToken = uuidv4(); // 무작위 리프레시 토큰 생성
 
+        console.log(token, refreshToken);
         const headers = new Headers();
         headers.set('Refresh', `Bearer ${refreshToken}`);
 

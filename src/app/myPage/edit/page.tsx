@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -12,11 +13,23 @@ import UpdateImage from './updateImage';
 import Header from '@/components/layout/header';
 import { getMyData } from '@/services/myDataService';
 import Container from '@/styles/container';
+
 const ListContainer = styled.ul`
   margin: 1rem;
   border: 0.1rem solid var(--gray200);
   border-radius: var(--border-radius-lg);
   overflow: hidden;
+`;
+
+const Caption = styled.p`
+  font-size: var(--font-size-xs);
+  color: var(--gray400);
+  padding-left: 1rem;
+
+  a {
+    font-weight: var(--font-semi-bold);
+    border-bottom: 1px solid var(--gray300);
+  }
 `;
 
 const ListItem = styled.li.attrs({
@@ -106,6 +119,10 @@ const EditUserInfo = () => {
             </ListButton>
           </ListItem>
         </ListContainer>
+        <Caption>
+          수정 불가능한 정보의 경우 <Link href={'/inquiry'}>문의하기</Link>를
+          이용해주세요.
+        </Caption>
       </Container>
     </>
   );

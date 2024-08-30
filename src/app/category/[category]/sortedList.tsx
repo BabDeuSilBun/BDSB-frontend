@@ -129,7 +129,7 @@ function SortedList() {
         </>
       ) : status === 'error' ? (
         <p>Error: {error.message}</p>
-      ) : data?.pages.length > 0 ? (
+      ) : data && data.pages.length > 0 ? (
         <>
           {data.pages.map((page) =>
             page.content.map((item, index) => (

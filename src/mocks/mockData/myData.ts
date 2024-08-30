@@ -11,10 +11,10 @@ export const myData: MyDataType = {
   name: '밥친구',
   nickname: '오끼먹는 김말이',
   phoneNumber: '01012345678',
-  backAccount: {
-    bank: '',
-    accountNumber: '',
-    accountOwner: '',
+  bankAccount: {
+    bank: null,
+    accountNumber: null,
+    accountOwner: null,
   },
   point: 2500,
   address: {

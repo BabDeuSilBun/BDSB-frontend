@@ -42,7 +42,7 @@ export const getTeamOrderInfo = async (
   meetingId: number,
 ): Promise<MeetingType> => {
   try {
-    const response = await apiClient.get(
+    const response = await apiClientWithCredentials.get(
       TEAM_ORDER_API_URL.replace('{meetingId}', meetingId.toString()),
     );
     return response.data;

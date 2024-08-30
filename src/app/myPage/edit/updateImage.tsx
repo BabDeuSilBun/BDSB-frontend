@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -82,9 +82,11 @@ const UpdateImage = ({ image }: Props) => {
   const initialImage = image === 'null' || !image ? null : image;
   const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  useEffect(() => {
+    if (initialImage) setCurrentImage(initialImage);
+  }, [initialImage]);
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -101,8 +103,7 @@ const UpdateImage = ({ image }: Props) => {
     if (imageFile) {
       try {
         await updateUserProfile({ image: imageFile });
-        onClose(); // 저장 후 모달 닫기
-        window.location.reload();
+        onClose();
       } catch (error) {
         console.error('프로필 이미지 업데이트 중 오류 발생:', error);
       }
@@ -114,8 +115,7 @@ const UpdateImage = ({ image }: Props) => {
       await updateUserProfile({ image: '' });
       setCurrentImage(null);
       setImageFile(null);
-      onClose(); // 삭제 후 모달 닫기
-      window.location.reload();
+      onClose();
     } catch (error) {
       console.error('프로필 이미지 삭제 중 오류 발생:', error);
     }
@@ -125,9 +125,18 @@ const UpdateImage = ({ image }: Props) => {
     <>
       <div>
         <ImageWrapper onClick={onOpen}>
-          {initialImage && (
+          {initialImage && !!currentImage && (
             <Image
               src={initialImage}
+              alt="My Profile Image"
+              fill
+              style={{ objectFit: 'cover' }}
+              priority
+            />
+          )}
+          {currentImage && (
+            <Image
+              src={currentImage}
               alt="My Profile Image"
               fill
               style={{ objectFit: 'cover' }}
