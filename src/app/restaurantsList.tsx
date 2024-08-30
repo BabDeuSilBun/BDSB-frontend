@@ -122,7 +122,7 @@ function RestaurantsList() {
                 key={item.storeId}
                 ref={index === page.content.length - 1 ? lastElementRef : null}
               >
-                <BigRestaurantItem item={item} key={item.storeId} />
+                <BigRestaurantItem item={item} />
               </div>
             )),
           )}

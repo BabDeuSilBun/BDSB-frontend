@@ -95,7 +95,7 @@ const ImminentOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   );
   const router = useRouter();
 
-  const { data: headCountData } = useQuery<{ currentHeadCount: number }>({
+  const { data: headCountData } = useQuery<{ headcount: number }>({
     queryKey: ['headCount', item.meetingId],
     queryFn: () => getCurrentHeadCount(item.meetingId),
     enabled: !!item.meetingId,
@@ -112,7 +112,7 @@ const ImminentOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
           <ImageWrapper>
             <Image
               src={item.image[0].url}
-              alt="Store Image"
+              alt="Restaurant Image"
               fill
               sizes="50vw"
               style={{ objectFit: 'cover' }}
@@ -124,7 +124,7 @@ const ImminentOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
           <Information $isCritical={$isCritical}>{remainingTime}</Information>
           <ParticipantCount>
             <GroupIcon color="white" width={16} height={18} />
-            <Information>{`${headCountData?.currentHeadCount} / ${item.participantMax}`}</Information>
+            <Information>{`${headCountData ? headCountData.headcount : 0} / ${item.participantMax}`}</Information>
           </ParticipantCount>
         </InfoOverlay>
       </ImageSection>

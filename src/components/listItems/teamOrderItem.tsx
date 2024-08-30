@@ -88,8 +88,8 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
     item.paymentAvailableAt,
   );
 
-  const { data: headCountData, isLoading } = useQuery<{
-    currentHeadCount: number;
+  const { data: headCountData } = useQuery<{
+    headcount: number;
   }>({
     queryKey: ['headCount', item.meetingId],
     queryFn: () => getCurrentHeadCount(item.meetingId),
@@ -102,7 +102,7 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   return (
     <CardContainer onClick={handleClick}>
       <ImageContainer>
-        {item.image[0] && (
+        {item.image && item.image.length > 0 && item.image[0].url && (
           <Image
             src={item.image[0].url}
             alt="Restaurant Image"
@@ -129,9 +129,7 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
         <ParticipantCount>
           <GroupIcon color="var(--primary)" width={18} height={18} />
           <Information>
-            {isLoading
-              ? '0'
-              : `${headCountData?.currentHeadCount ?? 0} / ${item.participantMax}`}
+            {`${headCountData ? headCountData.headcount : 0} / ${item.participantMax}`}
           </Information>
         </ParticipantCount>
         <OrderTypeLabel>
