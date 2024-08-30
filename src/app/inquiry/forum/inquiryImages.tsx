@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 
-import { Skeleton } from '@chakra-ui/react';
 import styled from 'styled-components';
 
 import { ImageType } from '@/types/types';
@@ -18,37 +17,16 @@ const ImageWrapper = styled.div`
 
 interface InquiryImagesProps {
   images: ImageType[];
-  isLoading: boolean;
   isError: boolean;
 }
 
-const InquiryImages: React.FC<InquiryImagesProps> = ({
-  images,
-  isLoading,
-  isError,
-}) => {
+const InquiryImages: React.FC<InquiryImagesProps> = ({ images, isError }) => {
   if (isError) {
     return (
       <>
         <ImageWrapper>no Image</ImageWrapper>
         <ImageWrapper>no Image</ImageWrapper>
         <ImageWrapper>no Image</ImageWrapper>
-      </>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <>
-        <ImageWrapper>
-          <Skeleton w="100px" h="100px" />
-        </ImageWrapper>
-        <ImageWrapper>
-          <Skeleton w="100px" h="100px" />
-        </ImageWrapper>
-        <ImageWrapper>
-          <Skeleton w="100px" h="100px" />
-        </ImageWrapper>
       </>
     );
   }

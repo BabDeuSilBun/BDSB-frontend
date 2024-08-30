@@ -81,7 +81,7 @@ const RestaurantItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
         <RestaurantName>{item.name}</RestaurantName>
         <InfoItem>
           <Image
-            src="./timer.svg"
+            src="/timer.svg"
             alt="Delivery Time"
             width="18"
             height="18"
@@ -91,7 +91,7 @@ const RestaurantItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
         </InfoItem>
         <InfoItem>
           <Image
-            src="./fee.svg"
+            src="/fee.svg"
             alt="Delivery Fee"
             width="18"
             height="18"

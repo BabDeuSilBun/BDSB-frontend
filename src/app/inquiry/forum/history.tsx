@@ -73,11 +73,7 @@ const InquiryHistory = () => {
       },
     });
 
-  const {
-    data: images,
-    isLoading: isImagesLoading,
-    isError: isImagesError,
-  } = useQuery({
+  const { data: images, isError: isImagesError } = useQuery({
     queryKey: ['InquiryDetail', selectedInquiryId],
     queryFn: () => {
       if (selectedInquiryId === null) {
@@ -235,7 +231,6 @@ const InquiryHistory = () => {
                           <ImagesContainer>
                             <InquiryImages
                               images={images}
-                              isLoading={isImagesLoading}
                               isError={isImagesError}
                             />
                           </ImagesContainer>
