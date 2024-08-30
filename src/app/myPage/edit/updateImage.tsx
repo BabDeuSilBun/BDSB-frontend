@@ -72,6 +72,7 @@ const Circle = styled.div`
   aspect-ratio: 1/1;
   display: flex;
   padding: 1rem;
+  position: absolute;
 `;
 
 interface Props {
@@ -164,7 +165,7 @@ const UpdateImage = ({ image }: Props) => {
               <ModalImageWrapper
                 onClick={() => document.getElementById('fileInput')?.click()}
               >
-                {currentImage ? (
+                {currentImage && (
                   <Image
                     src={currentImage}
                     alt="My Profile Image"
@@ -172,17 +173,16 @@ const UpdateImage = ({ image }: Props) => {
                     style={{ objectFit: 'cover' }}
                     priority
                   />
-                ) : (
-                  <Circle>
-                    <Image
-                      src="/whiteCamera.svg"
-                      alt="프로필 이미지 변경"
-                      width={50}
-                      height={50}
-                      priority
-                    />
-                  </Circle>
                 )}
+                <Circle>
+                  <Image
+                    src="/whiteCamera.svg"
+                    alt="프로필 이미지 변경"
+                    width={50}
+                    height={50}
+                    priority
+                  />
+                </Circle>
               </ModalImageWrapper>
               <HiddenFileInput
                 id="fileInput"

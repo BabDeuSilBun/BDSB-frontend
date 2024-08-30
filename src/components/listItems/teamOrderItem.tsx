@@ -102,16 +102,18 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   return (
     <CardContainer onClick={handleClick}>
       <ImageContainer>
-        {item.image && item.image.length > 0 && item.image[0].url && (
-          <Image
-            src={item.image[0].url}
-            alt="Restaurant Image"
-            fill
-            sizes="50vw"
-            style={{ objectFit: 'cover' }}
-            priority
-          />
-        )}
+        {item.storeImage &&
+          item.storeImage.length > 0 &&
+          item.storeImage[0].url && (
+            <Image
+              src={item.storeImage[0].url}
+              alt="Restaurant Image"
+              fill
+              sizes="50vw"
+              style={{ objectFit: 'cover' }}
+              priority
+            />
+          )}
       </ImageContainer>
       <InfoSection>
         <Information $isCritical={$isCritical}>{remainingTime}</Information>

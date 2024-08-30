@@ -268,28 +268,31 @@ const TeamOrderPage = () => {
   return (
     <>
       <Header buttonLeft="back" text={meeting?.storeName} />
-      <Container>
-        <MainImage
-          src={meeting?.image[0]?.url || '/path/to/placeholder/image.jpg'}
-          alt={meeting?.storeName || 'No image available'}
-        />
-        <MeetingStatus
-          headCountData={headCountData || null}
-          meeting={meeting}
-          remainingTime={remainingTime}
-        />
-        <MeetingInfo meeting={meeting} />
+      {meeting && (
+        <Container>
+          <MainImage
+            src={meeting.storeImage[0]?.url || '/path/to/placeholder/image.jpg'}
+            alt={meeting.storeName || 'No image available'}
+          />
+          <MeetingStatus
+            headCountData={headCountData || null}
+            meeting={meeting}
+            remainingTime={remainingTime}
+          />
+          <MeetingInfo meeting={meeting} />
 
-        {meeting?.purchaseType === 'DINING_TOGETHER' && (
-          <TeamPurchaseItems teamPurchases={teamPurchases || { pages: [] }} />
-        )}
+          {meeting?.purchaseType === 'DINING_TOGETHER' && (
+            <TeamPurchaseItems teamPurchases={teamPurchases || { pages: [] }} />
+          )}
 
-        <RemainingAmountText>
-          {remainingAmount > 0
-            ? `최소 주문 금액까지 ${formatCurrency(remainingAmount)} 남았어요!`
-            : '최소 주문 금액이 다 채워졌어요!'}
-        </RemainingAmountText>
-      </Container>
+          <RemainingAmountText>
+            {remainingAmount > 0
+              ? `최소 주문 금액까지 ${formatCurrency(remainingAmount)} 남았어요!`
+              : '최소 주문 금액이 다 채워졌어요!'}
+          </RemainingAmountText>
+        </Container>
+      )}
+
       <Footer
         type="button"
         buttonText="모임 참여하기"

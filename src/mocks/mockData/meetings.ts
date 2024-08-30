@@ -5,19 +5,17 @@ export const meetings: MeetingType[] = [
     meetingId: 1,
     storeId: 1,
     storeName: '맛있는 피자 집',
-    image: [
+    storeImage: [
       {
         imageId: 301,
         url: 'https://via.placeholder.com/300x200',
       },
     ],
-    deliveryTimeRange: '30분~45분',
     purchaseType: 'DELIVERY_TOGETHER',
-    participantMax: 10,
-    paymentAvailableAt: '2024-08-15T09:23:00',
-    deliveryFeeRange: '300원~1,500원',
     participantMin: 2,
+    participantMax: 10,
     isEarlyPaymentAvailable: true,
+    paymentAvailableAt: '2024-08-15T09:23:00',
     deliveryAddress: {
       deliveredPostal: '12345',
       deliveredStreetAddress: '서울시 강남구 테헤란로 123',
@@ -28,7 +26,13 @@ export const meetings: MeetingType[] = [
       metStreetAddress: '서울시 마포구 백범로 35',
       metDetailAddress: 'BD대학교 본관 앞',
     },
+    deliveryFeeRange: '300원~1,500원',
     deliveredAt: '2024-08-15T09:30:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
+    deliveryTimeRange: '30분~45분',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '피자',
     description:
@@ -38,7 +42,7 @@ export const meetings: MeetingType[] = [
     meetingId: 2,
     storeId: 2,
     storeName: '스시 마스터',
-    image: [
+    storeImage: [
       {
         imageId: 302,
         url: 'https://via.placeholder.com/300x200',
@@ -62,6 +66,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 도서관',
     },
     deliveredAt: '2024-08-15T14:50:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '일식',
     description:
@@ -71,7 +77,7 @@ export const meetings: MeetingType[] = [
     meetingId: 3,
     storeId: 3,
     storeName: '한식의 정석',
-    image: [
+    storeImage: [
       {
         imageId: 303,
         url: 'https://via.placeholder.com/300x200',
@@ -95,6 +101,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 후문',
     },
     deliveredAt: '2024-08-15T18:35:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '찜·탕·찌개',
     description:
@@ -104,7 +112,7 @@ export const meetings: MeetingType[] = [
     meetingId: 4,
     storeId: 4,
     storeName: '베이커리 하우스',
-    image: [
+    storeImage: [
       {
         imageId: 304,
         url: 'https://via.placeholder.com/300x200',
@@ -128,6 +136,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 정문',
     },
     deliveredAt: '2024-08-15T08:25:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '카페·디저트',
     description:
@@ -137,7 +147,7 @@ export const meetings: MeetingType[] = [
     meetingId: 5,
     storeId: 5,
     storeName: '패스트푸드 천국',
-    image: [
+    storeImage: [
       {
         imageId: 305,
         url: 'https://via.placeholder.com/300x200',
@@ -161,6 +171,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 중앙광장',
     },
     deliveredAt: '2024-08-15T12:45:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '패스트푸드',
     description:
@@ -170,7 +182,7 @@ export const meetings: MeetingType[] = [
     meetingId: 6,
     storeId: 6,
     storeName: '중국집 대왕',
-    image: [
+    storeImage: [
       {
         imageId: 306,
         url: 'https://via.placeholder.com/300x200',
@@ -194,6 +206,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 도서관 앞',
     },
     deliveredAt: '2024-08-15T10:30:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '중식',
     description:
@@ -203,7 +217,7 @@ export const meetings: MeetingType[] = [
     meetingId: 7,
     storeId: 7,
     storeName: '해산물 왕국',
-    image: [
+    storeImage: [
       {
         imageId: 307,
         url: 'https://via.placeholder.com/300x200',
@@ -227,6 +241,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 본관 앞',
     },
     deliveredAt: '2024-08-15T15:50:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '돈까스·회·일식',
     description:
@@ -236,7 +252,7 @@ export const meetings: MeetingType[] = [
     meetingId: 8,
     storeId: 8,
     storeName: '떡볶이 명가',
-    image: [
+    storeImage: [
       {
         imageId: 308,
         url: 'https://via.placeholder.com/300x200',
@@ -260,6 +276,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 후문',
     },
     deliveredAt: '2024-08-15T12:25:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '분식',
     description:
@@ -269,7 +287,7 @@ export const meetings: MeetingType[] = [
     meetingId: 9,
     storeId: 9,
     storeName: '퓨전 한식',
-    image: [
+    storeImage: [
       {
         imageId: 309,
         url: 'https://via.placeholder.com/300x200',
@@ -293,6 +311,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 중앙광장',
     },
     deliveredAt: '2024-08-15T14:30:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '찜·탕·찌개',
     description:
@@ -302,7 +322,7 @@ export const meetings: MeetingType[] = [
     meetingId: 10,
     storeId: 10,
     storeName: '브런치 카페',
-    image: [
+    storeImage: [
       {
         imageId: 310,
         url: 'https://via.placeholder.com/300x200',
@@ -326,6 +346,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 도서관',
     },
     deliveredAt: '2024-08-15T09:30:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '카페·디저트',
     description:
@@ -335,7 +357,7 @@ export const meetings: MeetingType[] = [
     meetingId: 11,
     storeId: 11,
     storeName: '아메리칸 BBQ',
-    image: [
+    storeImage: [
       {
         imageId: 311,
         url: 'https://via.placeholder.com/300x200',
@@ -359,6 +381,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 정문',
     },
     deliveredAt: '2024-08-15T11:45:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '고기·구이',
     description:
@@ -368,7 +392,7 @@ export const meetings: MeetingType[] = [
     meetingId: 12,
     storeId: 12,
     storeName: '프랑스 레스토랑',
-    image: [
+    storeImage: [
       {
         imageId: 312,
         url: 'https://via.placeholder.com/300x200',
@@ -392,6 +416,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 본관 앞',
     },
     deliveredAt: '2024-08-15T18:50:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '기타',
     description:
@@ -401,7 +427,7 @@ export const meetings: MeetingType[] = [
     meetingId: 13,
     storeId: 13,
     storeName: '비건 카페',
-    image: [
+    storeImage: [
       {
         imageId: 313,
         url: 'https://via.placeholder.com/300x200',
@@ -425,6 +451,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 도서관',
     },
     deliveredAt: '2024-08-15T13:30:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '카페·디저트',
     description:
@@ -434,7 +462,7 @@ export const meetings: MeetingType[] = [
     meetingId: 14,
     storeId: 14,
     storeName: '디저트 카페',
-    image: [
+    storeImage: [
       {
         imageId: 314,
         url: 'https://via.placeholder.com/300x200',
@@ -458,6 +486,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 중앙광장',
     },
     deliveredAt: '2024-08-15T15:25:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '카페·디저트',
     description:
@@ -467,7 +497,7 @@ export const meetings: MeetingType[] = [
     meetingId: 15,
     storeId: 15,
     storeName: '갈비집',
-    image: [
+    storeImage: [
       {
         imageId: 315,
         url: 'https://via.placeholder.com/300x200',
@@ -491,6 +521,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 후문',
     },
     deliveredAt: '2024-08-15T19:50:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '고기·구이',
     description:
@@ -500,7 +532,7 @@ export const meetings: MeetingType[] = [
     meetingId: 16,
     storeId: 16,
     storeName: '파스타 하우스',
-    image: [
+    storeImage: [
       {
         imageId: 316,
         url: 'https://via.placeholder.com/300x200',
@@ -524,6 +556,8 @@ export const meetings: MeetingType[] = [
       metDetailAddress: 'BD대학교 도서관',
     },
     deliveredAt: '2024-08-15T13:30:00',
+    minDeliveryTime: 0,
+    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '기타',
     description:

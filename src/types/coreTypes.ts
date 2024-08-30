@@ -36,7 +36,11 @@ export interface RestaurantType extends CommonType {
 }
 
 // Meeting type definition
-export interface MeetingType extends CommonType {
+export interface MeetingType {
+  storeId: number;
+  deliveryTimeRange: string;
+  category: string;
+  storeImage: ImageType[];
   meetingId: number;
   storeName: string;
   purchaseType: 'DINING_TOGETHER' | 'DELIVERY_TOGETHER';

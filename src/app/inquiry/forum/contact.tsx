@@ -109,7 +109,15 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
         };
 
         try {
-          const compressedFile = await imageCompression(file, options);
+          // 이미지 압축
+          const compressedBlob = await imageCompression(file, options);
+
+          // Blob을 File 객체로 변환
+          const compressedFile = new File([compressedBlob], file.name, {
+            type: file.type,
+            lastModified: Date.now(),
+          });
+
           compressedFiles.push(compressedFile);
         } catch (error) {
           console.error('이미지 압축 중 오류 발생:', error);

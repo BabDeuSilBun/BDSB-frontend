@@ -108,18 +108,20 @@ const ImminentOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
   return (
     <CardContainer onClick={handleClick}>
       <ImageSection>
-        {item.image && item.image.length > 0 && item.image[0].url && (
-          <ImageWrapper>
-            <Image
-              src={item.image[0].url}
-              alt="Restaurant Image"
-              fill
-              sizes="50vw"
-              style={{ objectFit: 'cover' }}
-              priority
-            />
-          </ImageWrapper>
-        )}
+        {item.storeImage &&
+          item.storeImage.length > 0 &&
+          item.storeImage[0].url && (
+            <ImageWrapper>
+              <Image
+                src={item.storeImage[0].url}
+                alt="Restaurant Image"
+                fill
+                sizes="50vw"
+                style={{ objectFit: 'cover' }}
+                priority
+              />
+            </ImageWrapper>
+          )}
         <InfoOverlay>
           <Information $isCritical={$isCritical}>{remainingTime}</Information>
           <ParticipantCount>
