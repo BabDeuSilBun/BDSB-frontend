@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -84,6 +86,12 @@ const Profile = () => {
   const router = useRouter();
   const params = useParams();
   const userID = params.userId as string;
+
+  useEffect(() => {
+    if (!userID || isNaN(Number(userID))) {
+      router.push('/404');
+    }
+  }, [userID, router]);
 
   const {
     data: myData,

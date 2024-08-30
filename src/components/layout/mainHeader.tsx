@@ -156,7 +156,7 @@ const MainHeader = () => {
     if (data && Array.isArray(data.pages)) {
       const storedSchoolId = localStorage.getItem('selectedSchoolId');
 
-      if (storedSchoolId) {
+      if (storedSchoolId && !isNaN(Number(storedSchoolId))) {
         const storedCampus = data.pages
           .flatMap((page) => (Array.isArray(page.content) ? page.content : []))
           .find((item) => item.schoolId === Number(storedSchoolId));
