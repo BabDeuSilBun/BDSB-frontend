@@ -130,7 +130,9 @@ const ImminentOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
       </ImageSection>
       <InfoSection>
         <StoreTitle>{item.storeName}</StoreTitle>
-        <OrderTypeText>{item.purchaseType}</OrderTypeText>
+        <OrderTypeText>
+          {item.purchaseType === 'DINING_TOGETHER' ? '함께 식사' : '각자 식사'}
+        </OrderTypeText>
       </InfoSection>
     </CardContainer>
   );

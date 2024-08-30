@@ -134,7 +134,9 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
               : `${headCountData?.currentHeadCount ?? 0} / ${item.participantMax}`}
           </Information>
         </ParticipantCount>
-        <OrderTypeLabel>{item.purchaseType}</OrderTypeLabel>
+        <OrderTypeLabel>
+          {item.purchaseType === 'DINING_TOGETHER' ? '함께 식사' : '각자 식사'}
+        </OrderTypeLabel>
       </AdditionalInfo>
     </CardContainer>
   );
