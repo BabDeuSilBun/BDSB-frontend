@@ -37,22 +37,22 @@ export interface RestaurantType extends CommonType {
 
 // Meeting type definition
 export interface MeetingType {
-  storeId: number;
-  deliveryTimeRange: string;
-  category: string;
-  storeImage: ImageType[];
   meetingId: number;
+  storeId: number;
   storeName: string;
+  storeImage: ImageType[];
   purchaseType: 'DINING_TOGETHER' | 'DELIVERY_TOGETHER';
-  participantMin?: number;
+  participantMin: number;
   participantMax: number;
   isEarlyPaymentAvailable?: boolean;
   paymentAvailableAt: string;
   deliveryAddress?: DeliveryAddress;
   metAddress?: MetAddress;
-  deliveredAt?: string;
-  deliveryFee?: number;
   deliveryFeeRange: string;
+  deliveredAt?: string;
+  minDeliveryTime: number;
+  maxDeliveryTime: number;
+  deliveryTimeRange: string;
   status:
     | 'GATHERING'
     | 'PURCHASE_COMPLETED'
@@ -63,6 +63,7 @@ export interface MeetingType {
     | 'DELIVERY_COMPLETED'
     | 'MEETING_CANCELLED'
     | 'MEETING_COMPLETED';
+  category: string;
   description?: string;
 }
 

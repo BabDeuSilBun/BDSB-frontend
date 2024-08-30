@@ -31,8 +31,6 @@ export const meetings: MeetingType[] = [
     minDeliveryTime: 0,
     maxDeliveryTime: 0,
     deliveryTimeRange: '30분~45분',
-    minDeliveryTime: 0,
-    maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '피자',
     description:

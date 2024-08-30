@@ -13,12 +13,12 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    // setupInterceptors(router);
-    // const token = Cookies.get('jwtToken');
-    // if (token) {
-    //   setAuthToken(token);
-    // }
-    // getRemainingTime(router);
+    setupInterceptors(router);
+    const token = Cookies.get('jwtToken');
+    if (token) {
+      setAuthToken(token);
+    }
+    getRemainingTime(router);
   }, [router]);
 
   return children;
