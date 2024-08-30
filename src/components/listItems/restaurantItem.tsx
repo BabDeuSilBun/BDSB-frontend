@@ -67,7 +67,7 @@ const RestaurantItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
   return (
     <CardContainer onClick={handleClick}>
       <ImageContainer>
-        {item.image[0] && (
+        {item.image && item.image.length > 0 && item.image[0].url && (
           <Image
             src={item.image[0].url}
             alt="Restaurant Image"

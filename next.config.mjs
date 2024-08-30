@@ -4,7 +4,10 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: ['via.placeholder.com'],
+    domains: [
+      'via.placeholder.com',
+      'zerobase-s3.s3.ap-northeast-2.amazonaws.com',
+    ],
   },
   eslint: {
     ignoreDuringBuilds: true,
