@@ -1,5 +1,6 @@
 'use client';
 
+import imageCompression from 'browser-image-compression';
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
@@ -95,10 +96,30 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedImages]);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const files = Array.from(e.target.files);
-      setSelectedImages((prevImages) => [...prevImages, ...files].slice(0, 3));
+      const compressedFiles: File[] = [];
+
+      for (const file of files) {
+        const options = {
+          maxSizeMB: 1, // 최대 파일 크기 (MB 단위)
+          maxWidthOrHeight: 400, // 최대 가로 또는 세로 길이 (픽셀 단위)
+          useWebWorker: true, // 웹 워커를 사용하여 비동기 처리
+        };
+
+        try {
+          const compressedFile = await imageCompression(file, options);
+          compressedFiles.push(compressedFile);
+        } catch (error) {
+          console.error('이미지 압축 중 오류 발생:', error);
+        }
+      }
+
+      console.log(files, compressedFiles);
+      setSelectedImages((prevImages) =>
+        [...prevImages, ...compressedFiles].slice(0, 3),
+      );
     }
   };
 

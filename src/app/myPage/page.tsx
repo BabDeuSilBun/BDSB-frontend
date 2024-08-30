@@ -9,6 +9,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import Header from '@/components/layout/header';
+import { handleSignOut } from '@/services/auth/signInService';
 import { getMyData } from '@/services/myDataService';
 import { RoundBtnFilled } from '@/styles/button';
 import Container from '@/styles/container';
@@ -28,7 +29,7 @@ const ImageWrapper = styled.div`
 const Flexbox = styled.div`
   display: flex;
   padding: 1rem;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 1rem;
 `;
@@ -70,6 +71,14 @@ const ListButton = styled.button.attrs({
   word-spacing: 3px;
   padding: 1rem;
   margin: -1rem;
+`;
+
+const LogoutButton = styled.button`
+  justify-self: end;
+  font-weight: var(--font-semi-bold);
+  text-align: right;
+  color: var(--warning);
+  border-bottom: 1.5px solid var(--warning);
 `;
 
 const MyPage = () => {
@@ -150,6 +159,11 @@ const MyPage = () => {
             </ListButton>
           </ListItem>
         </ListContainer>
+        <Flexbox>
+          <LogoutButton onClick={() => handleSignOut(router)}>
+            로그아웃
+          </LogoutButton>
+        </Flexbox>
       </Container>
     </>
   );

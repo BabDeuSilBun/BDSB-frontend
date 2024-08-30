@@ -1,7 +1,15 @@
 'use client';
 
+import { useState } from 'react';
+
 import Image from 'next/image';
 
+import {
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  useDisclosure,
+} from '@chakra-ui/react';
 import styled from 'styled-components';
 
 import { ImageType } from '@/types/types';
@@ -13,6 +21,11 @@ const ImageWrapper = styled.div`
   position: relative;
   width: 100px;
   height: 100px;
+  cursor: pointer;
+`;
+
+const Wrapper = styled.div`
+  height: 23rem;
 `;
 
 interface InquiryImagesProps {
@@ -21,6 +34,14 @@ interface InquiryImagesProps {
 }
 
 const InquiryImages: React.FC<InquiryImagesProps> = ({ images, isError }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [imageURL, setImageURL] = useState('');
+
+  const handleOpenModal = (imageURL: string) => {
+    setImageURL(imageURL);
+    onOpen();
+  };
+
   if (isError) {
     return (
       <>
@@ -35,7 +56,10 @@ const InquiryImages: React.FC<InquiryImagesProps> = ({ images, isError }) => {
     return (
       <>
         {images.map((item: ImageType) => (
-          <ImageWrapper key={item.imageId}>
+          <ImageWrapper
+            key={item.imageId}
+            onClick={() => handleOpenModal(item.url)}
+          >
             <Image
               src={item.url}
               alt={`${item.sequence}번 째 이미지`}
@@ -45,6 +69,21 @@ const InquiryImages: React.FC<InquiryImagesProps> = ({ images, isError }) => {
             />
           </ImageWrapper>
         ))}
+
+        <Modal isOpen={isOpen} onClose={onClose} isCentered size="sm">
+          <ModalOverlay />
+          <ModalContent>
+            <Wrapper>
+              <Image
+                src={imageURL}
+                alt={'확대 이미지'}
+                fill
+                style={{ objectFit: 'cover' }}
+                priority
+              />
+            </Wrapper>
+          </ModalContent>
+        </Modal>
       </>
     );
   }

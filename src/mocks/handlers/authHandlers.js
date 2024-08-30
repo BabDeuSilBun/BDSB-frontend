@@ -244,4 +244,12 @@ export const authHandlers = [
       return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
     }
   }),
+
+  http.post('/api/logout', async () => {
+    try {
+      return HttpResponse.json({ message: '로그아웃 성공' }, { status: 200 });
+    } catch (error) {
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
+    }
+  }),
 ];

@@ -79,3 +79,14 @@ export async function handleSignIn(
     }
   }
 }
+
+export async function handleSignOut(router: NextRouter) {
+  try {
+    await apiClient.post(`/api/logout`);
+    Cookies.remove('jwtToken');
+    setAuthToken('');
+    router.push('/signIn');
+  } catch (error) {
+    console.error('로그아웃 중 오류 발생:', error);
+  }
+}
