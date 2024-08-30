@@ -280,7 +280,7 @@ const TeamOrderPage = () => {
         />
         <MeetingInfo meeting={meeting} />
 
-        {meeting?.purchaseType === '함께 식사' && (
+        {meeting?.purchaseType === 'DINING_TOGETHER' && (
           <TeamPurchaseItems teamPurchases={teamPurchases || { pages: [] }} />
         )}
 
