@@ -31,7 +31,7 @@ const InquiryImages: React.FC<InquiryImagesProps> = ({ images, isError }) => {
     );
   }
 
-  if (images.length > 0) {
+  if (images && images.length > 0) {
     return (
       <>
         {images.map((item: ImageType) => (
