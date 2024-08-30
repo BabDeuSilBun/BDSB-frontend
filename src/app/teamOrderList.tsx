@@ -1,9 +1,9 @@
 'use client';
 
-// import { useEffect, useState } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+// import { useState } from 'react';
 
-// import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import { Divider } from '@chakra-ui/react';
 // import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
@@ -59,32 +59,39 @@ const options = [
 
 function TeamOrderList() {
   const [isOpen, setIsOpen] = useState(false);
-  // const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
   const [selectedSort, setSelectedSort] = useState<string>('deadline');
-  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [schoolId, setSchoolId] = useState<number | null>(null);
 
-  // useEffect(() => {
-  //   const storedSchoolId = localStorage.getItem('selectedSchoolId');
-  //   const parsedStoredSchoolId = storedSchoolId ? Number(storedSchoolId) : null;
+  useEffect(() => {
+    const storedSchoolId = localStorage.getItem('selectedSchoolId');
+    const parsedStoredSchoolId = storedSchoolId ? Number(storedSchoolId) : null;
 
-  //   if (parsedStoredSchoolId && !isNaN(parsedStoredSchoolId)) {
-  //     setSchoolId(parsedStoredSchoolId);
-  //   }
+    if (
+      storedSchoolId &&
+      parsedStoredSchoolId !== null &&
+      !isNaN(parsedStoredSchoolId)
+    ) {
+      setSchoolId(parsedStoredSchoolId);
+    }
 
-  //   const schoolIdParam = searchParams.get('schoolId');
-  //   const parsedSchoolIdParam = schoolIdParam ? Number(schoolIdParam) : null;
+    const schoolIdParam = searchParams.get('schoolId');
+    const parsedSchoolIdParam = schoolIdParam ? Number(schoolIdParam) : null;
 
-  //   if (parsedSchoolIdParam && !isNaN(parsedSchoolIdParam)) {
-  //     if (parsedSchoolIdParam !== schoolId) {
-  //       setSchoolId(parsedSchoolIdParam);
-  //       localStorage.setItem(
-  //         'selectedSchoolId',
-  //         parsedSchoolIdParam.toString(),
-  //       );
-  //     }
-  //   }
-  // }, [searchParams]);
+    if (
+      parsedSchoolIdParam &&
+      parsedSchoolIdParam !== null &&
+      !isNaN(parsedSchoolIdParam)
+    ) {
+      if (parsedSchoolIdParam !== schoolId) {
+        setSchoolId(parsedSchoolIdParam);
+        localStorage.setItem(
+          'selectedSchoolId',
+          parsedSchoolIdParam.toString(),
+        );
+      }
+    }
+  }, [searchParams]);
 
   // const {
   //   data: imminentData,
