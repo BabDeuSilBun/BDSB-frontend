@@ -124,7 +124,6 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
         }
       }
 
-      console.log(files, compressedFiles);
       setSelectedImages((prevImages) =>
         [...prevImages, ...compressedFiles].slice(0, 3),
       );

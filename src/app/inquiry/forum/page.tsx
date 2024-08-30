@@ -36,11 +36,9 @@ const InquiryForum = () => {
     if (!formData) return;
 
     try {
-      const config = formData.has('file')
-        ? {
-            headers: { 'Content-Type': 'multipart/form-data' },
-          }
-        : {};
+      const config = {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      };
 
       await apiClientWithCredentials.post(
         `/api/users/inquiries`,

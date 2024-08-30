@@ -1,4 +1,5 @@
-import jwt from 'jsonwebtoken';
+import { SignJWT } from 'jose';
+import Cookies from 'js-cookie';
 import { v4 as uuidv4 } from 'uuid';
 
 import { http, HttpResponse } from 'msw';
@@ -12,8 +13,10 @@ import {
   SCHOOL_LIST_API_URL,
 } from '@/services/auth/signUpService';
 
-const JWT_SECRET = 'your_secret_key'; // JWT 서명에 사용할 비밀 키
-const JWT_EXPIRATION = '1h'; // JWT의 만료 시간 (1시간으로 설정)
+const email = 'test@example.com';
+// const password = 'password123';
+const secret = new TextEncoder().encode('your_secret_key');
+const alg = 'HS256';
 
 export const authHandlers = [
   http.post('/api/users/signin', async ({ request }) => {
@@ -21,25 +24,24 @@ export const authHandlers = [
       const { email, password } = await request.json();
 
       if (email === 'test@example.com' && password === 'password123') {
-        const token = jwt.sign({ email }, JWT_SECRET, {
-          expiresIn: JWT_EXPIRATION,
+        const token = await new SignJWT({ email })
+          .setProtectedHeader({ alg })
+          .setExpirationTime('1h')
+          .sign(secret);
+
+        const refreshToken = uuidv4();
+
+        Cookies.set('refresh', refreshToken, {
+          sameSite: 'Strict',
         });
-        const refreshToken = uuidv4(); // 무작위 리프레시 토큰 생성
 
-        console.log(token, refreshToken);
-        const headers = new Headers();
-        headers.set('Refresh', `Bearer ${refreshToken}`);
-
-        return HttpResponse.json(
-          200,
-          { headers },
-          { message: '로그인 성공', token }, // JWT를 응답 본문에 포함
-        );
+        return HttpResponse.json({ accessToken: token }, { status: 200 });
       }
 
-      return HttpResponse.json(401, {
-        message: '이메일 또는 비밀번호가 잘못되었습니다.',
-      });
+      return HttpResponse.json(
+        { message: '이메일 또는 비밀번호가 잘못되었습니다.' },
+        { status: 401 },
+      );
     } catch (error) {
       return HttpResponse.json(500, { message: `서버 오류: ${error.message}` });
     }
@@ -49,15 +51,22 @@ export const authHandlers = [
     try {
       const { email, password } = await request.json();
 
-      if (email === 'test@example.com' && password === 'password123') {
-        const headers = new Headers();
-        headers.set('Authorization', 'mocked-jwt-token');
-        headers.set('Refresh', 'mocked-refresh-token');
+      const secret = new TextEncoder().encode('your_secret_key');
+      const alg = 'HS256';
 
-        return HttpResponse.json(
-          { message: '로그인 성공' },
-          { status: 200, headers },
-        );
+      if (email === 'test@example.com' && password === 'password123') {
+        const token = await new SignJWT({ email })
+          .setProtectedHeader({ alg })
+          .setExpirationTime('1h')
+          .sign(secret);
+
+        const refreshToken = uuidv4();
+
+        Cookies.set('refresh', refreshToken, {
+          sameSite: 'Strict',
+        });
+
+        return HttpResponse.json({ accessToken: token }, { status: 200 });
       }
 
       return HttpResponse.json(
@@ -65,26 +74,20 @@ export const authHandlers = [
         { status: 401 },
       );
     } catch (error) {
-      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
+      return HttpResponse.json(500, { message: `서버 오류: ${error.message}` });
     }
   }),
 
-  http.post('/api/users/email-duplicated', async ({ request }) => {
+  http.post('/api/refresh-token', async () => {
     try {
-      const { email } = await request.json();
+      const token = await new SignJWT({ email })
+        .setProtectedHeader({ alg })
+        .setExpirationTime('1h')
+        .sign(secret);
 
-      if (email !== 'test@example.com') {
-        return HttpResponse.json({ usable: true });
-      }
-
-      return HttpResponse.json(
-        { message: 'Duplicated Email' },
-        { status: 401 },
-      );
+      return HttpResponse.json({ accessToken: token }, { status: 200 });
     } catch (error) {
-      return HttpResponse.status(500).json({
-        message: `Error validating email: ${error}`,
-      });
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
     }
   }),
 
@@ -247,6 +250,8 @@ export const authHandlers = [
 
   http.post('/api/logout', async () => {
     try {
+      Cookies.remove('refresh');
+
       return HttpResponse.json({ message: '로그아웃 성공' }, { status: 200 });
     } catch (error) {
       return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });

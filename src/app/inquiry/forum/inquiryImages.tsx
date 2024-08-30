@@ -71,7 +71,7 @@ const InquiryImages: React.FC<InquiryImagesProps> = ({ images, isError }) => {
         ))}
 
         <Modal isOpen={isOpen} onClose={onClose} isCentered size="sm">
-          <ModalOverlay />
+          <ModalOverlay backdropInvert="80%" />
           <ModalContent>
             <Wrapper>
               <Image

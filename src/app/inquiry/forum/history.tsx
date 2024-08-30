@@ -221,12 +221,16 @@ const InquiryHistory = () => {
                           <Flex h="4" gap="2" mb="2">
                             <span>문의내용</span>
 
-                            {item.status === 'PENDING' && images && (
-                              <>
-                                <Divider orientation="vertical" />
-                                <button onClick={onOpen}>수정하기</button>
-                              </>
-                            )}
+                            {item.status === 'PENDING' &&
+                              images &&
+                              images.length > 0 && (
+                                <>
+                                  <Divider orientation="vertical" />
+                                  <button onClick={onOpen}>
+                                    이미지 수정하기
+                                  </button>
+                                </>
+                              )}
                           </Flex>
                           <ImagesContainer>
                             <InquiryImages

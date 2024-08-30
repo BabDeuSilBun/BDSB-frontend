@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-import { apiClient } from '../apiClient';
+import { apiClient, apiClientWithCredentials } from '../apiClient';
 
 import { setAuthToken } from '@/services/auth/authClient';
 import { validateSignInput } from '@/utils/validateSignInput';
@@ -42,6 +42,7 @@ export async function handleSignIn(
     });
 
     const jwtToken = res.data.accessToken;
+    console.log(jwtToken);
     Cookies.set('jwtToken', jwtToken, {
       secure: process.env.NODE_ENV !== 'development',
       sameSite: 'Strict',
@@ -82,7 +83,7 @@ export async function handleSignIn(
 
 export async function handleSignOut(router: NextRouter) {
   try {
-    await apiClient.post(`/api/logout`);
+    await apiClientWithCredentials.post(`/api/logout`);
     Cookies.remove('jwtToken');
     setAuthToken('');
     router.push('/signIn');

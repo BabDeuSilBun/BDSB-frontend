@@ -205,11 +205,10 @@ export const myDataHandlers = [
     try {
       const formData = await request.formData();
 
-      const title = formData.get('title');
-      const content = formData.get('content');
-      const images = formData.getAll('images');
+      const string = formData.get('request');
+      const images = formData.getAll('files');
 
-      if (title && content && images.length >= 0 && images.length <= 3) {
+      if ('title' in string && 'content' in string && images.length <= 3) {
         return HttpResponse.json(
           { message: '문의 등록 성공' },
           { status: 200 },
