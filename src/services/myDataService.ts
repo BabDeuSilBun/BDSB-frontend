@@ -122,19 +122,21 @@ export const updateUserProfile = async ({
   try {
     const formData = new FormData();
 
-    if (image instanceof File) {
-      console.log('image updated');
-      formData.append('file', image);
-    }
-
     const requestData = {
-      nickname: nickname !== null ? nickname : null,
-      password: password !== null ? password : null,
-      phoneNumber: phoneNumber !== null ? phoneNumber : null,
-      image: image !== null ? image : null,
-      majorId: majorId !== null ? majorId : null,
-      schoolId: schoolId !== null ? schoolId : null,
-    };
+      nickname,
+      password,
+      phoneNumber,
+      majorId,
+      schoolId,
+    } as Partial<UpdateUserProfileParams>;
+
+    // 이미지가 File 객체인지 확인
+    if (image instanceof File) {
+      console.log(image);
+      formData.append('file', image);
+    } else {
+      requestData.image = image;
+    }
 
     formData.append('request', JSON.stringify(requestData));
 

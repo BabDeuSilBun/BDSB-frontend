@@ -65,7 +65,7 @@ const ListItem = styled.li<{ $isLast?: boolean }>`
     props.$isLast ? '' : '0.1rem solid var(--gray200)'};
 `;
 
-const ListButton = styled.button.attrs({
+const ListButton = styled.div.attrs({
   className: 'icon',
 })`
   word-spacing: 3px;
@@ -134,11 +134,9 @@ const MyPage = () => {
           </RoundBtnFilled>
         </Flexbox>
         <ListContainer>
-          <ListItem>
+          <ListItem onClick={() => router.push('/myPage/points')}>
             <p>내 포인트</p>
-            <ListButton
-              onClick={() => router.push('/myPage/points')}
-            >{`${data ? data.point : '0'}P >`}</ListButton>
+            <ListButton>{`${data ? data.point : '0'}P >`}</ListButton>
           </ListItem>
           {/* <ListItem>
             <p>앱 테마</p>
@@ -146,17 +144,13 @@ const MyPage = () => {
               {'>'}
             </ListButton>
           </ListItem> */}
-          <ListItem>
+          <ListItem onClick={() => router.push('/myPage/edit/bankAccount')}>
             <p>환불 계좌 입력</p>
-            <ListButton onClick={() => router.push('/myPage/edit/bankAccount')}>
-              {'>'}
-            </ListButton>
+            <ListButton>{'>'}</ListButton>
           </ListItem>
-          <ListItem $isLast>
+          <ListItem $isLast onClick={() => router.push('/inquiry')}>
             <p>문의 게시판</p>
-            <ListButton onClick={() => router.push('/inquiry')}>
-              {'>'}
-            </ListButton>
+            <ListButton>{'>'}</ListButton>
           </ListItem>
         </ListContainer>
         <Flexbox>

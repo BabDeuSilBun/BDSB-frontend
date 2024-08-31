@@ -52,7 +52,7 @@ const ImageContainer = styled.section`
   width: fit-content;
 `;
 
-const ListButton = styled.button.attrs({
+const ListButton = styled.div.attrs({
   className: 'icon',
 })`
   word-spacing: 3px;
@@ -82,9 +82,9 @@ const EditUserInfo = () => {
         </ImageContainer>
 
         <ListContainer>
-          <ListItem>
+          <ListItem onClick={() => router.push('/myPage/edit/nickname')}>
             <p>닉네임</p>
-            <ListButton onClick={() => router.push('/myPage/edit/nickname')}>
+            <ListButton>
               {`${data ? data.nickname : '불러오는 중..'} >`}
             </ListButton>
           </ListItem>
@@ -106,17 +106,16 @@ const EditUserInfo = () => {
             <p>소속 학과</p>
             <span>{data ? data.major : '불러오는 중..'}</span>
           </ListItem>
-          <ListItem>
+          <ListItem onClick={() => router.push('/myPage/edit/password')}>
             <p>비밀번호 변경</p>
-            <ListButton onClick={() => router.push('/myPage/edit/password')}>
-              {'>'}
-            </ListButton>
+            <ListButton>{'>'}</ListButton>
           </ListItem>
-          <ListItem $isLast>
+          <ListItem
+            $isLast
+            onClick={() => router.push('/myPage/edit/phoneNumber')}
+          >
             <p>휴대전화 번호 변경</p>
-            <ListButton onClick={() => router.push('/myPage/edit/phoneNumber')}>
-              {'>'}
-            </ListButton>
+            <ListButton>{'>'}</ListButton>
           </ListItem>
         </ListContainer>
         <Caption>
