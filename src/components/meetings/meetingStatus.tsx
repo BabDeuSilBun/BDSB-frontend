@@ -35,7 +35,7 @@ const TimerIcon = styled(Image)`
 
 interface MeetingStatusProps {
   headCountData: { currentHeadCount: number } | null;
-  meeting?: MeetingType;
+  meeting: MeetingType;
   remainingTime: string;
 }
 
@@ -52,7 +52,7 @@ const MeetingStatus: React.FC<MeetingStatusProps> = ({
       aria-hidden="true"
     />
     <Text aria-label="Current and maximum participants">
-      {`${headCountData?.currentHeadCount}/${meeting?.participantMax} (최소 ${meeting?.participantMin}명)`}
+      {`${headCountData ? headCountData.currentHeadCount : 0}/${meeting.participantMax} (최소 ${meeting.participantMin}명)`}
     </Text>
     <Divider
       orientation="vertical"
@@ -71,7 +71,7 @@ const MeetingStatus: React.FC<MeetingStatusProps> = ({
       }}
       aria-label={`Purchase type: ${meeting?.purchaseType}`}
     >
-      {meeting?.purchaseType}
+      {meeting.purchaseType === 'DELIVERY_TOGETHER' ? '각자 식사' : '함께 식사'}
     </Badge>
     <Divider
       orientation="vertical"

@@ -82,18 +82,6 @@ export interface MenuType {
   price: number;
 }
 
-// Team menu type definition
-export interface TeamPurchaseType {
-  totalFee: number;
-  items: ItemType[];
-}
-
-// Individual order type definition
-export interface IndividualPurchaseType {
-  totalFee: number;
-  items: ItemType[];
-}
-
 export interface RestaurantsResponse extends Response {
   content: RestaurantType[];
 }
@@ -111,10 +99,34 @@ export interface MeetingsResponse extends Response {
   content: MeetingType[];
 }
 
-export interface TeamPurchasesResponse extends Response {
-  content: TeamPurchaseType[];
-}
-
-export interface IndividualPurchasesResponse extends Response {
-  content: IndividualPurchaseType[];
+export interface PurchasesResponse {
+  totalFee: number;
+  items: {
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    content: ItemType[];
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    numberOfElements: number;
+    pageable: {
+      offset: number;
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      paged: boolean;
+      unpaged: boolean;
+    };
+    first: boolean;
+    last: boolean;
+    empty: boolean;
+  };
 }

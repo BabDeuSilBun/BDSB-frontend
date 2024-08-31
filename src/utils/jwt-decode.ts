@@ -1,15 +1,10 @@
-import { JWTPayload, jwtVerify } from 'jose';
+import { decodeJwt } from 'jose';
 import Cookies from 'js-cookie';
 
-import { secret } from '@/constant/authority';
 import { onSilentRefresh } from '@/services/auth/authClient';
 
 interface NextRouter {
   push: (path: string) => void;
-}
-
-interface JWTClaim extends JWTPayload {
-  exp?: number;
 }
 
 let token: string | undefined = undefined;
@@ -23,19 +18,17 @@ export const getRemainingTime = async (router: NextRouter) => {
 
   if (token) {
     try {
-      const { payload } = (await jwtVerify(token, secret)) as {
-        payload: JWTClaim;
-      };
+      const decoded = decodeJwt(token) as { exp?: number };
       const currentTime = Date.now();
 
-      if (payload.exp) {
-        const expirationTime = payload.exp * 1000;
+      if (decoded.exp) {
+        const expirationTime = decoded.exp * 1000;
         const remainingTime = expirationTime - currentTime;
 
         if (remainingTime > 0) {
           if (remainingTime <= REFRESH_THRESHOLD) {
             console.log('토큰이 거의 만료되었습니다. 리프레시를 수행합니다.');
-            onSilentRefresh();
+            await onSilentRefresh();
           } else {
             console.log('토큰이 유효합니다.');
           }

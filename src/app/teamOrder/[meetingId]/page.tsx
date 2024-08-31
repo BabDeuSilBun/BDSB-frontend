@@ -1,60 +1,31 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-
 import { useParams, useRouter } from 'next/navigation';
 
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import styled from 'styled-components';
+
+import RemainingAmount from './remainingAmount';
+import TeamOrderDetails from './teamOrderDetails';
 
 import Loading from '@/app/loading';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
-import MainImage from '@/components/meetings/mainImage';
-import MeetingInfo from '@/components/meetings/meetingInfo';
-import MeetingStatus from '@/components/meetings/meetingStatus';
 import TeamPurchaseItems from '@/components/meetings/teamPurchaseItems';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import useRemainingTime from '@/hook/useRemainingTime';
-import {
-  getIndividualPurchaseInfo,
-  getIndividualPurchaseList,
-} from '@/services/individualPurchaseService';
+import { getIndividualPurchaseList } from '@/services/individualPurchaseService';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import {
   getCurrentHeadCount,
   getTeamOrderInfo,
 } from '@/services/teamOrderService';
-import {
-  getTeamPurchaseInfo,
-  getTeamPurchaseList,
-} from '@/services/teamPurchaseService';
+import { getTeamPurchaseList } from '@/services/teamPurchaseService';
 import Container from '@/styles/container';
-import { IndividualPurchaseType, TeamPurchaseType } from '@/types/coreTypes';
-import { formatCurrency } from '@/utils/currencyFormatter';
-
-// Styled components
-const RemainingAmountText = styled.div`
-  position: fixed;
-  bottom: 5rem;
-  width: 100%;
-  text-align: center;
-  font-size: var(--font-size-sm);
-  color: var(--primary);
-  font-weight: var(--font-regular);
-  z-index: 1001;
-`;
+import PaddingBox from '@/styles/paddingBox';
 
 const TeamOrderPage = () => {
   const { meetingId } = useParams();
   const router = useRouter();
-
-  // State for storing team menu and individual order details
-  const [teamPurchase] = useState<TeamPurchaseType | null>(null);
-  const [individualPurchase] = useState<IndividualPurchaseType | null>(null);
-
-  // Refs for IntersectionObserver and last element
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
 
   // Fetching meeting information
   const {
@@ -90,163 +61,64 @@ const TeamOrderPage = () => {
     queryFn: ({ pageParam = 0 }) =>
       getTeamPurchaseList({ meetingId: Number(meetingId), page: pageParam }),
     getNextPageParam: (lastPage) => {
-      const nextPageNumber = lastPage.pageable?.pageNumber ?? -1;
-      return lastPage.last ? undefined : nextPageNumber + 1;
+      if (!lastPage || !lastPage.items) {
+        // lastPage 또는 lastPage.items가 undefined일 경우 undefined 반환
+        return undefined;
+      }
+
+      return lastPage.items.last
+        ? undefined
+        : lastPage.items.pageable.pageNumber + 1;
     },
     initialPageParam: 0,
   });
+
+  const lasElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage: hasNextTeamPage,
+    isFetchingNextPage: isFetchingNextTeamPage,
+    fetchNextPage: fetchNextTeamPage,
+  });
+
+  // Fetching individual purchases
+  const { data: individualPurchases, isLoading: isLoadingIndividualPurchases } =
+    useQuery({
+      queryKey: ['imminentTeamOrders', meetingId],
+      queryFn: () =>
+        getIndividualPurchaseList({
+          page: 0,
+          size: 1,
+          meetingId: Number(meetingId),
+        }),
+    });
 
   // Fetching individual purchases with infinite scrolling
-  const {
-    data: individualPurchases,
-    fetchNextPage: fetchNextIndividualPage,
-    hasNextPage: hasNextIndividualPage,
-    isFetchingNextPage: isFetchingNextIndividualPage,
-    isLoading: isLoadingIndividualPurchases,
-  } = useInfiniteQuery({
-    queryKey: ['individualPurchaseList', meetingId],
-    queryFn: ({ pageParam = 0 }) =>
-      getIndividualPurchaseList({
-        meetingId: Number(meetingId),
-        page: pageParam,
-      }),
-    getNextPageParam: (lastPage) => {
-      const nextPageNumber = lastPage.pageable?.pageNumber ?? -1;
-      return lastPage.last ? undefined : nextPageNumber + 1;
-    },
-    initialPageParam: 0,
-  });
-
-  // Handle infinite scrolling for team purchases
-  useEffect(() => {
-    if (isFetchingNextTeamPage) return;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextTeamPage) {
-        fetchNextTeamPage();
-      }
-    };
-
-    // Initialize IntersectionObserver for team purchases
-    observer.current = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    const currentLastElementRef = lastElementRef.current;
-
-    // Observe the last element for team purchases
-    if (currentLastElementRef) {
-      observer.current.observe(currentLastElementRef);
-    }
-
-    // Cleanup function to unobserve the last element for team purchases
-    return () => {
-      if (observer.current && currentLastElementRef) {
-        observer.current.unobserve(currentLastElementRef);
-      }
-    };
-  }, [isFetchingNextTeamPage, hasNextTeamPage, fetchNextTeamPage]);
-
-  // Handle infinite scrolling for individual purchases
-  useEffect(() => {
-    if (isFetchingNextIndividualPage) return;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextIndividualPage) {
-        fetchNextIndividualPage();
-      }
-    };
-
-    // Initialize IntersectionObserver for individual purchases
-    observer.current = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    const currentLastElementRef = lastElementRef.current;
-
-    // Observe the last element for individual purchases
-    if (currentLastElementRef) {
-      observer.current.observe(currentLastElementRef);
-    }
-
-    // Cleanup function to unobserve the last element for individual purchases
-    return () => {
-      if (observer.current && currentLastElementRef) {
-        observer.current.unobserve(currentLastElementRef);
-      }
-    };
-  }, [
-    isFetchingNextIndividualPage,
-    hasNextIndividualPage,
-    fetchNextIndividualPage,
-  ]);
-
-  // Fetch details of team purchases
-  useQuery({
-    queryKey: [
-      'teamPurchaseInfo',
-      meetingId,
-      teamPurchase?.items[0]?.purchaseId,
-    ],
-    queryFn: () =>
-      getTeamPurchaseInfo(
-        Number(meetingId),
-        Number(teamPurchase?.items[0]?.purchaseId),
-      ),
-    enabled: !!teamPurchase?.items?.length,
-  });
-
-  // Fetch details of individual purchases
-  useQuery({
-    queryKey: [
-      'individualPurchaseInfo',
-      meetingId,
-      individualPurchase?.items[0]?.purchaseId,
-    ],
-    queryFn: () =>
-      getIndividualPurchaseInfo(
-        Number(meetingId),
-        Number(individualPurchase?.items[0]?.purchaseId),
-      ),
-    enabled: !!individualPurchase?.items?.length,
-  });
+  // const {
+  //   data: individualPurchases,
+  //   fetchNextPage: fetchNextIndividualPage,
+  //   hasNextPage: hasNextIndividualPage,
+  //   isFetchingNextPage: isFetchingNextIndividualPage,
+  //   isLoading: isLoadingIndividualPurchases,
+  // } = useInfiniteQuery({
+  //   queryKey: ['individualPurchaseList', meetingId],
+  //   queryFn: ({ pageParam = 0 }) =>
+  //     getIndividualPurchaseList({
+  //       meetingId: Number(meetingId),
+  //       page: pageParam,
+  //       size: 1,
+  //     }),
+  //   getNextPageParam: (lastPage) => {
+  //     const nextPageNumber = lastPage.items.pageable?.pageNumber ?? -1;
+  //     return lastPage.items.last ? undefined : nextPageNumber + 1;
+  //   },
+  //   initialPageParam: 0,
+  // });
 
   // Fetch store information
   const { data: storeInfo } = useQuery({
     queryKey: ['storeInfo', meeting?.storeId],
     queryFn: () => getRestaurantInfo(Number(meeting?.storeId)),
-    enabled: !!meeting?.storeId,
+    enabled: !!meeting,
   });
-
-  // Calculate total fees and remaining amount
-  const totalTeamFee =
-    teamPurchases?.pages.reduce((sum, page) => {
-      return (
-        sum +
-        page.content.reduce((pageSum, purchase) => {
-          return pageSum + purchase.totalFee;
-        }, 0)
-      );
-    }, 0) || 0;
-
-  const totalIndividualFee =
-    individualPurchases?.pages.reduce((sum, page) => {
-      return (
-        sum +
-        page.content.reduce((pageSum, purchase) => {
-          return pageSum + purchase.totalFee;
-        }, 0)
-      );
-    }, 0) || 0;
-
-  const totalFee = totalTeamFee + totalIndividualFee;
-
-  const minPurchasePrice = storeInfo?.minPurchasePrice ?? 0;
-  const remainingAmount = minPurchasePrice - totalFee;
 
   // Handle click to redirect to restaurant page
   const handleClick = () => {
@@ -263,33 +135,36 @@ const TeamOrderPage = () => {
     isLoadingIndividualPurchases
   )
     return <Loading />;
-  if (isErrorMeeting) return <p>Error loading meeting data</p>;
+
+  if (isErrorMeeting)
+    return (
+      <PaddingBox>팀 주문 정보를 불러오는 데 문제가 발생했습니다.</PaddingBox>
+    );
 
   return (
     <>
       <Header buttonLeft="back" text={meeting?.storeName} />
       {meeting && (
         <Container>
-          <MainImage
-            src={meeting.storeImage[0]?.url || '/path/to/placeholder/image.jpg'}
-            alt={meeting.storeName || 'No image available'}
-          />
-          <MeetingStatus
-            headCountData={headCountData || null}
+          <TeamOrderDetails
             meeting={meeting}
+            headCountData={headCountData || null}
             remainingTime={remainingTime}
           />
-          <MeetingInfo meeting={meeting} />
 
-          {meeting?.purchaseType === 'DINING_TOGETHER' && (
-            <TeamPurchaseItems teamPurchases={teamPurchases || { pages: [] }} />
+          {teamPurchases && meeting?.purchaseType === 'DINING_TOGETHER' && (
+            <TeamPurchaseItems
+              teamPurchases={teamPurchases}
+              lastElementRef={lasElementRef}
+            />
           )}
-
-          <RemainingAmountText>
-            {remainingAmount > 0
-              ? `최소 주문 금액까지 ${formatCurrency(remainingAmount)} 남았어요!`
-              : '최소 주문 금액이 다 채워졌어요!'}
-          </RemainingAmountText>
+          {storeInfo && teamPurchases && individualPurchases && (
+            <RemainingAmount
+              storeInfo={storeInfo}
+              teamPurchases={teamPurchases}
+              individualPurchases={individualPurchases}
+            />
+          )}
         </Container>
       )}
 

@@ -166,6 +166,7 @@ const InquiryHistory = () => {
     }
 
     onClose();
+    // window.location.reload();
   };
 
   const lastElementRef = useInfiniteScroll<HTMLDivElement>({
