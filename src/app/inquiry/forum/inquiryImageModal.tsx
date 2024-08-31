@@ -83,13 +83,19 @@ const InquiryImageModal: React.FC<InquiryImageModalProps> = ({
   // 이미지를 삭제하는 함수
   const removeImage = (index: number) => {
     const newImages = editedImages.filter((_, i) => i !== index);
-    setEditedImages(newImages);
+
+    const updatedImages = newImages.map((image, idx) => ({
+      ...image,
+      sequence: idx + 1,
+    }));
+
+    setEditedImages(updatedImages);
   };
 
   const handleSave = () => {
     onSave(editedImages); // 수정된 이미지 배열을 부모 컴포넌트에 전달
     onClose(); // 모달 닫기
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (
@@ -114,10 +120,14 @@ const InquiryImageModal: React.FC<InquiryImageModalProps> = ({
                     </ImageWrapper>
                   </WrapItem>
                   <WrapItem>
+                    <Flex mr="4" h="100%" align="center">
+                      {`${item.imageId} 번째 이미지`}
+                    </Flex>
+                  </WrapItem>
+                  <WrapItem>
                     <Flex mr="4" h="100%">
                       <button onClick={() => removeImage(index)}>삭제</button>
                     </Flex>
-
                     <Flex direction="column">
                       <ToggleBtn
                         onClick={() => moveImage(index, 'up')}

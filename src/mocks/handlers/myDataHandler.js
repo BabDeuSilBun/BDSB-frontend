@@ -274,9 +274,8 @@ export const myDataHandlers = [
 
   http.delete(
     `${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`,
-    async (req) => {
-      const inquiryId = Number(req.params.inquiryId);
-      const imageId = Number(req.params.imageId);
+    async ({ params }) => {
+      const { inquiryId, imageId } = params;
       return HttpResponse.json(
         {
           message: `Image number ${imageId} of ${inquiryId} deleted successfully`,
@@ -288,20 +287,12 @@ export const myDataHandlers = [
 
   http.patch(
     `${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`,
-    async (req) => {
-      try {
-        const inquiryId = Number(req.params.inquiryId);
-        const imageId = Number(req.params.imageId);
-        const { sequence } = await req.json();
-        return HttpResponse.status(201).json({
-          message: `Image number ${imageId} of ${inquiryId} is updated to ${sequence} successfully`,
-        });
-      } catch (error) {
-        return HttpResponse.json(
-          { message: `서버 오류: ${error}` },
-          { status: 500 },
-        );
-      }
+    async ({ request, params }) => {
+      const { inquiryId, imageId } = params;
+      const { sequence } = await request.json;
+      return HttpResponse.json({
+        message: `Image number ${imageId} of ${inquiryId} is updated to ${sequence} successfully`,
+      });
     },
   ),
 ];
