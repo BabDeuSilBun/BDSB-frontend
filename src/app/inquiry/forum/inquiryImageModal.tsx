@@ -121,7 +121,7 @@ const InquiryImageModal: React.FC<InquiryImageModalProps> = ({
                   </WrapItem>
                   <WrapItem>
                     <Flex mr="4" h="100%" align="center">
-                      {`${item.imageId} 번째 이미지`}
+                      {`image - ${item.imageId}`}
                     </Flex>
                   </WrapItem>
                   <WrapItem>

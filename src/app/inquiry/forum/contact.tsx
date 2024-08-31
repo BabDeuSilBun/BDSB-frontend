@@ -71,9 +71,11 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
       content: content,
     };
 
+    const files = selectedImages.map((image) => image);
+
     formData.append('request', JSON.stringify(requestData));
-    selectedImages.forEach((image) => {
-      formData.append('files', image);
+    files.forEach((file) => {
+      formData.append('files', file);
     });
 
     onFormDataChange(formData);

@@ -122,25 +122,16 @@ export const updateUserProfile = async ({
   try {
     const formData = new FormData();
 
-    // 이미지 파일 추가 (이미지 삭제를 원할 경우 빈 문자열 전송)
     if (image instanceof File) {
-      // 이미지 파일이 제공된 경우
       console.log('image updated');
       formData.append('file', image);
-    } else if (image === '') {
-      // 이미지 삭제를 원할 경우 빈 문자열을 추가
-      console.log('image gonna be deleted');
-      formData.append('file', '');
-    } else {
-      console.log('이미지 유지');
-      formData.append('file', 'null');
     }
 
-    // 다른 데이터들을 JSON 문자열로 추가
     const requestData = {
       nickname: nickname !== null ? nickname : null,
       password: password !== null ? password : null,
       phoneNumber: phoneNumber !== null ? phoneNumber : null,
+      image: image !== null ? image : null,
       majorId: majorId !== null ? majorId : null,
       schoolId: schoolId !== null ? schoolId : null,
     };
