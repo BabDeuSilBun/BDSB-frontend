@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 import ImagePreviewComponent from './imagePreview';
 
-import SettingDescription from '@/components/meetings/settingDescription';
+import TextArea from '@/components/common/textArea';
 
 const Container = styled.div`
   text-align: left;
@@ -105,16 +105,13 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
 
       for (const file of files) {
         const options = {
-          maxSizeMB: 1, // 최대 파일 크기 (MB 단위)
-          maxWidthOrHeight: 400, // 최대 가로 또는 세로 길이 (픽셀 단위)
-          useWebWorker: true, // 웹 워커를 사용하여 비동기 처리
+          maxSizeMB: 1,
+          maxWidthOrHeight: 400,
+          useWebWorker: true,
         };
 
         try {
-          // 이미지 압축
           const compressedBlob = await imageCompression(file, options);
-
-          // Blob을 File 객체로 변환
           const compressedFile = new File([compressedBlob], file.name, {
             type: file.type,
             lastModified: Date.now(),
@@ -186,7 +183,7 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
           </ImagePreviewContainer>
         </Flex>
 
-        <SettingDescription
+        <TextArea
           placeholder="문의 내용을 남겨주세요"
           charLimit={1000}
           value={content}

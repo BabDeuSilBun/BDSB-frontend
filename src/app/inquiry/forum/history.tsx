@@ -84,7 +84,6 @@ const InquiryHistory = () => {
     enabled: selectedInquiryId !== null,
   });
 
-  // 이미지 삭제를 위한 Mutation
   const deleteImageMutation = useMutation({
     mutationFn: async ({
       inquiryId,
@@ -108,7 +107,6 @@ const InquiryHistory = () => {
     },
   });
 
-  // 이미지 순서 변경을 위한 Mutation
   const updateImageMutation = useMutation({
     mutationFn: async ({
       inquiryId,
@@ -166,7 +164,7 @@ const InquiryHistory = () => {
     }
 
     onClose();
-    // window.location.reload();
+    window.location.reload();
   };
 
   const lastElementRef = useInfiniteScroll<HTMLDivElement>({
@@ -261,7 +259,6 @@ const InquiryHistory = () => {
         )}
       </Container>
 
-      {/* 이미지 수정 모달 */}
       {images && (
         <InquiryImageModal
           isOpen={isOpen}

@@ -150,7 +150,7 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
         selectedTimeInMinutes > closeTimeInMinutes
       ) {
         setError(
-          `영업 시간은 ${store.openTime}부터 ${store.closeTime}까지입니다.\n이 시간 내로 선택해주세요.`,
+          `영업 시간은 ${store.openTime}부터 ${store.closeTime}까지입니다.`,
         );
         setButtonActive(false);
       } else {
@@ -214,7 +214,7 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
         selectedTimeInMinutes > closeTimeInMinutes
       ) {
         setError(
-          `영업 시간은 ${store.openTime}부터 ${store.closeTime}까지입니다.\n이 시간 내로 선택해주세요.`,
+          `영업 시간은 ${store.openTime}부터 ${store.closeTime}까지입니다.`,
         );
         setButtonActive(false);
         return;
