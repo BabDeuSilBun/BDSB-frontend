@@ -75,7 +75,7 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
 
     formData.append('request', JSON.stringify(requestData));
     files.forEach((file) => {
-      formData.append('files', file);
+      formData.append('file', file);
     });
 
     onFormDataChange(formData);

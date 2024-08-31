@@ -47,7 +47,7 @@ const InquiryForum = () => {
       );
       console.log(formData);
       alert('문의가 접수되었습니다.');
-      // setPageType('history');
+      setPageType('history');
     } catch (error) {
       console.error('Error during inquiry submission:', error);
     }

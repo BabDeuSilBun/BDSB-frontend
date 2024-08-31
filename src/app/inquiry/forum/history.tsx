@@ -123,10 +123,7 @@ const InquiryHistory = () => {
         `Updating image with inquiryId: ${inquiryId} and imageId: ${imageId}`,
       );
       await apiClientWithCredentials.patch(
-        `${INQUIRY_LIST_API_URL}/${inquiryId}/images/${imageId}`,
-        {
-          sequence,
-        },
+        `${INQUIRY_LIST_API_URL}/${inquiryId}/images/${imageId}?sequence=${sequence}`,
       );
     },
     onError: (error) => {

@@ -286,10 +286,9 @@ export const myDataHandlers = [
   ),
 
   http.patch(
-    `${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`,
-    async ({ request, params }) => {
-      const { inquiryId, imageId } = params;
-      const { sequence } = await request.json;
+    `${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId?sequence:sequence`,
+    async ({ params }) => {
+      const { inquiryId, imageId, sequence } = params;
       return HttpResponse.json({
         message: `Image number ${imageId} of ${inquiryId} is updated to ${sequence} successfully`,
       });

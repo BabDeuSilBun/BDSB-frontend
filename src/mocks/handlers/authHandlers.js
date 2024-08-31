@@ -8,15 +8,11 @@ import { applyFiltersAndSorting } from '../filteringAndSorting';
 import { paginatedMajors } from '../mockData/majors';
 import { paginatedSchools } from '../mockData/schools';
 
+import { alg, email, secret } from '@/constant/authority';
 import {
   MAJOR_LIST_API_URL,
   SCHOOL_LIST_API_URL,
 } from '@/services/auth/signUpService';
-
-const email = 'test@example.com';
-// const password = 'password123';
-const secret = new TextEncoder().encode('your_secret_key');
-const alg = 'HS256';
 
 export const authHandlers = [
   http.post('/api/users/signin', async ({ request }) => {
