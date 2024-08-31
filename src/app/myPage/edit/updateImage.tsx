@@ -1,5 +1,6 @@
 'use client';
 
+import imageCompression from 'browser-image-compression';
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
@@ -88,15 +89,34 @@ const UpdateImage = ({ image }: Props) => {
   useEffect(() => {
     if (initialImage) setCurrentImage(initialImage);
   }, [initialImage]);
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setCurrentImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 400,
+          useWebWorker: true,
+        };
+
+        const compressedBlob = await imageCompression(file, options);
+
+        const compressedFile = new File([compressedBlob], file.name, {
+          type: file.type,
+          lastModified: Date.now(),
+        });
+
+        setImageFile(compressedFile);
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setCurrentImage(reader.result as string);
+        };
+        reader.readAsDataURL(compressedFile);
+      } catch (error) {
+        console.error('이미지 압축 중 오류 발생:', error);
+      }
     }
   };
 
