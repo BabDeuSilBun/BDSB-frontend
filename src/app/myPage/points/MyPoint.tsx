@@ -98,7 +98,7 @@ const MyPoint = () => {
 
   const mutation = useMutation({
     mutationFn: () =>
-      apiClientWithCredentials.post('/api/users/point/withdrawal'),
+      apiClientWithCredentials.post('/api/users/points/withdrawal'),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['myData'] });
     },
