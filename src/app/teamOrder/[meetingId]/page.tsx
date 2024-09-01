@@ -14,7 +14,6 @@ import TeamPurchaseItems from '@/components/meetings/teamPurchaseItems';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import useRemainingTime from '@/hook/useRemainingTime';
 import { getIndividualPurchaseList } from '@/services/individualPurchaseService';
-import { getRestaurantInfo } from '@/services/restaurantService';
 import {
   getCurrentHeadCount,
   getTeamOrderInfo,
