@@ -37,7 +37,7 @@ export interface Response {
   numberOfElements: number;
   pageable: {
     offset: number;
-    paged: true;
+    paged: boolean;
     pageNumber: number;
     pageSize: number;
     sort: {

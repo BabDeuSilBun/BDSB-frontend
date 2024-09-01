@@ -80,7 +80,7 @@ const CampusItem = styled.li<{ selected: boolean }>`
   }
 `;
 
-const Chat = styled.div`
+const Chat = styled.button`
   margin: -0.5rem 0rem -0.5rem 0rem;
   padding: 0.5rem;
 `;
