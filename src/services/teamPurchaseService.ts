@@ -4,7 +4,7 @@ import { PurchasesResponse } from '@/types/coreTypes';
 import { GetListParams } from '@/types/types';
 
 export const TEAM_PURCHASE_LIST_API_URL =
-  '/api/users/meetings/{meetingId}/team-order';
+  '/api/users/meetings/{meetingId}/team-purchases';
 // export const TEAM_PURCHASE_API_URL =
 //   '/api/users/meetings/{meetingId}/team-purchases/{purchaseId}';
 

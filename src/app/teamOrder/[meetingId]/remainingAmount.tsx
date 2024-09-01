@@ -3,11 +3,11 @@ import React from 'react';
 import { InfiniteData } from '@tanstack/react-query';
 import styled from 'styled-components';
 
-import { PurchasesResponse, RestaurantType } from '@/types/coreTypes';
+import { MeetingType, PurchasesResponse } from '@/types/coreTypes';
 import { formatCurrency } from '@/utils/currencyFormatter';
 
 interface RemainingAmountProps {
-  storeInfo: RestaurantType;
+  meeting: MeetingType;
   teamPurchases: InfiniteData<PurchasesResponse>;
   individualPurchases: PurchasesResponse;
 }
@@ -24,7 +24,7 @@ const RemainingAmountText = styled.div`
 `;
 
 const RemainingAmount = ({
-  storeInfo,
+  meeting,
   teamPurchases,
   individualPurchases,
 }: RemainingAmountProps) => {
@@ -35,7 +35,7 @@ const RemainingAmount = ({
 
   const totalFee = teamPurchasesFee + individualPurchasesFee;
 
-  const minPurchasePrice = storeInfo.minPurchasePrice;
+  const minPurchasePrice = meeting.minPurchaseAmount;
   const remainingAmount = minPurchasePrice - totalFee;
 
   return (

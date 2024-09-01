@@ -53,6 +53,7 @@ export interface MeetingType {
   minDeliveryTime: number;
   maxDeliveryTime: number;
   deliveryTimeRange: string;
+  minPurchaseAmount: number;
   status:
     | 'GATHERING'
     | 'PURCHASE_COMPLETED'

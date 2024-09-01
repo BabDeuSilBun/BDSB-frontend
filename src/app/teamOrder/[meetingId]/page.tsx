@@ -113,13 +113,6 @@ const TeamOrderPage = () => {
   //   initialPageParam: 0,
   // });
 
-  // Fetch store information
-  const { data: storeInfo } = useQuery({
-    queryKey: ['storeInfo', meeting?.storeId],
-    queryFn: () => getRestaurantInfo(Number(meeting?.storeId)),
-    enabled: !!meeting,
-  });
-
   // Handle click to redirect to restaurant page
   const handleClick = () => {
     if (meeting) {
@@ -158,9 +151,9 @@ const TeamOrderPage = () => {
               lastElementRef={lasElementRef}
             />
           )}
-          {storeInfo && teamPurchases && individualPurchases && (
+          {meeting && teamPurchases && individualPurchases && (
             <RemainingAmount
-              storeInfo={storeInfo}
+              meeting={meeting}
               teamPurchases={teamPurchases}
               individualPurchases={individualPurchases}
             />

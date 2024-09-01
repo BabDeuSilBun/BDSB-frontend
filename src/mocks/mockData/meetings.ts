@@ -33,6 +33,7 @@ export const meetings: MeetingType[] = [
     deliveryTimeRange: '30분~45분',
     status: 'GATHERING',
     category: '피자',
+    minPurchaseAmount: 15000,
     description:
       '컴퓨터공학과 학생들이 모여 함께 피자를 즐기고 싶은 모임입니다. 피자를 좋아하는 누구나 환영합니다!',
   },
@@ -68,6 +69,7 @@ export const meetings: MeetingType[] = [
     maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '일식',
+    minPurchaseAmount: 15000,
     description:
       '일식을 좋아하는 모든 학과 학생들을 환영합니다. 특히 일본어학과 학생들이 모여서 이야기하며 스시를 즐기는 시간을 가질 예정입니다.',
   },
@@ -103,6 +105,7 @@ export const meetings: MeetingType[] = [
     maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '찜·탕·찌개',
+    minPurchaseAmount: 18000,
     description:
       '한국 음식을 사랑하는 외국어학과 학생들을 환영합니다. 한국 문화와 음식을 좋아하는 모든 이들을 초대합니다.',
   },
@@ -138,6 +141,7 @@ export const meetings: MeetingType[] = [
     maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '카페·디저트',
+    minPurchaseAmount: 8000,
     description:
       '디저트를 좋아하는 예술학과 학생들을 위한 모임입니다. 아침부터 달콤한 베이커리를 즐기고 싶은 분들 환영합니다!',
   },
@@ -173,6 +177,7 @@ export const meetings: MeetingType[] = [
     maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '패스트푸드',
+    minPurchaseAmount: 10000,
     description:
       '바쁜 공대생들을 위한 패스트푸드 모임입니다. 간편하게 끼니를 해결하고 싶은 모든 이들을 환영합니다.',
   },
@@ -206,6 +211,7 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T10:30:00',
     minDeliveryTime: 0,
     maxDeliveryTime: 0,
+    minPurchaseAmount: 15000,
     status: 'GATHERING',
     category: '중식',
     description:
@@ -243,6 +249,7 @@ export const meetings: MeetingType[] = [
     maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '돈까스·회·일식',
+    minPurchaseAmount: 25000,
     description:
       '해산물을 좋아하는 해양학과 학생들을 위한 모임입니다. 신선한 해산물을 즐기고 싶은 모든 분들 환영합니다.',
   },
@@ -278,6 +285,7 @@ export const meetings: MeetingType[] = [
     maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '분식',
+    minPurchaseAmount: 10000,
     description:
       '분식을 좋아하는 모든 학과 학생들을 환영합니다. 특히 사회학과 학생들이 함께 모여 떡볶이를 즐길 예정입니다.',
   },
@@ -313,6 +321,7 @@ export const meetings: MeetingType[] = [
     maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '찜·탕·찌개',
+    minPurchaseAmount: 15000,
     description:
       '퓨전 한식을 좋아하는 언어학과 학생들을 환영합니다. 다양한 음식을 경험하고 싶은 모든 이들을 초대합니다.',
   },
@@ -346,6 +355,7 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T09:30:00',
     minDeliveryTime: 0,
     maxDeliveryTime: 0,
+    minPurchaseAmount: 12000,
     status: 'GATHERING',
     category: '카페·디저트',
     description:
@@ -383,6 +393,7 @@ export const meetings: MeetingType[] = [
     maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '고기·구이',
+    minPurchaseAmount: 25000,
     description:
       '고기를 좋아하는 체육학과 학생들을 환영합니다. 바비큐를 즐기고 싶은 모든 분들 함께 해요!',
   },
@@ -417,6 +428,7 @@ export const meetings: MeetingType[] = [
     minDeliveryTime: 0,
     maxDeliveryTime: 0,
     status: 'GATHERING',
+    minPurchaseAmount: 6000,
     category: '기타',
     description:
       '프랑스 문화를 좋아하는 외국어학과 학생들을 위한 모임입니다. 프랑스 음식을 경험하고 싶은 분들 환영합니다.',
@@ -451,6 +463,7 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T13:30:00',
     minDeliveryTime: 0,
     maxDeliveryTime: 0,
+    minPurchaseAmount: 15000,
     status: 'GATHERING',
     category: '카페·디저트',
     description:
@@ -486,6 +499,7 @@ export const meetings: MeetingType[] = [
     deliveredAt: '2024-08-15T15:25:00',
     minDeliveryTime: 0,
     maxDeliveryTime: 0,
+    minPurchaseAmount: 10000,
     status: 'GATHERING',
     category: '카페·디저트',
     description:
@@ -523,6 +537,7 @@ export const meetings: MeetingType[] = [
     maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '고기·구이',
+    minPurchaseAmount: 30000,
     description:
       '고기를 좋아하는 모든 학과 학생들을 환영합니다. 특히 기계공학과 학생들이 모여 함께 고기를 즐길 예정입니다.',
   },
@@ -555,6 +570,7 @@ export const meetings: MeetingType[] = [
     },
     deliveredAt: '2024-08-15T13:30:00',
     minDeliveryTime: 0,
+    minPurchaseAmount: 20000,
     maxDeliveryTime: 0,
     status: 'GATHERING',
     category: '기타',
