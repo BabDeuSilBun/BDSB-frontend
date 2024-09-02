@@ -16,6 +16,7 @@ import { getUserProfile } from '@/services/myDataService';
 import { getMyData, getMyEvaluates } from '@/services/myDataService';
 import { BaseBtnInactive } from '@/styles/button';
 import Container from '@/styles/container';
+
 const ImageWrapper = styled.div`
   display: flex;
   justify-content: center;

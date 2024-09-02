@@ -1,6 +1,6 @@
 import { apiClientWithCredentials } from './apiClient';
 
-import { ChatListsResponse, ChatMessageType } from '@/types/chatTypes';
+import { ChatListsResponse, ChatMessagesResponse } from '@/types/chatTypes';
 import { GetListParams } from '@/types/types';
 
 export const CHAT_LIST_API_URL = '/api/users/chat-rooms';
@@ -8,7 +8,7 @@ const CHAT_API_URL = '/api/users/chat-rooms/{chatRoomId}';
 
 export const getChatList = async ({
   page = 0,
-  size = 10,
+  size = 15,
 }: GetListParams): Promise<ChatListsResponse> => {
   try {
     const response = await apiClientWithCredentials.get<ChatListsResponse>(
@@ -29,12 +29,20 @@ export const getChatList = async ({
   }
 };
 
-export const getChatDetail = async (
-  chatRoomId: number,
-): Promise<ChatMessageType> => {
+export const getChatMessages = async ({
+  page = 0,
+  size = 10,
+  chatRoomId = 0,
+}: GetListParams): Promise<ChatMessagesResponse> => {
   try {
     const response = await apiClientWithCredentials.get(
       CHAT_API_URL.replace('{chatRoomId}', chatRoomId.toString()),
+      {
+        params: {
+          size,
+          page,
+        },
+      },
     );
     return response.data;
   } catch (error) {

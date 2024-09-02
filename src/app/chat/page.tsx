@@ -40,7 +40,7 @@ const Chat = () => {
 
   return (
     <>
-      <Header text="채팅" buttonRight="home" />
+      <Header text="채팅 목록" buttonRight="home" />
       <Container>
         {status === 'pending' ? (
           <>

@@ -6,6 +6,7 @@ interface InfiniteScrollProps<T extends HTMLElement> {
   isFetchingNextPage: boolean;
   fetchNextPage: () => void;
   root?: Element | null;
+  rootMargin?: string;
 }
 
 export function useInfiniteScroll<T extends HTMLElement>({
@@ -13,6 +14,7 @@ export function useInfiniteScroll<T extends HTMLElement>({
   isFetchingNextPage,
   fetchNextPage,
   root = null,
+  rootMargin = '0px',
 }: InfiniteScrollProps<T>): RefObject<T> {
   const lastElementRef = useRef<T | null>(null);
 
@@ -28,7 +30,7 @@ export function useInfiniteScroll<T extends HTMLElement>({
 
     const observerInstance = new IntersectionObserver(handleIntersect, {
       root,
-      rootMargin: '0px',
+      rootMargin,
       threshold: 0.1,
     });
 

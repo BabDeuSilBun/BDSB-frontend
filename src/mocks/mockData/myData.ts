@@ -9,7 +9,7 @@ export const myData: MyDataType = {
   userId: 1,
   email: 'bdsb@gmail.com',
   name: '밥친구',
-  nickname: '오끼먹는 김말이',
+  nickname: '배고픈대학원생123',
   phoneNumber: '01012345678',
   bankAccount: {
     bank: null,
