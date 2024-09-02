@@ -11,20 +11,20 @@ export const setAuthToken = (token: string) => {
   }
 };
 
-// 요청 인터셉터 설정
-apiClientWithCredentials.interceptors.request.use((config) => {
-  console.log(
-    'Request Headers:',
-    config.headers ? config.headers : 'Headers are empty',
-  );
-  return config;
-});
+// 요청 인터셉터 설정: 헤더에 제대로 찍히는지 보려고 넣은 함수입니다: 최종 때 삭제하든 할게요
+// apiClientWithCredentials.interceptors.request.use((config) => {
+//   console.log(
+//     'Request Headers:',
+//     config.headers ? config.headers : 'Headers are empty',
+//   );
+//   return config;
+// });
 
 // 서버 응답 로그 확인
-apiClientWithCredentials.interceptors.response.use((response) => {
-  console.log('Response Headers:', response.headers);
-  return response;
-});
+// apiClientWithCredentials.interceptors.response.use((response) => {
+//   console.log('Response Headers:', response.headers);
+//   return response;
+// });
 
 // 토큰 갱신 함수
 export const onSilentRefresh = async () => {
