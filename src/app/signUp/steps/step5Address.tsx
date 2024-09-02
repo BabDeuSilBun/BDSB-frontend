@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import UpdateAddress from '@/app/myPage/edit/address/updateAddress';
+import UpdateAddress from '@/app/myPage/manageAddress/updateAddress';
 import { useSignUpStore } from '@/state/authStore';
 
 const Step5Address = () => {

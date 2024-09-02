@@ -36,7 +36,7 @@ const InquiryForum = () => {
     if (!formData) return;
 
     try {
-      const config = formData.has('file')
+      const config = formData.has('image1')
         ? {
             headers: { 'Content-Type': 'multipart/form-data' },
           }

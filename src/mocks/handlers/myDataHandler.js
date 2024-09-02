@@ -17,8 +17,6 @@ import {
   INQUIRY_LIST_API_URL,
   MY_PROFILE_API_URL,
   POINT_LIST_API_URL,
-  UPDATE_NICKNAME_API_URL,
-  UPDATE_PROFILE_API_URL,
 } from '@/services/myDataService';
 
 export const myDataHandlers = [
@@ -79,10 +77,7 @@ export const myDataHandlers = [
         { status: 400 },
       );
     } catch (error) {
-      return HttpResponse.json(
-        { message: `서버 오류: ${error}` },
-        { status: 500 },
-      );
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
     }
   }),
 
@@ -90,80 +85,19 @@ export const myDataHandlers = [
     try {
       const { postal, streetAddress, detailAddress } = await request.json();
       console.log('update address', postal, streetAddress, detailAddress);
-      if (postal && streetAddress && detailAddress) {
-        return HttpResponse.json(
-          { message: '주소 변경 성공' },
-          { status: 200 },
-        );
-      }
+      // if (postal && streetAddress && detailAddress) {
+      //   return HttpResponse.json(
+      //     { message: '주소 변경 성공' },
+      //     { status: 200 },
+      //   );
+      // }
 
-      return HttpResponse.json(
-        { message: '잘못된 요청입니다.' },
-        { status: 400 },
-      );
+      // return HttpResponse.json(
+      //   { message: '잘못된 요청입니다.' },
+      //   { status: 400 },
+      // );
     } catch (error) {
-      return HttpResponse.json(
-        { message: `서버 오류: ${error}` },
-        { status: 500 },
-      );
-    }
-  }),
-
-  http.get(UPDATE_NICKNAME_API_URL, async () => {
-    try {
-      const adjectiveList = ['행복한', '친절한', '똑똑한', '즐거운'];
-      const nounList = ['김말이', '떡볶이', '오뎅', '치킨'];
-
-      const randomAdjective =
-        adjectiveList[Math.floor(Math.random() * adjectiveList.length)];
-      const randomNoun = nounList[Math.floor(Math.random() * nounList.length)];
-
-      const randomNickname = `${randomAdjective} ${randomNoun}`;
-
-      return HttpResponse.json({ nickname: randomNickname });
-    } catch (error) {
-      return HttpResponse.status(404).json({
-        message: `My evaluates not found: ${error}`,
-      });
-    }
-  }),
-
-  http.post('/api/password-confirm', async ({ request }) => {
-    try {
-      const { password } = await request.json();
-
-      if (password === 'password123') {
-        return HttpResponse.json({ isCorrected: true });
-      } else {
-        return HttpResponse.json({ isCorrected: false });
-      }
-    } catch (error) {
-      return HttpResponse.status(500).json({
-        message: `Error validating password: ${error}`,
-      });
-    }
-  }),
-
-  http.patch(UPDATE_PROFILE_API_URL, async ({ req }) => {
-    try {
-      const data = await req.formData();
-
-      if (data) {
-        return HttpResponse.json(
-          { message: '프로필 업데이트 성공' },
-          { status: 200 },
-        );
-      }
-
-      return HttpResponse.json(
-        { message: '잘못된 요청입니다.' },
-        { status: 400 },
-      );
-    } catch (error) {
-      return HttpResponse.json(
-        { message: `서버 오류: ${error}` },
-        { status: 500 },
-      );
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
     }
   }),
 
@@ -194,10 +128,8 @@ export const myDataHandlers = [
         content: filteredContent,
       });
     } catch (error) {
-      return HttpResponse.json(
-        { message: `서버 오류: ${error}` },
-        { status: 500 },
-      );
+      console.error('Error parsing URL:', error);
+      return HttpResponse.status(500).json({ message: 'Error parsing URL' });
     }
   }),
 
@@ -221,10 +153,7 @@ export const myDataHandlers = [
         { status: 400 },
       );
     } catch (error) {
-      return HttpResponse.json(
-        { message: `서버 오류: ${error}` },
-        { status: 500 },
-      );
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
     }
   }),
 
@@ -253,10 +182,8 @@ export const myDataHandlers = [
         content: filteredContent,
       });
     } catch (error) {
-      return HttpResponse.json(
-        { message: `서버 오류: ${error}` },
-        { status: 500 },
-      );
+      console.error('Error parsing URL:', error);
+      return HttpResponse.status(500).json({ message: 'Error parsing URL' });
     }
   }),
 
@@ -278,12 +205,9 @@ export const myDataHandlers = [
     async (req) => {
       const inquiryId = Number(req.params.inquiryId);
       const imageId = Number(req.params.imageId);
-      return HttpResponse.json(
-        {
-          message: `Image number ${imageId} of ${inquiryId} deleted successfully`,
-        },
-        { status: 200 },
-      );
+      return HttpResponse.status(204).json({
+        message: `Image number ${imageId} of ${inquiryId} deleted successfully`,
+      });
     },
   ),
 
@@ -298,10 +222,8 @@ export const myDataHandlers = [
           message: `Image number ${imageId} of ${inquiryId} is updated to ${sequence} successfully`,
         });
       } catch (error) {
-        return HttpResponse.json(
-          { message: `서버 오류: ${error}` },
-          { status: 500 },
-        );
+        console.error('Error parsing URL:', error);
+        return HttpResponse.status(500).json({ message: 'Error parsing URL' });
       }
     },
   ),

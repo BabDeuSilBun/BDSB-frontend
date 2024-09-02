@@ -1,11 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
-
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import Header from '@/components/layout/header';
@@ -74,16 +72,11 @@ const ListButton = styled.button.attrs({
 
 const MyPage = () => {
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['myData'],
     queryFn: getMyData,
   });
-
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ['myData'] });
-  }, [queryClient]);
 
   return (
     <>
@@ -91,7 +84,7 @@ const MyPage = () => {
       <Container>
         <Flexbox>
           <ImageWrapper>
-            {data && data.image && data.image !== 'null' && (
+            {data && (
               <Image
                 src={data.image}
                 alt="My Profile Image"
@@ -109,7 +102,7 @@ const MyPage = () => {
                   ? '불러오는 중'
                   : data && data.nickname}
             </Nickname>
-            <AddressButton onClick={() => router.push('/myPage/edit/address')}>
+            <AddressButton onClick={() => router.push('/myPage/manageAddress')}>
               <Image
                 src="./map-pin.svg"
                 alt="map pin icon"
@@ -139,7 +132,7 @@ const MyPage = () => {
           </ListItem> */}
           <ListItem>
             <p>환불 계좌 입력</p>
-            <ListButton onClick={() => router.push('/myPage/edit/bankAccount')}>
+            <ListButton onClick={() => router.push('/myPage/bankAccount')}>
               {'>'}
             </ListButton>
           </ListItem>

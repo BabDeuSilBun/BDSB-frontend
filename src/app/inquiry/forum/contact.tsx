@@ -64,13 +64,11 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
     }
 
     const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
 
-    formData.append('request.title', title);
-    formData.append('request.content', content);
-
-    selectedImages.forEach((image) => {
-      // "files" 키로 파일 추가
-      formData.append('files', image);
+    selectedImages.forEach((image, index) => {
+      formData.append(`image${index + 1}`, image);
     });
 
     onFormDataChange(formData);

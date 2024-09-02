@@ -3,22 +3,15 @@
 import { useState } from 'react';
 
 import { Divider } from '@chakra-ui/react';
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import PointItem from '@/components/listItems/pointItem';
 import PointSkeleton from '@/components/listItems/skeletons/pointSkeleton';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
-import { apiClientWithCredentials } from '@/services/apiClient';
 import { getMyData, getPointDetailList } from '@/services/myDataService';
 import { RoundBtnFilled, SmallRdBtn } from '@/styles/button';
 import Container from '@/styles/container';
-import PaddingBox from '@/styles/paddingBox';
 
 const ContainerSection = styled(Container)`
   display: flex;
@@ -51,10 +44,9 @@ const SortingBtns = styled.div`
 `;
 
 const MyPoint = () => {
-  const [activeBtn, setActiveBtn] = useState<string | null>(null);
-  const queryClient = useQueryClient();
+  const [activeBtn, setActiveBtn] = useState('전체');
 
-  const handleBtnClick = (btnType: string | null) => {
+  const handleBtnClick = (btnType: string) => {
     setActiveBtn(btnType);
   };
 
@@ -93,23 +85,6 @@ const MyPoint = () => {
     fetchNextPage,
   });
 
-  const mutation = useMutation({
-    mutationFn: () =>
-      apiClientWithCredentials.post('/api/users/point/withdrawal'),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['myData'] });
-    },
-    onError: (error) => {
-      console.error('포인트 인출 중 오류 발생:', error);
-    },
-  });
-
-  const handlePointWithdrawal = () => {
-    if (confirm('전액 인출하시겠습니까?')) {
-      mutation.mutate();
-    }
-  };
-
   return (
     <ContainerSection>
       <Flex>
@@ -117,28 +92,23 @@ const MyPoint = () => {
           <h2>보유</h2>
           <h3>{`${isErrorUserData ? '포인트를 불러올 수 없음' : isLoadingUserData ? '0' : userData && userData.point}P`}</h3>
         </div>
-        <RoundBtnFilled
-          onClick={handlePointWithdrawal}
-          disabled={isLoadingUserData}
-        >
-          전액 인출하기
-        </RoundBtnFilled>
+        <RoundBtnFilled>전액 인출하기</RoundBtnFilled>
       </Flex>
       <SortingBtns>
         <SmallRdBtn
-          onClick={() => handleBtnClick(null)}
+          onClick={() => handleBtnClick('전체')}
           active={activeBtn === '전체'}
         >
           전체
         </SmallRdBtn>
         <SmallRdBtn
-          onClick={() => handleBtnClick('earn')}
+          onClick={() => handleBtnClick('적립')}
           active={activeBtn === '적립'}
         >
           적립
         </SmallRdBtn>
         <SmallRdBtn
-          onClick={() => handleBtnClick('use')}
+          onClick={() => handleBtnClick('사용')}
           active={activeBtn === '사용'}
         >
           사용
@@ -170,7 +140,7 @@ const MyPoint = () => {
             )}
           </>
         ) : (
-          <PaddingBox>문의 내역을 불러오지 못했습니다.</PaddingBox>
+          <div>포인트 내역이 없습니다.</div>
         )}
       </ul>
     </ContainerSection>

@@ -51,7 +51,7 @@ const ReviewLetter = () => {
 
   return (
     <>
-      <Header text="거래 후기" buttonLeft="back" />
+      <Header text="거래 후기" buttonRight="home" />
       <ContainerBox>
         <Title>
           <span>{nickname}</span>님이 보낸 <br /> 따듯한 후기가 도착했어요.
