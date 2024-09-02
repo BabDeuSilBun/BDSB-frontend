@@ -212,11 +212,7 @@ const StorePage = () => {
           storeId={String(storeId)}
         />
       </HeaderContainer>
-      {store.image && store.image.length > 0 ? (
-        <Carousel images={store.image} ref={carouselRef} />
-      ) : (
-        <p>No images available</p>
-      )}
+      <Carousel images={store.image} ref={carouselRef} />
       <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} />
 
       {/* Context-specific code */}
