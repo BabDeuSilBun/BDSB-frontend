@@ -61,18 +61,30 @@ export const paginatedCategories: CategoriesResponse[] = Array.from(
     return {
       content,
       pageable: {
+        offset: start,
         pageNumber: index,
         pageSize,
         sort: {
-          empty: false,
-          sorted: true,
-          unsorted: false,
+          empty: true,
+          unsorted: true,
+          sorted: false,
         },
+        paged: true,
+        unpaged: false,
       },
       last: isLastPage,
       totalPages,
       size: pageSize,
       first: index === 0,
+      number: index,
+      numberOfElements: content.length,
+      sort: {
+        empty: true,
+        unsorted: true,
+        sorted: false,
+      },
+      totalElements: categories.length,
+      empty: content.length === 0,
     };
   },
 );

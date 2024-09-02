@@ -6,7 +6,7 @@ const nextConfig = {
   images: {
     domains: [
       'via.placeholder.com',
-      'bdsbmockdata.s3.ap-southeast-2.amazonaws.com',
+      'zerobase-s3.s3.ap-northeast-2.amazonaws.com',
     ],
   },
   eslint: {

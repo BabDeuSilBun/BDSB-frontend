@@ -38,6 +38,7 @@ function SortedList() {
   const [selectedSort, setSelectedSort] = useState<string>('delivery-fee');
   const [isOpen, setIsOpen] = useState(false);
   const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [schoolId, setSchoolId] = useState<number | null>(null);
 
   const { data: categoriesData } = useInfiniteQuery({
     queryKey: ['categoriesList'],
@@ -47,16 +48,20 @@ function SortedList() {
   });
 
   useEffect(() => {
+    const storedSchoolId = localStorage.getItem('selectedSchoolId');
+    if (storedSchoolId !== null && !isNaN(Number(storedSchoolId))) {
+      setSchoolId(Number(storedSchoolId));
+    }
+  }, []);
+
+  useEffect(() => {
     if (categoriesData) {
       const categories = categoriesData.pages.flatMap((page) => page.content);
 
-      console.log(categoryName);
       const matchedCategory = categories.find(
         (cat) => cat.name === categoryName,
       );
       if (matchedCategory) {
-        console.log(matchedCategory);
-
         setCategoryId(matchedCategory.categoryId);
       } else {
         console.log('there is no categories matched');
@@ -72,12 +77,13 @@ function SortedList() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ['sortedList', selectedSort, categoryId],
+    queryKey: ['sortedList', selectedSort, categoryId, schoolId],
     queryFn: ({ pageParam = 0 }) =>
       getRestaurantsList({
         page: pageParam,
         sortCriteria: selectedSort,
         foodCategoryFilter: categoryId ?? 6,
+        schoolId: schoolId,
       }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
@@ -123,7 +129,7 @@ function SortedList() {
         </>
       ) : status === 'error' ? (
         <p>Error: {error.message}</p>
-      ) : data?.pages.length > 0 ? (
+      ) : data && data.pages.length > 0 ? (
         <>
           {data.pages.map((page) =>
             page.content.map((item, index) => (
@@ -131,7 +137,7 @@ function SortedList() {
                 key={item.storeId}
                 ref={index === page.content.length - 1 ? lastElementRef : null}
               >
-                <RestaurantsItem item={item} key={item.storeId} />
+                <RestaurantsItem item={item} />
                 <Divider />
               </div>
             )),

@@ -1,57 +1,54 @@
 import { http, HttpResponse } from 'msw';
 
-import {
-  paginatedTeamPurchases,
-  teamPurchases,
-} from '../mockData/teamPurchases';
+import { getPaginatedTeamItems } from '../mockData/teamPurchases';
 
 export const teamPurchaseHandlers = [
-  http.get('/api/users/meetings/:meetingId/team-purchases', (req) => {
-    const { request } = req;
-    const meetingId = Number(req.params.meetingId);
-    const urlString = request.url.toString();
-
-    try {
-      const url = new URL(urlString);
-      const pageParam = Number(url.searchParams.get('page')) || 0;
-
-      const paginatedResponse = paginatedTeamPurchases[meetingId]?.[pageParam];
-
-      if (!paginatedResponse) {
-        return HttpResponse.json({ message: 'Page not found' });
-      }
-
-      return HttpResponse.json({
-        ...paginatedResponse,
-      });
-    } catch (error) {
-      console.error('Error parsing URL:', error);
-      return HttpResponse.status(500).json({ message: 'Error parsing URL' });
-    }
-  }),
-
   http.get(
-    '/api/users/meetings/:meetingId/team-purchases/:purchaseId',
-    (req) => {
-      const meetingId = Number(req.params.meetingId);
-      const purchaseId = Number(req.params.purchaseId);
+    '/api/users/meetings/:meetingId/team-order',
+    ({ request, params }) => {
+      const { meetingId } = params;
 
-      const purchases = teamPurchases[meetingId];
-      if (!purchases) {
-        return HttpResponse.status(404).json({
-          message: 'Meeting not found',
+      try {
+        const url = new URL(request.url);
+        const pageParam = Number(url.searchParams.get('page')) || 0;
+        const size = Number(url.searchParams.get('size')) || 10;
+
+        const paginatedResponse = getPaginatedTeamItems(meetingId)[pageParam];
+
+        if (size !== 10) paginatedResponse.items.content.slice(0, size);
+
+        if (!paginatedResponse) {
+          return HttpResponse.json({ message: 'Team Purchases not found' });
+        }
+
+        return HttpResponse.json({
+          ...paginatedResponse,
         });
+      } catch (error) {
+        console.error('Error parsing URL:', error);
+        return HttpResponse.status(500).json({ message: 'Error parsing URL' });
       }
-
-      const teamPurchase = purchases.find((p) => p.purchaseId === purchaseId);
-
-      if (teamPurchase) {
-        return HttpResponse.json(teamPurchase);
-      }
-
-      return HttpResponse.status(404).json({
-        message: 'Team Purchase Item not found',
-      });
     },
   ),
+
+  // http.get(TEAM_PURCHASE_API_URL, ({ params }) => {
+  //   const { meetingId, purchaseId } = params;
+
+  //   const purchases = teamPurchases[meetingId];
+  //   if (!purchases) {
+  //     return HttpResponse.status(404).json({
+  //       message: 'Meeting not found',
+  //     });
+  //   }
+
+  //   const teamPurchase = purchases.find((p) => p.purchaseId === purchaseId);
+
+  //   if (teamPurchase) {
+  //     return HttpResponse.json(teamPurchase);
+  //   }
+
+  //   return HttpResponse.status(404).json({
+  //     message: 'Team Purchase Item not found',
+  //   });
+  // }),
 ];

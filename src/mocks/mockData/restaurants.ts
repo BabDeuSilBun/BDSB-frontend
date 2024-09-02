@@ -3,9 +3,7 @@ import { RestaurantsResponse, RestaurantType } from '@/types/coreTypes';
 export const stores: RestaurantType[] = [
   {
     storeId: 1,
-    entrepreneur_id: 101,
-    name: '맛있는 피자 집',
-    images: [
+    image: [
       {
         imageId: 201,
         url: 'https://bdsbmockdata.s3.ap-southeast-2.amazonaws.com/store1.jpg',
@@ -25,27 +23,29 @@ export const stores: RestaurantType[] = [
         isRepresentative: false,
       },
     ],
-    description:
-      '신선한 재료로 만든 정통 피자를 제공합니다. 다양한 토핑과 사이드 메뉴가 준비되어 있습니다.',
-    minPurchasePrice: 15000,
-    deliveryTimeRange: '30분~45분',
-    deliveryPrice: 3000,
+    deliveryTimeRange: '30분 ~ 45분',
+    category: '피자',
     address: {
       postal: '12345',
       streetAddress: '서울시 강남구 테헤란로 123',
       detailAddress: '12층 1201호',
     },
+    closeTime: '22:00:00',
+    deliveryPrice: 3000,
+    description:
+      '신선한 재료로 만든 정통 피자를 제공합니다. 다양한 토핑과 사이드 메뉴가 준비되어 있습니다.',
+    entrepreneurId: 101,
+    minPurchasePrice: 15000,
+    name: '맛있는 피자 집',
+    openTime: '11:00:00',
     phoneNumber: '02-1234-5678',
-    openTime: '11:00',
-    closeTime: '22:00',
     dayOfWeek: '월요일', // 휴무일
-    category: '피자',
   },
   {
     storeId: 2,
-    entrepreneur_id: 102,
+    entrepreneurId: 102,
     name: '스시 마스터',
-    images: [
+    image: [
       {
         imageId: 204,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -83,9 +83,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 3,
-    entrepreneur_id: 103,
+    entrepreneurId: 103,
     name: '한식의 정석',
-    images: [
+    image: [
       {
         imageId: 207,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -122,9 +122,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 4,
-    entrepreneur_id: 104,
+    entrepreneurId: 104,
     name: '베이커리 하우스',
-    images: [
+    image: [
       {
         imageId: 210,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -162,9 +162,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 5,
-    entrepreneur_id: 105,
+    entrepreneurId: 105,
     name: '패스트푸드 천국',
-    images: [
+    image: [
       {
         imageId: 213,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -201,9 +201,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 6,
-    entrepreneur_id: 106,
+    entrepreneurId: 106,
     name: '중국집 대왕',
-    images: [
+    image: [
       {
         imageId: 216,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -240,9 +240,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 7,
-    entrepreneur_id: 107,
+    entrepreneurId: 107,
     name: '해산물 왕국',
-    images: [
+    image: [
       {
         imageId: 219,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -280,9 +280,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 8,
-    entrepreneur_id: 108,
+    entrepreneurId: 108,
     name: '떡볶이 명가',
-    images: [
+    image: [
       {
         imageId: 222,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -319,9 +319,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 9,
-    entrepreneur_id: 109,
+    entrepreneurId: 109,
     name: '파스타 하우스',
-    images: [
+    image: [
       {
         imageId: 225,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -358,9 +358,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 10,
-    entrepreneur_id: 110,
+    entrepreneurId: 110,
     name: '브런치 카페',
-    images: [
+    image: [
       {
         imageId: 228,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -397,9 +397,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 11,
-    entrepreneur_id: 111,
+    entrepreneurId: 111,
     name: '아메리칸 BBQ',
-    images: [
+    image: [
       {
         imageId: 231,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -436,9 +436,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 12,
-    entrepreneur_id: 112,
+    entrepreneurId: 112,
     name: '프랑스 레스토랑',
-    images: [
+    image: [
       {
         imageId: 234,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -475,9 +475,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 13,
-    entrepreneur_id: 113,
+    entrepreneurId: 113,
     name: '비건 카페',
-    images: [
+    image: [
       {
         imageId: 237,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -514,9 +514,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 14,
-    entrepreneur_id: 114,
+    entrepreneurId: 114,
     name: '디저트 카페',
-    images: [
+    image: [
       {
         imageId: 240,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -553,9 +553,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 15,
-    entrepreneur_id: 115,
+    entrepreneurId: 115,
     name: '갈비집',
-    images: [
+    image: [
       {
         imageId: 243,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -592,9 +592,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 16,
-    entrepreneur_id: 116,
+    entrepreneurId: 116,
     name: '퓨전 한식',
-    images: [
+    image: [
       {
         imageId: 246,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -631,9 +631,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 17,
-    entrepreneur_id: 117,
+    entrepreneurId: 117,
     name: '커리 전문점',
-    images: [
+    image: [
       {
         imageId: 249,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -670,9 +670,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 18,
-    entrepreneur_id: 118,
+    entrepreneurId: 118,
     name: '아시아 요리',
-    images: [
+    image: [
       {
         imageId: 252,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -709,9 +709,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 19,
-    entrepreneur_id: 119,
+    entrepreneurId: 119,
     name: '스테이크 하우스',
-    images: [
+    image: [
       {
         imageId: 255,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -748,9 +748,9 @@ export const stores: RestaurantType[] = [
   },
   {
     storeId: 20,
-    entrepreneur_id: 120,
+    entrepreneurId: 120,
     name: '샐러드 바',
-    images: [
+    image: [
       {
         imageId: 258,
         url: 'https://via.placeholder.com/300x200?text=Representative+Image',
@@ -801,18 +801,30 @@ export const paginatedStores: RestaurantsResponse[] = Array.from(
     return {
       content, // 현재 페이지에 해당하는 데이터
       pageable: {
+        offset: start,
         pageNumber: index, // 현재 페이지 번호
         pageSize, // 페이지당 데이터 개수
         sort: {
-          empty: true, // 정렬 정보는 없는 경우이므로 true
-          unsorted: true, // 정렬이 되어 있지 않으므로 true
-          sorted: false, // 정렬되지 않은 경우이므로 false
+          empty: true, // 정렬 정보가 없는 경우 true
+          unsorted: true, // 정렬되지 않은 경우 true
+          sorted: false, // 정렬되지 않은 경우 false
         },
+        paged: true,
+        unpaged: false,
       },
       last: isLastPage, // 마지막 페이지 여부
       totalPages, // 전체 페이지 수
       size: pageSize, // 페이지당 데이터 개수
       first: index === 0, // 첫 페이지 여부
+      number: index, // 현재 페이지 번호
+      numberOfElements: content.length, // 현재 페이지에 포함된 데이터 개수
+      sort: {
+        empty: true, // 정렬 정보가 없는 경우 true
+        unsorted: true, // 정렬되지 않은 경우 true
+        sorted: false, // 정렬되지 않은 경우 false
+      },
+      totalElements: stores.length, // 전체 데이터 수
+      empty: content.length === 0, // 페이지가 비어 있는지 여부
     };
   },
 );

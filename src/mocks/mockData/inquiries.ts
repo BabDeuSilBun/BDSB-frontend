@@ -144,24 +144,38 @@ const totalPages = Math.ceil(inquiries.length / pageSize);
 export const paginatedInquiries: InquiryResponse[] = Array.from(
   { length: totalPages },
   (_, index) => {
-    const start = index * pageSize; // 현재 페이지의 시작 인덱스
-    const end = start + pageSize; // 현재 페이지의 끝 인덱스
+    const start = index * pageSize;
+    const end = start + pageSize;
+    const content = inquiries.slice(start, end);
+    const isLastPage = index === totalPages - 1;
 
     return {
-      content: inquiries.slice(start, end), // 현재 페이지에 해당하는 데이터
+      content,
       pageable: {
-        pageNumber: index, // 현재 페이지 번호
-        pageSize, // 페이지당 데이터 개수
+        offset: start,
+        pageNumber: index,
+        pageSize,
         sort: {
-          empty: true, // 정렬 정보는 없는 경우이므로 true
-          unsorted: true, // 정렬이 되어 있지 않으므로 true
-          sorted: false, // 정렬되지 않은 경우이므로 false
+          empty: true,
+          unsorted: true,
+          sorted: false,
         },
+        paged: true,
+        unpaged: false,
       },
-      last: index === totalPages - 1, // 마지막 페이지 여부
-      totalPages, // 전체 페이지 수
-      size: pageSize, // 페이지당 데이터 개수
-      first: index === 0, // 첫 페이지 여부
+      last: isLastPage,
+      totalPages,
+      size: pageSize,
+      first: index === 0,
+      number: index,
+      numberOfElements: content.length,
+      sort: {
+        empty: true,
+        unsorted: true,
+        sorted: false,
+      },
+      totalElements: inquiries.length,
+      empty: content.length === 0,
     };
   },
 );

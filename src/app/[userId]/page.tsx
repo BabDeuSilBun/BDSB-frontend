@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -85,6 +87,12 @@ const Profile = () => {
   const params = useParams();
   const userID = params.userId as string;
 
+  useEffect(() => {
+    if (!userID || isNaN(Number(userID))) {
+      router.push('/404');
+    }
+  }, [userID, router]);
+
   const {
     data: myData,
     isLoading: isMyDataLoading,
@@ -110,7 +118,6 @@ const Profile = () => {
   const activeDataLoading = isMyProfile ? isMyDataLoading : isUserDataLoading;
   const activeDataError = isMyProfile ? isMyDataError : isUserDataError;
 
-  console.log(activeData);
   const { data: evaluates, isLoading: evaluatesLoading } = useQuery({
     queryKey: ['MyEvaluates'],
     queryFn: getMyEvaluates,

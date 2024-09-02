@@ -1,8 +1,11 @@
 'use client';
 
+import { useEffect } from 'react';
+
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import UpdateImage from './updateImage';
@@ -10,11 +13,23 @@ import UpdateImage from './updateImage';
 import Header from '@/components/layout/header';
 import { getMyData } from '@/services/myDataService';
 import Container from '@/styles/container';
+
 const ListContainer = styled.ul`
   margin: 1rem;
   border: 0.1rem solid var(--gray200);
   border-radius: var(--border-radius-lg);
   overflow: hidden;
+`;
+
+const Caption = styled.p`
+  font-size: var(--font-size-xs);
+  color: var(--gray400);
+  padding-left: 1rem;
+
+  a {
+    font-weight: var(--font-semi-bold);
+    border-bottom: 1px solid var(--gray300);
+  }
 `;
 
 const ListItem = styled.li.attrs({
@@ -37,7 +52,7 @@ const ImageContainer = styled.section`
   width: fit-content;
 `;
 
-const ListButton = styled.button.attrs({
+const ListButton = styled.div.attrs({
   className: 'icon',
 })`
   word-spacing: 3px;
@@ -47,11 +62,16 @@ const ListButton = styled.button.attrs({
 
 const EditUserInfo = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { data } = useQuery({
     queryKey: ['myData'],
     queryFn: getMyData,
   });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ['myData'] });
+  }, [queryClient]);
 
   return (
     <>
@@ -62,9 +82,9 @@ const EditUserInfo = () => {
         </ImageContainer>
 
         <ListContainer>
-          <ListItem>
+          <ListItem onClick={() => router.push('/myPage/edit/nickname')}>
             <p>닉네임</p>
-            <ListButton onClick={() => router.push('/myPage/edit/nickname')}>
+            <ListButton>
               {`${data ? data.nickname : '불러오는 중..'} >`}
             </ListButton>
           </ListItem>
@@ -86,19 +106,22 @@ const EditUserInfo = () => {
             <p>소속 학과</p>
             <span>{data ? data.major : '불러오는 중..'}</span>
           </ListItem>
-          <ListItem>
+          <ListItem onClick={() => router.push('/myPage/edit/password')}>
             <p>비밀번호 변경</p>
-            <ListButton onClick={() => router.push('/myPage/edit/password')}>
-              {'>'}
-            </ListButton>
+            <ListButton>{'>'}</ListButton>
           </ListItem>
-          <ListItem $isLast>
+          <ListItem
+            $isLast
+            onClick={() => router.push('/myPage/edit/phoneNumber')}
+          >
             <p>휴대전화 번호 변경</p>
-            <ListButton onClick={() => router.push('/myPage/edit/phoneNumber')}>
-              {'>'}
-            </ListButton>
+            <ListButton>{'>'}</ListButton>
           </ListItem>
         </ListContainer>
+        <Caption>
+          수정 불가능한 정보의 경우 <Link href={'/inquiry'}>문의하기</Link>를
+          이용해주세요.
+        </Caption>
       </Container>
     </>
   );

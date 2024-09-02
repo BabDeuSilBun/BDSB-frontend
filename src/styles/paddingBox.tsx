@@ -7,10 +7,12 @@ interface PaddingBoxProps {
   left?: boolean;
   x?: boolean;
   y?: boolean;
+  zero?: boolean;
 }
 
 const PaddingBox = styled.div<PaddingBoxProps>`
-  padding: ${({ top, right, bottom, left, x, y }) => {
+  color: var(--gray400);
+  padding: ${({ top, right, bottom, left, x, y, zero }) => {
     // 개별 방향 설정
     const paddingTop = top ? '1rem' : '0';
     const paddingRight = right ? '1rem' : '0';
@@ -25,6 +27,8 @@ const PaddingBox = styled.div<PaddingBoxProps>`
       return `${paddingTop} ${paddingRight} ${paddingBottom} ${paddingLeft}`;
     } else if (x || y) {
       return `${paddingY} ${paddingX}`;
+    } else if (zero) {
+      return;
     } else {
       return '1rem';
     }

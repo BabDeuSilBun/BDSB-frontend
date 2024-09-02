@@ -23,7 +23,6 @@ const HeaderContainer = styled.header`
   z-index: 1000;
   width: inherit;
   box-shadow: 0px 5px 5px var(--shadow);
-  padding: 0 1rem;
 `;
 
 const UpperContainer = styled.div`
@@ -31,6 +30,7 @@ const UpperContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 0.5rem;
+  padding: 0 1rem;
 `;
 
 const CampusDropdown = styled.div`
@@ -45,7 +45,7 @@ const CampusDropdown = styled.div`
 
 const SelectedCampus = styled.div`
   color: var(--gray500);
-  padding: 0.4rem 2rem 0.4rem 0;
+  padding: 0.4rem 2rem 0.4rem 0.4rem;
   border: none;
   cursor: pointer;
   text-overflow: ellipsis;
@@ -80,7 +80,7 @@ const CampusItem = styled.li<{ selected: boolean }>`
   }
 `;
 
-const Chat = styled.div`
+const Chat = styled.button`
   margin: -0.5rem 0rem -0.5rem 0rem;
   padding: 0.5rem;
 `;
@@ -153,30 +153,32 @@ const MainHeader = () => {
   });
 
   useEffect(() => {
-    const storedSchoolId = localStorage.getItem('selectedSchoolId');
+    if (data && Array.isArray(data.pages)) {
+      const storedSchoolId = localStorage.getItem('selectedSchoolId');
 
-    if (storedSchoolId && data) {
-      const storedCampus = data.pages
-        .flatMap((page) => page.content)
-        .find((item) => item.schoolId === Number(storedSchoolId));
+      if (storedSchoolId && !isNaN(Number(storedSchoolId))) {
+        const storedCampus = data.pages
+          .flatMap((page) => (Array.isArray(page.content) ? page.content : []))
+          .find((item) => item.schoolId === Number(storedSchoolId));
 
-      if (storedCampus) {
-        setSelectedSchoolId(storedCampus.schoolId);
-        setSelectedCampus(storedCampus.campus);
-      }
-    } else if (myData && data) {
-      const defaultCampus = data.pages
-        .flatMap((page) => page.content)
-        .find((item) => item.campus === myData.campus);
+        if (storedCampus) {
+          setSelectedSchoolId(storedCampus.schoolId);
+          setSelectedCampus(storedCampus.campus);
+        }
+      } else if (myData) {
+        const defaultCampus = data.pages
+          .flatMap((page) => (Array.isArray(page.content) ? page.content : []))
+          .find((item) => item.campus === myData.campus);
 
-      if (defaultCampus) {
-        setSelectedCampus(defaultCampus.campus);
-        setSelectedSchoolId(defaultCampus.schoolId);
-        if (!isNaN(Number(defaultCampus.schoolId))) {
-          localStorage.setItem(
-            'selectedSchoolId',
-            defaultCampus.schoolId.toString(),
-          );
+        if (defaultCampus) {
+          setSelectedCampus(defaultCampus.campus);
+          setSelectedSchoolId(defaultCampus.schoolId);
+          if (!isNaN(Number(defaultCampus.schoolId))) {
+            localStorage.setItem(
+              'selectedSchoolId',
+              defaultCampus.schoolId.toString(),
+            );
+          }
         }
       }
     }

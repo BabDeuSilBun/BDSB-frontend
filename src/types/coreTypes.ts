@@ -16,39 +16,55 @@ interface MetAddress {
 // Common interface for shared fields across different types
 export interface CommonType {
   storeId: number;
-  images: ImageType[];
+  image: ImageType[];
   deliveryTimeRange: string;
   category: string;
 }
 
 // Restaurant type definition
 export interface RestaurantType extends CommonType {
-  name: string;
-  deliveryPrice: number;
-  minPurchasePrice: number;
-  description?: string;
-  entrepreneur_id?: number;
   address?: Address;
-  phoneNumber?: string;
-  openTime?: string;
   closeTime?: string;
+  deliveryPrice: number;
+  description?: string;
+  entrepreneurId?: number;
+  minPurchasePrice: number;
+  name: string;
+  openTime?: string;
+  phoneNumber?: string;
   dayOfWeek?: string;
 }
 
 // Meeting type definition
-export interface MeetingType extends CommonType {
+export interface MeetingType {
   meetingId: number;
+  storeId: number;
   storeName: string;
-  purchaseType: string;
+  storeImage: ImageType[];
+  purchaseType: 'DINING_TOGETHER' | 'DELIVERY_TOGETHER';
+  participantMin: number;
   participantMax: number;
-  paymentAvailableAt: string;
-  deliveryFeeRange: string;
-  participantMin?: number;
   isEarlyPaymentAvailable?: boolean;
+  paymentAvailableAt: string;
   deliveryAddress?: DeliveryAddress;
   metAddress?: MetAddress;
+  deliveryFeeRange: string;
   deliveredAt?: string;
-  status?: string;
+  minDeliveryTime: number;
+  maxDeliveryTime: number;
+  deliveryTimeRange: string;
+  minPurchaseAmount: number;
+  status:
+    | 'GATHERING'
+    | 'PURCHASE_COMPLETED'
+    | 'PURCHASE_CANCELLED'
+    | 'COOKING'
+    | 'COOKING_COMPLETED'
+    | 'IN_DELIVERY'
+    | 'DELIVERY_COMPLETED'
+    | 'MEETING_CANCELLED'
+    | 'MEETING_COMPLETED';
+  category: string;
   description?: string;
 }
 
@@ -65,38 +81,6 @@ export interface MenuType {
   image: string;
   description: string;
   price: number;
-}
-
-// Team purchase type definition
-export interface TeamPurchaseType {
-  totalFee: number;
-  items: ItemType[];
-}
-
-// Individual purchase type definition
-export interface IndividualPurchaseType {
-  totalFee: number;
-  items: ItemType[];
-}
-
-// Post team purchase type definition
-export interface PostTeamPurchaseType {
-  menuId: number;
-  name: string;
-  image: string;
-  description: string;
-  price: number;
-  quantity: number;
-}
-
-// Post individual purchase type definition
-export interface PostIndividualPurchaseType {
-  menuId: number;
-  name: string;
-  image: string;
-  description: string;
-  price: number;
-  quantity: number;
 }
 
 export interface RestaurantsResponse extends Response {
@@ -116,18 +100,34 @@ export interface MeetingsResponse extends Response {
   content: MeetingType[];
 }
 
-export interface TeamPurchasesResponse extends Response {
-  content: TeamPurchaseType[];
-}
-
-export interface IndividualPurchasesResponse extends Response {
-  content: IndividualPurchaseType[];
-}
-
-export interface PostTeamPurchasesResponse extends Response {
-  content: PostTeamPurchaseType[];
-}
-
-export interface PostIndividualPurchasesResponse extends Response {
-  content: PostIndividualPurchaseType[];
+export interface PurchasesResponse {
+  totalFee: number;
+  items: {
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    content: ItemType[];
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    numberOfElements: number;
+    pageable: {
+      offset: number;
+      pageNumber: number;
+      pageSize: number;
+      sort: {
+        empty: boolean;
+        sorted: boolean;
+        unsorted: boolean;
+      };
+      paged: boolean;
+      unpaged: boolean;
+    };
+    first: boolean;
+    last: boolean;
+    empty: boolean;
+  };
 }
