@@ -7,6 +7,10 @@ interface NextRouter {
   push: (path: string) => void;
 }
 
+let token: string | undefined = undefined;
+
+const REFRESH_THRESHOLD = 3 * 60 * 1000;
+
 export const getRemainingTime = async (router: NextRouter) => {
   if (!token) {
     token = Cookies.get('jwtToken');
