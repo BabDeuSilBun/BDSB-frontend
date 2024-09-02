@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import { Divider } from '@chakra-ui/react';
 import { Skeleton } from '@chakra-ui/react';
@@ -12,10 +12,10 @@ import styled from 'styled-components';
 
 import Header from '@/components/layout/header';
 import GroupIcon from '@/components/svg/group';
+import { getUserProfile } from '@/services/myDataService';
 import { getMyData, getMyEvaluates } from '@/services/myDataService';
 import { BaseBtnInactive } from '@/styles/button';
 import Container from '@/styles/container';
-
 const ImageWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -82,7 +82,7 @@ const ListItem = styled.li`
   }
 `;
 
-const MyPage = () => {
+const Profile = () => {
   const router = useRouter();
   const params = useParams();
   const userID = params.userId as string;
@@ -93,7 +93,11 @@ const MyPage = () => {
     }
   }, [userID, router]);
 
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: myData,
+    isLoading: isMyDataLoading,
+    isError: isMyDataError,
+  } = useQuery({
     queryKey: ['MyData'],
     queryFn: getMyData,
   });
@@ -117,6 +121,7 @@ const MyPage = () => {
   const { data: evaluates, isLoading: evaluatesLoading } = useQuery({
     queryKey: ['MyEvaluates'],
     queryFn: getMyEvaluates,
+    enabled: isMyProfile, // 내 프로필 일때만 실행
   });
 
   const positiveEvaluates = evaluates?.positiveEvaluate;
@@ -127,10 +132,10 @@ const MyPage = () => {
       <Container>
         <Flexbox>
           <ImageWrapper>
-            {data && (
+            {activeData && activeData.image && activeData.image !== 'null' && (
               <Image
-                src={data.image}
-                alt="My Profile Image"
+                src={activeData.image}
+                alt="Profile Image"
                 fill
                 style={{ objectFit: 'cover' }}
                 priority
@@ -138,17 +143,17 @@ const MyPage = () => {
             )}
           </ImageWrapper>
           <Nickname>
-            {isError
+            {activeDataError
               ? '닉네임 없음'
-              : isLoading
+              : activeDataLoading
                 ? '불러오는 중'
-                : data && data.nickname}
+                : activeData && activeData.nickname}
           </Nickname>
         </Flexbox>
         <Flexbox>
           <GroupIcon color="var(--purple200)" />
           <p>완료 모임 수</p>
-          <span>{data ? data.meetingCount : 0}</span>
+          <span>{activeData ? activeData.meetingCount : 0}</span>
         </Flexbox>
         <Flexbox>
           <Image
@@ -160,32 +165,35 @@ const MyPage = () => {
           />
           <p>소속 학과</p>
           <span>
-            {isError
+            {activeDataError
               ? '학부 데이터 없음'
-              : isLoading
+              : activeDataLoading
                 ? '불러오는 중'
-                : data && data.major}
+                : activeData && activeData.major}
           </span>
         </Flexbox>
-        <Flexbox>
-          <BaseBtnInactive
-            onClick={() => router.push(`/${data?.nickname.trim()}/edit`)}
-          >
-            프로필수정
-          </BaseBtnInactive>
-        </Flexbox>
+        {isMyProfile && (
+          <Flexbox>
+            <BaseBtnInactive onClick={() => router.push(`/myPage/edit`)}>
+              프로필수정
+            </BaseBtnInactive>
+          </Flexbox>
+        )}
 
         <Divider />
 
         <ListContainer>
           <EvaluateContainer>
             <h3>평가 배지</h3>
-            <button onClick={() => router.push('/myPage/evaluate')}>
-              {'>'}
-            </button>
+            {isMyProfile && (
+              <button onClick={() => router.push('/myPage/evaluate')}>
+                {'>'}
+              </button>
+            )}
           </EvaluateContainer>
-          {evaluatesLoading
-            ? // 목록에 스켈레톤 적용
+          {evaluatesLoading ||
+          (isMyProfile ? isMyDataLoading : isUserDataLoading)
+            ? // 스켈레톤 UI 적용
               Array.from({ length: 4 }).map((_, index) => (
                 <ListItem key={index}>
                   <GroupIcon color="var(--gray400)" />
@@ -193,8 +201,11 @@ const MyPage = () => {
                   <Skeleton width={200} height={54} />
                 </ListItem>
               ))
-            : positiveEvaluates &&
-              positiveEvaluates.map((item, index) => (
+            : (
+                (isMyProfile
+                  ? positiveEvaluates
+                  : userData?.positiveEvaluate) || []
+              ).map((item, index) => (
                 <ListItem key={index}>
                   <GroupIcon color="var(--gray400)" />
                   <p>{item.count}</p>
@@ -207,4 +218,4 @@ const MyPage = () => {
   );
 };
 
-export default MyPage;
+export default Profile;
