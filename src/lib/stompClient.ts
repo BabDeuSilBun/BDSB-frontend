@@ -1,8 +1,6 @@
 // import { Stomp } from '@stomp/stompjs';
 // import SockJS from 'sockjs-client';
 
-
-
 // export const createStompClient = () => {
 //   const socket = new SockJS(SOCKET_URL);
 //   const stompClient = Stomp.over(socket);
