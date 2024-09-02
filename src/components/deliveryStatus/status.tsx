@@ -328,7 +328,7 @@ const Status: React.FC<StatusProps> = () => {
       showRiderIcon: false,
     },
     배달완료: {
-      title: '배달이 완료 됐습니다',
+      title: '음식이 도착했어요',
       description: '바로 드시면 제일 맛있어요',
       progress: 100,
       showCookingIcon: false,
