@@ -4,12 +4,6 @@ export type DeliveryStatusType =
   | '배달거의완료'
   | '배달완료';
 
-export interface DeliveryStatusMockData {
-  orderStatus: DeliveryStatusType;
-  arrivalTime: string;
-  remainingTime: number;
-}
-
 export interface LatLng {
   lat: number;
   lng: number;
