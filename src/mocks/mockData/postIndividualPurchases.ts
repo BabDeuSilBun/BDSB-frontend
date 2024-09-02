@@ -399,23 +399,33 @@ export const paginatedPostIndividualPurchases: {
 
       const itemsForCurrentPage = purchases.slice(start, end);
 
-      const totalFeeForPage = itemsForCurrentPage.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0,
-      );
-
       return {
-        meetingId,
         content: itemsForCurrentPage,
-        totalFee: totalFeeForPage,
         pageable: {
           pageNumber: index,
           pageSize,
+          offset: start,
+          paged: true,
+          sort: {
+            empty: true,
+            sorted: false,
+            unsorted: true,
+          },
+          unpaged: false,
         },
         last: index === totalPages - 1,
-        totalPages,
+        totalPages: totalPages,
         size: pageSize,
         first: index === 0,
+        number: index,
+        numberOfElements: itemsForCurrentPage.length,
+        empty: itemsForCurrentPage.length === 0,
+        sort: {
+          empty: true,
+          sorted: false,
+          unsorted: true,
+        },
+        totalElements: purchases.length,
       } as PostIndividualPurchasesResponse;
     });
 

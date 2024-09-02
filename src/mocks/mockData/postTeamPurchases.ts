@@ -487,23 +487,33 @@ export const paginatedPostTeamPurchases: {
 
       const itemsForCurrentPage = purchases.slice(start, end);
 
-      const totalFeeForPage = itemsForCurrentPage.reduce(
-        (total, item) => total + item.price * item.quantity,
-        0,
-      );
-
       return {
-        meetingId,
         content: itemsForCurrentPage,
-        totalFee: totalFeeForPage,
+        empty: itemsForCurrentPage.length === 0,
+        first: index === 0,
+        last: index === totalPages - 1,
+        number: index,
+        numberOfElements: itemsForCurrentPage.length,
         pageable: {
+          offset: start,
+          paged: true,
           pageNumber: index,
           pageSize,
+          sort: {
+            empty: true,
+            sorted: false,
+            unsorted: true,
+          },
+          unpaged: false,
         },
-        last: index === totalPages - 1,
-        totalPages,
         size: pageSize,
-        first: index === 0,
+        sort: {
+          empty: true,
+          sorted: false,
+          unsorted: true,
+        },
+        totalElements: purchases.length,
+        totalPages: totalPages,
       } as PostTeamPurchasesResponse;
     });
 
