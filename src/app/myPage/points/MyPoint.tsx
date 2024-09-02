@@ -5,15 +5,22 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { Divider } from '@chakra-ui/react';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import PointItem from '@/components/listItems/pointItem';
 import PointSkeleton from '@/components/listItems/skeletons/pointSkeleton';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { apiClientWithCredentials } from '@/services/apiClient';
 import { getMyData, getPointDetailList } from '@/services/myDataService';
 import { RoundBtnFilled, SmallRdBtn } from '@/styles/button';
 import Container from '@/styles/container';
+import PaddingBox from '@/styles/paddingBox';
 
 const ContainerSection = styled(Container)`
   display: flex;
@@ -50,7 +57,7 @@ const MyPoint = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const handleBtnClick = (btnType: string) => {
+  const handleBtnClick = (btnType: string | null) => {
     setActiveBtn(btnType);
   };
 
@@ -131,19 +138,19 @@ const MyPoint = () => {
       </Flex>
       <SortingBtns>
         <SmallRdBtn
-          onClick={() => handleBtnClick('전체')}
+          onClick={() => handleBtnClick(null)}
           active={activeBtn === '전체'}
         >
           전체
         </SmallRdBtn>
         <SmallRdBtn
-          onClick={() => handleBtnClick('적립')}
+          onClick={() => handleBtnClick('earn')}
           active={activeBtn === '적립'}
         >
           적립
         </SmallRdBtn>
         <SmallRdBtn
-          onClick={() => handleBtnClick('사용')}
+          onClick={() => handleBtnClick('use')}
           active={activeBtn === '사용'}
         >
           사용

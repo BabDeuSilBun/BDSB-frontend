@@ -1,9 +1,11 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import Header from '@/components/layout/header';
@@ -81,11 +83,16 @@ const LogoutButton = styled.button`
 
 const MyPage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['myData'],
     queryFn: getMyData,
   });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ['myData'] });
+  }, [queryClient]);
 
   return (
     <>
@@ -93,7 +100,7 @@ const MyPage = () => {
       <Container>
         <Flexbox>
           <ImageWrapper>
-            {data && (
+            {data && data.image && data.image !== 'null' && (
               <Image
                 src={data.image}
                 alt="My Profile Image"
@@ -111,7 +118,7 @@ const MyPage = () => {
                   ? '불러오는 중'
                   : data && data.nickname}
             </Nickname>
-            <AddressButton onClick={() => router.push('/myPage/manageAddress')}>
+            <AddressButton onClick={() => router.push('/myPage/edit/address')}>
               <Image
                 src="./map-pin.svg"
                 alt="map pin icon"
