@@ -1,5 +1,7 @@
 'use client';
 
+import { useCallback } from 'react';
+
 import { useRouter } from 'next/navigation';
 
 import { Portal, useDisclosure } from '@chakra-ui/react';
@@ -123,41 +125,41 @@ const Header: React.FC<HeaderProps> = ({
   const router = useRouter();
   const { isOpen, onToggle } = useDisclosure();
 
-    const handleLeftButtonClick = useCallback(() => {
-      if (isPostcodeOpen && onClosePostcodeModal) {
-        onClosePostcodeModal();
-      } else if (buttonLeft === 'back') {
-        if (onBack) {
-          onBack();
-        } else {
-          router.back();
-        }
-      } else if (buttonLeft === 'exit') {
-        router.push('/');
+  const handleLeftButtonClick = useCallback(() => {
+    if (isPostcodeOpen && onClosePostcodeModal) {
+      onClosePostcodeModal();
+    } else if (buttonLeft === 'back') {
+      if (onBack) {
+        onBack();
+      } else {
+        router.back();
       }
-    }, [isPostcodeOpen, onClosePostcodeModal, buttonLeft, onBack, router]);
+    } else if (buttonLeft === 'exit') {
+      router.push('/');
+    }
+  }, [isPostcodeOpen, onClosePostcodeModal, buttonLeft, onBack, router]);
 
-    const handleRightButtonClick = () => {
-      if (isPostcodeOpen && onClosePostcodeModal) {
-        onClosePostcodeModal();
-      } else if (buttonRight === 'home') {
-        router.push('/');
-      } else if (buttonRight === 'exit' && onExit) {
-        onExit();
-      } else if (buttonRight === 'refresh') {
-        router.refresh();
-      }
-    };
+  const handleRightButtonClick = () => {
+    if (isPostcodeOpen && onClosePostcodeModal) {
+      onClosePostcodeModal();
+    } else if (buttonRight === 'home') {
+      router.push('/');
+    } else if (buttonRight === 'exit' && onExit) {
+      onExit();
+    } else if (buttonRight === 'refresh') {
+      router.refresh();
+    }
+  };
 
-    const handleRightSecondaryButtonClick = useCallback(() => {
-      if (buttonRightSecondary === 'cart') {
-        if (meetingId && storeId) {
-          router.push(`/cart/${meetingId}?storeId=${storeId}`);
-        } else {
-          router.push('/cart');
-        }
+  const handleRightSecondaryButtonClick = useCallback(() => {
+    if (buttonRightSecondary === 'cart') {
+      if (meetingId && storeId) {
+        router.push(`/cart/${meetingId}?storeId=${storeId}`);
+      } else {
+        router.push('/cart');
       }
-    }, [buttonRightSecondary, meetingId, storeId, router]);
+    }
+  }, [buttonRightSecondary, meetingId, storeId, router]);
 
   return (
     <>
