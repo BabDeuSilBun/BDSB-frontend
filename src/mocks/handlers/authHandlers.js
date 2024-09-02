@@ -39,7 +39,7 @@ export const authHandlers = [
         { status: 401 },
       );
     } catch (error) {
-      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
+      return HttpResponse.json(500, { message: `서버 오류: ${error.message}` });
     }
   }),
 
