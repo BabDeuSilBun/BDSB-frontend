@@ -1,4 +1,4 @@
-import { apiClient } from './apiClient';
+import { apiClient, apiClientWithCredentials } from './apiClient';
 
 import { CategoriesResponse, RestaurantsResponse } from '@/types/coreTypes';
 import { GetListParams } from '@/types/types';
@@ -16,7 +16,7 @@ export const getRestaurantsList = async ({
   searchMenu = undefined,
 }: GetListParams): Promise<RestaurantsResponse> => {
   try {
-    const response = await apiClient.get<RestaurantsResponse>(
+    const response = await apiClientWithCredentials.get<RestaurantsResponse>(
       RESTAURANT_LIST_API_URL,
       {
         params: {

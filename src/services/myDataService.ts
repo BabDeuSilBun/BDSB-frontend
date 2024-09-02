@@ -1,21 +1,39 @@
-import { apiClientWithCredentials } from './apiClient';
+import { apiClient, apiClientWithCredentials } from './apiClient';
 
+import { UpdateUserProfileParams } from '@/types/myDataTypes';
 import {
   CampusResponse,
   EvaluateType,
   InquiryResponse,
   MyDataType,
+  NicknameType,
   PointsResponse,
 } from '@/types/myDataTypes';
+import { ProfileType } from '@/types/types';
 import { GetListParams } from '@/types/types';
 
 export const ACCOUNT_API_URL = '/api/users/account';
 export const ADDRESS_API_URL = `/api/users/address`;
 export const EVALUATE_LIST_API_URL = '/api/users/evaluates';
-export const INQUIRY_LIST_API_URL = `/api/users/inquires`;
+export const INQUIRY_LIST_API_URL = `/api/users/inquiries`;
 export const MY_PROFILE_API_URL = '/api/users/my-page';
+export const UPDATE_PROFILE_API_URL = '/api/users';
+export const UPDATE_NICKNAME_API_URL = '/api/random-nickname';
 export const POINT_LIST_API_URL = '/api/users/points';
 export const CAMPUS_LIST_API_URL = '/api/campus';
+
+// 예외로 여기 넣어놓습니다! 다른 유저 데이터
+export const getUserProfile = async (userId: string): Promise<ProfileType> => {
+  try {
+    const response = await apiClient.get<ProfileType>(`/api/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching selected user data:', error);
+    throw new Error(
+      '상대 프로필 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
+  }
+};
 
 export const getMyData = async (): Promise<MyDataType> => {
   try {
@@ -60,10 +78,10 @@ export const postAccount = async (
   bankAccount: number,
   selectedBank: string,
 ) => {
-  await apiClientWithCredentials.put(ADDRESS_API_URL, {
-    owner: owner.trim(),
-    bankAccount: bankAccount?.toString(),
-    selectedBank,
+  await apiClientWithCredentials.put(ACCOUNT_API_URL, {
+    accountOwner: owner.trim(),
+    accountNumber: bankAccount?.toString(),
+    bankName: selectedBank,
   });
 };
 
@@ -156,7 +174,7 @@ export const getMyEvaluates = async (): Promise<EvaluateType> => {
 export const getPointDetailList = async ({
   page = 0,
   size = 10,
-  sortCriteria = 'earn',
+  sortCriteria = null,
 }: GetListParams): Promise<PointsResponse> => {
   try {
     const response = await apiClientWithCredentials.get<PointsResponse>(
