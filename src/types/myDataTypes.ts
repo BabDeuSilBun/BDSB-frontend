@@ -27,6 +27,10 @@ export interface CampusType {
   campus: string;
 }
 
+export interface NicknameType {
+  nickname: string;
+}
+
 export interface EvaluateType {
   positiveEvaluate: {
     content: string;
@@ -36,6 +40,15 @@ export interface EvaluateType {
     content: string;
     count: number;
   }[];
+}
+
+export interface UpdateUserProfileParams {
+  nickname?: string | null;
+  password?: string | null;
+  image?: File | string | null;
+  phoneNumber?: string | null;
+  majorId?: number | null;
+  schoolId?: number | null;
 }
 
 export interface PointType {
