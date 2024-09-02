@@ -118,7 +118,6 @@ const MainHeader = () => {
   const searchParams = useSearchParams();
   const [selectedMenu, setSelectedMenu] = useState<string>('teamOrder');
   const { isOpen, onToggle } = useDisclosure();
-  const [selectedSchool, setSelectedSchool] = useState('');
   const [selectedCampus, setSelectedCampus] = useState<string>('');
   const [selectedSchoolId, setSelectedSchoolId] = useState<number>();
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -206,7 +205,9 @@ const MainHeader = () => {
   const handleCampusClick = (campus: string, schoolId: number) => {
     setSelectedCampus(campus);
     setSelectedSchoolId(schoolId);
-    localStorage.setItem('selectedSchoolId', schoolId.toString());
+    if (!isNaN(Number(schoolId))) {
+      localStorage.setItem('selectedSchoolId', schoolId.toString());
+    }
     setIsDropdownOpen(false);
     router.push(`/?menu=${selectedMenu}&campus=${selectedSchoolId}`);
   };
@@ -218,7 +219,7 @@ const MainHeader = () => {
           <HeaderDrawer onToggle={onToggle} $isOpen={isOpen} />
           <CampusDropdown>
             <SelectedCampus onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-              <h1>{`${selectedSchool} ${selectedCampus}` || '캠퍼스 선택'}</h1>
+              <h1>{`${myData?.school} ${selectedCampus}` || '캠퍼스 선택'}</h1>
               <ToggleBtn $isOpen={isDropdownOpen}>{'>'}</ToggleBtn>
             </SelectedCampus>
             {isDropdownOpen && (
