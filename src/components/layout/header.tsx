@@ -132,33 +132,22 @@ const Header: React.FC<HeaderProps> = React.memo(
         } else {
           router.back();
         }
+      } else if (buttonLeft === 'exit') {
+        router.push('/');
       }
     }, [isPostcodeOpen, onClosePostcodeModal, buttonLeft, onBack, router]);
-  const handleLeftButtonClick = () => {
-    if (isPostcodeOpen && onClosePostcodeModal) {
-      onClosePostcodeModal();
-    } else if (buttonLeft === 'back') {
-      if (onBack) {
-        onBack();
-      } else {
-        router.back();
-      }
-    } else if (buttonLeft === 'exit') {
-      router.push('/');
-    }
-  };
 
-  const handleRightButtonClick = () => {
-    if (isPostcodeOpen && onClosePostcodeModal) {
-      onClosePostcodeModal();
-    } else if (buttonRight === 'home') {
-      router.push('/');
-    } else if (buttonRight === 'exit' && onExit) {
-      onExit();
-    } else if (buttonRight === 'refresh') {
-      router.refresh();
-    }
-  };
+    const handleRightButtonClick = () => {
+      if (isPostcodeOpen && onClosePostcodeModal) {
+        onClosePostcodeModal();
+      } else if (buttonRight === 'home') {
+        router.push('/');
+      } else if (buttonRight === 'exit' && onExit) {
+        onExit();
+      } else if (buttonRight === 'refresh') {
+        router.refresh();
+      }
+    };
 
     const handleRightSecondaryButtonClick = useCallback(() => {
       if (buttonRightSecondary === 'cart') {
