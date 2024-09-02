@@ -34,6 +34,18 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       ? [representativeImage, ...sortedImages]
       : sortedImages;
 
+    // If there are no images, use a placeholder image
+    const finalImages: ImageType[] =
+      orderedImages.length > 0
+        ? orderedImages
+        : [
+            {
+              imageId: 0,
+              url: 'https://via.placeholder.com/300x200?text=No+Images+Available',
+              sequence: 1,
+            },
+          ];
+
     const settings = {
       dots: false,
       arrows: false,
@@ -132,7 +144,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
             beforeChange={settings.beforeChange}
             ref={(sliderRef) => setSlider(sliderRef)}
           >
-            {orderedImages.map((image: ImageType) => (
+            {finalImages.map((image: ImageType) => (
               <Box
                 key={image.imageId}
                 height="324px"
@@ -160,9 +172,14 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
           justifyContent="center"
           color="white"
         >
-          <Text fontSize="var(--font-size-sm)" fontWeight="var(--font-regular)">
-            {currentSlide} / {images.length}
-          </Text>
+          {images.length > 0 && (
+            <Text
+              fontSize="var(--font-size-sm)"
+              fontWeight="var(--font-regular)"
+            >
+              {currentSlide} / {images.length}
+            </Text>
+          )}
         </Box>
       </Box>
     );

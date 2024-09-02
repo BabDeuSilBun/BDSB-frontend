@@ -83,6 +83,26 @@ export interface MenuType {
   price: number;
 }
 
+// Post team purchase type definition
+export interface PostTeamPurchaseType {
+  menuId: number;
+  name: string;
+  image: string;
+  description: string;
+  price: number;
+  quantity: number;
+}
+
+// Post individual purchase type definition
+export interface PostIndividualPurchaseType {
+  menuId: number;
+  name: string;
+  image: string;
+  description: string;
+  price: number;
+  quantity: number;
+}
+
 export interface RestaurantsResponse extends Response {
   content: RestaurantType[];
 }
@@ -98,6 +118,14 @@ export interface MenusResponse extends Response {
 
 export interface MeetingsResponse extends Response {
   content: MeetingType[];
+}
+
+export interface PostTeamPurchasesResponse extends Response {
+  content: PostTeamPurchaseType[];
+}
+
+export interface PostIndividualPurchasesResponse extends Response {
+  content: PostIndividualPurchaseType[];
 }
 
 export interface PurchasesResponse {

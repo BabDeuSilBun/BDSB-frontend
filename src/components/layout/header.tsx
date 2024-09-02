@@ -1,5 +1,6 @@
 'use client';
-import React, { useCallback } from 'react';
+
+import { useCallback } from 'react';
 
 import { useRouter } from 'next/navigation';
 
@@ -13,12 +14,14 @@ import ArrowLeft from '@/components/svg/arrowLeft';
 import CartIcon from '@/components/svg/cart';
 import ExitIcon from '@/components/svg/exit';
 import HomeIcon from '@/components/svg/home';
+import RefreshIcon from '@/components/svg/refresh';
 
 const Icons = {
   back: (color: string) => <ArrowLeft color={color} />,
   home: (color: string) => <HomeIcon color={color} />,
   exit: (color: string) => <ExitIcon color={color} />,
   cart: (color: string) => <CartIcon color={color} />,
+  refresh: (color: string) => <RefreshIcon color={color} />,
 };
 
 const HeaderContainer = styled.header<{ $isTransparent: boolean }>`
@@ -87,8 +90,8 @@ const CartIconContainer = styled.div`
 `;
 
 interface HeaderProps {
-  buttonLeft?: 'hamburger' | 'back';
-  buttonRight?: 'home' | 'exit';
+  buttonLeft?: 'hamburger' | 'back' | 'exit';
+  buttonRight?: 'home' | 'exit' | 'refresh';
   buttonRightSecondary?: 'cart';
   iconColor?: string;
   text?: string;
@@ -102,103 +105,105 @@ interface HeaderProps {
   storeId?: string;
 }
 
-const Header: React.FC<HeaderProps> = React.memo(
-  ({
-    buttonLeft,
-    buttonRight,
-    buttonRightSecondary,
-    iconColor = 'var(--text)',
-    text,
-    onBack,
-    onExit,
-    isPostcodeOpen = false,
-    onClosePostcodeModal,
-    $isTransparent = false,
-    $cartQuantity = 0,
-    meetingId,
-    storeId,
-  }) => {
-    const router = useRouter();
-    const { isOpen, onToggle } = useDisclosure();
-
-    const handleLeftButtonClick = useCallback(() => {
-      if (isPostcodeOpen && onClosePostcodeModal) {
-        onClosePostcodeModal();
-      } else if (buttonLeft === 'back') {
-        if (onBack) {
-          onBack();
-        } else {
-          router.back();
-        }
-      }
-    }, [isPostcodeOpen, onClosePostcodeModal, buttonLeft, onBack, router]);
-
-    const handleRightButtonClick = useCallback(() => {
-      if (isPostcodeOpen && onClosePostcodeModal) {
-        onClosePostcodeModal();
-      } else if (buttonRight === 'home') {
-        router.push('/');
-      } else if (buttonRight === 'exit' && onExit) {
-        onExit();
-      }
-    }, [isPostcodeOpen, onClosePostcodeModal, buttonRight, onExit, router]);
-
-    const handleRightSecondaryButtonClick = useCallback(() => {
-      if (buttonRightSecondary === 'cart') {
-        if (meetingId && storeId) {
-          router.push(`/cart/${meetingId}?storeId=${storeId}`);
-        } else {
-          router.push('/cart');
-        }
-      }
-    }, [buttonRightSecondary, meetingId, storeId, router]);
-
-    return (
-      <>
-        <HeaderContainer $isTransparent={$isTransparent}>
-          <HeaderDrawer onToggle={onToggle} $isOpen={isOpen} />
-          <Flex $side="left">
-            {buttonLeft && buttonLeft !== 'hamburger' && (
-              <button type="button" onClick={handleLeftButtonClick}>
-                {Icons[buttonLeft](iconColor)}
-              </button>
-            )}
-          </Flex>
-          <Flex $side="center">
-            <h1>{text}</h1>
-          </Flex>
-          <Flex $side="right">
-            {buttonRight && (
-              <button type="button" onClick={handleRightButtonClick}>
-                {Icons[buttonRight](iconColor)}
-              </button>
-            )}
-            {buttonRightSecondary && (
-              <CartIconContainer>
-                <button type="button" onClick={handleRightSecondaryButtonClick}>
-                  {Icons[buttonRightSecondary](iconColor)}
-                </button>
-                {$cartQuantity > 0 && (
-                  <CartQuantityCircle>
-                    {Math.round($cartQuantity)}
-                  </CartQuantityCircle>
-                )}
-              </CartIconContainer>
-            )}
-          </Flex>
-        </HeaderContainer>
-        {buttonLeft === 'hamburger' && (
-          <Portal>
-            <PortalButtonWrapper>
-              <HamburgerBtn onToggle={onToggle} $isOpen={isOpen} />
-            </PortalButtonWrapper>
-          </Portal>
-        )}
-      </>
-    );
+const Header: React.FC<HeaderProps> = ({
+  buttonLeft,
+  buttonRight,
+  buttonRightSecondary,
+  iconColor = 'var(--text)',
+  text,
+  onBack,
+  onExit = () => {
+    router.push('/');
   },
-);
+  isPostcodeOpen = false,
+  onClosePostcodeModal,
+  $isTransparent = false,
+  $cartQuantity = 0,
+  meetingId,
+  storeId,
+}) => {
+  const router = useRouter();
+  const { isOpen, onToggle } = useDisclosure();
 
-Header.displayName = 'Header';
+  const handleLeftButtonClick = useCallback(() => {
+    if (isPostcodeOpen && onClosePostcodeModal) {
+      onClosePostcodeModal();
+    } else if (buttonLeft === 'back') {
+      if (onBack) {
+        onBack();
+      } else {
+        router.back();
+      }
+    } else if (buttonLeft === 'exit') {
+      router.push('/');
+    }
+  }, [isPostcodeOpen, onClosePostcodeModal, buttonLeft, onBack, router]);
+
+  const handleRightButtonClick = () => {
+    if (isPostcodeOpen && onClosePostcodeModal) {
+      onClosePostcodeModal();
+    } else if (buttonRight === 'home') {
+      router.push('/');
+    } else if (buttonRight === 'exit' && onExit) {
+      onExit();
+    } else if (buttonRight === 'refresh') {
+      router.refresh();
+    }
+  };
+
+  const handleRightSecondaryButtonClick = useCallback(() => {
+    if (buttonRightSecondary === 'cart') {
+      if (meetingId && storeId) {
+        router.push(`/cart/${meetingId}?storeId=${storeId}`);
+      } else {
+        router.push('/cart');
+      }
+    }
+  }, [buttonRightSecondary, meetingId, storeId, router]);
+
+  return (
+    <>
+      <HeaderContainer $isTransparent={$isTransparent}>
+        <HeaderDrawer onToggle={onToggle} $isOpen={isOpen} />
+        <Flex $side="left">
+          {buttonLeft && buttonLeft !== 'hamburger' && (
+            <button type="button" onClick={handleLeftButtonClick}>
+              {Icons[buttonLeft](iconColor)}
+            </button>
+          )}
+        </Flex>
+        <Flex $side="center">
+          <h1>{text}</h1>
+        </Flex>
+        <Flex $side="right">
+          {buttonRight && (
+            <button type="button" onClick={handleRightButtonClick}>
+              {Icons[buttonRight](iconColor)}
+            </button>
+          )}
+          {buttonRightSecondary && (
+            <CartIconContainer>
+              <button type="button" onClick={handleRightSecondaryButtonClick}>
+                {Icons[buttonRightSecondary](iconColor)}
+              </button>
+              {$cartQuantity > 0 && (
+                <CartQuantityCircle>
+                  {Math.round($cartQuantity)}
+                </CartQuantityCircle>
+              )}
+            </CartIconContainer>
+          )}
+        </Flex>
+      </HeaderContainer>
+      {buttonLeft === 'hamburger' && (
+        <Portal>
+          <PortalButtonWrapper>
+            <HamburgerBtn onToggle={onToggle} $isOpen={isOpen} />
+          </PortalButtonWrapper>
+        </Portal>
+      )}
+    </>
+  );
+};
 
 export default Header;
