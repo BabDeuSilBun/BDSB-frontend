@@ -14,6 +14,7 @@ import CategoryItem from '@/components/listItems/categoryItem';
 import BigRestaurantItemSkeleton from '@/components/listItems/skeletons/bigRestaurantSkeleton';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getRestaurantsList } from '@/services/restaurantService';
+import PaddingBox from '@/styles/paddingBox';
 
 const ListContainer = styled.section`
   margin: 110px 0 20px;
@@ -34,7 +35,7 @@ const options = [
 function RestaurantsList() {
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
-  const [selectedSort, setSelectedSort] = useState<string>('deadline');
+  const [selectedSort, setSelectedSort] = useState<string>('delivery-fee');
   const [schoolId, setSchoolId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -121,13 +122,13 @@ function RestaurantsList() {
                 key={item.storeId}
                 ref={index === page.content.length - 1 ? lastElementRef : null}
               >
-                <BigRestaurantItem item={item} key={item.storeId} />
+                <BigRestaurantItem item={item} />
               </div>
             )),
           )}
         </>
       ) : (
-        <div>주문 가능한 가게가 없습니다.</div>
+        <PaddingBox>현재 주문 가능한 가게가 없습니다.</PaddingBox>
       )}
     </ListContainer>
   );

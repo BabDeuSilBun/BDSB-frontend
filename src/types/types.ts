@@ -30,16 +30,30 @@ export interface ItemType {
 
 // Response interface for paginated data
 export interface Response {
+  empty: boolean;
+  first: boolean;
+  last: boolean;
+  number: number;
+  numberOfElements: number;
   pageable: {
+    offset: number;
+    paged: boolean;
     pageNumber: number;
     pageSize: number;
-    sort?: {
+    sort: {
       empty: boolean;
-      unsorted: boolean;
       sorted: boolean;
+      unsorted: boolean;
     };
+    unpaged: boolean;
   };
-  last: boolean;
+  size: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  totalElements: number;
   totalPages: number;
 }
 

@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { Divider } from '@chakra-ui/react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
@@ -44,7 +46,9 @@ const SortingBtns = styled.div`
 `;
 
 const MyPoint = () => {
-  const [activeBtn, setActiveBtn] = useState('전체');
+  const [activeBtn, setActiveBtn] = useState<string | null>(null);
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   const handleBtnClick = (btnType: string) => {
     setActiveBtn(btnType);
@@ -85,6 +89,32 @@ const MyPoint = () => {
     fetchNextPage,
   });
 
+  const mutation = useMutation({
+    mutationFn: () =>
+      apiClientWithCredentials.post('/api/users/points/withdrawal'),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myData'] });
+    },
+    onError: (error) => {
+      console.error('포인트 인출 중 오류 발생:', error);
+    },
+  });
+
+  const handlePointWithdrawal = () => {
+    if (confirm('전액 인출하시겠습니까?')) {
+      if (
+        userData &&
+        userData.bankAccount &&
+        userData.bankAccount.bank !== null
+      ) {
+        mutation.mutate();
+      } else {
+        alert('환불 계좌가 없습니다.');
+        router.push('/myPage/edit/bankAccount');
+      }
+    }
+  };
+
   return (
     <ContainerSection>
       <Flex>
@@ -92,7 +122,12 @@ const MyPoint = () => {
           <h2>보유</h2>
           <h3>{`${isErrorUserData ? '포인트를 불러올 수 없음' : isLoadingUserData ? '0' : userData && userData.point}P`}</h3>
         </div>
-        <RoundBtnFilled>전액 인출하기</RoundBtnFilled>
+        <RoundBtnFilled
+          onClick={handlePointWithdrawal}
+          disabled={isLoadingUserData || (userData && userData.point === 0)}
+        >
+          전액 인출하기
+        </RoundBtnFilled>
       </Flex>
       <SortingBtns>
         <SmallRdBtn
@@ -123,7 +158,7 @@ const MyPoint = () => {
           </>
         ) : status === 'error' ? (
           <p>Error: {error.message}</p>
-        ) : data && data.pages.length > 0 ? (
+        ) : data && data.pages[0].content.length > 0 ? (
           <>
             {data.pages.map((page) =>
               page.content.map((item, index) => (
@@ -140,7 +175,7 @@ const MyPoint = () => {
             )}
           </>
         ) : (
-          <div>포인트 내역이 없습니다.</div>
+          <PaddingBox>포인트 내역이 없습니다.</PaddingBox>
         )}
       </ul>
     </ContainerSection>

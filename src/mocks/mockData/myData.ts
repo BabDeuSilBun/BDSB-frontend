@@ -11,10 +11,10 @@ export const myData: MyDataType = {
   name: '밥친구',
   nickname: '오끼먹는 김말이',
   phoneNumber: '01012345678',
-  backAccount: {
-    bank: '',
-    accountNumber: '',
-    accountOwner: '',
+  bankAccount: {
+    bank: null,
+    accountNumber: null,
+    accountOwner: null,
   },
   point: 2500,
   address: {
@@ -82,6 +82,7 @@ export const paginatedPoints: PointsResponse[] = Array.from(
     return {
       content,
       pageable: {
+        offset: start,
         pageNumber: index,
         pageSize,
         sort: {
@@ -89,11 +90,22 @@ export const paginatedPoints: PointsResponse[] = Array.from(
           unsorted: true,
           sorted: false,
         },
+        paged: true,
+        unpaged: false,
       },
       last: isLastPage,
       totalPages,
       size: pageSize,
       first: index === 0,
+      number: index,
+      numberOfElements: content.length,
+      sort: {
+        empty: true,
+        unsorted: true,
+        sorted: false,
+      },
+      totalElements: pointsDetails.length,
+      empty: content.length === 0,
     };
   },
 );

@@ -72,11 +72,7 @@ const InquiryHistory = () => {
       },
     });
 
-  const {
-    data: images,
-    isLoading: isImagesLoading,
-    isError: isImagesError,
-  } = useQuery({
+  const { data: images, isError: isImagesError } = useQuery({
     queryKey: ['InquiryDetail', selectedInquiryId],
     queryFn: () => {
       if (selectedInquiryId === null) {
@@ -87,7 +83,6 @@ const InquiryHistory = () => {
     enabled: selectedInquiryId !== null,
   });
 
-  // 이미지 삭제를 위한 Mutation
   const deleteImageMutation = useMutation({
     mutationFn: async ({
       inquiryId,
@@ -111,7 +106,6 @@ const InquiryHistory = () => {
     },
   });
 
-  // 이미지 순서 변경을 위한 Mutation
   const updateImageMutation = useMutation({
     mutationFn: async ({
       inquiryId,
@@ -126,10 +120,7 @@ const InquiryHistory = () => {
         `Updating image with inquiryId: ${inquiryId} and imageId: ${imageId}`,
       );
       await apiClientWithCredentials.patch(
-        `${INQUIRY_LIST_API_URL}/${inquiryId}/images/${imageId}`,
-        {
-          sequence,
-        },
+        `${INQUIRY_LIST_API_URL}/${inquiryId}/images/${imageId}?sequence=${sequence}`,
       );
     },
     onError: (error) => {
@@ -172,6 +163,7 @@ const InquiryHistory = () => {
     }
 
     onClose();
+    window.location.reload();
   };
 
   const lastElementRef = useInfiniteScroll<HTMLDivElement>({
@@ -224,17 +216,20 @@ const InquiryHistory = () => {
                           <Flex h="4" gap="2" mb="2">
                             <span>문의내용</span>
 
-                            {item.status === 'PENDING' && images && (
-                              <>
-                                <Divider orientation="vertical" />
-                                <button onClick={onOpen}>수정하기</button>
-                              </>
-                            )}
+                            {item.status === 'PENDING' &&
+                              images &&
+                              images.length > 0 && (
+                                <>
+                                  <Divider orientation="vertical" />
+                                  <button onClick={onOpen}>
+                                    이미지 수정하기
+                                  </button>
+                                </>
+                              )}
                           </Flex>
                           <ImagesContainer>
                             <InquiryImages
                               images={images}
-                              isLoading={isImagesLoading}
                               isError={isImagesError}
                             />
                           </ImagesContainer>
@@ -259,11 +254,10 @@ const InquiryHistory = () => {
             )}
           </>
         ) : (
-          <div>문의 내역이 없습니다.</div>
+          <PaddingBox>문의 내역이 없습니다.</PaddingBox>
         )}
       </Container>
 
-      {/* 이미지 수정 모달 */}
       {images && (
         <InquiryImageModal
           isOpen={isOpen}

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-import { apiClient } from '../apiClient';
+import { apiClient, apiClientWithCredentials } from '../apiClient';
 
 import { setAuthToken } from '@/services/auth/authClient';
 import { validateSignInput } from '@/utils/validateSignInput';
@@ -42,6 +42,7 @@ export async function handleSignIn(
     });
 
     const jwtToken = res.data.accessToken;
+    console.log(jwtToken);
     Cookies.set('jwtToken', jwtToken, {
       secure: process.env.NODE_ENV !== 'development',
       sameSite: 'Strict',
@@ -77,5 +78,16 @@ export async function handleSignIn(
         "로그인에 실패했습니다. 만약 문제가 지속될 경우 하단 '문의하기'를 이용해주세요.",
       );
     }
+  }
+}
+
+export async function handleSignOut(router: NextRouter) {
+  try {
+    await apiClientWithCredentials.post(`/api/logout`);
+    Cookies.remove('jwtToken');
+    setAuthToken('');
+    router.push('/signIn');
+  } catch (error) {
+    console.error('로그아웃 중 오류 발생:', error);
   }
 }

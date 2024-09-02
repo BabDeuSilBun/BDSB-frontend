@@ -1,9 +1,14 @@
+import { SignJWT } from 'jose';
+import Cookies from 'js-cookie';
+import { v4 as uuidv4 } from 'uuid';
+
 import { http, HttpResponse } from 'msw';
 
 import { applyFiltersAndSorting } from '../filteringAndSorting';
 import { paginatedMajors } from '../mockData/majors';
 import { paginatedSchools } from '../mockData/schools';
 
+import { alg, email, secret } from '@/constant/authority';
 import {
   MAJOR_LIST_API_URL,
   SCHOOL_LIST_API_URL,
@@ -15,14 +20,18 @@ export const authHandlers = [
       const { email, password } = await request.json();
 
       if (email === 'test@example.com' && password === 'password123') {
-        const headers = new Headers();
-        headers.set('Authorization', 'mocked-jwt-token');
-        headers.set('Refresh', 'mocked-refresh-token');
+        const token = await new SignJWT({ email })
+          .setProtectedHeader({ alg })
+          .setExpirationTime('1h')
+          .sign(secret);
 
-        return HttpResponse.json(
-          { message: '로그인 성공' },
-          { status: 200, headers },
-        );
+        const refreshToken = uuidv4();
+
+        Cookies.set('refresh', refreshToken, {
+          sameSite: 'Strict',
+        });
+
+        return HttpResponse.json({ accessToken: token }, { status: 200 });
       }
 
       return HttpResponse.json(
@@ -38,15 +47,22 @@ export const authHandlers = [
     try {
       const { email, password } = await request.json();
 
-      if (email === 'test@example.com' && password === 'password123') {
-        const headers = new Headers();
-        headers.set('Authorization', 'mocked-jwt-token');
-        headers.set('Refresh', 'mocked-refresh-token');
+      const secret = new TextEncoder().encode('your_secret_key');
+      const alg = 'HS256';
 
-        return HttpResponse.json(
-          { message: '로그인 성공' },
-          { status: 200, headers },
-        );
+      if (email === 'test@example.com' && password === 'password123') {
+        const token = await new SignJWT({ email })
+          .setProtectedHeader({ alg })
+          .setExpirationTime('1h')
+          .sign(secret);
+
+        const refreshToken = uuidv4();
+
+        Cookies.set('refresh', refreshToken, {
+          sameSite: 'Strict',
+        });
+
+        return HttpResponse.json({ accessToken: token }, { status: 200 });
       }
 
       return HttpResponse.json(
@@ -54,26 +70,20 @@ export const authHandlers = [
         { status: 401 },
       );
     } catch (error) {
-      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
+      return HttpResponse.json(500, { message: `서버 오류: ${error.message}` });
     }
   }),
 
-  http.post('/api/users/email-duplicated', async ({ request }) => {
+  http.post('/api/refresh-token', async () => {
     try {
-      const { email } = await request.json();
+      const token = await new SignJWT({ email })
+        .setProtectedHeader({ alg })
+        .setExpirationTime('1h')
+        .sign(secret);
 
-      if (email !== 'test@example.com') {
-        return HttpResponse.json({ usable: true });
-      }
-
-      return HttpResponse.json(
-        { message: 'Duplicated Email' },
-        { status: 401 },
-      );
+      return HttpResponse.json({ accessToken: token }, { status: 200 });
     } catch (error) {
-      return HttpResponse.status(500).json({
-        message: `Error validating email: ${error}`,
-      });
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
     }
   }),
 
@@ -229,6 +239,16 @@ export const authHandlers = [
         { message: '잘못된 요청입니다.' },
         { status: 400 },
       );
+    } catch (error) {
+      return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
+    }
+  }),
+
+  http.post('/api/logout', async () => {
+    try {
+      Cookies.remove('refresh');
+
+      return HttpResponse.json({ message: '로그아웃 성공' }, { status: 200 });
     } catch (error) {
       return HttpResponse.status(500).json({ message: `서버 오류: ${error}` });
     }

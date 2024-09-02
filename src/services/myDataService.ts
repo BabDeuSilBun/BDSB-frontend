@@ -79,6 +79,66 @@ export const postNewAddress = async (
   });
 };
 
+export const getRandomNickname = async (): Promise<NicknameType> => {
+  try {
+    const response = await apiClientWithCredentials.get<NicknameType>(
+      UPDATE_NICKNAME_API_URL,
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error creating new nickname:', error);
+    throw new Error(
+      '새로운 닉네임을 받아오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
+  }
+};
+
+export const updateUserProfile = async ({
+  nickname = null,
+  password = null,
+  image = null,
+  phoneNumber = null,
+  majorId = null,
+  schoolId = null,
+}: UpdateUserProfileParams) => {
+  try {
+    const formData = new FormData();
+
+    const requestData = {
+      nickname,
+      password,
+      phoneNumber,
+      majorId,
+      schoolId,
+    } as Partial<UpdateUserProfileParams>;
+
+    // 이미지가 File 객체인지 확인
+    if (image instanceof File) {
+      console.log(image);
+      formData.append('file', image);
+    } else {
+      requestData.image = image;
+    }
+
+    formData.append('request', JSON.stringify(requestData));
+
+    const response = await apiClientWithCredentials.patch(
+      UPDATE_PROFILE_API_URL,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('변경 실패:', error);
+    throw error;
+  }
+};
+
 export const getMyEvaluates = async (): Promise<EvaluateType> => {
   try {
     const response = await apiClientWithCredentials.get<EvaluateType>(

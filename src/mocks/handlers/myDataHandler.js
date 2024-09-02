@@ -137,11 +137,10 @@ export const myDataHandlers = [
     try {
       const formData = await request.formData();
 
-      const title = formData.get('title');
-      const content = formData.get('content');
-      const images = formData.getAll('images');
+      const string = formData.get('request');
+      const images = formData.getAll('files');
 
-      if (title && content && images.length >= 0 && images.length <= 3) {
+      if ('title' in string && 'content' in string && images.length <= 3) {
         return HttpResponse.json(
           { message: '문의 등록 성공' },
           { status: 200 },
@@ -202,29 +201,24 @@ export const myDataHandlers = [
 
   http.delete(
     `${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`,
-    async (req) => {
-      const inquiryId = Number(req.params.inquiryId);
-      const imageId = Number(req.params.imageId);
-      return HttpResponse.status(204).json({
-        message: `Image number ${imageId} of ${inquiryId} deleted successfully`,
-      });
+    async ({ params }) => {
+      const { inquiryId, imageId } = params;
+      return HttpResponse.json(
+        {
+          message: `Image number ${imageId} of ${inquiryId} deleted successfully`,
+        },
+        { status: 200 },
+      );
     },
   ),
 
   http.patch(
-    `${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId`,
-    async (req) => {
-      try {
-        const inquiryId = Number(req.params.inquiryId);
-        const imageId = Number(req.params.imageId);
-        const { sequence } = await req.json();
-        return HttpResponse.status(201).json({
-          message: `Image number ${imageId} of ${inquiryId} is updated to ${sequence} successfully`,
-        });
-      } catch (error) {
-        console.error('Error parsing URL:', error);
-        return HttpResponse.status(500).json({ message: 'Error parsing URL' });
-      }
+    `${INQUIRY_LIST_API_URL}/:inquiryId/images/:imageId?sequence:sequence`,
+    async ({ params }) => {
+      const { inquiryId, imageId, sequence } = params;
+      return HttpResponse.json({
+        message: `Image number ${imageId} of ${inquiryId} is updated to ${sequence} successfully`,
+      });
     },
   ),
 ];

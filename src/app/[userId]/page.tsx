@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -82,11 +84,35 @@ const ListItem = styled.li`
 
 const MyPage = () => {
   const router = useRouter();
+  const params = useParams();
+  const userID = params.userId as string;
+
+  useEffect(() => {
+    if (!userID || isNaN(Number(userID))) {
+      router.push('/404');
+    }
+  }, [userID, router]);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['MyData'],
     queryFn: getMyData,
   });
+
+  const isMyProfile = myData?.userId === Number(userID);
+
+  const {
+    data: userData,
+    isLoading: isUserDataLoading,
+    isError: isUserDataError,
+  } = useQuery({
+    queryKey: ['userData', userID],
+    queryFn: () => getUserProfile(userID),
+    enabled: !isMyProfile, // 내 프로필이 아닐 때만 실행
+  });
+
+  const activeData = isMyProfile ? myData : userData;
+  const activeDataLoading = isMyProfile ? isMyDataLoading : isUserDataLoading;
+  const activeDataError = isMyProfile ? isMyDataError : isUserDataError;
 
   const { data: evaluates, isLoading: evaluatesLoading } = useQuery({
     queryKey: ['MyEvaluates'],
