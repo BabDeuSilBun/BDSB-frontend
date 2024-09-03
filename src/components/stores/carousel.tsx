@@ -11,18 +11,19 @@ import { ImageType } from '@/types/types';
 
 interface CarouselProps {
   images: ImageType[];
-  lastElementRef?: React.RefObject<HTMLDivElement>;
 }
 
 const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
-  ({ images = [], lastElementRef }, ref) => {
+  ({ images = [] }, ref) => {
+    const validImages = Array.isArray(images) ? images : [];
+
     const [slider, setSlider] = useState<Slider | null>(null);
     const [currentSlide, setCurrentSlide] = useState(1);
 
     const top = '50%';
     const $side = '10px';
 
-    const representativeImage = images.find(
+    const representativeImage = validImages.find(
       (img: ImageType) => img.isRepresentative,
     );
     const sortedImages = images
@@ -145,12 +146,9 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
             beforeChange={settings.beforeChange}
             ref={(sliderRef) => setSlider(sliderRef)}
           >
-            {finalImages.map((image: ImageType, index: number) => (
+            {finalImages.map((image: ImageType) => (
               <Box
                 key={image.imageId}
-                ref={
-                  index === finalImages.length - 1 ? lastElementRef : undefined
-                }
                 height="324px"
                 width="100%"
                 position="relative"
