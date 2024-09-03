@@ -40,7 +40,7 @@ export const getRestaurantsList = async ({
 
 export const getRestaurantInfo = async (storeId: number) => {
   try {
-    const response = await apiClient.get(
+    const response = await apiClientWithCredentials.get(
       RESTAURANT_API_URL.replace('{storeId}', storeId.toString()),
     );
     return response.data;

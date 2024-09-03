@@ -17,6 +17,7 @@ import StoreInfo from '@/components/stores/storeInfo';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getMenuInfo, getMenuList } from '@/services/menuService';
 import { getRestaurantInfo } from '@/services/restaurantService';
+import { getStoreImages } from '@/services/storeImageService';
 import { useCartStore } from '@/state/cartStore';
 
 const HeaderContainer = styled.div`
@@ -85,6 +86,31 @@ const StorePage = () => {
     queryFn: () => getRestaurantInfo(Number(storeId)),
   });
 
+  // Fetch store images with pagination
+  const {
+    data: storeImages,
+    fetchNextPage: fetchNextImagesPage,
+    hasNextPage: hasNextImagesPage,
+    isFetchingNextPage: isFetchingNextImagesPage,
+    isLoading: isLoadingImages,
+    isError: isErrorImages,
+  } = useInfiniteQuery({
+    queryKey: ['storeImages', storeId],
+    queryFn: ({ pageParam = 0 }) =>
+      getStoreImages({ storeId: Number(storeId), page: pageParam }),
+    getNextPageParam: (lastPage) => {
+      const nextPageNumber = lastPage.pageable?.pageNumber ?? -1;
+      return lastPage.last ? undefined : nextPageNumber + 1;
+    },
+    initialPageParam: 0,
+  });
+
+  const lastImageRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage: hasNextImagesPage,
+    isFetchingNextPage: isFetchingNextImagesPage,
+    fetchNextPage: fetchNextImagesPage,
+  });
+
   // Fetch menu list with pagination
   const {
     data: menus,
@@ -103,6 +129,7 @@ const StorePage = () => {
     },
     initialPageParam: 0,
   });
+  console.log('Menus Data:', menus);
 
   // Handle infinite scrolling
   const lastElementRef = useInfiniteScroll<HTMLDivElement>({
@@ -159,9 +186,9 @@ const StorePage = () => {
   };
 
   const onButtonClick1 = () => {
-    if (context === 'leaderBefore') {
+    if (context === 'leaderbefore') {
       router.push(`/teamOrderSetting/${storeId}`);
-    } else if (context === 'leaderAfter' || context === 'participant') {
+    } else if (context === 'leaderafter' || context === 'participant') {
       const meetingId = searchParams.get('meetingId') || 'temporary-meeting-id'; // Use temporary meetingId if not available
       if (!meetingId) {
         console.error('No meetingId found');
@@ -172,9 +199,9 @@ const StorePage = () => {
   };
 
   const onModalClick1 = () => {
-    if (context === 'leaderBefore') {
+    if (context === 'leaderbefore') {
       router.push(`/teamOrderSetting/${storeId}`);
-    } else if (context === 'leaderAfter') {
+    } else if (context === 'leaderafter') {
       handleAddToCart('team');
     } else if (context === 'participant') {
       handleAddToCart('individual');
@@ -183,18 +210,20 @@ const StorePage = () => {
 
   useEffect(() => {
     const contextParam = searchParams.get('context');
-    setContext(contextParam);
+    setContext(contextParam ? contextParam.toLowerCase() : null);
+    console.log('Context:', contextParam);
   }, [searchParams]);
 
-  if (isLoadingStore || isLoadingMenus) {
+  if (isLoadingStore || isLoadingMenus || isLoadingImages) {
     return <Loading />;
   }
 
-  if (isErrorStore) {
-    return <p>Error loading restaurant data</p>;
+  if (isErrorStore || isErrorImages) {
+    return <p>Error loading restaurant or images data</p>;
   }
 
   if (isErrorMenus) {
+    console.error('Error fetching menu data:', isErrorMenus);
     return <p>Error loading menu data</p>;
   }
 
@@ -212,12 +241,16 @@ const StorePage = () => {
           storeId={String(storeId)}
         />
       </HeaderContainer>
-      <Carousel images={store.images} ref={carouselRef} />
+      <Carousel
+        images={storeImages?.pages.flatMap((page) => page.content) || []}
+        ref={carouselRef}
+        lastElementRef={lastImageRef}
+      />
       <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} />
 
       {/* Context-specific code */}
       {context &&
-        ['leaderBefore', 'leaderAfter', 'participant'].includes(context) && (
+        ['leaderbefore', 'leaderafter', 'participant'].includes(context) && (
           <div>
             <MenuItemContainer>
               {menus?.pages.map((page, pageIndex) =>
@@ -246,7 +279,7 @@ const StorePage = () => {
             <Footer
               type="button"
               buttonText={
-                context === 'participant' || context === 'leaderAfter'
+                context === 'participant' || context === 'leaderafter'
                   ? '장바구니로 이동'
                   : '모임 만들기'
               }
@@ -279,15 +312,15 @@ const StorePage = () => {
           title1={selectedMenu.name}
           description={selectedMenu.description}
           context={
-            context === 'leaderBefore' ||
-            context === 'leaderAfter' ||
+            context === 'leaderbefore' ||
+            context === 'leaderafter' ||
             context === 'participant'
               ? context
               : undefined
           }
           onButtonClick1={onModalClick1}
           onButtonClick2={
-            context === 'leaderAfter'
+            context === 'leaderafter'
               ? () => handleAddToCart('individual')
               : closeModal
           } // Call handleAddToCart with 'individual' 개별메뉴 in 'leaderAfter', otherwise closeModal

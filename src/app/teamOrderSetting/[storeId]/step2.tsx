@@ -6,8 +6,8 @@ import { useParams } from 'next/navigation';
 
 import { useQuery } from '@tanstack/react-query';
 
+import TextArea from '@/components/common/textArea';
 import DeliveryFees from '@/components/meetings/deliveryFee';
-import SettingDescription from '@/components/meetings/settingDescription';
 import SettingHeadcount from '@/components/meetings/settingHeadcount';
 import SettingLabel from '@/components/meetings/settingLabel';
 import { getMyData } from '@/services/myDataService';
@@ -89,8 +89,8 @@ const Step2 = () => {
         onValueChange={setMaxHeadcount}
       />
       <SettingLabel text="추가 설명" />
-      <SettingDescription
-        placeholder="모임원의 조건이나 본인 소개 등 추가적으로 당부할 말이 있다면 자유롭게 적어주세요."
+      <TextArea
+        placeholder="추가적으로 당부할 말이 있다면 자유롭게 적어주세요."
         value={description}
         onValueChange={setDescription}
       />

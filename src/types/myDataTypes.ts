@@ -6,10 +6,10 @@ export interface MyDataType {
   name: string;
   nickname: string;
   phoneNumber: string;
-  backAccount: {
-    bank: string;
-    accountNumber: string;
-    accountOwner: string;
+  bankAccount?: {
+    bank?: string | null;
+    accountNumber?: string | null;
+    accountOwner?: string | null;
   };
   point: number;
   address: Address;

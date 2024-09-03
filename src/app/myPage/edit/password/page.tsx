@@ -78,7 +78,6 @@ const EditPassword = () => {
       );
 
       if (!matchCheck.isCorrected) {
-        console.log('비밀번호가 일치하지 않습니다.');
         setErrorMessage('비밀번호가 일치하지 않습니다.');
         setIsCurrentPasswordValid(false);
         return;

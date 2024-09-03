@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { Divider } from '@chakra-ui/react';
 import {
   useInfiniteQuery,
@@ -53,6 +55,7 @@ const SortingBtns = styled.div`
 const MyPoint = () => {
   const [activeBtn, setActiveBtn] = useState<string | null>(null);
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const handleBtnClick = (btnType: string | null) => {
     setActiveBtn(btnType);
@@ -95,7 +98,7 @@ const MyPoint = () => {
 
   const mutation = useMutation({
     mutationFn: () =>
-      apiClientWithCredentials.post('/api/users/point/withdrawal'),
+      apiClientWithCredentials.post('/api/users/points/withdrawal'),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['myData'] });
     },
@@ -106,7 +109,16 @@ const MyPoint = () => {
 
   const handlePointWithdrawal = () => {
     if (confirm('전액 인출하시겠습니까?')) {
-      mutation.mutate();
+      if (
+        userData &&
+        userData.bankAccount &&
+        userData.bankAccount.bank !== null
+      ) {
+        mutation.mutate();
+      } else {
+        alert('환불 계좌가 없습니다.');
+        router.push('/myPage/edit/bankAccount');
+      }
     }
   };
 
@@ -119,7 +131,7 @@ const MyPoint = () => {
         </div>
         <RoundBtnFilled
           onClick={handlePointWithdrawal}
-          disabled={isLoadingUserData}
+          disabled={isLoadingUserData || (userData && userData.point === 0)}
         >
           전액 인출하기
         </RoundBtnFilled>
@@ -153,7 +165,7 @@ const MyPoint = () => {
           </>
         ) : status === 'error' ? (
           <p>Error: {error.message}</p>
-        ) : data && data.pages.length > 0 ? (
+        ) : data && data.pages[0].content.length > 0 ? (
           <>
             {data.pages.map((page) =>
               page.content.map((item, index) => (
@@ -170,7 +182,7 @@ const MyPoint = () => {
             )}
           </>
         ) : (
-          <PaddingBox>문의 내역을 불러오지 못했습니다.</PaddingBox>
+          <PaddingBox>포인트 내역이 없습니다.</PaddingBox>
         )}
       </ul>
     </ContainerSection>

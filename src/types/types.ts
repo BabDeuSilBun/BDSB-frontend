@@ -1,8 +1,8 @@
 // others
 export interface ImageType {
-  imageId: number;
-  url: string;
   sequence?: number;
+  url: string;
+  imageId: number;
   isRepresentative?: boolean;
 }
 
@@ -30,21 +30,36 @@ export interface ItemType {
 
 // Response interface for paginated data
 export interface Response {
+  empty: boolean;
+  first: boolean;
+  last: boolean;
+  number: number;
+  numberOfElements: number;
   pageable: {
+    offset: number;
+    paged: boolean;
     pageNumber: number;
     pageSize: number;
-    sort?: {
+    sort: {
       empty: boolean;
-      unsorted: boolean;
       sorted: boolean;
+      unsorted: boolean;
     };
+    unpaged: boolean;
   };
-  last: boolean;
+  size: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  totalElements: number;
   totalPages: number;
 }
 
 export interface GetListParams {
   schoolId?: number | null;
+  chatRoomId?: number;
   sortCriteria?: string | null;
   page?: number;
   size?: number;
@@ -52,4 +67,15 @@ export interface GetListParams {
   searchMenu?: string;
   schoolName?: string;
   majorName?: string;
+}
+
+export interface ProfileType {
+  nickname: string;
+  image: string;
+  major: string;
+  meetingCount: number;
+  positiveEvaluate: {
+    content: string;
+    count: number;
+  }[];
 }

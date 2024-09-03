@@ -388,10 +388,13 @@ export const paginatedMajors: SchoolsResponse[] = Array.from(
   (_, index) => {
     const start = index * pageSize;
     const end = start + pageSize;
+    const content = majors.slice(start, end);
+    const isLastPage = index === totalPages - 1;
 
     return {
-      content: majors.slice(start, end),
+      content,
       pageable: {
+        offset: start,
         pageNumber: index,
         pageSize,
         sort: {
@@ -399,11 +402,22 @@ export const paginatedMajors: SchoolsResponse[] = Array.from(
           unsorted: true,
           sorted: false,
         },
+        paged: true,
+        unpaged: false,
       },
-      last: index === totalPages - 1,
+      last: isLastPage,
       totalPages,
       size: pageSize,
       first: index === 0,
+      number: index,
+      numberOfElements: content.length,
+      sort: {
+        empty: true,
+        unsorted: true,
+        sorted: false,
+      },
+      totalElements: majors.length,
+      empty: content.length === 0,
     };
   },
 );
@@ -413,10 +427,13 @@ export const paginatedSchools: SchoolsResponse[] = Array.from(
   (_, index) => {
     const start = index * pageSize;
     const end = start + pageSize;
+    const content = schools.slice(start, end);
+    const isLastPage = index === totalPages - 1;
 
     return {
-      content: schools.slice(start, end),
+      content,
       pageable: {
+        offset: start,
         pageNumber: index,
         pageSize,
         sort: {
@@ -424,11 +441,22 @@ export const paginatedSchools: SchoolsResponse[] = Array.from(
           unsorted: true,
           sorted: false,
         },
+        paged: true,
+        unpaged: false,
       },
-      last: index === totalPages - 1,
+      last: isLastPage,
       totalPages,
       size: pageSize,
       first: index === 0,
+      number: index,
+      numberOfElements: content.length,
+      sort: {
+        empty: true,
+        unsorted: true,
+        sorted: false,
+      },
+      totalElements: schools.length,
+      empty: content.length === 0,
     };
   },
 );
@@ -438,10 +466,13 @@ export const paginatedCampuses: CampusResponse[] = Array.from(
   (_, index) => {
     const start = index * pageSize;
     const end = start + pageSize;
+    const content = campuses.slice(start, end);
+    const isLastPage = index === totalPages - 1;
 
     return {
-      content: campuses.slice(start, end),
+      content,
       pageable: {
+        offset: start,
         pageNumber: index,
         pageSize,
         sort: {
@@ -449,11 +480,22 @@ export const paginatedCampuses: CampusResponse[] = Array.from(
           unsorted: true,
           sorted: false,
         },
+        paged: true,
+        unpaged: false,
       },
-      last: index === totalPages - 1,
+      last: isLastPage,
       totalPages,
       size: pageSize,
       first: index === 0,
+      number: index,
+      numberOfElements: content.length,
+      sort: {
+        empty: true,
+        unsorted: true,
+        sorted: false,
+      },
+      totalElements: campuses.length,
+      empty: content.length === 0,
     };
   },
 );

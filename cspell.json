@@ -13,7 +13,9 @@
     "pageable",
     "signup",
     "signin",
-    "zonecode"
+    "zonecode",
+    "stomp",
+    "sockjs"
   ],
   "ignoreWords": ["bdsb", "daum", "bname"],
   // flagWords - list of words to be always considered incorrect

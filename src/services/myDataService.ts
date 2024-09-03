@@ -1,4 +1,4 @@
-import { apiClientWithCredentials } from './apiClient';
+import { apiClient, apiClientWithCredentials } from './apiClient';
 
 import { UpdateUserProfileParams } from '@/types/myDataTypes';
 import {
@@ -9,6 +9,7 @@ import {
   NicknameType,
   PointsResponse,
 } from '@/types/myDataTypes';
+import { ProfileType } from '@/types/types';
 import { GetListParams } from '@/types/types';
 
 export const ACCOUNT_API_URL = '/api/users/account';
@@ -20,6 +21,19 @@ export const UPDATE_PROFILE_API_URL = '/api/users';
 export const UPDATE_NICKNAME_API_URL = '/api/random-nickname';
 export const POINT_LIST_API_URL = '/api/users/points';
 export const CAMPUS_LIST_API_URL = '/api/campus';
+
+// 예외로 여기 넣어놓습니다! 다른 유저 데이터
+export const getUserProfile = async (userId: string): Promise<ProfileType> => {
+  try {
+    const response = await apiClient.get<ProfileType>(`/api/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching selected user data:', error);
+    throw new Error(
+      '상대 프로필 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
+  }
+};
 
 export const getMyData = async (): Promise<MyDataType> => {
   try {
@@ -108,25 +122,21 @@ export const updateUserProfile = async ({
   try {
     const formData = new FormData();
 
-    // 이미지 파일 추가 (이미지 삭제를 원할 경우 빈 문자열 전송)
-    if (image instanceof File) {
-      // 이미지 파일이 제공된 경우
-      formData.append('file', image);
-    } else if (image === '') {
-      // 이미지 삭제를 원할 경우 빈 문자열을 추가
-      formData.append('file', '');
-    } else {
-      formData.append('file', 'null');
-    }
-
-    // 다른 데이터들을 JSON 문자열로 추가
     const requestData = {
-      nickname: nickname !== null ? nickname : null,
-      password: password !== null ? password : null,
-      phoneNumber: phoneNumber !== null ? phoneNumber : null,
-      majorId: majorId !== null ? majorId : null,
-      schoolId: schoolId !== null ? schoolId : null,
-    };
+      nickname,
+      password,
+      phoneNumber,
+      majorId,
+      schoolId,
+    } as Partial<UpdateUserProfileParams>;
+
+    // 이미지가 File 객체인지 확인
+    if (image instanceof File) {
+      console.log(image);
+      formData.append('file', image);
+    } else {
+      requestData.image = image;
+    }
 
     formData.append('request', JSON.stringify(requestData));
 
@@ -214,7 +224,7 @@ export const getInquiryImages = async (inquiryId: number) => {
     const response = await apiClientWithCredentials.get(
       `${INQUIRY_LIST_API_URL}/${inquiryId}/images`,
     );
-    return response.data.length > 0 ? response.data : [];
+    return response.data;
   } catch (error) {
     console.error('Error fetching inquiry data:', error);
     throw new Error(

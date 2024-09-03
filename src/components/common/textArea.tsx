@@ -19,14 +19,14 @@ const StyledTextarea = styled.textarea`
   resize: vertical;
 `;
 
-interface SettingDescriptionProps {
+interface TextAreaProps {
   placeholder: string;
   charLimit?: number;
   value: string;
   onValueChange: (newValue: string) => void;
 }
 
-const SettingDescription: React.FC<SettingDescriptionProps> = ({
+const TextArea: React.FC<TextAreaProps> = ({
   placeholder,
   charLimit = 100,
   value,
@@ -55,4 +55,4 @@ const SettingDescription: React.FC<SettingDescriptionProps> = ({
   );
 };
 
-export default SettingDescription;
+export default TextArea;
