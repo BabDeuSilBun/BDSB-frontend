@@ -1,4 +1,3 @@
-import { StoreImagesResponse } from '@/types/coreTypes';
 import { ImageType } from '@/types/types';
 
 const storeImages: { [key: number]: ImageType[] } = {
@@ -405,52 +404,3 @@ const storeImages: { [key: number]: ImageType[] } = {
 };
 
 export default storeImages;
-
-const pageSize = 10;
-
-const createImagePages = (images: ImageType[]) => {
-  const totalPages = Math.ceil(images.length / pageSize);
-
-  return {
-    images: {
-      totalElements: images.length,
-      totalPages,
-      size: pageSize,
-      content: images.slice(0, pageSize),
-      number: 0,
-      sort: {
-        empty: true,
-        sorted: false,
-        unsorted: true,
-      },
-      numberOfElements: Math.min(pageSize, images.length),
-      pageable: {
-        offset: 0,
-        pageNumber: 0,
-        pageSize,
-        sort: {
-          empty: true,
-          unsorted: true,
-          sorted: false,
-        },
-        paged: true,
-        unpaged: false,
-      },
-      first: true,
-      last: totalPages === 1,
-      empty: images.length === 0,
-    },
-  };
-};
-
-// 특정 storeId에 대한 페이지 생성 함수
-export const getPaginatedStoreImages = (
-  storeId: number,
-): StoreImagesResponse => {
-  const images = storeImages[storeId] || [];
-  return createImagePages(images);
-};
-
-// 사용 예시
-// const storeId = 1;
-// const paginatedImages = getPaginatedStoreImages(storeId);
