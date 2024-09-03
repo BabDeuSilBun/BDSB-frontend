@@ -1,12 +1,13 @@
 'use client';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import { useParams, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
-import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import Loading from '@/app/loading';
@@ -15,9 +16,8 @@ import CartItems from '@/components/cart/cartItems';
 import StoreInfo from '@/components/cart/storeInfo';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
-import { getMenuInfo } from '@/services/menuService';
+import { getMenuList } from '@/services/menuService';
 import { getMyData } from '@/services/myDataService';
-import { preparePayment, verifyPayment } from '@/services/paymentService';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getTeamOrderInfo } from '@/services/teamOrderService';
 import { CartItem, useCartStore } from '@/state/cartStore';
@@ -38,7 +38,7 @@ const CartPage = () => {
   const searchParams = useSearchParams();
   const { meetingId: meetingIdParam } = useParams();
   const storeId = parseInt(searchParams.get('storeId') || '', 10);
-  const context = searchParams.get('context');
+  const context = searchParams.get('context')?.toLowerCase();
   const { cartItems, updateQuantity } = useCartStore();
   const {
     formData: { minHeadcount },
@@ -74,13 +74,21 @@ const CartPage = () => {
     enabled: !!meeting?.storeId,
   });
 
-  // Fetch menu information for each item in the cart
-  const menuQueries = useQueries({
-    queries: cartItems.map((item) => ({
-      queryKey: ['menuInfo', item.storeId, item.menuId],
-      queryFn: () => getMenuInfo(Number(item.storeId), Number(item.menuId)),
-      enabled: !!item.menuId,
-    })),
+  // Fetch menu information for all items in the cart using useInfiniteQuery
+  const {
+    data: menus,
+    isLoading: isLoadingMenus,
+    isError: isErrorMenus,
+  } = useInfiniteQuery({
+    queryKey: ['menuList', storeId],
+    queryFn: ({ pageParam = 0 }) =>
+      getMenuList({ storeId: Number(storeId), page: pageParam }),
+    getNextPageParam: (lastPage) => {
+      const nextPageNumber = lastPage.pageable?.pageNumber ?? -1;
+      return lastPage.last ? undefined : nextPageNumber + 1;
+    },
+    initialPageParam: 0,
+    enabled: !!storeId,
   });
 
   // Fetch user data to get available points
@@ -93,26 +101,15 @@ const CartPage = () => {
     queryFn: getMyData,
   });
 
-  // Get delivery address
-  const deliveredAddress = useOrderStore(
-    (state) => state.formData.deliveredAddress,
-  );
-
-  const location =
-    deliveredAddress.streetAddress || deliveredAddress.detailAddress
-      ? `${deliveredAddress.streetAddress} ${deliveredAddress.detailAddress}`
-      : '배송지 정보 없음';
-
   // Calculate totals when cart items or other dependencies change
-  const menuDataArray = menuQueries.map((query) => query.data);
-  const isMenuLoading = menuQueries.some((query) => query.isLoading);
-
   useEffect(() => {
-    if (isMenuLoading) return;
+    if (isLoadingMenus) return;
+
+    const menuDataArray = menus?.pages.flatMap((page) => page.content) || [];
 
     const newPurchaseAmount = cartItems.reduce((total, item) => {
       const menuData = menuDataArray.find(
-        (menuData) => menuData?.menuId === item.menuId,
+        (menuData) => menuData.menuId === item.menuId,
       );
       return total + (menuData?.price || 0) * item.quantity;
     }, 0);
@@ -122,7 +119,7 @@ const CartPage = () => {
     const teamPurchaseTotal = cartItems.reduce((total, item) => {
       if (item.type === 'team') {
         const menuData = menuDataArray.find(
-          (menuData) => menuData?.menuId === item.menuId,
+          (menuData) => menuData.menuId === item.menuId,
         );
         return total + (menuData?.price || 0) * item.quantity;
       }
@@ -136,7 +133,7 @@ const CartPage = () => {
     if (myData) {
       setPoint(myData.point);
     }
-  }, [cartItems, menuDataArray, minHeadcount, myData, isMenuLoading]);
+  }, [cartItems, menus, minHeadcount, myData, isLoadingMenus]);
 
   const deliveryPrice = store?.deliveryPrice || 0;
   const maxDeliveryFee = paymentFormatter(deliveryPrice / minHeadcount);
@@ -155,6 +152,16 @@ const CartPage = () => {
     return { individualItems, teamItems };
   };
 
+  // Get delivery address
+  const deliveredAddress = useOrderStore(
+    (state) => state.formData.deliveredAddress,
+  );
+
+  const location =
+    deliveredAddress.streetAddress || deliveredAddress.detailAddress
+      ? `${deliveredAddress.streetAddress} ${deliveredAddress.detailAddress}`
+      : '배송지 정보 없음';
+
   // PortOne SDK initialization
   useEffect(() => {
     const script = document.createElement('script');
@@ -165,11 +172,16 @@ const CartPage = () => {
     document.body.appendChild(script);
   }, []);
 
-  // Portone payment by mock data
   // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
   const preparePaymentMutation = useMutation({
     mutationFn: () =>
-      preparePayment(meetingId, `kakaopay.TC0ONETIME`, 'card', point),
+      axios
+        .post(`/api/users/meetings/${meetingId}/purchases/payment`, {
+          pg: `kakaopay.TC0ONETIME`,
+          payMethod: 'card',
+          point,
+        })
+        .then((res) => res.data),
     onSuccess: (paymentData) => {
       // 2. 프론트엔드에서 백엔드로부터 받은 정보를 바탕으로 결제 진행 (결제 완료 후 포트원uid 발급됨)
       handlePayment(
@@ -194,13 +206,19 @@ const CartPage = () => {
       meetingId: number;
       transactionId: string;
       portoneUid: string;
-    }) => verifyPayment(meetingId, transactionId, portoneUid),
+    }) =>
+      axios
+        .post(`/api/users/meetings/${meetingId}/purchases/payment/done`, {
+          transactionId,
+          portoneUid,
+        })
+        .then((res) => res.data),
     onSuccess: (verifyResponse) => {
       // 4. 백엔드에서 포트원uid로 결제 정보 조회 -> 올바르게 되었는지 프론트로 보내줌
       if (verifyResponse.success) {
         // 5. 결제 올바르게 되었으면 다음 단계 진행
         router.push(
-          `/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`,
+          `/paymentSuccess/${verifyResponse.meetingId}?storeId=${storeId}&context=${context}`,
         );
       } else {
         // 결제 올바르게 안되었으면 다시 요청
@@ -235,8 +253,8 @@ const CartPage = () => {
             resolve();
             // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
             verifyPaymentMutation.mutate({
-              meetingId,
-              transactionId,
+              meetingId: Number(meetingId), // Ensure this is a number
+              transactionId: transactionId,
               portoneUid: rsp.imp_uid,
             });
           } else {
@@ -298,70 +316,19 @@ const CartPage = () => {
     }
   };
 
-  // // Real API
-  // // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
-  // const preparePaymentMutation = useMutation({
-  //   mutationFn: () => axios.post(`/api/users/meetings/${meetingId}/purchases/payment`, {
-  //     pg: `kakaopay.TC0ONETIME`,
-  //     payMethod: 'card',
-  //     point
-  //   }).then(res => res.data),
-  //   onSuccess: (paymentData) => {
-  //     // 2. 프론트엔드에서 백엔드로부터 받은 정보를 바탕으로 결제 진행 (결제 완료 후 포트원uid 발급됨)
-  //     handlePayment(paymentData.transactionId, paymentData.name, paymentData.price);
-  //   },
-  //   onError: (error) => {
-  //     console.error("Payment preparation failed", error);
-  //     alert("Payment preparation failed.");
-  //   },
-  // });
-
-  //   // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
-  // const verifyPaymentMutation = useMutation({
-  //   mutationFn: ({ meetingId, transactionId, portoneUid }) =>
-  //     axios.post(`/api/users/meetings/${meetingId}/purchases/payment/done`, {
-  //       transactionId,
-  //       portoneUid
-  //     }).then(res => res.data),
-  //   onSuccess: (verifyResponse) => {
-  //     // 4. 백엔드에서 포트원uid로 결제 정보 조회 -> 올바르게 되었는지 프론트로 보내줌
-  //     if (verifyResponse.success) {
-  //       // 5. 결제 올바르게 되었으면 다음 단계 진행
-  //       router.push(`/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`);
-  //     } else {
-  //       // 결제 올바르게 안되었으면 다시 요청
-  //       alert('Payment verification failed.');
-  //     }
-  //   },
-  //   onError: (error) => {
-  //     console.error("Payment verification failed", error);
-  //     alert("Payment verification failed.");
-  //   },
-  // });
-
   // Determine footer button text based on context
   const footerButtonText =
-    context === 'leaderAfter'
+    context === 'leaderafter'
       ? `${formatCurrency(totalPrice)} 주문하고 모임 완성하기`
       : context === 'participant'
         ? `${formatCurrency(totalPrice)} 주문하고 모임 참여하기`
         : '';
 
-  if (
-    isLoadingMeeting ||
-    isLoadingStore ||
-    isLoadingMyData ||
-    menuQueries.some((query) => query.isLoading)
-  ) {
+  if (isLoadingMeeting || isLoadingStore || isLoadingMyData || isLoadingMenus) {
     return <Loading />;
   }
 
-  if (
-    isErrorMeeting ||
-    isErrorStore ||
-    isErrorMyData ||
-    menuQueries.some((query) => query.isError)
-  ) {
+  if (isErrorMeeting || isErrorStore || isErrorMyData || isErrorMenus) {
     return <p>Error loading data</p>;
   }
 
@@ -377,7 +344,7 @@ const CartPage = () => {
             const meetingId = meeting?.meetingId;
             if (storeId && meetingId) {
               router.push(
-                `/restaurants/${storeId}?context=leaderAfter&meetingId=${meetingId}`,
+                `/restaurants/${storeId}?context=leaderafter&meetingId=${meetingId}`,
               );
             } else {
               console.error('storeId or meetingId is missing');
@@ -385,9 +352,12 @@ const CartPage = () => {
           }}
         />
         {cartItems.map((item: CartItem, index: number) => {
-          const menuData = menuQueries.find(
-            (query) => query.data?.menuId === item.menuId,
-          )?.data;
+          const menuDataArray =
+            menus?.pages?.flatMap((page) => page.content) || [];
+          const menuData = menuDataArray.find(
+            (menu) => menu.menuId === item.menuId,
+          );
+
           return (
             <CartItems
               key={item.menuId}

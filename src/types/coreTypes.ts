@@ -159,3 +159,32 @@ export interface PurchasesResponse {
     empty: boolean;
   };
 }
+
+export interface StoreImagesResponse {
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  content: ImageType[];
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  numberOfElements: number;
+  pageable: {
+    offset: number;
+    pageNumber: number;
+    pageSize: number;
+    sort: {
+      empty: boolean;
+      unsorted: boolean;
+      sorted: boolean;
+    };
+    paged: boolean;
+    unpaged: boolean;
+  };
+  first: boolean;
+  last: boolean;
+  empty: boolean;
+}

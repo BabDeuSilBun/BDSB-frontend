@@ -1,8 +1,8 @@
 // others
 export interface ImageType {
-  imageId: number;
-  url: string;
   sequence?: number;
+  url: string;
+  imageId: number;
   isRepresentative?: boolean;
 }
 
