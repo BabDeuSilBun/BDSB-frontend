@@ -86,29 +86,14 @@ const StorePage = () => {
     queryFn: () => getRestaurantInfo(Number(storeId)),
   });
 
-  // Fetch store images with pagination
+  // Fetch store images
   const {
     data: storeImages,
-    fetchNextPage: fetchNextImagesPage,
-    hasNextPage: hasNextImagesPage,
-    isFetchingNextPage: isFetchingNextImagesPage,
     isLoading: isLoadingImages,
     isError: isErrorImages,
-  } = useInfiniteQuery({
+  } = useQuery({
     queryKey: ['storeImages', storeId],
-    queryFn: ({ pageParam = 0 }) =>
-      getStoreImages({ storeId: Number(storeId), page: pageParam }),
-    getNextPageParam: (lastPage) => {
-      const nextPageNumber = lastPage.images.pageable?.pageNumber ?? -1;
-      return lastPage.images.last ? undefined : nextPageNumber + 1;
-    },
-    initialPageParam: 0,
-  });
-
-  const lastImageRef = useInfiniteScroll<HTMLDivElement>({
-    hasNextPage: hasNextImagesPage,
-    isFetchingNextPage: isFetchingNextImagesPage,
-    fetchNextPage: fetchNextImagesPage,
+    queryFn: () => getStoreImages({ storeId: Number(storeId) }),
   });
 
   // Fetch menu list with pagination
@@ -238,11 +223,7 @@ const StorePage = () => {
           storeId={String(storeId)}
         />
       </HeaderContainer>
-      <Carousel
-        images={storeImages?.pages.flatMap((page) => page.images.content) || []}
-        ref={carouselRef}
-        lastElementRef={lastImageRef}
-      />
+      <Carousel images={storeImages || []} ref={carouselRef} />
       <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} />
 
       {/* Context-specific code */}
