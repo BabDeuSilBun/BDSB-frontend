@@ -12,9 +12,9 @@ export const getStoreImages = async ({
   try {
     const url = STORE_IMAGES_API_URL.replace('{storeId}', storeId.toString());
     const response = await apiClientWithCredentials.get<ImageType[]>(url);
-    return response.data;
+    return response.data || [];
   } catch (error) {
     console.error('Error fetching store images:', error);
-    throw new Error('Error fetching store images. Please try again later.');
+    return [];
   }
 };
