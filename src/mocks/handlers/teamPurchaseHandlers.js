@@ -31,24 +31,24 @@ export const teamPurchaseHandlers = [
     },
   ),
 
-  http.get(TEAM_PURCHASE_API_URL, ({ params }) => {
-    const { meetingId, purchaseId } = params;
+  // http.get(TEAM_PURCHASE_API_URL, ({ params }) => {
+  //   const { meetingId, purchaseId } = params;
 
-    const purchases = teamPurchases[meetingId];
-    if (!purchases) {
-      return HttpResponse.status(404).json({
-        message: 'Meeting not found',
-      });
-    }
+  //   const purchases = teamPurchases[meetingId];
+  //   if (!purchases) {
+  //     return HttpResponse.status(404).json({
+  //       message: 'Meeting not found',
+  //     });
+  //   }
 
-    const teamPurchase = purchases.find((p) => p.purchaseId === purchaseId);
+  //   const teamPurchase = purchases.find((p) => p.purchaseId === purchaseId);
 
-    if (teamPurchase) {
-      return HttpResponse.json(teamPurchase);
-    }
+  //   if (teamPurchase) {
+  //     return HttpResponse.json(teamPurchase);
+  //   }
 
-    return HttpResponse.status(404).json({
-      message: 'Team Purchase Item not found',
-    });
-  }),
+  //   return HttpResponse.status(404).json({
+  //     message: 'Team Purchase Item not found',
+  //   });
+  // }),
 ];

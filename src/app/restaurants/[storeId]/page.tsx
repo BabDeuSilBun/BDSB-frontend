@@ -17,6 +17,7 @@ import StoreInfo from '@/components/stores/storeInfo';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getMenuInfo, getMenuList } from '@/services/menuService';
 import { getRestaurantInfo } from '@/services/restaurantService';
+import { getStoreImages } from '@/services/storeImageService';
 import { useCartStore } from '@/state/cartStore';
 
 const HeaderContainer = styled.div`
@@ -83,6 +84,31 @@ const StorePage = () => {
   } = useQuery({
     queryKey: ['storeInfo', storeId],
     queryFn: () => getRestaurantInfo(Number(storeId)),
+  });
+
+  // Fetch store images with pagination
+  const {
+    data: storeImages,
+    fetchNextPage: fetchNextImagesPage,
+    hasNextPage: hasNextImagesPage,
+    isFetchingNextPage: isFetchingNextImagesPage,
+    isLoading: isLoadingImages,
+    isError: isErrorImages,
+  } = useInfiniteQuery({
+    queryKey: ['storeImages', storeId],
+    queryFn: ({ pageParam = 0 }) =>
+      getStoreImages({ storeId: Number(storeId), page: pageParam }),
+    getNextPageParam: (lastPage) => {
+      const nextPageNumber = lastPage.images.pageable?.pageNumber ?? -1;
+      return lastPage.images.last ? undefined : nextPageNumber + 1;
+    },
+    initialPageParam: 0,
+  });
+
+  const lastImageRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage: hasNextImagesPage,
+    isFetchingNextPage: isFetchingNextImagesPage,
+    fetchNextPage: fetchNextImagesPage,
   });
 
   // Fetch menu list with pagination
@@ -186,12 +212,12 @@ const StorePage = () => {
     setContext(contextParam);
   }, [searchParams]);
 
-  if (isLoadingStore || isLoadingMenus) {
+  if (isLoadingStore || isLoadingMenus || isLoadingImages) {
     return <Loading />;
   }
 
-  if (isErrorStore) {
-    return <p>Error loading restaurant data</p>;
+  if (isErrorStore || isErrorImages) {
+    return <p>Error loading restaurant or images data</p>;
   }
 
   if (isErrorMenus) {
@@ -212,7 +238,11 @@ const StorePage = () => {
           storeId={String(storeId)}
         />
       </HeaderContainer>
-      <Carousel images={store.image} ref={carouselRef} />
+      <Carousel
+        images={storeImages?.pages.flatMap((page) => page.images.content) || []}
+        ref={carouselRef}
+        lastElementRef={lastImageRef}
+      />
       <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} />
 
       {/* Context-specific code */}
