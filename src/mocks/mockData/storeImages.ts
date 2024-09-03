@@ -1,3 +1,4 @@
+import { StoreImagesResponse } from '@/types/coreTypes';
 import { ImageType } from '@/types/types';
 
 const storeImages: { [key: number]: ImageType[] } = {
@@ -404,3 +405,57 @@ const storeImages: { [key: number]: ImageType[] } = {
 };
 
 export default storeImages;
+
+const pageSize = 10;
+
+const createImagePages = (
+  images: ImageType[],
+  page: number,
+): StoreImagesResponse => {
+  const totalPages = Math.ceil(images.length / pageSize);
+  const startIndex = page * pageSize;
+  const endIndex = startIndex + pageSize;
+  const content = images.slice(startIndex, endIndex);
+
+  return {
+    totalElements: images.length,
+    totalPages,
+    size: pageSize,
+    content,
+    number: page,
+    sort: {
+      empty: false,
+      sorted: true,
+      unsorted: false,
+    },
+    numberOfElements: content.length,
+    pageable: {
+      offset: startIndex,
+      pageNumber: page,
+      pageSize,
+      sort: {
+        empty: false,
+        unsorted: false,
+        sorted: true,
+      },
+      paged: true,
+      unpaged: false,
+    },
+    first: page === 0,
+    last: page === totalPages - 1,
+    empty: content.length === 0,
+  };
+};
+
+// Specific storeId pagination function
+export const getPaginatedStoreImages = (
+  storeId: number,
+  page: number = 0,
+): StoreImagesResponse => {
+  const images = storeImages[storeId] || [];
+  return createImagePages(images, page);
+};
+
+// Usage example
+// const storeId = 1;
+// const paginatedImages = getPaginatedStoreImages(storeId, 1);

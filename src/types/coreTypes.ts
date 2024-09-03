@@ -161,32 +161,30 @@ export interface PurchasesResponse {
 }
 
 export interface StoreImagesResponse {
-  images: {
-    totalElements: number;
-    totalPages: number;
-    size: number;
-    content: ImageType[];
-    number: number;
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  content: ImageType[];
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  numberOfElements: number;
+  pageable: {
+    offset: number;
+    pageNumber: number;
+    pageSize: number;
     sort: {
       empty: boolean;
-      sorted: boolean;
       unsorted: boolean;
+      sorted: boolean;
     };
-    numberOfElements: number;
-    pageable: {
-      offset: number;
-      pageNumber: number;
-      pageSize: number;
-      sort: {
-        empty: boolean;
-        sorted: boolean;
-        unsorted: boolean;
-      };
-      paged: boolean;
-      unpaged: boolean;
-    };
-    first: boolean;
-    last: boolean;
-    empty: boolean;
+    paged: boolean;
+    unpaged: boolean;
   };
+  first: boolean;
+  last: boolean;
+  empty: boolean;
 }
