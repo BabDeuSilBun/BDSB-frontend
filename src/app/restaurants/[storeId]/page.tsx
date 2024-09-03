@@ -186,9 +186,9 @@ const StorePage = () => {
   };
 
   const onButtonClick1 = () => {
-    if (context === 'leaderBefore') {
+    if (context === 'leaderbefore') {
       router.push(`/teamOrderSetting/${storeId}`);
-    } else if (context === 'leaderAfter' || context === 'participant') {
+    } else if (context === 'leaderafter' || context === 'participant') {
       const meetingId = searchParams.get('meetingId') || 'temporary-meeting-id'; // Use temporary meetingId if not available
       if (!meetingId) {
         console.error('No meetingId found');
@@ -199,9 +199,9 @@ const StorePage = () => {
   };
 
   const onModalClick1 = () => {
-    if (context === 'leaderBefore') {
+    if (context === 'leaderbefore') {
       router.push(`/teamOrderSetting/${storeId}`);
-    } else if (context === 'leaderAfter') {
+    } else if (context === 'leaderafter') {
       handleAddToCart('team');
     } else if (context === 'participant') {
       handleAddToCart('individual');
@@ -210,7 +210,7 @@ const StorePage = () => {
 
   useEffect(() => {
     const contextParam = searchParams.get('context');
-    setContext(contextParam);
+    setContext(contextParam ? contextParam.toLowerCase() : null);
     console.log('Context:', contextParam);
   }, [searchParams]);
 
@@ -250,7 +250,7 @@ const StorePage = () => {
 
       {/* Context-specific code */}
       {context &&
-        ['leaderBefore', 'leaderAfter', 'participant'].includes(context) && (
+        ['leaderbefore', 'leaderafter', 'participant'].includes(context) && (
           <div>
             <MenuItemContainer>
               {menus?.pages.map((page, pageIndex) =>
@@ -279,7 +279,7 @@ const StorePage = () => {
             <Footer
               type="button"
               buttonText={
-                context === 'participant' || context === 'leaderAfter'
+                context === 'participant' || context === 'leaderafter'
                   ? '장바구니로 이동'
                   : '모임 만들기'
               }
@@ -312,15 +312,15 @@ const StorePage = () => {
           title1={selectedMenu.name}
           description={selectedMenu.description}
           context={
-            context === 'leaderBefore' ||
-            context === 'leaderAfter' ||
+            context === 'leaderbefore' ||
+            context === 'leaderafter' ||
             context === 'participant'
               ? context
               : undefined
           }
           onButtonClick1={onModalClick1}
           onButtonClick2={
-            context === 'leaderAfter'
+            context === 'leaderafter'
               ? () => handleAddToCart('individual')
               : closeModal
           } // Call handleAddToCart with 'individual' 개별메뉴 in 'leaderAfter', otherwise closeModal
