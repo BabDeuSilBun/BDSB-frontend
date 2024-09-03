@@ -1,6 +1,7 @@
 'use client';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 import { useParams, useSearchParams } from 'next/navigation';
@@ -17,7 +18,6 @@ import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { getMenuList } from '@/services/menuService';
 import { getMyData } from '@/services/myDataService';
-import { preparePayment, verifyPayment } from '@/services/paymentService';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getTeamOrderInfo } from '@/services/teamOrderService';
 import { CartItem, useCartStore } from '@/state/cartStore';
@@ -172,11 +172,16 @@ const CartPage = () => {
     document.body.appendChild(script);
   }, []);
 
-  // Portone payment by mock data
   // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
   const preparePaymentMutation = useMutation({
     mutationFn: () =>
-      preparePayment(meetingId, `kakaopay.TC0ONETIME`, 'card', point),
+      axios
+        .post(`/api/users/meetings/${meetingId}/purchases/payment`, {
+          pg: `kakaopay.TC0ONETIME`,
+          payMethod: 'card',
+          point,
+        })
+        .then((res) => res.data),
     onSuccess: (paymentData) => {
       // 2. 프론트엔드에서 백엔드로부터 받은 정보를 바탕으로 결제 진행 (결제 완료 후 포트원uid 발급됨)
       handlePayment(
@@ -201,13 +206,19 @@ const CartPage = () => {
       meetingId: number;
       transactionId: string;
       portoneUid: string;
-    }) => verifyPayment(meetingId, transactionId, portoneUid),
+    }) =>
+      axios
+        .post(`/api/users/meetings/${meetingId}/purchases/payment/done`, {
+          transactionId,
+          portoneUid,
+        })
+        .then((res) => res.data),
     onSuccess: (verifyResponse) => {
       // 4. 백엔드에서 포트원uid로 결제 정보 조회 -> 올바르게 되었는지 프론트로 보내줌
       if (verifyResponse.success) {
         // 5. 결제 올바르게 되었으면 다음 단계 진행
         router.push(
-          `/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`,
+          `/paymentSuccess/${verifyResponse.meetingId}?storeId=${storeId}&context=${context}`,
         );
       } else {
         // 결제 올바르게 안되었으면 다시 요청
@@ -242,8 +253,8 @@ const CartPage = () => {
             resolve();
             // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
             verifyPaymentMutation.mutate({
-              meetingId,
-              transactionId,
+              meetingId: Number(meetingId), // Ensure this is a number
+              transactionId: transactionId,
               portoneUid: rsp.imp_uid,
             });
           } else {
@@ -304,47 +315,6 @@ const CartPage = () => {
       alert('Order submission failed.');
     }
   };
-
-  // // Real API
-  // // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
-  // const preparePaymentMutation = useMutation({
-  //   mutationFn: () => axios.post(`/api/users/meetings/${meetingId}/purchases/payment`, {
-  //     pg: `kakaopay.TC0ONETIME`,
-  //     payMethod: 'card',
-  //     point
-  //   }).then(res => res.data),
-  //   onSuccess: (paymentData) => {
-  //     // 2. 프론트엔드에서 백엔드로부터 받은 정보를 바탕으로 결제 진행 (결제 완료 후 포트원uid 발급됨)
-  //     handlePayment(paymentData.transactionId, paymentData.name, paymentData.price);
-  //   },
-  //   onError: (error) => {
-  //     console.error("Payment preparation failed", error);
-  //     alert("Payment preparation failed.");
-  //   },
-  // });
-
-  //   // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
-  // const verifyPaymentMutation = useMutation({
-  //   mutationFn: ({ meetingId, transactionId, portoneUid }) =>
-  //     axios.post(`/api/users/meetings/${meetingId}/purchases/payment/done`, {
-  //       transactionId,
-  //       portoneUid
-  //     }).then(res => res.data),
-  //   onSuccess: (verifyResponse) => {
-  //     // 4. 백엔드에서 포트원uid로 결제 정보 조회 -> 올바르게 되었는지 프론트로 보내줌
-  //     if (verifyResponse.success) {
-  //       // 5. 결제 올바르게 되었으면 다음 단계 진행
-  //       router.push(`/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`);
-  //     } else {
-  //       // 결제 올바르게 안되었으면 다시 요청
-  //       alert('Payment verification failed.');
-  //     }
-  //   },
-  //   onError: (error) => {
-  //     console.error("Payment verification failed", error);
-  //     alert("Payment verification failed.");
-  //   },
-  // });
 
   // Determine footer button text based on context
   const footerButtonText =
