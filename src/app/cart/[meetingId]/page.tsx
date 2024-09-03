@@ -38,7 +38,7 @@ const CartPage = () => {
   const searchParams = useSearchParams();
   const { meetingId: meetingIdParam } = useParams();
   const storeId = parseInt(searchParams.get('storeId') || '', 10);
-  const context = searchParams.get('context');
+  const context = searchParams.get('context')?.toLowerCase();
   const { cartItems, updateQuantity } = useCartStore();
   const {
     formData: { minHeadcount },
@@ -341,7 +341,7 @@ const CartPage = () => {
 
   // Determine footer button text based on context
   const footerButtonText =
-    context === 'leaderAfter'
+    context === 'leaderafter'
       ? `${formatCurrency(totalPrice)} 주문하고 모임 완성하기`
       : context === 'participant'
         ? `${formatCurrency(totalPrice)} 주문하고 모임 참여하기`
@@ -377,7 +377,7 @@ const CartPage = () => {
             const meetingId = meeting?.meetingId;
             if (storeId && meetingId) {
               router.push(
-                `/restaurants/${storeId}?context=leaderAfter&meetingId=${meetingId}`,
+                `/restaurants/${storeId}?context=leaderafter&meetingId=${meetingId}`,
               );
             } else {
               console.error('storeId or meetingId is missing');
