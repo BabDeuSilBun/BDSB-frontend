@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
-import { useMutation, useQueries, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import Loading from '@/app/loading';
@@ -15,7 +15,7 @@ import CartItems from '@/components/cart/cartItems';
 import StoreInfo from '@/components/cart/storeInfo';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
-import { getMenuInfo } from '@/services/menuService';
+import { getMenuList } from '@/services/menuService';
 import { getMyData } from '@/services/myDataService';
 import { preparePayment, verifyPayment } from '@/services/paymentService';
 import { getRestaurantInfo } from '@/services/restaurantService';
@@ -74,13 +74,21 @@ const CartPage = () => {
     enabled: !!meeting?.storeId,
   });
 
-  // Fetch menu information for each item in the cart
-  const menuQueries = useQueries({
-    queries: cartItems.map((item) => ({
-      queryKey: ['menuInfo', item.storeId, item.menuId],
-      queryFn: () => getMenuInfo(Number(item.storeId), Number(item.menuId)),
-      enabled: !!item.menuId,
-    })),
+  // Fetch menu information for all items in the cart using useInfiniteQuery
+  const {
+    data: menus,
+    isLoading: isLoadingMenus,
+    isError: isErrorMenus,
+  } = useInfiniteQuery({
+    queryKey: ['menuList', storeId],
+    queryFn: ({ pageParam = 0 }) =>
+      getMenuList({ storeId: Number(storeId), page: pageParam }),
+    getNextPageParam: (lastPage) => {
+      const nextPageNumber = lastPage.pageable?.pageNumber ?? -1;
+      return lastPage.last ? undefined : nextPageNumber + 1;
+    },
+    initialPageParam: 0,
+    enabled: !!storeId,
   });
 
   // Fetch user data to get available points
@@ -93,26 +101,15 @@ const CartPage = () => {
     queryFn: getMyData,
   });
 
-  // Get delivery address
-  const deliveredAddress = useOrderStore(
-    (state) => state.formData.deliveredAddress,
-  );
-
-  const location =
-    deliveredAddress.streetAddress || deliveredAddress.detailAddress
-      ? `${deliveredAddress.streetAddress} ${deliveredAddress.detailAddress}`
-      : '배송지 정보 없음';
-
   // Calculate totals when cart items or other dependencies change
-  const menuDataArray = menuQueries.map((query) => query.data);
-  const isMenuLoading = menuQueries.some((query) => query.isLoading);
-
   useEffect(() => {
-    if (isMenuLoading) return;
+    if (isLoadingMenus) return;
+
+    const menuDataArray = menus?.pages.flatMap((page) => page.content) || [];
 
     const newPurchaseAmount = cartItems.reduce((total, item) => {
       const menuData = menuDataArray.find(
-        (menuData) => menuData?.menuId === item.menuId,
+        (menuData) => menuData.menuId === item.menuId,
       );
       return total + (menuData?.price || 0) * item.quantity;
     }, 0);
@@ -122,7 +119,7 @@ const CartPage = () => {
     const teamPurchaseTotal = cartItems.reduce((total, item) => {
       if (item.type === 'team') {
         const menuData = menuDataArray.find(
-          (menuData) => menuData?.menuId === item.menuId,
+          (menuData) => menuData.menuId === item.menuId,
         );
         return total + (menuData?.price || 0) * item.quantity;
       }
@@ -136,7 +133,7 @@ const CartPage = () => {
     if (myData) {
       setPoint(myData.point);
     }
-  }, [cartItems, menuDataArray, minHeadcount, myData, isMenuLoading]);
+  }, [cartItems, menus, minHeadcount, myData, isLoadingMenus]);
 
   const deliveryPrice = store?.deliveryPrice || 0;
   const maxDeliveryFee = paymentFormatter(deliveryPrice / minHeadcount);
@@ -154,6 +151,16 @@ const CartPage = () => {
 
     return { individualItems, teamItems };
   };
+
+  // Get delivery address
+  const deliveredAddress = useOrderStore(
+    (state) => state.formData.deliveredAddress,
+  );
+
+  const location =
+    deliveredAddress.streetAddress || deliveredAddress.detailAddress
+      ? `${deliveredAddress.streetAddress} ${deliveredAddress.detailAddress}`
+      : '배송지 정보 없음';
 
   // PortOne SDK initialization
   useEffect(() => {
@@ -347,21 +354,11 @@ const CartPage = () => {
         ? `${formatCurrency(totalPrice)} 주문하고 모임 참여하기`
         : '';
 
-  if (
-    isLoadingMeeting ||
-    isLoadingStore ||
-    isLoadingMyData ||
-    menuQueries.some((query) => query.isLoading)
-  ) {
+  if (isLoadingMeeting || isLoadingStore || isLoadingMyData || isLoadingMenus) {
     return <Loading />;
   }
 
-  if (
-    isErrorMeeting ||
-    isErrorStore ||
-    isErrorMyData ||
-    menuQueries.some((query) => query.isError)
-  ) {
+  if (isErrorMeeting || isErrorStore || isErrorMyData || isErrorMenus) {
     return <p>Error loading data</p>;
   }
 
@@ -385,9 +382,12 @@ const CartPage = () => {
           }}
         />
         {cartItems.map((item: CartItem, index: number) => {
-          const menuData = menuQueries.find(
-            (query) => query.data?.menuId === item.menuId,
-          )?.data;
+          const menuDataArray =
+            menus?.pages?.flatMap((page) => page.content) || [];
+          const menuData = menuDataArray.find(
+            (menu) => menu.menuId === item.menuId,
+          );
+
           return (
             <CartItems
               key={item.menuId}
