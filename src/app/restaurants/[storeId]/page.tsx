@@ -129,6 +129,7 @@ const StorePage = () => {
     },
     initialPageParam: 0,
   });
+  console.log('Menus Data:', menus);
 
   // Handle infinite scrolling
   const lastElementRef = useInfiniteScroll<HTMLDivElement>({
@@ -210,6 +211,7 @@ const StorePage = () => {
   useEffect(() => {
     const contextParam = searchParams.get('context');
     setContext(contextParam);
+    console.log('Context:', contextParam);
   }, [searchParams]);
 
   if (isLoadingStore || isLoadingMenus || isLoadingImages) {
@@ -221,6 +223,7 @@ const StorePage = () => {
   }
 
   if (isErrorMenus) {
+    console.error('Error fetching menu data:', isErrorMenus);
     return <p>Error loading menu data</p>;
   }
 
