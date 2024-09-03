@@ -159,28 +159,28 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
           </Slider>
         </Box>
 
-        <Box
-          position="absolute"
-          bottom="10px"
-          right="10px"
-          height="30px"
-          width="50px"
-          background="rgba(0, 0, 0, 0.5)"
-          borderRadius="var(--border-radius-lg)"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          color="white"
-        >
-          {images.length > 0 && (
+        {images.length > 0 && (
+          <Box
+            position="absolute"
+            bottom="10px"
+            right="10px"
+            height="30px"
+            width="50px"
+            background="rgba(0, 0, 0, 0.5)"
+            borderRadius="var(--border-radius-lg)"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            color="white"
+          >
             <Text
               fontSize="var(--font-size-sm)"
               fontWeight="var(--font-regular)"
             >
               {currentSlide} / {images.length}
             </Text>
-          )}
-        </Box>
+          </Box>
+        )}
       </Box>
     );
   },
