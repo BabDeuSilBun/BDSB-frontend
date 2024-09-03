@@ -1,4 +1,5 @@
 import { authHandlers } from './handlers/authHandlers';
+import { myChatHandlers } from './handlers/chatHandlers';
 import { individualPurchaseHandlers } from './handlers/individualPurchaseHandlers';
 import { menuHandlers } from './handlers/menuHandlers';
 import { myDataHandlers } from './handlers/myDataHandler';
@@ -10,14 +11,16 @@ import { teamOrderHandlers } from './handlers/teamOrderHandlers';
 import { teamPurchaseHandlers } from './handlers/teamPurchaseHandlers';
 
 export const handler = [
-  ...restaurantHandlers,
-  ...teamOrderHandlers,
+  ...authHandlers,
+  ...myChatHandlers,
+  ...individualPurchaseHandlers,
   ...menuHandlers,
-  ...teamPurchaseHandlers,
-  ...postTeamPurchaseHandlers,
+  ...myDataHandlers,
+  ...paymentHandlers,
   ...individualPurchaseHandlers,
   ...postIndividualPurchaseHandlers,
-  ...myDataHandlers,
-  ...authHandlers,
-  ...paymentHandlers,
+  ...postTeamPurchaseHandlers,
+  ...restaurantHandlers,
+  ...teamOrderHandlers,
+  ...teamPurchaseHandlers,
 ];

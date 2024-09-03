@@ -51,7 +51,7 @@ export const teamOrderHandlers = [
 
   http.get('/api/users/meetings/:meetingId/headcount', () => {
     const headcount = {
-      currentHeadCount: 5,
+      headcount: 5,
     };
     return HttpResponse.json(headcount);
   }),

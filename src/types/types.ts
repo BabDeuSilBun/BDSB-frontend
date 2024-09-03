@@ -59,6 +59,7 @@ export interface Response {
 
 export interface GetListParams {
   schoolId?: number | null;
+  chatRoomId?: number;
   sortCriteria?: string | null;
   page?: number;
   size?: number;

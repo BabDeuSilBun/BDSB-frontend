@@ -12,11 +12,8 @@ export const myChatHandlers = [
     try {
       const url = new URL(request.url);
       const pageParam = Number(url.searchParams.get('page')) || 0;
-      const size = Number(url.searchParams.get('size')) || 10;
 
       const paginatedResponse = getPaginatedChatMessages(chatRoomId)[pageParam];
-
-      if (size !== 10) paginatedResponse.items.content.slice(0, size);
 
       if (!paginatedResponse) {
         return HttpResponse.json({ message: 'Chat list not found' });
