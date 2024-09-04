@@ -35,7 +35,7 @@ const StorePage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { storeId } = useParams();
-  const { cartQuantity, addToCart, clearCart, cartItems } = useCartStore();
+  const { cartQuantity, addToCart } = useCartStore();
 
   // State hooks
   const [activeModal, setActiveModal] = useState<string | null>(null);
@@ -238,15 +238,12 @@ const StorePage = () => {
       }
 
       // Add item to cart state
-      const data = await response.json();
-      const purchaseId = data.purchaseId;
-
       addToCart({
         menuId: selectedMenu.menuId,
         quantity: 1,
         storeId: String(storeId),
         type,
-        purchaseId,
+        purchaseId: 0, // Adjust the purchaseId as necessary
         meetingId: Number(meetingId),
       });
 
@@ -264,53 +261,6 @@ const StorePage = () => {
       }
     }
   };
-
-  const deleteCartItems = async () => {
-    try {
-      const token = Cookies.get('jwtToken');
-
-      if (!token) {
-        throw new Error('No token found. Please log in again.');
-      }
-
-      // Loop through each cart item and call the appropriate DELETE API
-      for (const item of cartItems) {
-        const apiUrl =
-          item.type === 'individual'
-            ? `${backendUrl}api/users/individual-purchases/${item.purchaseId}`
-            : `${backendUrl}api/users/team-purchases/${item.purchaseId}`;
-
-        const response = await fetch(apiUrl, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(
-            `Failed to delete item with purchaseId ${item.purchaseId}: ${errorText}`,
-          );
-        }
-
-        console.log(
-          `Successfully deleted item with purchaseId ${item.purchaseId}`,
-        );
-      }
-    } catch (error) {
-      console.error('Failed to delete cart items:', error);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      // Clear cart items when leaving the page
-      deleteCartItems(); // Call the function to delete cart items from the server
-      clearCart(); // Optionally, clear the local cart state as well
-    };
-  }, []);
 
   // Modal handlers
   const openModal = (
