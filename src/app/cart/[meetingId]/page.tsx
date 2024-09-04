@@ -2,7 +2,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import axios from 'axios';
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 
 import { useParams, useSearchParams } from 'next/navigation';
@@ -145,14 +145,14 @@ const CartPage = () => {
   );
 
   // Split cart items by types
-  // const splitCartItemsByType = (cartItems: CartItem[]) => {
-  //   const individualItems = cartItems.filter(
-  //     (item) => item.type === 'individual',
-  //   );
-  //   const teamItems = cartItems.filter((item) => item.type === 'team');
+  const splitCartItemsByType = (cartItems: CartItem[]) => {
+    const individualItems = cartItems.filter(
+      (item) => item.type === 'individual',
+    );
+    const teamItems = cartItems.filter((item) => item.type === 'team');
 
-  //   return { individualItems, teamItems };
-  // };
+    return { individualItems, teamItems };
+  };
 
   // Get delivery address
   const deliveredAddress = useOrderStore(
@@ -258,100 +258,107 @@ const CartPage = () => {
 
   // Workflow start: User submits the order and payment process begins
 
-  // const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  // const handleSubmit = async (
-  //   meetingId: number,
-  //   individualItems: CartItem[],
-  //   teamItems: CartItem[],
-  // ) => {
-  //   try {
-  //     // Retrieve the JWT token from cookies
-  //     const token = Cookies.get('jwtToken');
+  const handleSubmit = async (
+    meetingId: number,
+    individualItems: CartItem[],
+    teamItems: CartItem[],
+  ) => {
+    try {
+      // Retrieve the JWT token from cookies
+      const token = Cookies.get('jwtToken');
 
-  //     if (!token) {
-  //       throw new Error('No token found. Please log in again.');
-  //     }
+      if (!token) {
+        throw new Error('No token found. Please log in again.');
+      }
 
-  //     // Helper function to handle API responses
-  //     const handleResponse = async (response: Response) => {
-  //       const contentType = response.headers.get('content-type');
-  //       if (!response.ok) {
-  //         if (contentType && contentType.includes('application/json')) {
-  //           const errorData = await response.json();
-  //           throw new Error(
-  //             errorData.message || 'Error occurred during submission.',
-  //           );
-  //         } else {
-  //           const errorText = await response.text();
-  //           throw new Error(`Unexpected response: ${errorText}`);
-  //         }
-  //       }
+      // Helper function to handle the API response
+      const handleResponse = async (response: Response) => {
+        const contentType = response.headers.get('content-type');
+        if (!response.ok) {
+          if (contentType && contentType.includes('application/json')) {
+            const errorData = await response.json();
+            throw new Error(
+              errorData.message || 'Error occurred during submission.',
+            );
+          } else {
+            const errorText = await response.text();
+            throw new Error(`Unexpected response: ${errorText}`);
+          }
+        }
 
-  //       if (contentType && contentType.includes('application/json')) {
-  //         return await response.json();
-  //       }
-  //       return null;
-  //     };
+        if (contentType && contentType.includes('application/json')) {
+          return await response.json();
+        }
+        return null;
+      };
 
-  //     // Handle individual purchases submission
-  //     if (individualItems.length > 0) {
-  //       for (const item of individualItems) {
-  //         const individualPayload = {
-  //           menuId: item.menuId,
-  //           quantity: item.quantity,
-  //         };
+      // Submit individual items to the server
+      if (individualItems.length > 0) {
+        for (const item of individualItems) {
+          const payload = {
+            menuId: item.menuId,
+            quantity: item.quantity,
+          };
 
-  //         console.log('Submitting individual purchase:', individualPayload);
+          const response = await fetch(
+            `${backendUrl}/api/users/meetings/${meetingId}/individual-purchases`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(payload),
+            },
+          );
 
-  //         const individualResponse = await fetch(
-  //           `${backendUrl}/api/users/meetings/${meetingId}/individual-purchases`,
-  //           {
-  //             method: 'POST',
-  //             headers: {
-  //               'Content-Type': 'application/json',
-  //               Authorization: `Bearer ${token}`, // Include the Authorization header
-  //             },
-  //             body: JSON.stringify(individualPayload), // Send each item individually
-  //           },
-  //         );
+          await handleResponse(response);
+        }
+      }
 
-  //         await handleResponse(individualResponse);
-  //       }
-  //     }
+      // Submit team items to the server
+      if (teamItems.length > 0) {
+        for (const item of teamItems) {
+          const payload = {
+            menuId: item.menuId,
+            quantity: item.quantity,
+          };
 
-  //     // Handle team purchases submission
-  //     if (teamItems.length > 0) {
-  //       for (const item of teamItems) {
-  //         const teamPayload = {
-  //           menuId: item.menuId,
-  //           quantity: item.quantity,
-  //         };
+          const response = await fetch(
+            `${backendUrl}/api/users/meetings/${meetingId}/team-purchases`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(payload),
+            },
+          );
 
-  //         console.log('Submitting team purchase:', teamPayload);
+          await handleResponse(response);
+        }
+      }
 
-  //         const teamResponse = await fetch(
-  //           `${backendUrl}/api/users/meetings/${meetingId}/team-purchases`,
-  //           {
-  //             method: 'POST',
-  //             headers: {
-  //               'Content-Type': 'application/json',
-  //               Authorization: `Bearer ${token}`, // Include the Authorization header
-  //             },
-  //             body: JSON.stringify(teamPayload), // Send each item individually
-  //           },
-  //         );
-
-  //         await handleResponse(teamResponse);
-  //       }
-  //     }
-
-  //     console.log('Successfully submitted all purchases.');
-  //   } catch (error) {
-  //     console.error('Failed to submit purchases:', error);
-  //     alert(`Order submission failed: ${error.message}`);
-  //   }
-  // };
+      // Redirect or update the UI after successful submission
+      console.log('Successfully submitted all purchases.');
+      router.push(
+        `/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`,
+      );
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        // Handle known error
+        console.error('Failed to submit purchases:', error.message);
+        alert(`Order submission failed: ${error.message}`);
+      } else {
+        // Handle unknown error type
+        console.error('An unknown error occurred:', error);
+        alert('An unknown error occurred. Please try again.');
+      }
+    }
+  };
 
   // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
   //     preparePaymentMutation.mutate();
@@ -473,9 +480,9 @@ const CartPage = () => {
         type="button"
         buttonText={footerButtonText}
         onButtonClick={() => {
-          // const { individualItems, teamItems } =
-          //   splitCartItemsByType(cartItems);
-          // handleSubmit(Number(meetingId), individualItems, teamItems);
+          const { individualItems, teamItems } =
+            splitCartItemsByType(cartItems);
+          handleSubmit(Number(meetingId), individualItems, teamItems);
         }}
       />
     </>
