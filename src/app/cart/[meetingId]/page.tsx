@@ -256,6 +256,9 @@ const CartPage = () => {
   // };
 
   // Workflow start: User submits the order and payment process begins
+
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
   const handleSubmit = async (
     meetingId: number,
     individualItems: CartItem[],
@@ -271,13 +274,16 @@ const CartPage = () => {
 
         console.log('Submitting individual purchases:', individualPayload);
 
-        await fetch(`/api/users/meetings/${meetingId}/individual-purchases`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        await fetch(
+          `${backendUrl}/api/users/meetings/${meetingId}/individual-purchases`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(individualPayload),
           },
-          body: JSON.stringify(individualPayload),
-        });
+        );
       }
 
       // Handle team purchases submission
@@ -289,13 +295,16 @@ const CartPage = () => {
 
         console.log('Submitting team purchases:', teamPayload);
 
-        await fetch(`/api/users/meetings/${meetingId}/team-purchases`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        await fetch(
+          `${backendUrl}/api/users/meetings/${meetingId}/team-purchases`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(teamPayload),
           },
-          body: JSON.stringify(teamPayload),
-        });
+        );
       }
 
       console.log('Successfully submitted purchases.');
