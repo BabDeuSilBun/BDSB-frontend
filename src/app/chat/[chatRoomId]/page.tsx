@@ -94,7 +94,7 @@ const ChatPage = () => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-    rootMargin: '25rem 0 0 0',
+    rootMargin: '400px 0px 0px 0px',
   });
 
   useEffect(() => {
