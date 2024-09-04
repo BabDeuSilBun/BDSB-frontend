@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-import jwt from 'jsonwebtoken';
-=======
 import { SignJWT } from 'jose';
 import Cookies from 'js-cookie';
->>>>>>> 6a5ed61191adbb91c03301da0745f25b81a9350c
 import { v4 as uuidv4 } from 'uuid';
 
 import { http, HttpResponse } from 'msw';
@@ -18,8 +14,8 @@ import {
   SCHOOL_LIST_API_URL,
 } from '@/services/auth/signUpService';
 
-const JWT_SECRET = 'your_secret_key'; // JWT 서명에 사용할 비밀 키
-const JWT_EXPIRATION = '1h'; // JWT의 만료 시간 (1시간으로 설정)
+// const JWT_SECRET = 'your_secret_key'; // JWT 서명에 사용할 비밀 키
+// const JWT_EXPIRATION = '1h'; // JWT의 만료 시간 (1시간으로 설정)
 
 export const authHandlers = [
   http.post('/api/users/signin', async ({ request }) => {
@@ -27,22 +23,6 @@ export const authHandlers = [
       const { email, password } = await request.json();
 
       if (email === 'test@example.com' && password === 'password123') {
-<<<<<<< HEAD
-        // JWT 생성
-        const token = jwt.sign({ email }, JWT_SECRET, {
-          expiresIn: JWT_EXPIRATION,
-        });
-        const refreshToken = uuidv4(); // 무작위 리프레시 토큰 생성
-
-        const headers = new Headers();
-        headers.set('Refresh', `Bearer ${refreshToken}`);
-
-        return HttpResponse.json(
-          200,
-          { headers },
-          { message: '로그인 성공', token }, // JWT를 응답 본문에 포함
-        );
-=======
         const token = await new SignJWT({ email })
           .setProtectedHeader({ alg })
           .setExpirationTime('1h')
@@ -55,7 +35,6 @@ export const authHandlers = [
         });
 
         return HttpResponse.json({ accessToken: token }, { status: 200 });
->>>>>>> 6a5ed61191adbb91c03301da0745f25b81a9350c
       }
 
       return HttpResponse.json(
@@ -64,15 +43,7 @@ export const authHandlers = [
         { message: '이메일 또는 비밀번호가 잘못되었습니다.' },
       );
     } catch (error) {
-<<<<<<< HEAD
-      return HttpResponse.json(
-        500,
-        {},
-        { message: `서버 오류: ${error.message}` },
-      );
-=======
       return HttpResponse.json(500, { message: `서버 오류: ${error.message}` });
->>>>>>> 6a5ed61191adbb91c03301da0745f25b81a9350c
     }
   }),
 
@@ -80,25 +51,6 @@ export const authHandlers = [
     try {
       const { email, password } = await request.json();
 
-<<<<<<< HEAD
-      if (email === 'test@example.com' && password === 'password123') {
-        // JWT 생성
-        const token = jwt.sign({ email }, JWT_SECRET, {
-          expiresIn: JWT_EXPIRATION,
-        });
-        const refreshToken = uuidv4(); // 무작위 리프레시 토큰 생성
-
-        const headers = new Headers();
-        headers.set('Refresh', `Bearer ${refreshToken}`);
-
-        return HttpResponse.json(
-          {
-            message: '로그인 성공',
-            token, // JWT를 응답 본문에 포함
-          },
-          { status: 200, headers },
-        );
-=======
       const secret = new TextEncoder().encode('your_secret_key');
       const alg = 'HS256';
 
@@ -115,7 +67,6 @@ export const authHandlers = [
         });
 
         return HttpResponse.json({ accessToken: token }, { status: 200 });
->>>>>>> 6a5ed61191adbb91c03301da0745f25b81a9350c
       }
 
       return HttpResponse.json(
