@@ -273,17 +273,24 @@ const CartPage = () => {
         throw new Error('No token found. Please log in again.');
       }
 
+      console.log('Submitting for meetingId:', meetingId);
+      console.log('Individual items:', individualItems);
+      console.log('Team items:', teamItems);
+
       // Helper function to handle the API response
       const handleResponse = async (response: Response) => {
+        console.log('API response status:', response.status);
         const contentType = response.headers.get('content-type');
         if (!response.ok) {
           if (contentType && contentType.includes('application/json')) {
             const errorData = await response.json();
+            console.error('Error response data:', errorData);
             throw new Error(
               errorData.message || 'Error occurred during submission.',
             );
           } else {
             const errorText = await response.text();
+            console.error('Error response text:', errorText);
             throw new Error(`Unexpected response: ${errorText}`);
           }
         }
@@ -301,6 +308,8 @@ const CartPage = () => {
             menuId: item.menuId,
             quantity: item.quantity,
           };
+
+          console.log('Individual Item Payload:', payload);
 
           const response = await fetch(
             `${backendUrl}api/users/meetings/${meetingId}/individual-purchases`,
@@ -325,6 +334,8 @@ const CartPage = () => {
             menuId: item.menuId,
             quantity: item.quantity,
           };
+
+          console.log('Team Item Payload:', payload);
 
           const response = await fetch(
             `${backendUrl}api/users/meetings/${meetingId}/team-purchases`,
