@@ -164,7 +164,7 @@ const ChatPage = () => {
           <>로딩중</>
         ) : status === 'error' ? (
           <PaddingBox>문의 내역을 불러오지 못했습니다.</PaddingBox>
-        ) : data && myData && data.pages.length > 0 ? (
+        ) : data && myData && data.pages[0].content.length > 0 ? (
           <ScrollContainer ref={chatContainerRef}>
             {data.pages.map((page, pageIndex) =>
               page.content.map((message, index) => (
