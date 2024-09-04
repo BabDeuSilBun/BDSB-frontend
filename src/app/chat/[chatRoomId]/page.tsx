@@ -127,6 +127,7 @@ const ChatPage = () => {
 
                 // 새로운 메시지를 상태에 추가
                 setMessages((prevMessages) => [...prevMessages, newMessage]);
+                console.log(messages);
               }
             },
           );
