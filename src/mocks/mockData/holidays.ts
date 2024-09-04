@@ -125,7 +125,7 @@ const holidays: { [key: number]: Holiday[] } = {
 
 export default holidays;
 
-const pageSize = 5;
+const pageSize = 10;
 
 const createHolidayPages = (
   holidayList: Holiday[],
