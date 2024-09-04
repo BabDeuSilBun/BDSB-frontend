@@ -478,7 +478,14 @@ const StorePage = () => {
               ? context
               : undefined
           }
-          onButtonClick1={onModalClick1}
+          onButtonClick1={
+            context === 'participant'
+              ? async () => {
+                  await deleteCartItems();
+                  closeModal();
+                }
+              : onModalClick1
+          }
           onButtonClick2={
             context === 'leaderafter'
               ? async () => {
