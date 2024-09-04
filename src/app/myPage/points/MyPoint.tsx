@@ -26,6 +26,7 @@ const ContainerSection = styled(Container)`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  margin-top: 1rem;
 `;
 
 const Flex = styled.div`
@@ -165,25 +166,27 @@ const MyPoint = () => {
           </>
         ) : status === 'error' ? (
           <p>Error: {error.message}</p>
-        ) : data && data.pages[0].content.length > 0 ? (
-          <>
-            {data.pages.map((page) =>
-              page.content.map((item, index) => (
-                <div
-                  key={index}
-                  ref={
-                    index === page.content.length - 1 ? lastElementRef : null
-                  }
-                >
-                  <PointItem item={item} />
-                  <Divider />
-                </div>
-              )),
-            )}
-          </>
-        ) : (
-          <PaddingBox>포인트 내역이 없습니다.</PaddingBox>
-        )}
+        ) : status === 'success' && data ? (
+          data.pages[0].content.length > 0 ? (
+            <>
+              {data.pages.map((page) =>
+                page.content.map((item, index) => (
+                  <div
+                    key={index}
+                    ref={
+                      index === page.content.length - 1 ? lastElementRef : null
+                    }
+                  >
+                    <PointItem item={item} />
+                    <Divider />
+                  </div>
+                )),
+              )}
+            </>
+          ) : (
+            <PaddingBox>포인트 내역이 없습니다.</PaddingBox>
+          )
+        ) : null}
       </ul>
     </ContainerSection>
   );

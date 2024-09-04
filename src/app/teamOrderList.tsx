@@ -177,25 +177,27 @@ function TeamOrderList() {
           </>
         ) : status === 'error' ? (
           <p>Error: {error.message}</p>
-        ) : data && data.pages.length > 0 ? (
-          <>
-            {data.pages.map((page) =>
-              page.content.map((item, index) => (
-                <div
-                  key={item.meetingId}
-                  ref={
-                    index === page.content.length - 1 ? lastElementRef : null
-                  }
-                >
-                  <TeamOrderItem item={item} />
-                  <Divider />
-                </div>
-              )),
-            )}
-          </>
-        ) : (
-          <PaddingBox zero>합류 가능한 모임이 없습니다.</PaddingBox>
-        )}
+        ) : status === 'success' && data ? (
+          data.pages[0].content.length > 0 ? (
+            <>
+              {data.pages.map((page) =>
+                page.content.map((item, index) => (
+                  <div
+                    key={item.meetingId}
+                    ref={
+                      index === page.content.length - 1 ? lastElementRef : null
+                    }
+                  >
+                    <TeamOrderItem item={item} />
+                    <Divider />
+                  </div>
+                )),
+              )}
+            </>
+          ) : (
+            <PaddingBox zero>합류 가능한 모임이 없습니다.</PaddingBox>
+          )
+        ) : null}
       </SectionContainer>
     </ListContainer>
   );
