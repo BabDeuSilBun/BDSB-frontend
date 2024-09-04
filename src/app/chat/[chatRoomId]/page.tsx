@@ -18,7 +18,7 @@ import { getChatMessages } from '@/services/chatService';
 import { getMyData } from '@/services/myDataService';
 import Container from '@/styles/container';
 import PaddingBox from '@/styles/paddingBox';
-// import { ChatMessagesResponse } from '@/types/chatTypes';
+import { ChatMessageType, ChatMessagesResponse } from '@/types/chatTypes';
 
 const SOCKET_URL = `ws://${process.env.NEXT_PUBLIC_BACKEND_URL}/stomp`;
 
@@ -65,12 +65,12 @@ const ChatPage = () => {
   const params = useParams();
   const chatRoomId = params.chatRoomId as string;
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-  // const [messages, setMessages] = useState<ChatMessagesResponse[]>([]);
+  const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [inputValue, setInputValue] = useState('');
   const client = useRef<CompatClient | null>(null);
-  const prevScrollHeightRef = useRef(0);
-  const prevScrollTopRef = useRef(0);
-  const isManualScroll = useRef(false);
+  // const prevScrollHeightRef = useRef(0);
+  // const prevScrollTopRef = useRef(0);
+  // const isManualScroll = useRef(false);
 
   const { data: myData } = useQuery({
     queryKey: ['MyData'],
@@ -97,80 +97,82 @@ const ChatPage = () => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-    rootMargin: '100% 0px 0px 0px',
+    rootMargin: '400% 0px 0px 0px',
   });
 
-  // useEffect(() => {
-  //   if (data) setMessages(data);
-  // }, []);
-
-  // WebSocket 연결 설정 및 메시지 수신 처리
   useEffect(() => {
-    if (myData) {
-      const socket = new SockJS(SOCKET_URL);
-      client.current = Stomp.over(socket);
-
-      client.current.connect({}, () => {
-        // 특정 채팅방 구독
-        client.current?.subscribe(
-          `/meeting/chat-rooms/${chatRoomId}`,
-          (message) => {
-            if (message.body) {
-              // const newMessage = JSON.parse(message.body);
-              // setMessages((prev) => [...prev, newMessage]);
-            }
-          },
-        );
-      });
-
-      return () => {
-        client.current?.disconnect();
-      };
+    if (data) {
+      setMessages(data.pages.flatMap((page) => page.content));
     }
-  }, [myData, chatRoomId]);
-
-  // 수동 스크롤 감지
-  useEffect(() => {
-    const handleScroll = () => {
-      if (chatContainerRef.current) {
-        isManualScroll.current = true;
-      }
-    };
-
-    chatContainerRef.current?.addEventListener('scroll', handleScroll);
-
-    return () => {
-      // chatContainerRef.current?.removeEventListener('scroll', handleScroll);
-    };
   }, []);
 
+  // WebSocket 연결 설정 및 메시지 수신 처리
+  // useEffect(() => {
+  //   if (myData) {
+  //     const socket = new SockJS(SOCKET_URL);
+  //     client.current = Stomp.over(socket);
+
+  //     client.current.connect({}, () => {
+  //       // 특정 채팅방 구독
+  //       client.current?.subscribe(
+  //         `/meeting/chat-rooms/${chatRoomId}`,
+  //         (message) => {
+  //           if (message.body) {
+  //             const newMessage = JSON.parse(message.body);
+  //             setMessages((prev) => [...prev, newMessage]);
+  //           }
+  //         },
+  //       );
+  //     });
+
+  //     return () => {
+  //       client.current?.disconnect();
+  //     };
+  //   }
+  // }, [myData, chatRoomId]);
+
+  // 수동 스크롤 감지
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (chatContainerRef.current) {
+  //       isManualScroll.current = true;
+  //     }
+  //   };
+
+  //   chatContainerRef.current?.addEventListener('scroll', handleScroll);
+
+  //   return () => {
+  //     // chatContainerRef.current?.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
+
   // 스크롤 위치를 저장
-  useLayoutEffect(() => {
-    if (chatContainerRef.current && isFetchingNextPage) {
-      prevScrollTopRef.current = chatContainerRef.current.scrollTop;
-      prevScrollHeightRef.current = chatContainerRef.current.scrollHeight;
-    }
-  }, [isFetchingNextPage]);
+  // useLayoutEffect(() => {
+  //   if (chatContainerRef.current && isFetchingNextPage) {
+  //     prevScrollTopRef.current = chatContainerRef.current.scrollTop;
+  //     prevScrollHeightRef.current = chatContainerRef.current.scrollHeight;
+  //   }
+  // }, [isFetchingNextPage]);
 
-  // 데이터가 로드된 후 스크롤 위치를 복구
-  useLayoutEffect(() => {
-    if (chatContainerRef.current && !isFetchingNextPage) {
-      const newScrollHeight = chatContainerRef.current.scrollHeight;
-      const scrollDelta = newScrollHeight - prevScrollHeightRef.current;
+  // // 데이터가 로드된 후 스크롤 위치를 복구
+  // useLayoutEffect(() => {
+  //   if (chatContainerRef.current && !isFetchingNextPage) {
+  //     const newScrollHeight = chatContainerRef.current.scrollHeight;
+  //     const scrollDelta = newScrollHeight - prevScrollHeightRef.current;
 
-      // 스크롤 위치를 수동으로 조작한 경우에만 위치 복구
-      if (isManualScroll.current) {
-        chatContainerRef.current.scrollTop =
-          prevScrollTopRef.current + scrollDelta;
-        isManualScroll.current = false;
-      } else {
-        chatContainerRef.current.scrollTop =
-          prevScrollTopRef.current + scrollDelta;
-      }
-    }
-  }, [data, isFetchingNextPage]);
+  //     // 스크롤 위치를 수동으로 조작한 경우에만 위치 복구
+  //     if (isManualScroll.current) {
+  //       chatContainerRef.current.scrollTop =
+  //         prevScrollTopRef.current + scrollDelta;
+  //       isManualScroll.current = false;
+  //     } else {
+  //       chatContainerRef.current.scrollTop =
+  //         prevScrollTopRef.current + scrollDelta;
+  //     }
+  //   }
+  // }, [data, isFetchingNextPage]);
 
-  // 컴포넌트가 처음 렌더링될 때 스크롤을 맨 아래로 설정ㄴ
+  // 컴포넌트가 처음 렌더링될 때 스크롤을 맨 아래로 설정
   useEffect(() => {
     if (chatContainerRef.current && status === 'success') {
       chatContainerRef.current.scrollTop =
@@ -190,7 +192,7 @@ const ChatPage = () => {
         {},
         JSON.stringify(message),
       );
-      setInputValue(''); // 입력창 초기화
+      setInputValue('');
     }
   };
 
