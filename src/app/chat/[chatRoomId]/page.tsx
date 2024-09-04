@@ -1,6 +1,6 @@
 'use client';
 
-import { CompatClient, Stomp } from '@stomp/stompjs';
+import { Client, Stomp } from '@stomp/stompjs';
 import { useEffect, useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 
@@ -68,7 +68,7 @@ const ChatPage = () => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const client = useRef<CompatClient | null>(null);
+  const client = useRef<Client | null>(null);
 
   const { data: myData } = useQuery({
     queryKey: ['MyData'],
@@ -114,38 +114,49 @@ const ChatPage = () => {
       client.current = Stomp.over(() => socket);
 
       // Authorization 헤더 포함하여 소켓 연결
-      const headers = {
-        Authorization:
-          apiClientWithCredentials.defaults.headers.common.Authorization,
-      };
+      const authToken =
+        apiClientWithCredentials.defaults.headers.common.Authorization;
 
-      client.current.connect(headers, () => {
-        console.log('STOMP client connected successfully.');
+      client.current = new Client({
+        webSocketFactory: () => socket,
+        debug: (str) => {
+          console.log(str);
+        },
+        connectHeaders: {
+          Authorization: authToken as string,
+        },
+        reconnectDelay: 5000, // 자동 재 연결
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
 
-        // 특정 채팅방 구독 (추가적인 Authorization 헤더는 필요하지 않음)
-        //   client.current?.subscribe(
-        //     `/meeting/chat-rooms/${chatRoomId}`,
-        //     (message) => {
-        //       if (message.body) {
-        //         const newMessage = JSON.parse(message.body);
+        onConnect: () => {
+          console.log('STOMP client connected successfully.');
 
-        //         // 새로운 메시지를 상태에 추가
-        //         setMessages((prevMessages) => [...prevMessages, newMessage]);
-        //         console.log(messages);
-        //       }
-        //     },
-        //   );
-        // },
-        // (error: Error) => {
-        //   console.error('STOMP client failed to connect:', error);
+          client.current?.subscribe(
+            `/meeting/chat-rooms/${chatRoomId}`,
+            (message) => {
+              if (message.body) {
+                const newMessage = JSON.parse(message.body);
+
+                // 새로운 메시지를 상태에 추가
+                setMessages((prevMessages) => [...prevMessages, newMessage]);
+                console.log(messages);
+              }
+            },
+          );
+        },
+        onStompError: (frame) => {
+          console.error('STOMP client failed to connect:', frame);
+        },
       });
+
+      client.current.activate();
 
       return () => {
         if (client.current?.connected) {
-          console.log('연결 종료 시도 중...'); // 로그 추가
-          client.current.disconnect(() => {
-            console.log('STOMP client disconnected.');
-          });
+          console.log('연결 종료 시도 중...');
+          client.current.deactivate();
+          console.log('STOMP client disconnected.');
         }
       };
     }
@@ -175,11 +186,10 @@ const ChatPage = () => {
         content: inputValue,
       };
 
-      client.current.send(
-        `/socket/chat-rooms/${chatRoomId}`,
-        {},
-        JSON.stringify(message),
-      );
+      client.current.publish({
+        destination: `/socket/chat-rooms/${chatRoomId}`,
+        body: JSON.stringify(message),
+      });
       setInputValue('');
     } else {
       console.error('STOMP client is not connected or input is empty.');
