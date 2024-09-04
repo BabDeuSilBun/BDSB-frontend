@@ -1,5 +1,6 @@
 'use client';
 
+import { apiClientWithCredentials } from '@/services/apiClient';
 import { CompatClient, Stomp } from '@stomp/stompjs';
 import { useEffect, useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
@@ -169,14 +170,18 @@ const ChatPage = () => {
         content: inputValue,
       };
 
+      const headers = {
+        Authorization: apiClientWithCredentials.defaults.headers.common.Authorization,
+      };
+
       client.current.send(
         `/socket/chat-rooms/${chatRoomId}`,
-        {},
+        headers,
         JSON.stringify(message),
       );
       setInputValue('');
     } else {
-      console.error('STOMP client is not initialized.');
+      console.error('STOMP client is not connected or input is empty.');
     }
   };
 
