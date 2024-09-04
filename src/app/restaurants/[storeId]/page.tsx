@@ -280,6 +280,8 @@ const StorePage = () => {
             ? `${backendUrl}api/users/individual-purchases/${item.purchaseId}`
             : `${backendUrl}api/users/team-purchases/${item.purchaseId}`;
 
+        console.log(`Deleting item with purchaseId ${item.purchaseId}`);
+
         const response = await fetch(apiUrl, {
           method: 'DELETE',
           headers: {
@@ -479,7 +481,10 @@ const StorePage = () => {
           onButtonClick1={onModalClick1}
           onButtonClick2={
             context === 'leaderafter'
-              ? () => handleAddToCart('individual')
+              ? async () => {
+                  await deleteCartItems();
+                  closeModal();
+                }
               : closeModal
           }
           onClose={closeModal}
