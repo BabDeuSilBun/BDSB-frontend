@@ -2,6 +2,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 
 import { useParams, useSearchParams } from 'next/navigation';
@@ -265,6 +266,13 @@ const CartPage = () => {
     teamItems: CartItem[],
   ) => {
     try {
+      // Retrieve the JWT token from cookies
+      const token = Cookies.get('jwtToken');
+
+      if (!token) {
+        throw new Error('No token found. Please log in again.');
+      }
+
       // Handle individual purchases submission
       if (individualItems.length > 0) {
         const individualPayload = individualItems.map((item) => ({
@@ -275,12 +283,12 @@ const CartPage = () => {
         console.log('Submitting individual purchases:', individualPayload);
 
         await fetch(
-          `${backendUrl}api/users/meetings/${meetingId}/individual-purchases`,
+          `${backendUrl}/api/users/meetings/${meetingId}/individual-purchases`,
           {
             method: 'POST',
-            mode: 'no-cors',
             headers: {
               'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`, // Include the Authorization header
             },
             body: JSON.stringify(individualPayload),
           },
@@ -297,12 +305,12 @@ const CartPage = () => {
         console.log('Submitting team purchases:', teamPayload);
 
         await fetch(
-          `${backendUrl}api/users/meetings/${meetingId}/team-purchases`,
+          `${backendUrl}/api/users/meetings/${meetingId}/team-purchases`,
           {
             method: 'POST',
-            mode: 'no-cors',
             headers: {
               'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`, // Include the Authorization header
             },
             body: JSON.stringify(teamPayload),
           },
