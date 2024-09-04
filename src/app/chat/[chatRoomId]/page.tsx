@@ -112,24 +112,35 @@ const ChatPage = () => {
       const socket = new SockJS(SOCKET_URL);
       client.current = Stomp.over(socket);
 
-      client.current.connect({}, () => {
-        // 특정 채팅방 구독
-        client.current?.subscribe(
-          `/meeting/chat-rooms/${chatRoomId}`,
-          (message) => {
-            if (message.body) {
-              const newMessage = JSON.parse(message.body);
+      client.current.connect(
+        {},
+        () => {
+          console.log('STOMP client connected successfully.');
 
-              // 새로운 메시지를 상태에 추가
-              setMessages((prevMessages) => [...prevMessages, newMessage]);
-              console.log(messages);
-            }
-          },
-        );
-      });
+          // 특정 채팅방 구독
+          client.current?.subscribe(
+            `/meeting/chat-rooms/${chatRoomId}`,
+            (message) => {
+              if (message.body) {
+                const newMessage = JSON.parse(message.body);
+
+                // 새로운 메시지를 상태에 추가
+                setMessages((prevMessages) => [...prevMessages, newMessage]);
+              }
+            },
+          );
+        },
+        (error: Error) => {
+          console.error('STOMP client failed to connect:', error);
+        },
+      );
 
       return () => {
-        client.current?.disconnect();
+        if (client.current?.connected) {
+          client.current.disconnect(() => {
+            console.log('STOMP client disconnected.');
+          });
+        }
       };
     }
   }, [myData, chatRoomId]);
@@ -143,12 +154,17 @@ const ChatPage = () => {
   }, [messages, status]);
 
   const sendMessage = () => {
-    if (
-      myData &&
-      client.current &&
-      client.current.connected &&
-      inputValue.trim() !== ''
-    ) {
+    if (myData && client.current) {
+      if (!client.current.connected) {
+        console.error('STOMP client is not connected.');
+        return;
+      }
+
+      if (inputValue.trim() === '') {
+        console.error('Input is empty.');
+        return;
+      }
+
       const message = {
         content: inputValue,
       };
@@ -160,7 +176,7 @@ const ChatPage = () => {
       );
       setInputValue('');
     } else {
-      console.error('STOMP client is not connected or input is empty.');
+      console.error('STOMP client is not initialized.');
     }
   };
 
