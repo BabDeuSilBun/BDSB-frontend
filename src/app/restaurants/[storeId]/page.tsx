@@ -304,17 +304,11 @@ const StorePage = () => {
     }
   };
 
-  // Using `async` in useEffect
-  useEffect(() => {
-    const handlePageUnload = async () => {
-      await deleteCartItems(); // Wait for cart items to be deleted
-      clearCart(); // Then clear the local cart state
-    };
-
-    return () => {
-      handlePageUnload(); // Ensures async delete and clear on unmount
-    };
-  }, []);
+  const onBack = async () => {
+    await deleteCartItems();
+    clearCart();
+    router.back();
+  };
 
   // Modal handlers
   const openModal = (
@@ -397,6 +391,7 @@ const StorePage = () => {
           buttonLeft="back"
           buttonRight="home"
           buttonRightSecondary="cart"
+          onBack={onBack}
           $cartQuantity={Math.round(cartQuantity)}
           iconColor={isHeaderTransparent ? 'white' : 'black'}
           $isTransparent={isHeaderTransparent}

@@ -95,7 +95,7 @@ interface HeaderProps {
   buttonRightSecondary?: 'cart';
   iconColor?: string;
   text?: string;
-  onBack?: () => void;
+  onBack?: () => Promise<void> | void;
   onExit?: () => void;
   isPostcodeOpen?: boolean;
   onClosePostcodeModal?: () => void;
@@ -125,12 +125,12 @@ const Header: React.FC<HeaderProps> = ({
   const router = useRouter();
   const { isOpen, onToggle } = useDisclosure();
 
-  const handleLeftButtonClick = useCallback(() => {
+  const handleLeftButtonClick = useCallback(async () => {
     if (isPostcodeOpen && onClosePostcodeModal) {
       onClosePostcodeModal();
     } else if (buttonLeft === 'back') {
       if (onBack) {
-        onBack();
+        await onBack();
       } else {
         router.back();
       }
