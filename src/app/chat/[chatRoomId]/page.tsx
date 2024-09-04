@@ -171,7 +171,8 @@ const ChatPage = () => {
       };
 
       const headers = {
-        Authorization: apiClientWithCredentials.defaults.headers.common.Authorization,
+        Authorization:
+          apiClientWithCredentials.defaults.headers.common.Authorization,
       };
 
       client.current.send(
