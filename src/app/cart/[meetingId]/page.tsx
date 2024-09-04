@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
-import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import Loading from '@/app/loading';
@@ -18,7 +18,6 @@ import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { getMenuList } from '@/services/menuService';
 import { getMyData } from '@/services/myDataService';
-import { preparePayment, verifyPayment } from '@/services/paymentService';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getTeamOrderInfo } from '@/services/teamOrderService';
 import { CartItem, useCartStore } from '@/state/cartStore';
@@ -165,96 +164,96 @@ const CartPage = () => {
       : '배송지 정보 없음';
 
   // PortOne SDK initialization
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.iamport.kr/v1/iamport.js';
-    script.onload = () => {
-      window.IMP.init('imp51248204'); // Should be updated to match PortOne merchant key
-    };
-    document.body.appendChild(script);
-  }, []);
+  // useEffect(() => {
+  //   const script = document.createElement('script');
+  //   script.src = 'https://cdn.iamport.kr/v1/iamport.js';
+  //   script.onload = () => {
+  //     window.IMP.init('imp51248204'); // Should be updated to match PortOne merchant key
+  //   };
+  //   document.body.appendChild(script);
+  // }, []);
 
   // Portone payment by mock data
   // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
-  const preparePaymentMutation = useMutation({
-    mutationFn: () =>
-      preparePayment(meetingId, `kakaopay.TC0ONETIME`, 'card', point),
-    onSuccess: (paymentData) => {
-      // 2. 프론트엔드에서 백엔드로부터 받은 정보를 바탕으로 결제 진행 (결제 완료 후 포트원uid 발급됨)
-      handlePayment(
-        paymentData.transactionId,
-        paymentData.name,
-        paymentData.price,
-      );
-    },
-    onError: (error) => {
-      console.error('Payment preparation failed', error);
-      alert('Payment preparation failed.');
-    },
-  });
+  // const preparePaymentMutation = useMutation({
+  //   mutationFn: () =>
+  //     preparePayment(meetingId, `kakaopay.TC0ONETIME`, 'card', point),
+  //   onSuccess: (paymentData) => {
+  //     // 2. 프론트엔드에서 백엔드로부터 받은 정보를 바탕으로 결제 진행 (결제 완료 후 포트원uid 발급됨)
+  //     handlePayment(
+  //       paymentData.transactionId,
+  //       paymentData.name,
+  //       paymentData.price,
+  //     );
+  //   },
+  //   onError: (error) => {
+  //     console.error('Payment preparation failed', error);
+  //     alert('Payment preparation failed.');
+  //   },
+  // });
 
   // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
-  const verifyPaymentMutation = useMutation({
-    mutationFn: ({
-      meetingId,
-      transactionId,
-      portoneUid,
-    }: {
-      meetingId: number;
-      transactionId: string;
-      portoneUid: string;
-    }) => verifyPayment(meetingId, transactionId, portoneUid),
-    onSuccess: (verifyResponse) => {
-      // 4. 백엔드에서 포트원uid로 결제 정보 조회 -> 올바르게 되었는지 프론트로 보내줌
-      if (verifyResponse.success) {
-        // 5. 결제 올바르게 되었으면 다음 단계 진행
-        router.push(
-          `/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`,
-        );
-      } else {
-        // 결제 올바르게 안되었으면 다시 요청
-        alert('Payment verification failed.');
-      }
-    },
-    onError: (error) => {
-      console.error('Payment verification failed', error);
-      alert('Payment verification failed.');
-    },
-  });
+  // const verifyPaymentMutation = useMutation({
+  //   mutationFn: ({
+  //     meetingId,
+  //     transactionId,
+  //     portoneUid,
+  //   }: {
+  //     meetingId: number;
+  //     transactionId: string;
+  //     portoneUid: string;
+  //   }) => verifyPayment(meetingId, transactionId, portoneUid),
+  //   onSuccess: (verifyResponse) => {
+  // 4. 백엔드에서 포트원uid로 결제 정보 조회 -> 올바르게 되었는지 프론트로 보내줌
+  //     if (verifyResponse.success) {
+  //       // 5. 결제 올바르게 되었으면 다음 단계 진행
+  //       router.push(
+  //         `/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`,
+  //       );
+  //     } else {
+  //       // 결제 올바르게 안되었으면 다시 요청
+  //       alert('Payment verification failed.');
+  //     }
+  //   },
+  //   onError: (error) => {
+  //     console.error('Payment verification failed', error);
+  //     alert('Payment verification failed.');
+  //   },
+  // });
 
   // 2. 프론트엔드에서 백엔드로부터 받은 정보를 바탕으로 결제 진행 (결제 완료 후 포트원uid 발급됨)
-  const handlePayment = async (
-    transactionId: string,
-    name: string,
-    price: number,
-  ): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      const IMP = window.IMP;
-      IMP.request_pay(
-        {
-          pg: 'kakaopay.TC0ONETIME', // PG code for the test environment
-          pay_method: 'card',
-          merchant_uid: transactionId,
-          name: name,
-          amount: price,
-          m_redirect_url: `${window.location.origin}/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`,
-        },
-        (rsp) => {
-          if (rsp.success) {
-            resolve();
-            // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
-            verifyPaymentMutation.mutate({
-              meetingId,
-              transactionId,
-              portoneUid: rsp.imp_uid,
-            });
-          } else {
-            reject(new Error(rsp.error_msg));
-          }
-        },
-      );
-    });
-  };
+  // const handlePayment = async (
+  //   transactionId: string,
+  //   name: string,
+  //   price: number,
+  // ): Promise<void> => {
+  //   return new Promise((resolve, reject) => {
+  //     const IMP = window.IMP;
+  //     IMP.request_pay(
+  //       {
+  //         pg: 'kakaopay.TC0ONETIME', // PG code for the test environment
+  //         pay_method: 'card',
+  //         merchant_uid: transactionId,
+  //         name: name,
+  //         amount: price,
+  //         m_redirect_url: `${window.location.origin}/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`,
+  //       },
+  //       (rsp) => {
+  //         if (rsp.success) {
+  //           resolve();
+  //           // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
+  //           verifyPaymentMutation.mutate({
+  //             meetingId,
+  //             transactionId,
+  //             portoneUid: rsp.imp_uid,
+  //           });
+  //         } else {
+  //           reject(new Error(rsp.error_msg));
+  //         }
+  //       },
+  //     );
+  //   });
+  // };
 
   // Workflow start: User submits the order and payment process begins
   const handleSubmit = async (
@@ -299,13 +298,20 @@ const CartPage = () => {
         });
       }
 
-      // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
-      preparePaymentMutation.mutate();
+      console.log('Successfully submitted purchases.');
     } catch (error) {
       console.error('Failed to submit purchases:', error);
       alert('Order submission failed.');
     }
   };
+
+  // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
+  //     preparePaymentMutation.mutate();
+  //   } catch (error) {
+  //     console.error('Failed to submit purchases:', error);
+  //     alert('Order submission failed.');
+  //   }
+  // };
 
   // // Real API
   // // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
