@@ -283,7 +283,7 @@ const CartPage = () => {
         console.log('Submitting individual purchases:', individualPayload);
 
         await fetch(
-          `${backendUrl}/api/users/meetings/${meetingId}/individual-purchases`,
+          `${backendUrl}api/users/meetings/${meetingId}/individual-purchases`,
           {
             method: 'POST',
             headers: {
@@ -305,7 +305,7 @@ const CartPage = () => {
         console.log('Submitting team purchases:', teamPayload);
 
         await fetch(
-          `${backendUrl}/api/users/meetings/${meetingId}/team-purchases`,
+          `${backendUrl}api/users/meetings/${meetingId}/team-purchases`,
           {
             method: 'POST',
             headers: {
