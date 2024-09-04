@@ -303,7 +303,7 @@ const CartPage = () => {
           };
 
           const response = await fetch(
-            `${backendUrl}/api/users/meetings/${meetingId}/individual-purchases`,
+            `${backendUrl}api/users/meetings/${meetingId}/individual-purchases`,
             {
               method: 'POST',
               headers: {
@@ -327,7 +327,7 @@ const CartPage = () => {
           };
 
           const response = await fetch(
-            `${backendUrl}/api/users/meetings/${meetingId}/team-purchases`,
+            `${backendUrl}api/users/meetings/${meetingId}/team-purchases`,
             {
               method: 'POST',
               headers: {
