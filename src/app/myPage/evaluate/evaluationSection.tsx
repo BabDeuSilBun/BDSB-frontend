@@ -28,7 +28,13 @@ const EvaluationSection = ({
 }) => (
   <div>
     <Flex align="center" gap="1" p="1rem" mt="5">
-      <Image src={imageSrc} alt={`${title} 이미지`} width={32} height={32} />
+      <Image
+        src={imageSrc}
+        alt={`${title} 이미지`}
+        width={32}
+        height={32}
+        priority
+      />
       <Title>{title}</Title>
     </Flex>
     <ul aria-label={`${title} 목록`}>

@@ -103,6 +103,11 @@ export interface PostIndividualPurchaseType {
   quantity: number;
 }
 
+export interface Holiday {
+  dayOfWeek: string;
+  holidayId: number;
+}
+
 export interface RestaurantsResponse extends Response {
   content: RestaurantType[];
 }
@@ -161,10 +166,10 @@ export interface PurchasesResponse {
 }
 
 export interface StoreImagesResponse {
+  content: ImageType[];
   totalElements: number;
   totalPages: number;
   size: number;
-  content: ImageType[];
   number: number;
   sort: {
     empty: boolean;
@@ -186,5 +191,34 @@ export interface StoreImagesResponse {
   };
   first: boolean;
   last: boolean;
+  empty: boolean;
+}
+
+export interface HolidaysResponse {
+  content: Holiday[];
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  first: boolean;
+  last: boolean;
+  numberOfElements: number;
+  pageable: {
+    offset: number;
+    pageNumber: number;
+    pageSize: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    paged: boolean;
+    unpaged: boolean;
+  };
   empty: boolean;
 }

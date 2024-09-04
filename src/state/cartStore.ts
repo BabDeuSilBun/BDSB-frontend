@@ -5,6 +5,8 @@ export interface CartItem {
   quantity: number;
   type: 'individual' | 'team'; // 'individual' for 공통메뉴, 'team' for 개별메뉴
   storeId: string;
+  purchaseId: number;
+  meetingId: number;
 }
 
 interface CartState {

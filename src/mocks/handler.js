@@ -1,5 +1,6 @@
 import { authHandlers } from './handlers/authHandlers';
 import { myChatHandlers } from './handlers/chatHandlers';
+import { holidayHandlers } from './handlers/holidayHandlers';
 import { individualPurchaseHandlers } from './handlers/individualPurchaseHandlers';
 import { menuHandlers } from './handlers/menuHandlers';
 import { myDataHandlers } from './handlers/myDataHandler';
@@ -25,4 +26,5 @@ export const handler = [
   ...teamOrderHandlers,
   ...teamPurchaseHandlers,
   ...storeImageHandlers,
+  ...holidayHandlers,
 ];
