@@ -38,9 +38,9 @@ const TeamOrderPage = () => {
 
   // Fetching head count data
   const { data: headCountData } = useQuery<{
-    headCount: number;
+    headcount: number;
   }>({
-    queryKey: ['headCount', meetingId],
+    queryKey: ['headcount', meetingId],
     queryFn: () => getCurrentHeadCount(Number(meetingId)),
   });
 

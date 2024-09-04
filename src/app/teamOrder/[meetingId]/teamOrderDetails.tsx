@@ -8,7 +8,7 @@ import { MeetingType } from '@/types/coreTypes';
 
 interface teamOrderProps {
   meeting: MeetingType;
-  headCountData: { headCount: number } | null;
+  headCountData: { headcount: number } | null;
   remainingTime: string;
 }
 
