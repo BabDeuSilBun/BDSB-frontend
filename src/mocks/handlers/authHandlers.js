@@ -14,9 +14,6 @@ import {
   SCHOOL_LIST_API_URL,
 } from '@/services/auth/signUpService';
 
-// const JWT_SECRET = 'your_secret_key'; // JWT 서명에 사용할 비밀 키
-// const JWT_EXPIRATION = '1h'; // JWT의 만료 시간 (1시간으로 설정)
-
 export const authHandlers = [
   http.post('/api/users/signin', async ({ request }) => {
     try {

@@ -34,7 +34,7 @@ const TimerIcon = styled(Image)`
 `;
 
 interface MeetingStatusProps {
-  headCountData: { currentHeadCount: number } | null;
+  headCountData: { headCount: number } | null;
   meeting: MeetingType;
   remainingTime: string;
 }
@@ -52,7 +52,7 @@ const MeetingStatus: React.FC<MeetingStatusProps> = ({
       aria-hidden="true"
     />
     <Text aria-label="Current and maximum participants">
-      {`${headCountData ? headCountData.currentHeadCount : 0}/${meeting.participantMax} (최소 ${meeting.participantMin}명)`}
+      {`${headCountData ? headCountData.headCount : 0}/${meeting.participantMax} (최소 ${meeting.participantMin}명)`}
     </Text>
     <Divider
       orientation="vertical"
