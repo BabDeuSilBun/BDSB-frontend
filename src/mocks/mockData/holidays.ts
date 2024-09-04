@@ -1,4 +1,4 @@
-import { Holiday } from '@/types/coreTypes';
+import { Holiday, HolidaysResponse } from '@/types/coreTypes';
 
 const holidays: { [key: number]: Holiday[] } = {
   1: [
@@ -130,15 +130,44 @@ const pageSize = 5;
 const createHolidayPages = (
   holidayList: Holiday[],
   page: number,
-): { content: Holiday[]; totalPages: number } => {
-  const totalPages = Math.ceil(holidayList.length / pageSize);
-  const startIndex = page * pageSize;
-  const endIndex = startIndex + pageSize;
+  size: number = pageSize,
+): HolidaysResponse => {
+  const totalElements = holidayList.length;
+  const totalPages = Math.ceil(totalElements / size);
+  const startIndex = page * size;
+  const endIndex = startIndex + size;
   const content = holidayList.slice(startIndex, endIndex);
+  const first = page === 0;
+  const last = page === totalPages - 1;
+  const numberOfElements = content.length;
 
   return {
     content,
+    totalElements,
     totalPages,
+    size,
+    number: page,
+    sort: {
+      empty: false,
+      sorted: false,
+      unsorted: true,
+    },
+    first,
+    last,
+    numberOfElements,
+    pageable: {
+      offset: startIndex,
+      pageNumber: page,
+      pageSize: size,
+      sort: {
+        empty: true,
+        sorted: false,
+        unsorted: true,
+      },
+      paged: true,
+      unpaged: false,
+    },
+    empty: content.length === 0,
   };
 };
 
@@ -146,9 +175,10 @@ const createHolidayPages = (
 export const getPaginatedHolidays = (
   storeId: number,
   page: number = 0,
-): { content: Holiday[]; totalPages: number } => {
+  size: number = pageSize,
+): HolidaysResponse => {
   const holidayList = holidays[storeId] || [];
-  return createHolidayPages(holidayList, page);
+  return createHolidayPages(holidayList, page, size);
 };
 
 // Usage example

@@ -11,20 +11,18 @@ export const holidayHandlers = [
       const pageParam = Number(url.searchParams.get('page')) || 0;
       const size = Number(url.searchParams.get('size')) || 10;
 
+      // Fetch the paginated holidays based on storeId, page, and size
       const paginatedResponse = getPaginatedHolidays(
         Number(storeId),
         pageParam,
+        size,
       );
-
-      if (size !== 10) {
-        paginatedResponse.content = paginatedResponse.content.slice(0, size);
-      }
 
       return HttpResponse.json({
         content: paginatedResponse.content,
-        totalElements: paginatedResponse.content.length,
+        totalElements: paginatedResponse.totalElements,
         totalPages: paginatedResponse.totalPages,
-        size: paginatedResponse.content.length,
+        size: paginatedResponse.size,
         number: pageParam,
         sort: {
           empty: true,
@@ -33,7 +31,7 @@ export const holidayHandlers = [
         },
         first: pageParam === 0,
         last: pageParam === paginatedResponse.totalPages - 1,
-        numberOfElements: paginatedResponse.content.length,
+        numberOfElements: paginatedResponse.numberOfElements,
         pageable: {
           offset: pageParam * size,
           pageNumber: pageParam,
@@ -46,7 +44,7 @@ export const holidayHandlers = [
           paged: true,
           unpaged: false,
         },
-        empty: paginatedResponse.content.length === 0,
+        empty: paginatedResponse.empty,
       });
     } catch (error) {
       console.error('Error parsing URL:', error);
