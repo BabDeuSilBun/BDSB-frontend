@@ -131,12 +131,6 @@ const StorePage = () => {
     initialPageParam: 0,
   });
 
-  // Debugging logs
-  if (isErrorHolidays)
-    console.error('Error fetching holidays:', isErrorHolidays);
-  if (holidaysData) console.log('Fetched Holidays Data:', holidaysData);
-  if (!holidaysData?.pages.length) console.warn('No holiday data found.');
-
   // Attach infinite scroll observer to the last holiday element
   const lastHolidayElementRef = useInfiniteScroll<HTMLDivElement>({
     hasNextPage: hasNextHolidaysPage,
@@ -148,9 +142,6 @@ const StorePage = () => {
   const dayOfWeekString = allHolidays
     .map((holiday) => holiday.dayOfWeek)
     .join(', ');
-
-  console.log('All Holidays:', allHolidays);
-  console.log('Day of Week String:', dayOfWeekString);
 
   // Fetch menu list with pagination
   const {
@@ -170,7 +161,6 @@ const StorePage = () => {
     },
     initialPageParam: 0,
   });
-  console.log('Menus Data:', menus);
 
   // Handle infinite scrolling
   const lastElementRef = useInfiniteScroll<HTMLDivElement>({
