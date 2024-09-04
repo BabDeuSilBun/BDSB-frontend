@@ -42,7 +42,7 @@ export async function handleSignIn(
     });
 
     const jwtToken = res.data.accessToken;
-    console.log(jwtToken);
+
     Cookies.set('jwtToken', jwtToken, {
       secure: process.env.NODE_ENV !== 'development',
       sameSite: 'Strict',
