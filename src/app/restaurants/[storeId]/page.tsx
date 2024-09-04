@@ -15,6 +15,7 @@ import MenuItem from '@/components/listItems/menuItem';
 import Carousel from '@/components/stores/carousel';
 import StoreInfo from '@/components/stores/storeInfo';
 import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getHolidays } from '@/services/holidayService';
 import { getMenuInfo, getMenuList } from '@/services/menuService';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getStoreImages } from '@/services/storeImageService';
@@ -111,6 +112,37 @@ const StorePage = () => {
     fetchNextPage: fetchNextImagesPage,
   });
 
+  // Fetch holiday data with pagination
+  const {
+    data: holidaysData,
+    fetchNextPage: fetchNextHolidaysPage,
+    hasNextPage: hasNextHolidaysPage,
+    isFetchingNextPage: isFetchingNextHolidaysPage,
+    isLoading: isLoadingHolidays,
+    isError: isErrorHolidays,
+  } = useInfiniteQuery({
+    queryKey: ['holidays', storeId],
+    queryFn: ({ pageParam = 0 }) =>
+      getHolidays({ storeId: Number(storeId), page: pageParam, size: 10 }),
+    getNextPageParam: (lastPage) => {
+      const nextPageNumber = lastPage.pageable?.pageNumber ?? -1;
+      return lastPage.last ? undefined : nextPageNumber + 1;
+    },
+    initialPageParam: 0,
+  });
+
+  // Attach infinite scroll observer to the last holiday element
+  const lastHolidayElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage: hasNextHolidaysPage,
+    isFetchingNextPage: isFetchingNextHolidaysPage,
+    fetchNextPage: fetchNextHolidaysPage,
+  });
+
+  const allHolidays = holidaysData?.pages.flatMap((page) => page.content) || [];
+  const dayOfWeekString = allHolidays
+    .map((holiday) => holiday.dayOfWeek)
+    .join(', ');
+
   // Fetch menu list with pagination
   const {
     data: menus,
@@ -153,6 +185,8 @@ const StorePage = () => {
         quantity: 1,
         storeId: String(storeId),
         type,
+        purchaseId: 0,
+        meetingId: 0,
       });
       closeModal();
     }
@@ -214,12 +248,17 @@ const StorePage = () => {
     console.log('Context:', contextParam);
   }, [searchParams]);
 
-  if (isLoadingStore || isLoadingMenus || isLoadingImages) {
+  if (
+    isLoadingStore ||
+    isLoadingMenus ||
+    isLoadingImages ||
+    isLoadingHolidays
+  ) {
     return <Loading />;
   }
 
-  if (isErrorStore || isErrorImages) {
-    return <p>Error loading restaurant or images data</p>;
+  if (isErrorStore || isErrorImages || isErrorHolidays) {
+    return <p>Error loading restaurant, images, or holidays data</p>;
   }
 
   if (isErrorMenus) {
@@ -298,7 +337,7 @@ const StorePage = () => {
           address2={store.address.detailAddress}
           openTime={store.openTime}
           closeTime={store.closeTime}
-          dayOfWeek={store.dayOfWeek}
+          dayOfWeek={dayOfWeekString || ''}
           buttonText="닫기"
           onButtonClick3={closeModal}
           onClose={closeModal}
@@ -323,9 +362,13 @@ const StorePage = () => {
             context === 'leaderafter'
               ? () => handleAddToCart('individual')
               : closeModal
-          } // Call handleAddToCart with 'individual' 개별메뉴 in 'leaderAfter', otherwise closeModal
+          }
           onClose={closeModal}
         />
+      )}
+
+      {hasNextHolidaysPage && (
+        <div ref={lastHolidayElementRef} style={{ height: '1px' }} />
       )}
     </div>
   );
