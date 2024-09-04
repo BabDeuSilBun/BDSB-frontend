@@ -304,11 +304,15 @@ const StorePage = () => {
     }
   };
 
+  // Using `async` in useEffect
   useEffect(() => {
+    const handlePageUnload = async () => {
+      await deleteCartItems(); // Wait for cart items to be deleted
+      clearCart(); // Then clear the local cart state
+    };
+
     return () => {
-      // Clear cart items when leaving the page
-      deleteCartItems(); // Call the function to delete cart items from the server
-      clearCart(); // Optionally, clear the local cart state as well
+      handlePageUnload(); // Ensures async delete and clear on unmount
     };
   }, []);
 
