@@ -280,8 +280,6 @@ const StorePage = () => {
             ? `${backendUrl}api/users/individual-purchases/${item.purchaseId}`
             : `${backendUrl}api/users/team-purchases/${item.purchaseId}`;
 
-        console.log(`Deleting item with purchaseId ${item.purchaseId}`);
-
         const response = await fetch(apiUrl, {
           method: 'DELETE',
           headers: {
@@ -306,11 +304,13 @@ const StorePage = () => {
     }
   };
 
-  const onBack = async () => {
-    await deleteCartItems();
-    clearCart();
-    router.back();
-  };
+  useEffect(() => {
+    return () => {
+      // Clear cart items when leaving the page
+      deleteCartItems(); // Call the function to delete cart items from the server
+      clearCart(); // Optionally, clear the local cart state as well
+    };
+  }, []);
 
   // Modal handlers
   const openModal = (
@@ -393,7 +393,6 @@ const StorePage = () => {
           buttonLeft="back"
           buttonRight="home"
           buttonRightSecondary="cart"
-          onBack={onBack}
           $cartQuantity={Math.round(cartQuantity)}
           iconColor={isHeaderTransparent ? 'white' : 'black'}
           $isTransparent={isHeaderTransparent}
@@ -478,20 +477,10 @@ const StorePage = () => {
               ? context
               : undefined
           }
-          onButtonClick1={
-            context === 'participant'
-              ? async () => {
-                  await deleteCartItems();
-                  closeModal();
-                }
-              : onModalClick1
-          }
+          onButtonClick1={onModalClick1}
           onButtonClick2={
             context === 'leaderafter'
-              ? async () => {
-                  await deleteCartItems();
-                  closeModal();
-                }
+              ? () => handleAddToCart('individual')
               : closeModal
           }
           onClose={closeModal}
