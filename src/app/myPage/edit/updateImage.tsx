@@ -107,17 +107,6 @@ const UpdateImage = ({ image }: Props) => {
           lastModified: Date.now(),
         });
 
-<<<<<<< HEAD
-        if (response) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setCurrentImage(reader.result as string); // 업로드된 이미지를 미리보기로 표시
-          };
-          reader.readAsDataURL(file);
-        } else {
-          console.error('프로필 이미지 업데이트 실패:', response.message);
-        }
-=======
         setImageFile(compressedFile);
 
         const reader = new FileReader();
@@ -125,7 +114,6 @@ const UpdateImage = ({ image }: Props) => {
           setCurrentImage(reader.result as string);
         };
         reader.readAsDataURL(compressedFile);
->>>>>>> 6a5ed61191adbb91c03301da0745f25b81a9350c
       } catch (error) {
         console.error('이미지 압축 중 오류 발생:', error);
       }
