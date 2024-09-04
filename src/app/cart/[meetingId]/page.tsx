@@ -18,6 +18,7 @@ import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import { getMenuList } from '@/services/menuService';
 import { getMyData } from '@/services/myDataService';
+import { preparePayment, verifyPayment } from '@/services/paymentService';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getTeamOrderInfo } from '@/services/teamOrderService';
 import { CartItem, useCartStore } from '@/state/cartStore';
@@ -46,7 +47,7 @@ const CartPage = () => {
   const [purchaseAmount, setPurchaseAmount] = useState(0);
   const [minTeamPurchaseDiscount, setMinTeamPurchaseDiscount] = useState(0);
   const [point, setPoint] = useState(0);
-  const [purchaseId, setPurchaseId] = useState<number | null>(null);
+  // const [purchaseId, setPurchaseId] = useState<number | null>(null);
 
   // Convert meetingId to a number
   const meetingId = Array.isArray(meetingIdParam)
@@ -163,56 +164,23 @@ const CartPage = () => {
       ? `${deliveredAddress.streetAddress} ${deliveredAddress.detailAddress}`
       : '배송지 정보 없음';
 
-  // Step 1: Create Purchase Record on Backend
-  const createPurchaseMutation = useMutation({
-    mutationFn: async () => {
-      const endpoint =
-        cartItems[0].type === 'team'
-          ? `/api/users/meetings/team-purchases/${purchaseId}`
-          : `/api/users/meetings/individual-purchases/${purchaseId}`;
-
-      const response = await axios.post(endpoint, {
-        items: cartItems.map((item) => ({
-          menuId: item.menuId,
-          quantity: item.quantity,
-          type: item.type,
-        })),
-      });
-      return response.data.purchaseId;
-    },
-    onSuccess: (generatedPurchaseId) => {
-      setPurchaseId(generatedPurchaseId);
-    },
-    onError: (error) => {
-      console.error('Failed to create purchase', error);
-      alert('Failed to create purchase.');
-    },
-  });
-
+  // PortOne SDK initialization
   useEffect(() => {
-    if (!purchaseId && cartItems.length > 0) {
-      createPurchaseMutation.mutate();
-    }
-  }, [purchaseId, cartItems.length]);
+    const script = document.createElement('script');
+    script.src = 'https://cdn.iamport.kr/v1/iamport.js';
+    script.onload = () => {
+      window.IMP.init('imp51248204'); // Should be updated to match PortOne merchant key
+    };
+    document.body.appendChild(script);
+  }, []);
 
+  // Portone payment by mock data
+  // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
   const preparePaymentMutation = useMutation({
-    mutationFn: () => {
-      if (!purchaseId) {
-        throw new Error('Purchase ID is not generated');
-      }
-
-      return axios
-        .post(
-          `/api/users/meetings/${meetingId}/purchases/${purchaseId}/payment`,
-          {
-            pg: `kakaopay.TC0ONETIME`,
-            payMethod: 'CARD',
-            point,
-          },
-        )
-        .then((res) => res.data);
-    },
+    mutationFn: () =>
+      preparePayment(meetingId, `kakaopay.TC0ONETIME`, 'card', point),
     onSuccess: (paymentData) => {
+      // 2. 프론트엔드에서 백엔드로부터 받은 정보를 바탕으로 결제 진행 (결제 완료 후 포트원uid 발급됨)
       handlePayment(
         paymentData.transactionId,
         paymentData.name,
@@ -225,33 +193,26 @@ const CartPage = () => {
     },
   });
 
+  // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
   const verifyPaymentMutation = useMutation({
     mutationFn: ({
       meetingId,
-      purchaseId,
       transactionId,
       portoneUid,
     }: {
       meetingId: number;
-      purchaseId: number;
       transactionId: string;
       portoneUid: string;
-    }) =>
-      axios
-        .post(
-          `/api/users/meetings/${meetingId}/purchases/${purchaseId}/payment/done`,
-          {
-            transactionId,
-            portoneUid,
-          },
-        )
-        .then((res) => res.data),
+    }) => verifyPayment(meetingId, transactionId, portoneUid),
     onSuccess: (verifyResponse) => {
+      // 4. 백엔드에서 포트원uid로 결제 정보 조회 -> 올바르게 되었는지 프론트로 보내줌
       if (verifyResponse.success) {
+        // 5. 결제 올바르게 되었으면 다음 단계 진행
         router.push(
-          `/paymentSuccess/${verifyResponse.meetingId}?storeId=${storeId}&context=${context}`,
+          `/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`,
         );
       } else {
+        // 결제 올바르게 안되었으면 다시 요청
         alert('Payment verification failed.');
       }
     },
@@ -261,6 +222,7 @@ const CartPage = () => {
     },
   });
 
+  // 2. 프론트엔드에서 백엔드로부터 받은 정보를 바탕으로 결제 진행 (결제 완료 후 포트원uid 발급됨)
   const handlePayment = async (
     transactionId: string,
     name: string,
@@ -270,7 +232,7 @@ const CartPage = () => {
       const IMP = window.IMP;
       IMP.request_pay(
         {
-          pg: 'kakaopay.TC0ONETIME',
+          pg: 'kakaopay.TC0ONETIME', // PG code for the test environment
           pay_method: 'card',
           merchant_uid: transactionId,
           name: name,
@@ -280,10 +242,10 @@ const CartPage = () => {
         (rsp) => {
           if (rsp.success) {
             resolve();
+            // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
             verifyPaymentMutation.mutate({
-              meetingId: Number(meetingId),
-              purchaseId: Number(purchaseId),
-              transactionId: transactionId,
+              meetingId,
+              transactionId,
               portoneUid: rsp.imp_uid,
             });
           } else {
@@ -294,17 +256,21 @@ const CartPage = () => {
     });
   };
 
+  // Workflow start: User submits the order and payment process begins
   const handleSubmit = async (
     meetingId: number,
     individualItems: CartItem[],
     teamItems: CartItem[],
   ) => {
     try {
+      // Handle individual purchases submission
       if (individualItems.length > 0) {
         const individualPayload = individualItems.map((item) => ({
           menuId: item.menuId,
           quantity: item.quantity,
         }));
+
+        console.log('Submitting individual purchases:', individualPayload);
 
         await fetch(`/api/users/meetings/${meetingId}/individual-purchases`, {
           method: 'POST',
@@ -315,11 +281,14 @@ const CartPage = () => {
         });
       }
 
+      // Handle team purchases submission
       if (teamItems.length > 0) {
         const teamPayload = teamItems.map((item) => ({
           menuId: item.menuId,
           quantity: item.quantity,
         }));
+
+        console.log('Submitting team purchases:', teamPayload);
 
         await fetch(`/api/users/meetings/${meetingId}/team-purchases`, {
           method: 'POST',
@@ -330,12 +299,54 @@ const CartPage = () => {
         });
       }
 
+      // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
       preparePaymentMutation.mutate();
     } catch (error) {
       console.error('Failed to submit purchases:', error);
       alert('Order submission failed.');
     }
   };
+
+  // // Real API
+  // // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
+  // const preparePaymentMutation = useMutation({
+  //   mutationFn: () => axios.post(`/api/users/meetings/${meetingId}/purchases/payment`, {
+  //     pg: `kakaopay.TC0ONETIME`,
+  //     payMethod: 'card',
+  //     point
+  //   }).then(res => res.data),
+  //   onSuccess: (paymentData) => {
+  //     // 2. 프론트엔드에서 백엔드로부터 받은 정보를 바탕으로 결제 진행 (결제 완료 후 포트원uid 발급됨)
+  //     handlePayment(paymentData.transactionId, paymentData.name, paymentData.price);
+  //   },
+  //   onError: (error) => {
+  //     console.error("Payment preparation failed", error);
+  //     alert("Payment preparation failed.");
+  //   },
+  // });
+
+  //   // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
+  // const verifyPaymentMutation = useMutation({
+  //   mutationFn: ({ meetingId, transactionId, portoneUid }) =>
+  //     axios.post(`/api/users/meetings/${meetingId}/purchases/payment/done`, {
+  //       transactionId,
+  //       portoneUid
+  //     }).then(res => res.data),
+  //   onSuccess: (verifyResponse) => {
+  //     // 4. 백엔드에서 포트원uid로 결제 정보 조회 -> 올바르게 되었는지 프론트로 보내줌
+  //     if (verifyResponse.success) {
+  //       // 5. 결제 올바르게 되었으면 다음 단계 진행
+  //       router.push(`/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`);
+  //     } else {
+  //       // 결제 올바르게 안되었으면 다시 요청
+  //       alert('Payment verification failed.');
+  //     }
+  //   },
+  //   onError: (error) => {
+  //     console.error("Payment verification failed", error);
+  //     alert("Payment verification failed.");
+  //   },
+  // });
 
   // Determine footer button text based on context
   const footerButtonText =
