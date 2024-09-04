@@ -14,7 +14,7 @@ interface CartState {
   cartQuantity: number;
   addToCart: (item: CartItem) => void;
   updateQuantity: (menuId: number, storeId: string, quantity: number) => void;
-  resetCart: () => void;
+  clearCart: () => void;
 }
 
 export const useCartStore = create<CartState>((set) => ({
@@ -69,7 +69,7 @@ export const useCartStore = create<CartState>((set) => ({
         ),
       };
     }),
-  resetCart: () =>
+  clearCart: () =>
     set({
       cartItems: [],
       cartQuantity: 0,
