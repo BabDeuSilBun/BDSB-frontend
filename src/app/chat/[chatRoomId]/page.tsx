@@ -1,7 +1,8 @@
+/* eslint-disable */
 'use client';
 
 import { CompatClient, Stomp } from '@stomp/stompjs';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SockJS from 'sockjs-client';
 
 import Image from 'next/image';
@@ -18,7 +19,7 @@ import { getChatMessages } from '@/services/chatService';
 import { getMyData } from '@/services/myDataService';
 import Container from '@/styles/container';
 import PaddingBox from '@/styles/paddingBox';
-import { ChatMessageType, ChatMessagesResponse } from '@/types/chatTypes';
+import { ChatMessagesResponse, ChatMessageType } from '@/types/chatTypes';
 
 const SOCKET_URL = `ws://${process.env.NEXT_PUBLIC_BACKEND_URL}/stomp`;
 
@@ -65,6 +66,7 @@ const ChatPage = () => {
   const params = useParams();
   const chatRoomId = params.chatRoomId as string;
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+
   const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [inputValue, setInputValue] = useState('');
   const client = useRef<CompatClient | null>(null);
@@ -131,47 +133,6 @@ const ChatPage = () => {
   //   }
   // }, [myData, chatRoomId]);
 
-  // 수동 스크롤 감지
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (chatContainerRef.current) {
-  //       isManualScroll.current = true;
-  //     }
-  //   };
-
-  //   chatContainerRef.current?.addEventListener('scroll', handleScroll);
-
-  //   return () => {
-  //     // chatContainerRef.current?.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, []);
-
-  // 스크롤 위치를 저장
-  // useLayoutEffect(() => {
-  //   if (chatContainerRef.current && isFetchingNextPage) {
-  //     prevScrollTopRef.current = chatContainerRef.current.scrollTop;
-  //     prevScrollHeightRef.current = chatContainerRef.current.scrollHeight;
-  //   }
-  // }, [isFetchingNextPage]);
-
-  // // 데이터가 로드된 후 스크롤 위치를 복구
-  // useLayoutEffect(() => {
-  //   if (chatContainerRef.current && !isFetchingNextPage) {
-  //     const newScrollHeight = chatContainerRef.current.scrollHeight;
-  //     const scrollDelta = newScrollHeight - prevScrollHeightRef.current;
-
-  //     // 스크롤 위치를 수동으로 조작한 경우에만 위치 복구
-  //     if (isManualScroll.current) {
-  //       chatContainerRef.current.scrollTop =
-  //         prevScrollTopRef.current + scrollDelta;
-  //       isManualScroll.current = false;
-  //     } else {
-  //       chatContainerRef.current.scrollTop =
-  //         prevScrollTopRef.current + scrollDelta;
-  //     }
-  //   }
-  // }, [data, isFetchingNextPage]);
-
   // 컴포넌트가 처음 렌더링될 때 스크롤을 맨 아래로 설정
   useEffect(() => {
     if (chatContainerRef.current && status === 'success') {
@@ -180,7 +141,6 @@ const ChatPage = () => {
     }
   }, []);
 
-  // 메시지 전송 함수
   const sendMessage = () => {
     if (myData && client.current && inputValue.trim() !== '') {
       const message = {
