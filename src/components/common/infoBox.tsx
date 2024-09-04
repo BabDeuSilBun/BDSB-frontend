@@ -3,11 +3,12 @@
 import { useState } from 'react';
 
 import styled from 'styled-components';
+
 import InfoBoxIcon from '@/components/svg/infoBoxIcon';
 
 interface InfoBoxProps {
   textItems: {
-    id: number;
+    id: string;
     text: string;
     $textStyle: 'withIcon' | 'Title' | 'Description';
     sameRow?: boolean;

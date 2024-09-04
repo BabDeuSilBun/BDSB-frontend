@@ -1,12 +1,17 @@
 'use client';
 
-import Header from '@/components/layout/header';
-import styled from 'styled-components';
+import { useEffect } from 'react';
+
 import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import styled from 'styled-components';
+
+import Header from '@/components/layout/header';
+import { handleSignOut } from '@/services/auth/signInService';
 import { getMyData } from '@/services/myDataService';
 import { RoundBtnFilled } from '@/styles/button';
-import { useRouter } from 'next/navigation';
 import Container from '@/styles/container';
 
 const ImageWrapper = styled.div`
@@ -24,7 +29,7 @@ const ImageWrapper = styled.div`
 const Flexbox = styled.div`
   display: flex;
   padding: 1rem;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 1rem;
 `;
@@ -60,7 +65,7 @@ const ListItem = styled.li<{ $isLast?: boolean }>`
     props.$isLast ? '' : '0.1rem solid var(--gray200)'};
 `;
 
-const ListButton = styled.button.attrs({
+const ListButton = styled.div.attrs({
   className: 'icon',
 })`
   word-spacing: 3px;
@@ -68,13 +73,26 @@ const ListButton = styled.button.attrs({
   margin: -1rem;
 `;
 
+const LogoutButton = styled.button`
+  justify-self: end;
+  font-weight: var(--font-semi-bold);
+  text-align: right;
+  color: var(--warning);
+  border-bottom: 1.5px solid var(--warning);
+`;
+
 const MyPage = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['myData'],
     queryFn: getMyData,
   });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ['myData'] });
+  }, [queryClient]);
 
   return (
     <>
@@ -82,7 +100,7 @@ const MyPage = () => {
       <Container>
         <Flexbox>
           <ImageWrapper>
-            {data && (
+            {data && data.image && data.image !== 'null' && (
               <Image
                 src={data.image}
                 alt="My Profile Image"
@@ -100,7 +118,7 @@ const MyPage = () => {
                   ? '불러오는 중'
                   : data && data.nickname}
             </Nickname>
-            <AddressButton onClick={() => router.push('/myPage/manageAddress')}>
+            <AddressButton onClick={() => router.push('/myPage/edit/address')}>
               <Image
                 src="./map-pin.svg"
                 alt="map pin icon"
@@ -116,11 +134,9 @@ const MyPage = () => {
           </RoundBtnFilled>
         </Flexbox>
         <ListContainer>
-          <ListItem>
+          <ListItem onClick={() => router.push('/myPage/points')}>
             <p>내 포인트</p>
-            <ListButton
-              onClick={() => router.push('/myPage/points')}
-            >{`${data ? data.point : '0'}P >`}</ListButton>
+            <ListButton>{`${data ? data.point : '0'}P >`}</ListButton>
           </ListItem>
           {/* <ListItem>
             <p>앱 테마</p>
@@ -128,19 +144,20 @@ const MyPage = () => {
               {'>'}
             </ListButton>
           </ListItem> */}
-          <ListItem>
+          <ListItem onClick={() => router.push('/myPage/edit/bankAccount')}>
             <p>환불 계좌 입력</p>
-            <ListButton onClick={() => router.push('/myPage/bankAccount')}>
-              {'>'}
-            </ListButton>
+            <ListButton>{'>'}</ListButton>
           </ListItem>
-          <ListItem $isLast>
+          <ListItem $isLast onClick={() => router.push('/inquiry')}>
             <p>문의 게시판</p>
-            <ListButton onClick={() => router.push('/inquiry')}>
-              {'>'}
-            </ListButton>
+            <ListButton>{'>'}</ListButton>
           </ListItem>
         </ListContainer>
+        <Flexbox>
+          <LogoutButton onClick={() => handleSignOut(router)}>
+            로그아웃
+          </LogoutButton>
+        </Flexbox>
       </Container>
     </>
   );

@@ -1,8 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 import styled from 'styled-components';
+
 import { RestaurantType } from '@/types/coreTypes';
 import { formatCurrency } from '@/utils/currencyFormatter';
 
@@ -65,14 +67,12 @@ const BigRestaurantItem: React.FC<{ item: RestaurantType }> = ({ item }) => {
     router.push(`/restaurants/${item.storeId}?context=leaderBefore`);
   };
 
-  const representativeImage = item.images.find((img) => img.isRepresentative);
-
   return (
     <CardContainer onClick={handleClick}>
       <ImageContainer>
-        {representativeImage && (
+        {item.image[0] && (
           <Image
-            src={representativeImage.url}
+            src={item.image[0].url}
             alt="Restaurant Image"
             fill
             sizes="50vw"

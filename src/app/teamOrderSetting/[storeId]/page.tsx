@@ -3,18 +3,20 @@
 import { useEffect, useState } from 'react';
 
 import { useParams, useRouter } from 'next/navigation';
+
 import { useQuery } from '@tanstack/react-query';
-import { getRestaurantInfo } from '@/services/restaurantService';
-import { RestaurantType } from '@/types/coreTypes';
-import { getMyData } from '@/services/myDataService';
-import { useOrderStore } from '@/state/orderStore';
-import Container from '@/styles/container';
-import Header from '@/components/layout/header';
+import styled from 'styled-components';
+
 import Step1 from '@/app/teamOrderSetting/[storeId]/step1';
 import Step2 from '@/app/teamOrderSetting/[storeId]/step2';
-import Footer from '@/components/layout/footer';
 import Modal from '@/components/common/modal';
-import styled from 'styled-components';
+import Footer from '@/components/layout/footer';
+import Header from '@/components/layout/header';
+import { getMyData } from '@/services/myDataService';
+import { getRestaurantInfo } from '@/services/restaurantService';
+import { useOrderStore } from '@/state/orderStore';
+import Container from '@/styles/container';
+import { RestaurantType } from '@/types/coreTypes';
 
 const CustomContainer = styled(Container)`
   display: flex;
@@ -33,8 +35,7 @@ const TeamOrderSettingPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isPostcodeOpen, setIsPostcodeOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isButtonActive, setStoreId } = useOrderStore();
-  // const { isButtonActive, formData, setStoreId } = useOrderStore();
+  const { isButtonActive, formData, setStoreId } = useOrderStore();
 
   useEffect(() => {
     if (storeId) {
@@ -54,35 +55,40 @@ const TeamOrderSettingPage = () => {
     queryFn: getMyData,
   });
 
-  // Handle form submission
-  // const handleSubmit = async () => {
-  //   const requestBody = {
-  //     storeId: formData.storeId,
-  //     purchaseType: formData.purchaseType,
-  //     minHeadcount: formData.minHeadcount,
-  //     maxHeadcount: formData.maxHeadcount,
-  //     isEarlyPaymentAvailable: formData.isEarlyPaymentAvailable,
-  //     paymentAvailableAt: formData.paymentAvailableAt,
-  //     deliveredAddress: formData.deliveredAddress,
-  //     metAddress: formData.metAddress,
-  //     description: formData.description,
-  //   };
+  // Handle form submission and team order creation
+  const handleSubmit = async () => {
+    const requestBody = {
+      storeId: formData.storeId,
+      purchaseType: formData.purchaseType,
+      minHeadcount: formData.minHeadcount,
+      maxHeadcount: formData.maxHeadcount,
+      isEarlyPaymentAvailable: formData.isEarlyPaymentAvailable,
+      paymentAvailableAt: formData.paymentAvailableAt,
+      deliveredAddress: formData.deliveredAddress,
+      metAddress: formData.metAddress,
+      description: formData.description,
+    };
 
-  //   console.log('Submitting request with body:', requestBody);
+    console.log('Submitting request with body:', requestBody);
 
-  //   try {
-  //     const response = await axios.post('/api/users/meetings', requestBody);
-  //     console.log('Response from server:', response);
-  //     router.push(`/restaurants/${storeId}?context=leaderAfter`);
-  //   } catch (error) {
-  //     console.error('Error submitting request:', error);
-  //   }
-  // };
+    try {
+      // Use the storeId as the temporary meetingId
+      const tempMeetingId = storeId;
+      console.log('Response from server:', requestBody);
+
+      // Temporarily redirect with the temporary meetingId
+      router.push(
+        `/restaurants/${storeId}?context=leaderAfter&meetingId=${tempMeetingId}`,
+      );
+    } catch (error) {
+      console.error('Error submitting request:', error);
+    }
+  };
 
   // Handle step navigation
-  const handleNextStep = () => {
+  const handleNextStep = async () => {
     if (currentStep === 2) {
-      router.push(`/restaurants/${storeId}?context=leaderAfter`);
+      await handleSubmit();
     } else {
       setCurrentStep((prevStep) => prevStep + 1);
     }
@@ -112,7 +118,7 @@ const TeamOrderSettingPage = () => {
   };
 
   const handleModalExit = () => {
-    router.push(`/restaurants/${storeId}?context=leaderAfter`);
+    router.push(`/restaurants/${storeId}?context=leaderBefore`);
   };
 
   return (

@@ -1,6 +1,9 @@
 'use client';
 
+import React, { useCallback } from 'react';
+
 import styled from 'styled-components';
+
 import { BaseBtn, BaseBtnInactive, BtnGroup } from '@/styles/button';
 
 const FooterContainer = styled.footer<{ $padding?: string }>`
@@ -29,40 +32,56 @@ interface FooterProps {
   disabled?: boolean;
 }
 
-const Footer: React.FC<FooterProps> = ({
-  type,
-  buttonText = 'Button', // 기본값 설정
-  buttonText1 = 'Button 1', // 기본값 설정
-  buttonText2 = 'Button 2', // 기본값 설정
-  onButtonClick,
-  onButtonClick1,
-  onButtonClick2,
-  $padding,
-  disabled = false,
-}) => {
-  return (
-    <FooterContainer $padding={$padding}>
-      {type === 'button' &&
-        (disabled ? (
-          // blocked function
-          <BaseBtnInactive>{buttonText}</BaseBtnInactive>
-        ) : (
-          <BaseBtn onClick={onButtonClick}>{buttonText}</BaseBtn>
-        ))}
-      {/* just gray button can function */}
-      {type === 'inactiveButton' && (
-        <BaseBtnInactive onClick={onButtonClick}>{buttonText}</BaseBtnInactive>
-      )}
-      {type === 'buttonGroup' && (
-        <BtnGroup>
-          <BaseBtn onClick={onButtonClick1}>{buttonText1}</BaseBtn>
-          <BaseBtnInactive onClick={onButtonClick2}>
-            {buttonText2}
+const Footer: React.FC<FooterProps> = React.memo(
+  ({
+    type,
+    buttonText = 'Button',
+    buttonText1 = 'Button 1',
+    buttonText2 = 'Button 2',
+    onButtonClick,
+    onButtonClick1,
+    onButtonClick2,
+    $padding,
+    disabled = false,
+  }) => {
+    const handleButtonClick = useCallback(() => {
+      if (onButtonClick) onButtonClick();
+    }, [onButtonClick]);
+
+    const handleButtonClick1 = useCallback(() => {
+      if (onButtonClick1) onButtonClick1();
+    }, [onButtonClick1]);
+
+    const handleButtonClick2 = useCallback(() => {
+      if (onButtonClick2) onButtonClick2();
+    }, [onButtonClick2]);
+
+    return (
+      <FooterContainer $padding={$padding}>
+        {type === 'button' &&
+          (disabled ? (
+            <BaseBtnInactive>{buttonText}</BaseBtnInactive>
+          ) : (
+            <BaseBtn onClick={handleButtonClick}>{buttonText}</BaseBtn>
+          ))}
+        {type === 'inactiveButton' && (
+          <BaseBtnInactive onClick={handleButtonClick}>
+            {buttonText}
           </BaseBtnInactive>
-        </BtnGroup>
-      )}
-    </FooterContainer>
-  );
-};
+        )}
+        {type === 'buttonGroup' && (
+          <BtnGroup>
+            <BaseBtn onClick={handleButtonClick1}>{buttonText1}</BaseBtn>
+            <BaseBtnInactive onClick={handleButtonClick2}>
+              {buttonText2}
+            </BaseBtnInactive>
+          </BtnGroup>
+        )}
+      </FooterContainer>
+    );
+  },
+);
+
+Footer.displayName = 'Footer';
 
 export default Footer;

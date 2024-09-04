@@ -1,9 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useSignUpStore } from '@/state/authStore';
-import styled from 'styled-components';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
+import styled from 'styled-components';
+
+import { useSignUpStore } from '@/state/authStore';
 
 const Container = styled.section`
   width: 100vw;

@@ -1,6 +1,8 @@
 import '@/styles/globals.css';
 import localFont from 'next/font/local';
+
 import type { Metadata } from 'next';
+
 import MswComponent from '@/components/msw.component';
 import StyledComponentsRegistry from '@/lib/registry';
 import Providers from '@/providers/provider';
@@ -40,6 +42,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="text/javascript"
+          src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b16cd4f753d59b3e2a0eff8e4c137407&libraries=services,clusterer,drawing"
+        ></script>
+      </head>
       <body className={font.className}>
         <MswComponent />
         <div id="main-content">

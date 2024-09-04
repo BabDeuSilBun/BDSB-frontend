@@ -1,15 +1,20 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { useSearchParams } from 'next/navigation';
 
 import { Divider } from '@chakra-ui/react';
-import styled from 'styled-components';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
+
 import { SmallCustomDropdown } from '@/components/common/dropdown';
-import CategoryItem from '@/components/listItems/categoryItem';
-import { getRestaurantsList } from '@/services/restaurantService';
 import BigRestaurantItem from '@/components/listItems/bigRestaurantItem';
+import CategoryItem from '@/components/listItems/categoryItem';
 import BigRestaurantItemSkeleton from '@/components/listItems/skeletons/bigRestaurantSkeleton';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getRestaurantsList } from '@/services/restaurantService';
+import PaddingBox from '@/styles/paddingBox';
 
 const ListContainer = styled.section`
   margin: 110px 0 20px;
@@ -22,16 +27,34 @@ const DropDownWrapper = styled.div`
 `;
 
 const options = [
-  { id: 1, value: 'delivery-fee', name: '배달비가 낮은 순' },
-  { id: 2, value: 'min-price', name: '최소주문금액이 낮은 순' },
-  { id: 3, value: 'delivery-time', name: '배송시간이 짧은 순' },
+  { value: 'delivery-fee', name: '배달비가 낮은 순' },
+  { value: 'min-price', name: '최소주문금액이 낮은 순' },
+  { value: 'delivery-time', name: '배송시간이 짧은 순' },
 ];
 
 function RestaurantsList() {
-  const [selectedSort, setSelectedSort] = useState<string>('delivery-fee');
   const [isOpen, setIsOpen] = useState(false);
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
+  const searchParams = useSearchParams();
+  const [selectedSort, setSelectedSort] = useState<string>('delivery-fee');
+  const [schoolId, setSchoolId] = useState<number | null>(null);
+
+  useEffect(() => {
+    // 초기 로드 시 localStorage에서 schoolId 가져오기
+    const storedSchoolId = localStorage.getItem('selectedSchoolId');
+    if (storedSchoolId !== null && !isNaN(Number(storedSchoolId))) {
+      setSchoolId(Number(storedSchoolId));
+    }
+
+    // searchParams가 바뀔 때마다 schoolId 업데이트
+    const schoolIdParam = searchParams.get('schoolId');
+    if (schoolIdParam !== null && !isNaN(Number(schoolIdParam))) {
+      const newSchoolId = Number(schoolIdParam);
+      if (newSchoolId !== schoolId && !isNaN(newSchoolId)) {
+        setSchoolId(newSchoolId);
+        localStorage.setItem('selectedSchoolId', newSchoolId.toString());
+      }
+    }
+  }, [searchParams]);
 
   const {
     data,
@@ -41,43 +64,24 @@ function RestaurantsList() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ['restaurantsList', selectedSort],
+    queryKey: ['restaurantsList', selectedSort, schoolId],
     queryFn: ({ pageParam = 0 }) =>
-      getRestaurantsList({ page: pageParam, sortCriteria: selectedSort }),
+      getRestaurantsList({
+        page: pageParam,
+        sortCriteria: selectedSort,
+        schoolId: schoolId,
+      }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
     },
   });
 
-  useEffect(() => {
-    if (isFetchingNextPage) return;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    };
-
-    // Initialize IntersectionObserver
-    observer.current = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    // Observe the last element
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
-    }
-
-    // Cleanup function to unobserve the last element
-    return () => {
-      if (observer.current && lastElementRef.current) {
-        observer.current.unobserve(lastElementRef.current);
-      }
-    };
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   const handleSelect = (value: string | null) => {
     if (value !== null) {
@@ -91,7 +95,6 @@ function RestaurantsList() {
 
   return (
     <ListContainer>
-      {/* 항상 렌더링되는 컴포넌트들 */}
       <CategoryItem />
       <Divider />
       <DropDownWrapper>
@@ -104,7 +107,6 @@ function RestaurantsList() {
         />
       </DropDownWrapper>
 
-      {/* 상태에 따른 조건부 렌더링 */}
       {status === 'pending' ? (
         <>
           <BigRestaurantItemSkeleton />
@@ -112,22 +114,26 @@ function RestaurantsList() {
         </>
       ) : status === 'error' ? (
         <p>Error: {error.message}</p>
-      ) : data && data.pages.length > 0 ? (
-        <>
-          {data.pages.map((page) =>
-            page.content.map((item, index) => (
-              <div
-                key={item.storeId}
-                ref={index === page.content.length - 1 ? lastElementRef : null}
-              >
-                <BigRestaurantItem item={item} key={item.storeId} />
-              </div>
-            )),
-          )}
-        </>
-      ) : (
-        <div>주문 가능한 가게가 없습니다.</div>
-      )}
+      ) : status === 'success' && data ? (
+        data.pages[0].content.length > 0 ? (
+          <>
+            {data.pages.map((page) =>
+              page.content.map((item, index) => (
+                <div
+                  key={item.storeId}
+                  ref={
+                    index === page.content.length - 1 ? lastElementRef : null
+                  }
+                >
+                  <BigRestaurantItem item={item} />
+                </div>
+              )),
+            )}
+          </>
+        ) : (
+          <PaddingBox>현재 주문 가능한 가게가 없습니다.</PaddingBox>
+        )
+      ) : null}
     </ListContainer>
   );
 }

@@ -10,15 +10,20 @@
     "jsx-a11y",
     "react",
     "prettier",
-    "@tanstack/query"
+    "@tanstack/query",
+    "react-hooks"
   ],
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "extends": [
-    "next/core-web-vitals",
-    "airbnb",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:@tanstack/eslint-plugin-query/recommended",
+    "plugin:react-hooks/recommended",
     "plugin:prettier/recommended",
     "prettier",
     "eslint-config-prettier"
@@ -41,6 +46,7 @@
       "error",
       "ignorePackages",
       {
+        "": "never",
         "js": "never",
         "jsx": "never",
         "ts": "never",
@@ -64,17 +70,33 @@
       }
     ],
     "import/order": [
-      "error",
+      "warn",
       {
         "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
         "groups": [
           "builtin",
           "external",
           "internal",
-          "parent",
-          "sibling",
+          ["parent", "sibling"],
           "index",
-          "object"
+          "object",
+          "type"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          },
+          {
+            "pattern": "next/**",
+            "group": "external",
+            "position": "after"
+          }
         ]
       }
     ],
@@ -88,6 +110,10 @@
     "consistent-return": "off",
     "no-underscore-dangle": "off",
     "no-console": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "react/require-default-props": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

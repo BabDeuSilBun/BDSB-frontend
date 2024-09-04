@@ -2,18 +2,20 @@
 
 import { forwardRef, useState } from 'react';
 
+import { Box, IconButton, Text } from '@chakra-ui/react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { Box, IconButton, Text } from '@chakra-ui/react';
+
 import { ImageType } from '@/types/types';
 
 interface CarouselProps {
   images: ImageType[];
+  lastElementRef?: React.RefObject<HTMLDivElement>;
 }
 
 const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
-  ({ images }, ref) => {
+  ({ images = [], lastElementRef }, ref) => {
     const [slider, setSlider] = useState<Slider | null>(null);
     const [currentSlide, setCurrentSlide] = useState(1);
 
@@ -25,11 +27,25 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     );
     const sortedImages = images
       .filter((img: ImageType) => !img.isRepresentative)
-      .sort((a: ImageType, b: ImageType) => (a.sequence || 0) - (b.sequence || 0));
+      .sort(
+        (a: ImageType, b: ImageType) => (a.sequence || 0) - (b.sequence || 0),
+      );
 
     const orderedImages = representativeImage
       ? [representativeImage, ...sortedImages]
       : sortedImages;
+
+    // If there are no images, use a placeholder image
+    const finalImages: ImageType[] =
+      orderedImages.length > 0
+        ? orderedImages
+        : [
+            {
+              imageId: 0,
+              url: 'https://via.placeholder.com/300x200?text=No+Images+Available',
+              sequence: 1,
+            },
+          ];
 
     const settings = {
       dots: false,
@@ -129,9 +145,12 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
             beforeChange={settings.beforeChange}
             ref={(sliderRef) => setSlider(sliderRef)}
           >
-            {orderedImages.map((image: ImageType) => (
+            {finalImages.map((image: ImageType, index: number) => (
               <Box
                 key={image.imageId}
+                ref={
+                  index === finalImages.length - 1 ? lastElementRef : undefined
+                }
                 height="324px"
                 width="100%"
                 position="relative"
@@ -144,26 +163,33 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
           </Slider>
         </Box>
 
-        <Box
-          position="absolute"
-          bottom="10px"
-          right="10px"
-          height="30px"
-          width="50px"
-          background="rgba(0, 0, 0, 0.5)"
-          borderRadius="var(--border-radius-lg)"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          color="white"
-        >
-          <Text fontSize="var(--font-size-sm)" fontWeight="var(--font-regular)">
-            {currentSlide} / {images.length}
-          </Text>
-        </Box>
+        {images.length > 0 && (
+          <Box
+            position="absolute"
+            bottom="10px"
+            right="10px"
+            height="30px"
+            width="50px"
+            background="rgba(0, 0, 0, 0.5)"
+            borderRadius="var(--border-radius-lg)"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            color="white"
+          >
+            <Text
+              fontSize="var(--font-size-sm)"
+              fontWeight="var(--font-regular)"
+            >
+              {currentSlide} / {images.length}
+            </Text>
+          </Box>
+        )}
       </Box>
     );
   },
 );
+
+Carousel.displayName = 'Carousel';
 
 export default Carousel;

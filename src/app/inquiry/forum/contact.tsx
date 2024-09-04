@@ -1,13 +1,16 @@
 'use client';
 
+import imageCompression from 'browser-image-compression';
 import { useEffect, useState } from 'react';
+
+import Image from 'next/image';
 
 import { Flex } from '@chakra-ui/react';
 import styled from 'styled-components';
-import SettingDescription from '@/components/meetings/settingDescription';
-import Image from 'next/image';
 
 import ImagePreviewComponent from './imagePreview';
+
+import TextArea from '@/components/common/textArea';
 
 const Container = styled.div`
   text-align: left;
@@ -62,11 +65,17 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
     }
 
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
 
-    selectedImages.forEach((image, index) => {
-      formData.append(`image${index + 1}`, image);
+    const requestData = {
+      title: title,
+      content: content,
+    };
+
+    const files = selectedImages.map((image) => image);
+
+    formData.append('request', JSON.stringify(requestData));
+    files.forEach((file) => {
+      formData.append('file', file);
     });
 
     onFormDataChange(formData);
@@ -86,12 +95,37 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
     return () => {
       newPreviews.forEach((url) => URL.revokeObjectURL(url));
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedImages]);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const files = Array.from(e.target.files);
-      setSelectedImages((prevImages) => [...prevImages, ...files].slice(0, 3));
+      const compressedFiles: File[] = [];
+
+      for (const file of files) {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 400,
+          useWebWorker: true,
+        };
+
+        try {
+          const compressedBlob = await imageCompression(file, options);
+          const compressedFile = new File([compressedBlob], file.name, {
+            type: file.type,
+            lastModified: Date.now(),
+          });
+
+          compressedFiles.push(compressedFile);
+        } catch (error) {
+          console.error('이미지 압축 중 오류 발생:', error);
+        }
+      }
+
+      setSelectedImages((prevImages) =>
+        [...prevImages, ...compressedFiles].slice(0, 3),
+      );
     }
   };
 
@@ -149,7 +183,7 @@ const InquiryContact = ({ setIsActive, onFormDataChange }: Prop) => {
           </ImagePreviewContainer>
         </Flex>
 
-        <SettingDescription
+        <TextArea
           placeholder="문의 내용을 남겨주세요"
           charLimit={1000}
           value={content}

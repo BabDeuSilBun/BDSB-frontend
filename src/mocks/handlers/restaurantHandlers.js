@@ -1,8 +1,13 @@
 import { http, HttpResponse } from 'msw';
-import { RESTAURANT_LIST_API_URL } from '@/services/restaurantService';
 
 import { applyFiltersAndSorting } from '../filteringAndSorting';
+import { paginatedCategories } from '../mockData/categories';
 import { paginatedStores, stores } from '../mockData/restaurants';
+
+import {
+  CATEGORY_LIST_API_URL,
+  RESTAURANT_LIST_API_URL,
+} from '@/services/restaurantService';
 
 export const restaurantHandlers = [
   http.get(RESTAURANT_LIST_API_URL, async (req) => {
@@ -46,5 +51,25 @@ export const restaurantHandlers = [
       return HttpResponse.json(store);
     }
     return HttpResponse.status(404).json({ message: 'Store not found' });
+  }),
+
+  http.get(CATEGORY_LIST_API_URL, async (req) => {
+    const { request } = await req;
+    const urlString = request.url.toString();
+
+    try {
+      const url = new URL(urlString);
+      const pageParam = Number(url.searchParams.get('page')) || 0;
+      const paginatedResponse = paginatedCategories[pageParam];
+
+      if (!paginatedResponse) {
+        return HttpResponse.json({ message: 'Page not found' });
+      }
+
+      return HttpResponse.json(paginatedResponse);
+    } catch (error) {
+      console.error('Error parsing URL:', error);
+      return HttpResponse.status(500).json({ message: 'Error parsing URL' });
+    }
   }),
 ];

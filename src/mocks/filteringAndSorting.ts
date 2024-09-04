@@ -1,3 +1,5 @@
+import { categories } from './mockData/categories';
+
 import { MeetingType, RestaurantType } from '@/types/coreTypes';
 
 export function applyFiltersAndSorting(
@@ -37,11 +39,19 @@ export function applyFiltersAndSorting(
   }
 
   if (filters.foodCategoryFilter) {
-    const decodedCategory = decodeURIComponent(filters.foodCategoryFilter);
-    filteredContent = filteredContent.filter((item) => {
-      return item.category === decodedCategory;
-    });
+    const categoryId = Number(filters.foodCategoryFilter);
+    const categoryName = categories.find(
+      (cat) => cat.categoryId === categoryId,
+    )?.name;
+
+    if (categoryName) {
+      // item.category는 문자열이므로, categoryName과 비교합니다.
+      filteredContent = filteredContent.filter(
+        (item) => item.category === categoryName,
+      );
+    }
   }
+
   if (sortCriteria) {
     // 첫 번째 숫자를 추출하는 함수
     const extractFirstNumber = (stringValue: string) => {

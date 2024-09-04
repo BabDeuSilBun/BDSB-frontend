@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 interface DropdownOption {
-  id: number;
+  id?: string;
   name: string;
   value: string;
 }

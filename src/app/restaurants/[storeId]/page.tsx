@@ -1,19 +1,26 @@
 'use client';
 
+import Cookies from 'js-cookie';
 import { useEffect, useRef, useState } from 'react';
 
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
+
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { getRestaurantInfo } from '@/services/restaurantService';
-import { getMenuInfo, getMenuList } from '@/services/menuService';
-import Loading from '@/app/loading';
-import Header from '@/components/layout/header';
-import Carousel from '@/components/stores/carousel';
-// import StoreInfo from '@/components/stores/storeInfo';
-import MenuItem from '@/components/listItems/menuItem';
-import Footer from '@/components/layout/footer';
-import Modal from '@/components/common/modal';
 import styled from 'styled-components';
+
+import Loading from '@/app/loading';
+import Modal from '@/components/common/modal';
+import Footer from '@/components/layout/footer';
+import Header from '@/components/layout/header';
+import MenuItem from '@/components/listItems/menuItem';
+import Carousel from '@/components/stores/carousel';
+import StoreInfo from '@/components/stores/storeInfo';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getHolidays } from '@/services/holidayService';
+import { getMenuInfo, getMenuList } from '@/services/menuService';
+import { getRestaurantInfo } from '@/services/restaurantService';
+import { getStoreImages } from '@/services/storeImageService';
+import { useCartStore } from '@/state/cartStore';
 
 const HeaderContainer = styled.div`
   width: 100vw;
@@ -28,6 +35,7 @@ const StorePage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { storeId } = useParams();
+  const { cartQuantity, addToCart } = useCartStore();
 
   // State hooks
   const [activeModal, setActiveModal] = useState<string | null>(null);
@@ -41,8 +49,6 @@ const StorePage = () => {
   const [isHeaderTransparent, setIsHeaderTransparent] = useState(true);
 
   // Refs for IntersectionObserver
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
   // Effect to handle header transparency based on carousel visibility
@@ -81,6 +87,62 @@ const StorePage = () => {
     queryFn: () => getRestaurantInfo(Number(storeId)),
   });
 
+  // Fetch store images with pagination
+  const {
+    data: storeImages,
+    fetchNextPage: fetchNextImagesPage,
+    hasNextPage: hasNextImagesPage,
+    isFetchingNextPage: isFetchingNextImagesPage,
+    isLoading: isLoadingImages,
+    isError: isErrorImages,
+  } = useInfiniteQuery({
+    queryKey: ['storeImages', storeId],
+    queryFn: ({ pageParam = 0 }) =>
+      getStoreImages({ storeId: Number(storeId), page: pageParam }),
+    getNextPageParam: (lastPage) => {
+      const nextPageNumber = lastPage.pageable?.pageNumber ?? -1;
+      return lastPage.last ? undefined : nextPageNumber + 1;
+    },
+    initialPageParam: 0,
+  });
+
+  const lastImageRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage: hasNextImagesPage,
+    isFetchingNextPage: isFetchingNextImagesPage,
+    fetchNextPage: fetchNextImagesPage,
+  });
+
+  // Fetch holiday data with pagination
+  const {
+    data: holidaysData,
+    fetchNextPage: fetchNextHolidaysPage,
+    hasNextPage: hasNextHolidaysPage,
+    isFetchingNextPage: isFetchingNextHolidaysPage,
+    isLoading: isLoadingHolidays,
+    isError: isErrorHolidays,
+  } = useInfiniteQuery({
+    queryKey: ['holidays', storeId],
+    queryFn: ({ pageParam = 0 }) =>
+      getHolidays({ storeId: Number(storeId), page: pageParam, size: 10 }),
+    getNextPageParam: (lastPage) => {
+      const nextPageNumber = lastPage.pageable?.pageNumber ?? -1;
+      return lastPage.last ? undefined : nextPageNumber + 1;
+    },
+    initialPageParam: 0,
+  });
+
+  // Attach infinite scroll observer to the last holiday element
+  const lastHolidayElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage: hasNextHolidaysPage,
+    isFetchingNextPage: isFetchingNextHolidaysPage,
+    fetchNextPage: fetchNextHolidaysPage,
+  });
+
+  const allHolidays = holidaysData?.pages.flatMap((page) => page.content) || [];
+  const dayOfWeekString = allHolidays
+    .map((holiday) => holiday.dayOfWeek)
+    .join(', ');
+
   // Fetch menu list with pagination
   const {
     data: menus,
@@ -101,37 +163,11 @@ const StorePage = () => {
   });
 
   // Handle infinite scrolling
-  useEffect(() => {
-    if (isFetchingNextPage) return;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    };
-
-    // Initialize IntersectionObserver
-    observer.current = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    // Capture the current value of lastElementRef.current
-    const currentLastElementRef = lastElementRef.current;
-
-    // Observe the last element
-    if (currentLastElementRef) {
-      observer.current.observe(currentLastElementRef);
-    }
-
-    // Cleanup function to unobserve the last element
-    return () => {
-      if (observer.current && currentLastElementRef) {
-        observer.current.unobserve(currentLastElementRef);
-      }
-    };
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   // Fetch selected menu information when modal is opened
   useQuery({
@@ -139,6 +175,92 @@ const StorePage = () => {
     queryFn: () => getMenuInfo(Number(storeId), Number(selectedMenu?.menuId)),
     enabled: !!selectedMenu?.menuId,
   });
+
+  // Function to handle adding items to the cart
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const handleAddToCart = async (type: 'individual' | 'team') => {
+    if (!selectedMenu) return;
+
+    try {
+      // Retrieve the JWT token from cookies
+      const token = Cookies.get('jwtToken');
+
+      if (!token) {
+        throw new Error('No token found. Please log in again.');
+      }
+
+      const meetingId = searchParams.get('meetingId');
+      const payload = {
+        menuId: selectedMenu.menuId,
+        quantity: 1, // Adjust the quantity as needed
+      };
+
+      const apiUrl =
+        type === 'individual'
+          ? `${backendUrl}api/users/meetings/${meetingId}/individual-purchases`
+          : `${backendUrl}api/users/meetings/${meetingId}/team-purchases`;
+
+      console.log(`Submitting ${type} purchase to URL: ${apiUrl}`, payload);
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const contentType = response.headers.get('content-type');
+
+      // Check if the response is an error or not JSON
+      if (!response.ok) {
+        // Try to get the error message or response text
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await response.json();
+          throw new Error(
+            errorData.message ||
+              `Failed to submit the order. Status: ${response.status}`,
+          );
+        } else {
+          const errorText = await response.text();
+          console.error(`Unexpected response format: ${errorText}`);
+          throw new Error(
+            `Unexpected response format. Status: ${response.status}. Response text: ${errorText}`,
+          );
+        }
+      }
+
+      // Parse the JSON response if the content type is JSON
+      if (contentType && contentType.includes('application/json')) {
+        const data = await response.json();
+        console.log('Response data:', data);
+      }
+
+      // Add item to cart state
+      addToCart({
+        menuId: selectedMenu.menuId,
+        quantity: 1,
+        storeId: String(storeId),
+        type,
+        purchaseId: 0, // Adjust the purchaseId as necessary
+        meetingId: Number(meetingId),
+      });
+
+      console.log('Successfully submitted purchase and added to cart.');
+
+      // Close modal after successful submission
+      closeModal();
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Failed to submit purchase:', error.message);
+        alert(`Failed to submit purchase: ${error.message}`);
+      } else {
+        console.error('An unknown error occurred');
+        alert('An unknown error occurred. Please try again.');
+      }
+    }
+  };
 
   // Modal handlers
   const openModal = (
@@ -163,29 +285,54 @@ const StorePage = () => {
     setSelectedMenu(null);
   };
 
-  // const handleInfoButtonClick = () => {
-  //   setActiveModal('infoModal');
-  // };
+  const handleInfoButtonClick = () => {
+    setActiveModal('infoModal');
+  };
 
   const onButtonClick1 = () => {
-    if (context === 'leaderBefore')
-      router.push(`/teamOrderSetting/${storeId}?`);
+    if (context === 'leaderbefore') {
+      router.push(`/teamOrderSetting/${storeId}`);
+    } else if (context === 'leaderafter' || context === 'participant') {
+      const meetingId = searchParams.get('meetingId') || 'temporary-meeting-id'; // Use temporary meetingId if not available
+      if (!meetingId) {
+        console.error('No meetingId found');
+      } else {
+        router.push(`/cart/${meetingId}?storeId=${storeId}&context=${context}`);
+      }
+    }
+  };
+
+  const onModalClick1 = () => {
+    if (context === 'leaderbefore') {
+      router.push(`/teamOrderSetting/${storeId}`);
+    } else if (context === 'leaderafter') {
+      handleAddToCart('team');
+    } else if (context === 'participant') {
+      handleAddToCart('individual');
+    }
   };
 
   useEffect(() => {
     const contextParam = searchParams.get('context');
-    setContext(contextParam);
+    setContext(contextParam ? contextParam.toLowerCase() : null);
+    console.log('Context:', contextParam);
   }, [searchParams]);
 
-  if (isLoadingStore || isLoadingMenus) {
+  if (
+    isLoadingStore ||
+    isLoadingMenus ||
+    isLoadingImages ||
+    isLoadingHolidays
+  ) {
     return <Loading />;
   }
 
-  if (isErrorStore) {
-    return <p>Error loading restaurant data</p>;
+  if (isErrorStore || isErrorImages || isErrorHolidays) {
+    return <p>Error loading restaurant, images, or holidays data</p>;
   }
 
   if (isErrorMenus) {
+    console.error('Error fetching menu data:', isErrorMenus);
     return <p>Error loading menu data</p>;
   }
 
@@ -196,16 +343,23 @@ const StorePage = () => {
           buttonLeft="back"
           buttonRight="home"
           buttonRightSecondary="cart"
+          $cartQuantity={Math.round(cartQuantity)}
           iconColor={isHeaderTransparent ? 'white' : 'black'}
           $isTransparent={isHeaderTransparent}
+          meetingId={searchParams.get('meetingId') || undefined}
+          storeId={String(storeId)}
         />
       </HeaderContainer>
-      <Carousel images={store.images} ref={carouselRef} />
-      {/* <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} /> */}
+      <Carousel
+        images={storeImages?.pages.flatMap((page) => page.content) || []}
+        ref={carouselRef}
+        lastElementRef={lastImageRef}
+      />
+      <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} />
 
       {/* Context-specific code */}
       {context &&
-        ['leaderBefore', 'leaderAfter', 'participant'].includes(context) && (
+        ['leaderbefore', 'leaderafter', 'participant'].includes(context) && (
           <div>
             <MenuItemContainer>
               {menus?.pages.map((page, pageIndex) =>
@@ -234,7 +388,9 @@ const StorePage = () => {
             <Footer
               type="button"
               buttonText={
-                context === 'participant' ? '장바구니로 이동' : '모임 만들기'
+                context === 'participant' || context === 'leaderafter'
+                  ? '장바구니로 이동'
+                  : '모임 만들기'
               }
               onButtonClick={onButtonClick1}
             />
@@ -251,7 +407,7 @@ const StorePage = () => {
           address2={store.address.detailAddress}
           openTime={store.openTime}
           closeTime={store.closeTime}
-          dayOfWeek={store.dayOfWeek}
+          dayOfWeek={dayOfWeekString || ''}
           buttonText="닫기"
           onButtonClick3={closeModal}
           onClose={closeModal}
@@ -265,16 +421,24 @@ const StorePage = () => {
           title1={selectedMenu.name}
           description={selectedMenu.description}
           context={
-            context === 'leaderBefore' ||
-            context === 'leaderAfter' ||
+            context === 'leaderbefore' ||
+            context === 'leaderafter' ||
             context === 'participant'
               ? context
               : undefined
           }
-          onButtonClick1={onButtonClick1}
-          onButtonClick2={closeModal}
+          onButtonClick1={onModalClick1}
+          onButtonClick2={
+            context === 'leaderafter'
+              ? () => handleAddToCart('individual')
+              : closeModal
+          }
           onClose={closeModal}
         />
+      )}
+
+      {hasNextHolidaysPage && (
+        <div ref={lastHolidayElementRef} style={{ height: '1px' }} />
       )}
     </div>
   );

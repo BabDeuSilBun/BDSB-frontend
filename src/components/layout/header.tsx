@@ -1,22 +1,27 @@
 'use client';
 
+import { useCallback } from 'react';
+
+import { useRouter } from 'next/navigation';
+
 import { Portal, useDisclosure } from '@chakra-ui/react';
 import styled from 'styled-components';
-import { useRouter } from 'next/navigation';
-import ArrowLeft from '@/components/svg/arrowLeft';
-import HomeIcon from '@/components/svg/home';
-import ExitIcon from '@/components/svg/exit';
-import CartIcon from '@/components/svg/cart';
-
-import HamburgerBtn from '../common/hamburgerBtn';
 
 import HeaderDrawer from './headerDrawer';
+import HamburgerBtn from '../common/hamburgerBtn';
+
+import ArrowLeft from '@/components/svg/arrowLeft';
+import CartIcon from '@/components/svg/cart';
+import ExitIcon from '@/components/svg/exit';
+import HomeIcon from '@/components/svg/home';
+import RefreshIcon from '@/components/svg/refresh';
 
 const Icons = {
   back: (color: string) => <ArrowLeft color={color} />,
   home: (color: string) => <HomeIcon color={color} />,
   exit: (color: string) => <ExitIcon color={color} />,
   cart: (color: string) => <CartIcon color={color} />,
+  refresh: (color: string) => <RefreshIcon color={color} />,
 };
 
 const HeaderContainer = styled.header<{ $isTransparent: boolean }>`
@@ -62,9 +67,31 @@ const PortalButtonWrapper = styled.div`
   z-index: 2000;
 `;
 
+const CartQuantityCircle = styled.div`
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+`;
+
+const CartIconContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
 interface HeaderProps {
-  buttonLeft?: 'hamburger' | 'back';
-  buttonRight?: 'home' | 'exit';
+  buttonLeft?: 'hamburger' | 'back' | 'exit';
+  buttonRight?: 'home' | 'exit' | 'refresh';
   buttonRightSecondary?: 'cart';
   iconColor?: string;
   text?: string;
@@ -73,6 +100,9 @@ interface HeaderProps {
   isPostcodeOpen?: boolean;
   onClosePostcodeModal?: () => void;
   $isTransparent?: boolean;
+  $cartQuantity?: number;
+  meetingId?: string;
+  storeId?: string;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -88,11 +118,14 @@ const Header: React.FC<HeaderProps> = ({
   isPostcodeOpen = false,
   onClosePostcodeModal,
   $isTransparent = false,
+  $cartQuantity = 0,
+  meetingId,
+  storeId,
 }) => {
   const router = useRouter();
   const { isOpen, onToggle } = useDisclosure();
 
-  const handleLeftButtonClick = () => {
+  const handleLeftButtonClick = useCallback(() => {
     if (isPostcodeOpen && onClosePostcodeModal) {
       onClosePostcodeModal();
     } else if (buttonLeft === 'back') {
@@ -101,8 +134,10 @@ const Header: React.FC<HeaderProps> = ({
       } else {
         router.back();
       }
+    } else if (buttonLeft === 'exit') {
+      router.push('/');
     }
-  };
+  }, [isPostcodeOpen, onClosePostcodeModal, buttonLeft, onBack, router]);
 
   const handleRightButtonClick = () => {
     if (isPostcodeOpen && onClosePostcodeModal) {
@@ -111,14 +146,20 @@ const Header: React.FC<HeaderProps> = ({
       router.push('/');
     } else if (buttonRight === 'exit' && onExit) {
       onExit();
+    } else if (buttonRight === 'refresh') {
+      router.refresh();
     }
   };
 
-  const handleRightSecondaryButtonClick = () => {
+  const handleRightSecondaryButtonClick = useCallback(() => {
     if (buttonRightSecondary === 'cart') {
-      router.push('/cart');
+      if (meetingId && storeId) {
+        router.push(`/cart/${meetingId}?storeId=${storeId}`);
+      } else {
+        router.push('/cart');
+      }
     }
-  };
+  }, [buttonRightSecondary, meetingId, storeId, router]);
 
   return (
     <>
@@ -131,7 +172,9 @@ const Header: React.FC<HeaderProps> = ({
             </button>
           )}
         </Flex>
-        <Flex $side="center">{text}</Flex>
+        <Flex $side="center">
+          <h1>{text}</h1>
+        </Flex>
         <Flex $side="right">
           {buttonRight && (
             <button type="button" onClick={handleRightButtonClick}>
@@ -139,9 +182,16 @@ const Header: React.FC<HeaderProps> = ({
             </button>
           )}
           {buttonRightSecondary && (
-            <button type="button" onClick={handleRightSecondaryButtonClick}>
-              {Icons[buttonRightSecondary](iconColor)}
-            </button>
+            <CartIconContainer>
+              <button type="button" onClick={handleRightSecondaryButtonClick}>
+                {Icons[buttonRightSecondary](iconColor)}
+              </button>
+              {$cartQuantity > 0 && (
+                <CartQuantityCircle>
+                  {Math.round($cartQuantity)}
+                </CartQuantityCircle>
+              )}
+            </CartIconContainer>
           )}
         </Flex>
       </HeaderContainer>

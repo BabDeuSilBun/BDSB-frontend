@@ -1,6 +1,7 @@
 import { Divider, SkeletonText } from '@chakra-ui/react';
-import { InquiryType } from '@/types/myDataTypes';
 import styled from 'styled-components';
+
+import { InquiryType } from '@/types/myDataTypes';
 import { formatDateTime } from '@/utils/formateDateTime';
 
 const ContentContainer = styled.div`

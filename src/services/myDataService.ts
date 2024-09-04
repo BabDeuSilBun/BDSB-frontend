@@ -1,26 +1,42 @@
-// import axios from 'axios';
+import { apiClient, apiClientWithCredentials } from './apiClient';
 
+import { UpdateUserProfileParams } from '@/types/myDataTypes';
 import {
+  CampusResponse,
   EvaluateType,
   InquiryResponse,
   MyDataType,
+  NicknameType,
   PointsResponse,
 } from '@/types/myDataTypes';
+import { ProfileType } from '@/types/types';
 import { GetListParams } from '@/types/types';
 
-import { apiClient, apiClientWithCredentials } from './apiClient';
-
-// import { httpClientForCredentials } from './auth/authClient';
-
-export const MY_PROFILE_API_URL = '/api/users/my-page';
+export const ACCOUNT_API_URL = '/api/users/account';
+export const ADDRESS_API_URL = `/api/users/address`;
 export const EVALUATE_LIST_API_URL = '/api/users/evaluates';
+export const INQUIRY_LIST_API_URL = `/api/users/inquiries`;
+export const MY_PROFILE_API_URL = '/api/users/my-page';
+export const UPDATE_PROFILE_API_URL = '/api/users';
+export const UPDATE_NICKNAME_API_URL = '/api/random-nickname';
 export const POINT_LIST_API_URL = '/api/users/points';
-export const INQUIRY_LIST_API_URL = `/api/users/inquires`;
+export const CAMPUS_LIST_API_URL = '/api/campus';
+
+// 예외로 여기 넣어놓습니다! 다른 유저 데이터
+export const getUserProfile = async (userId: string): Promise<ProfileType> => {
+  try {
+    const response = await apiClient.get<ProfileType>(`/api/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching selected user data:', error);
+    throw new Error(
+      '상대 프로필 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
+  }
+};
 
 export const getMyData = async (): Promise<MyDataType> => {
   try {
-    // 실제 로그인 될 때 고쳐야 함
-    // await httpClientForCredentials.get<MyDataType>(MY_PROFILE_URL);
     const response =
       await apiClientWithCredentials.get<MyDataType>(MY_PROFILE_API_URL);
     return response.data;
@@ -32,12 +48,120 @@ export const getMyData = async (): Promise<MyDataType> => {
   }
 };
 
+export const getCampusList = async ({
+  page = 0,
+  schoolId = undefined,
+  size = 10,
+}: GetListParams): Promise<CampusResponse> => {
+  try {
+    const response = await apiClientWithCredentials.get<CampusResponse>(
+      CAMPUS_LIST_API_URL,
+      {
+        params: {
+          schoolId,
+          size,
+          page,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching university lists:', error);
+    throw new Error(
+      '캠퍼스 목록을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
+  }
+};
+
+export const postAccount = async (
+  owner: string,
+  bankAccount: number,
+  selectedBank: string,
+) => {
+  await apiClientWithCredentials.put(ACCOUNT_API_URL, {
+    accountOwner: owner.trim(),
+    accountNumber: bankAccount?.toString(),
+    bankName: selectedBank,
+  });
+};
+
+export const postNewAddress = async (
+  postal: string,
+  streetAddress: string,
+  detailAddress: string,
+) => {
+  await apiClientWithCredentials.put(ADDRESS_API_URL, {
+    postal: postal.trim(),
+    streetAddress,
+    detailAddress,
+  });
+};
+
+export const getRandomNickname = async (): Promise<NicknameType> => {
+  try {
+    const response = await apiClientWithCredentials.get<NicknameType>(
+      UPDATE_NICKNAME_API_URL,
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error creating new nickname:', error);
+    throw new Error(
+      '새로운 닉네임을 받아오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
+  }
+};
+
+export const updateUserProfile = async ({
+  nickname = null,
+  password = null,
+  image = null,
+  phoneNumber = null,
+  majorId = null,
+  schoolId = null,
+}: UpdateUserProfileParams) => {
+  try {
+    const formData = new FormData();
+
+    const requestData = {
+      nickname,
+      password,
+      phoneNumber,
+      majorId,
+      schoolId,
+    } as Partial<UpdateUserProfileParams>;
+
+    // 이미지가 File 객체인지 확인
+    if (image instanceof File) {
+      console.log(image);
+      formData.append('file', image);
+    } else {
+      requestData.image = image;
+    }
+
+    formData.append('request', JSON.stringify(requestData));
+
+    const response = await apiClientWithCredentials.patch(
+      UPDATE_PROFILE_API_URL,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('변경 실패:', error);
+    throw error;
+  }
+};
+
 export const getMyEvaluates = async (): Promise<EvaluateType> => {
   try {
     const response = await apiClientWithCredentials.get<EvaluateType>(
       EVALUATE_LIST_API_URL,
     );
-    // await httpClientForCredentials.get<EvaluateType>(EVALUATE_LIST_URL);
     return response.data;
   } catch (error) {
     console.error('Error fetching my evaluates:', error);
@@ -50,16 +174,19 @@ export const getMyEvaluates = async (): Promise<EvaluateType> => {
 export const getPointDetailList = async ({
   page = 0,
   size = 10,
-  sortCriteria = '전체',
+  sortCriteria = null,
 }: GetListParams): Promise<PointsResponse> => {
   try {
-    const response = await apiClient.get<PointsResponse>(POINT_LIST_API_URL, {
-      params: {
-        sortCriteria,
-        size,
-        page,
+    const response = await apiClientWithCredentials.get<PointsResponse>(
+      POINT_LIST_API_URL,
+      {
+        params: {
+          sortCriteria,
+          size,
+          page,
+        },
       },
-    });
+    );
     return response.data;
   } catch (error) {
     console.error('Error fetching points detail lists:', error);
@@ -74,7 +201,7 @@ export const getInquiries = async ({
   size = 10,
 }: GetListParams): Promise<InquiryResponse> => {
   try {
-    const response = await apiClient.get<InquiryResponse>(
+    const response = await apiClientWithCredentials.get<InquiryResponse>(
       INQUIRY_LIST_API_URL,
       {
         params: {
@@ -94,7 +221,7 @@ export const getInquiries = async ({
 
 export const getInquiryImages = async (inquiryId: number) => {
   try {
-    const response = await apiClient.get(
+    const response = await apiClientWithCredentials.get(
       `${INQUIRY_LIST_API_URL}/${inquiryId}/images`,
     );
     return response.data;

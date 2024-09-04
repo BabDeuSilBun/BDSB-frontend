@@ -1,30 +1,52 @@
+import { decodeJwt } from 'jose';
 import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
 
 import { onSilentRefresh } from '@/services/auth/authClient';
 
-export const getRemainingTime = () => {
-  const token = Cookies.get('jwtToken');
+interface NextRouter {
+  push: (path: string) => void;
+}
+
+let token: string | undefined = undefined;
+
+const REFRESH_THRESHOLD = 3 * 60 * 1000;
+
+export const getRemainingTime = async (router: NextRouter) => {
+  if (!token) {
+    token = Cookies.get('jwtToken');
+  }
 
   if (token) {
-    const decodedToken = jwtDecode(token);
+    try {
+      const decoded = decodeJwt(token) as { exp?: number };
+      const currentTime = Date.now();
 
-    const currentTime = Date.now();
-    let expirationTime = 0;
+      if (decoded.exp) {
+        const expirationTime = decoded.exp * 1000;
+        const remainingTime = expirationTime - currentTime;
 
-    // 만료 시간 (exp)을 확인 (exp는 Unix 타임스탬프 형식으로 저장됩니다)
-    if (decodedToken.exp) {
-      expirationTime = decodedToken.exp * 1000; // `exp`는 초 단위이므로 밀리초로 변환
-    }
-    const remainingTime = expirationTime - currentTime;
-
-    // 만약 토큰이 이미 만료되었거나 만료 시간이 얼마 남지 않았다면
-    if (remainingTime <= 0) {
-      onSilentRefresh();
-    } else {
-      console.log('토큰이 유효합니다.');
+        if (remainingTime > 0) {
+          if (remainingTime <= REFRESH_THRESHOLD) {
+            console.log('토큰이 거의 만료되었습니다. 리프레시를 수행합니다.');
+            await onSilentRefresh();
+          } else {
+            console.log('토큰이 유효합니다.');
+          }
+          return;
+        } else {
+          console.log('토큰이 만료되었습니다.');
+          router.push('/signIn');
+          return;
+        }
+      } else {
+        console.log('토큰에 만료 시간(exp)이 포함되어 있지 않습니다.');
+      }
+    } catch (e) {
+      console.error('토큰 디코딩 중 오류 발생:', e);
     }
   } else {
     console.log('jwtToken이 쿠키에 존재하지 않습니다.');
   }
+
+  router.push('/signIn');
 };

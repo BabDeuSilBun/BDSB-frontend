@@ -1,7 +1,8 @@
 'use client';
 
-import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
+
+import styled from 'styled-components';
 
 const ListContainer = styled.ul`
   margin: 6rem 1rem;
@@ -20,7 +21,7 @@ const ListItem = styled.li.attrs({
     props.$isLast ? '' : '0.1rem solid var(--gray200)'};
 `;
 
-const ListButton = styled.button.attrs({
+const ListButton = styled.div.attrs({
   className: 'icon',
 })`
   word-spacing: 3px;
@@ -33,23 +34,20 @@ const InquiryMethod = () => {
 
   return (
     <ListContainer>
-      <ListItem>
+      <ListItem as="a" href="mailto:help@bdsb.com">
         <p>메일 문의</p>
-        <ListButton as="a" href="mailto:help@bdsb.com">
-          {'>'}
-        </ListButton>
+        <ListButton>{'>'}</ListButton>
       </ListItem>
-      <ListItem>
+      <ListItem as="a" href="tel:16000101">
         <p>전화 문의</p>
-        <ListButton as="a" href="tel:16000101">
-          {'>'}
-        </ListButton>
+        <ListButton>{'>'}</ListButton>
       </ListItem>
-      <ListItem $isLast>
+      <ListItem
+        $isLast
+        onClick={() => router.push('/inquiry/forum/?type=contact')}
+      >
         <p>게시판 문의</p>
-        <ListButton onClick={() => router.push('/inquiry/forum/?type=contant')}>
-          {'>'}
-        </ListButton>
+        <ListButton>{'>'}</ListButton>
       </ListItem>
     </ListContainer>
   );

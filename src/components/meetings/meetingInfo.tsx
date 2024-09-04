@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import InfoBox from '@/components/common/infoBox';
 import { MeetingType } from '@/types/coreTypes';
 
@@ -59,7 +60,7 @@ const MeetingInfo: React.FC<MeetingInfoProps> = ({ meeting }) => (
                   ? '최대 모집 인원이 다 차는 즉시 주문합니다.'
                   : '주문 대기 시간에 맞춰서 진행합니다.',
                 $textStyle: 'withIcon',
-                id: 1,
+                id: '1',
               },
             ]}
             width="8.8rem"

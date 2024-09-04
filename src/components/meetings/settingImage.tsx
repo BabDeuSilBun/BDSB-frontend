@@ -1,7 +1,8 @@
 'use client';
 
-import styled from 'styled-components';
 import Image from 'next/image';
+
+import styled from 'styled-components';
 
 const Container = styled.div`
   width: 100vw;
@@ -35,10 +36,15 @@ const ImageWrapper = styled.div`
   background-color: transparent;
 `;
 
-const SettingImage = () => (
+interface SettingImageProps {
+  title: string;
+  subTitle: string;
+}
+
+const SettingImage: React.FC<SettingImageProps> = ({ title, subTitle }) => (
   <Container>
-    <Title>팀 주문 시작</Title>
-    <SubTitle>팀 주문에 함께 할 모임원들을 초대해요</SubTitle>
+    <Title>{title}</Title>
+    <SubTitle>{subTitle}</SubTitle>
     <ImageWrapper>
       <Image
         src="/settingImage.png"

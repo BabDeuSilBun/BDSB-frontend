@@ -1,19 +1,23 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import styled from 'styled-components';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { SmallCustomDropdown } from '@/components/common/dropdown';
+import { useSearchParams } from 'next/navigation';
+
 import { Divider } from '@chakra-ui/react';
-import TeamOrderItem from '@/components/listItems/teamOrderItem';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import styled from 'styled-components';
+
+import { SmallCustomDropdown } from '@/components/common/dropdown';
 import ImminentOrderItem from '@/components/listItems/imminentOrderItem';
-import { getTeamOrderList } from '@/services/teamOrderService';
-import { MeetingsResponse } from '@/types/coreTypes';
 import ImminentOrderSkeleton from '@/components/listItems/skeletons/imminentOrderSkeleton';
 import TeamOrderSkeleton from '@/components/listItems/skeletons/teamOrderSkeleton';
+import TeamOrderItem from '@/components/listItems/teamOrderItem';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { getTeamOrderList } from '@/services/teamOrderService';
+import PaddingBox from '@/styles/paddingBox';
+import { MeetingsResponse } from '@/types/coreTypes';
 
-// Styled Components
 const ListContainer = styled.section`
   margin: 110px 0 20px;
 `;
@@ -44,33 +48,48 @@ const GroupTitle = styled.h3`
   font-size: var(--font-size-xl);
 `;
 
-// Sort options
 const options = [
-  { id: 1, value: 'deadline', name: '주문이 임박한 순' },
-  { id: 2, value: 'delivery-fee', name: '배달비가 낮은 순' },
-  { id: 3, value: 'min-price', name: '최소주문금액이 낮은 순' },
-  { id: 4, value: 'delivery-time', name: '배송시간이 짧은 순' },
+  { value: 'deadline', name: '주문이 임박한 순' },
+  { value: 'delivery-fee', name: '배달비가 낮은 순' },
+  { value: 'min-price', name: '최소주문금액이 낮은 순' },
+  { value: 'delivery-time', name: '배송시간이 짧은 순' },
 ];
 
-// Main Component
 function TeamOrderList() {
-  const [selectedSort, setSelectedSort] = useState<string>('deadline');
   const [isOpen, setIsOpen] = useState(false);
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
+  const searchParams = useSearchParams();
+  const [selectedSort, setSelectedSort] = useState<string>('deadline');
+  const [schoolId, setSchoolId] = useState<number | null>(null);
 
-  // Fetch imminent orders
+  useEffect(() => {
+    // 초기 로드 시 localStorage에서 schoolId 가져오기
+    const storedSchoolId = localStorage.getItem('selectedSchoolId');
+    if (storedSchoolId !== null && !isNaN(Number(storedSchoolId))) {
+      setSchoolId(Number(storedSchoolId));
+    }
+
+    // searchParams가 바뀔 때마다 schoolId 업데이트
+    const schoolIdParam = searchParams.get('schoolId');
+    if (schoolIdParam !== null && !isNaN(Number(schoolIdParam))) {
+      const newSchoolId = Number(schoolIdParam);
+      if (newSchoolId !== schoolId && !isNaN(newSchoolId)) {
+        setSchoolId(newSchoolId);
+        localStorage.setItem('selectedSchoolId', newSchoolId.toString());
+      }
+    }
+  }, [searchParams]);
+
   const {
     data: imminentData,
-    status: imminentStatus,
-    error: imminentError,
+    isLoading: imminentLoading,
+    isError: imminentError,
+    error: imminentErrorStatus,
   } = useQuery<MeetingsResponse>({
     queryKey: ['imminentTeamOrders'],
     queryFn: () =>
       getTeamOrderList({ page: 0, size: 4, sortCriteria: 'deadline' }),
   });
 
-  // Fetch paginated team orders
   const {
     data,
     error,
@@ -79,40 +98,24 @@ function TeamOrderList() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ['teamOrderList', selectedSort],
+    queryKey: ['teamOrderList', selectedSort, schoolId],
     queryFn: ({ pageParam = 0 }) =>
-      getTeamOrderList({ page: pageParam, sortCriteria: selectedSort }),
+      getTeamOrderList({
+        page: pageParam,
+        sortCriteria: selectedSort,
+        schoolId: schoolId,
+      }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {
       return lastPage.last ? undefined : lastPage.pageable.pageNumber + 1;
     },
   });
 
-  useEffect(() => {
-    if (isFetchingNextPage) return;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    };
-
-    observer.current = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
-    }
-
-    return () => {
-      if (observer.current && lastElementRef.current) {
-        observer.current.unobserve(lastElementRef.current);
-      }
-    };
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   const handleSelect = (value: string | null) => {
     if (value !== null) {
@@ -127,30 +130,27 @@ function TeamOrderList() {
   return (
     <ListContainer>
       <SectionContainer $additional="0">
-        <GroupTitle>임박한 모임</GroupTitle>
         <CardContainer>
-          {imminentStatus === 'pending' && (
+          {imminentError ? (
+            <p>
+              Error:{' '}
+              {imminentErrorStatus?.message ||
+                '알 수 없는 오류가 발생했습니다.'}
+            </p>
+          ) : imminentLoading ? (
             <>
               <ImminentOrderSkeleton />
               <ImminentOrderSkeleton />
               <ImminentOrderSkeleton />
               <ImminentOrderSkeleton />
             </>
+          ) : imminentData && imminentData.content.length > 0 ? (
+            imminentData.content.map((item) => (
+              <ImminentOrderItem key={item.storeId} item={item} />
+            ))
+          ) : (
+            <PaddingBox>합류 가능한 모임이 없습니다.</PaddingBox>
           )}
-          {imminentStatus === 'error' && (
-            <p>
-              Error:{' '}
-              {imminentError?.message || '알 수 없는 오류가 발생했습니다.'}
-            </p>
-          )}
-          {imminentStatus === 'success' &&
-            (imminentData?.content.length > 0 ? (
-              imminentData.content.map((item) => (
-                <ImminentOrderItem key={item.meetingId} item={item} />
-              ))
-            ) : (
-              <div>모집 중인 모임이 없습니다.</div>
-            ))}
         </CardContainer>
       </SectionContainer>
 
@@ -167,8 +167,7 @@ function TeamOrderList() {
             onToggle={handleToggle}
           />
         </DropDownWrapper>
-
-        {status === 'pending' && (
+        {status === 'pending' ? (
           <>
             <TeamOrderSkeleton />
             <TeamOrderSkeleton />
@@ -176,27 +175,29 @@ function TeamOrderList() {
             <TeamOrderSkeleton />
             <TeamOrderSkeleton />
           </>
-        )}
-        {status === 'error' && <p>Error: {error.message}</p>}
-        {status === 'success' && data && (
-          <>
-            {data.pages.map((page) =>
-              page.content.map((item, index) => (
-                <div
-                  key={item.meetingId}
-                  ref={
-                    index === page.content.length - 1 ? lastElementRef : null
-                  }
-                >
-                  <TeamOrderItem item={item} />
-                  <Divider />
-                </div>
-              )),
-            )}
-            {/* {!hasNextPage && <div>all fetched</div>} */}
-          </>
-        )}
-        {status === 'success' && !data && <div>모집 중인 모임이 없습니다.</div>}
+        ) : status === 'error' ? (
+          <p>Error: {error.message}</p>
+        ) : status === 'success' && data ? (
+          data.pages[0].content.length > 0 ? (
+            <>
+              {data.pages.map((page) =>
+                page.content.map((item, index) => (
+                  <div
+                    key={item.meetingId}
+                    ref={
+                      index === page.content.length - 1 ? lastElementRef : null
+                    }
+                  >
+                    <TeamOrderItem item={item} />
+                    <Divider />
+                  </div>
+                )),
+              )}
+            </>
+          ) : (
+            <PaddingBox zero>합류 가능한 모임이 없습니다.</PaddingBox>
+          )
+        ) : null}
       </SectionContainer>
     </ListContainer>
   );

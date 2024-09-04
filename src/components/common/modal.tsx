@@ -1,6 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
+
 import {
   BaseBtn,
   BtnGroup,
@@ -26,7 +27,7 @@ interface ModalProps {
   onButtonClick2?: () => void;
   onButtonClick3?: () => void;
   onClose?: () => void;
-  context?: 'leaderBefore' | 'leaderAfter' | 'participant';
+  context?: 'leaderbefore' | 'leaderafter' | 'participant';
 }
 
 const mediaQueries = {
@@ -177,7 +178,7 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   const renderButtons = () => {
     switch (context) {
-      case 'leaderBefore':
+      case 'leaderbefore':
         return (
           <BtnGroup>
             <HalfBtnPurple onClick={onButtonClick1}>
@@ -188,7 +189,7 @@ const Modal: React.FC<ModalProps> = ({
             </HalfBtnLight>
           </BtnGroup>
         );
-      case 'leaderAfter':
+      case 'leaderafter':
         return (
           <BtnGroup>
             <HalfBtnPurple onClick={onButtonClick1}>

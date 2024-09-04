@@ -1,29 +1,28 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-// import axios from 'axios';
+import { useState } from 'react';
+
+import { Divider, Flex, useDisclosure } from '@chakra-ui/react';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
+import styled from 'styled-components';
+
+import InquiryImageModal from './inquiryImageModal';
+import InquiryImages from './inquiryImages';
+import TriggerButton from './triggerButton';
 
 import InquirySkeleton from '@/components/listItems/skeletons/inquirySkeleton';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
+import { apiClientWithCredentials } from '@/services/apiClient';
+import { INQUIRY_LIST_API_URL } from '@/services/myDataService';
 import { getInquiries, getInquiryImages } from '@/services/myDataService';
+import PaddingBox from '@/styles/paddingBox';
+import { ImageArrayType } from '@/types/types';
 import { formatDateTime } from '@/utils/formateDateTime';
-import styled from 'styled-components';
-import {
-  Divider,
-  Flex,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-} from '@chakra-ui/react';
-// import Image from 'next/image';
-
-import TriggerButton from './triggerButton';
-import InquiryImages from './inquiryImages';
 
 const Container = styled.div`
   text-align: left;
@@ -59,11 +58,10 @@ const ImagesContainer = styled.ul`
 
 const InquiryHistory = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const observer = useRef<IntersectionObserver | null>(null);
-  const lastElementRef = useRef<HTMLDivElement | null>(null);
   const [selectedInquiryId, setSelectedInquiryId] = useState<number | null>(
     null,
   );
+  const queryClient = useQueryClient();
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery({
@@ -75,11 +73,7 @@ const InquiryHistory = () => {
       },
     });
 
-  const {
-    data: images,
-    isLoading: isImagesLoading,
-    isError: isImagesError,
-  } = useQuery({
+  const { data: images, isError: isImagesError } = useQuery({
     queryKey: ['InquiryDetail', selectedInquiryId],
     queryFn: () => {
       if (selectedInquiryId === null) {
@@ -90,39 +84,94 @@ const InquiryHistory = () => {
     enabled: selectedInquiryId !== null,
   });
 
-  // const handleModalExit = () => {
-  //   window.location.reload();
-  // };
+  const deleteImageMutation = useMutation({
+    mutationFn: async ({
+      inquiryId,
+      imageId,
+    }: {
+      inquiryId: number;
+      imageId: number;
+    }) => {
+      console.log(
+        `Deleting image with inquiryId: ${inquiryId} and imageId: ${imageId}`,
+      );
+      await apiClientWithCredentials.delete(
+        `${INQUIRY_LIST_API_URL}/${inquiryId}/images/${imageId}`,
+      );
+    },
+    onError: (error) => {
+      console.error('이미지 삭제 중 오류가 발생했습니다.', error);
+    },
+    onSuccess: () => {
+      console.log('이미지 삭제 성공');
+    },
+  });
 
-  const handleItemClick = (inquiryId: number) => {
-    setSelectedInquiryId((prev) => (prev === inquiryId ? null : inquiryId));
-  };
+  const updateImageMutation = useMutation({
+    mutationFn: async ({
+      inquiryId,
+      imageId,
+      sequence,
+    }: {
+      inquiryId: number;
+      imageId: number;
+      sequence: number;
+    }) => {
+      console.log(
+        `Updating image with inquiryId: ${inquiryId} and imageId: ${imageId}`,
+      );
+      await apiClientWithCredentials.patch(
+        `${INQUIRY_LIST_API_URL}/${inquiryId}/images/${imageId}?sequence=${sequence}`,
+      );
+    },
+    onError: (error) => {
+      console.error('이미지 순서 변경 중 오류가 발생했습니다.', error);
+    },
+    onSuccess: () => {
+      console.log('이미지 순서 변경 성공');
+    },
+  });
 
-  useEffect(() => {
-    if (isFetchingNextPage) return;
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    };
-
-    observer.current = new IntersectionObserver(handleIntersect, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    if (lastElementRef.current) {
-      observer.current.observe(lastElementRef.current);
+  const handleModalSave = (editedImages: ImageArrayType[]) => {
+    if (!selectedInquiryId) {
+      console.error('selectedInquiryId가 null입니다.');
+      return;
     }
 
-    return () => {
-      if (observer.current && lastElementRef.current) {
-        observer.current.unobserve(lastElementRef.current);
+    images.forEach((originalImage: ImageArrayType) => {
+      const editedImage = editedImages.find(
+        (img) => img.imageId === originalImage.imageId,
+      );
+
+      if (!editedImage) {
+        deleteImageMutation.mutate({
+          inquiryId: selectedInquiryId,
+          imageId: originalImage.imageId,
+        });
+      } else if (originalImage.sequence !== editedImage.sequence) {
+        updateImageMutation.mutate({
+          inquiryId: selectedInquiryId,
+          imageId: originalImage.imageId,
+          sequence: editedImage.sequence,
+        });
       }
-    };
-  }, [isFetchingNextPage, hasNextPage, fetchNextPage]);
+    });
+
+    if (selectedInquiryId !== null) {
+      queryClient.invalidateQueries({
+        queryKey: ['InquiryImages', selectedInquiryId],
+      });
+    }
+
+    onClose();
+    window.location.reload();
+  };
+
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
 
   return (
     <>
@@ -138,18 +187,27 @@ const InquiryHistory = () => {
             <InquirySkeleton />
           </>
         ) : status === 'error' ? (
-          <p>문의 내역을 불러오지 못했습니다.</p>
+          <PaddingBox>문의 내역을 불러오지 못했습니다.</PaddingBox>
         ) : data && data.pages.length > 0 ? (
           <>
             {data.pages.map((page) =>
-              page.content.map((item) => {
+              page.content.map((item, index) => {
                 const { formattedFullDate } = formatDateTime(item.updatedAt);
 
                 return (
-                  <div key={item.inquiryId}>
+                  <div
+                    key={item.inquiryId}
+                    ref={
+                      index === page.content.length - 1 ? lastElementRef : null
+                    }
+                  >
                     <TriggerButton
                       isSelected={selectedInquiryId === item.inquiryId}
-                      onClick={() => handleItemClick(item.inquiryId)}
+                      onClick={() =>
+                        setSelectedInquiryId((prev) =>
+                          prev === item.inquiryId ? null : item.inquiryId,
+                        )
+                      }
                       inquiry={item}
                     />
 
@@ -159,17 +217,20 @@ const InquiryHistory = () => {
                           <Flex h="4" gap="2" mb="2">
                             <span>문의내용</span>
 
-                            {item.status === 'PENDING' && (
-                              <>
-                                <Divider orientation="vertical" />
-                                <button onClick={onOpen}>수정하기</button>
-                              </>
-                            )}
+                            {item.status === 'PENDING' &&
+                              images &&
+                              images.length > 0 && (
+                                <>
+                                  <Divider orientation="vertical" />
+                                  <button onClick={onOpen}>
+                                    이미지 수정하기
+                                  </button>
+                                </>
+                              )}
                           </Flex>
                           <ImagesContainer>
                             <InquiryImages
                               images={images}
-                              isLoading={isImagesLoading}
                               isError={isImagesError}
                             />
                           </ImagesContainer>
@@ -194,29 +255,20 @@ const InquiryHistory = () => {
             )}
           </>
         ) : (
-          <div>문의 내역이 없습니다.</div>
+          <PaddingBox>문의 내역이 없습니다.</PaddingBox>
         )}
-        <div ref={lastElementRef} />
       </Container>
 
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <div>rmfwkrmfwkrmfkwrmfm</div>
-          </ModalBody>
-          <ModalFooter>
-            <button onClick={onClose}>Close</button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      {images && (
+        <InquiryImageModal
+          isOpen={isOpen}
+          onClose={onClose}
+          images={images}
+          onSave={handleModalSave}
+        />
+      )}
     </>
   );
 };
 
 export default InquiryHistory;
-
-// onClick={handleModalContinue}
-// onClick={handleModalExit}

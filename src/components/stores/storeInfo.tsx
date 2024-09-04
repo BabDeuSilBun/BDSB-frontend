@@ -1,10 +1,11 @@
-import styled from 'styled-components';
-import InfoBox from '@/components/common/infoBox';
 import { Divider } from '@chakra-ui/react';
-import { formatCurrency } from '@/utils/currencyFormatter';
+import styled from 'styled-components';
+
+import InfoBox from '@/components/common/infoBox';
 import CallButton from '@/components/stores/callButton';
 import InfoButton from '@/components/stores/infoButton';
 import { RestaurantType } from '@/types/coreTypes';
+import { formatCurrency } from '@/utils/currencyFormatter';
 
 interface StoreInfoProps {
   store: RestaurantType;
@@ -109,7 +110,7 @@ const StoreInfo: React.FC<StoreInfoProps> = ({ store, onInfoButtonClick }) => {
                   {
                     text: '평균 도착 시간으로, 실제 도착 시간과 차이가 생길 수 있어요.',
                     $textStyle: 'withIcon',
-                    id: 1,
+                    id: '1',
                   },
                 ]}
                 width="9rem"

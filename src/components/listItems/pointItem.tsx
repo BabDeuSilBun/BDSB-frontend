@@ -1,9 +1,10 @@
 'use client';
 
-import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
-import { formatDateTime } from '@/utils/formateDateTime';
+import styled from 'styled-components';
+
 import { PointType } from '@/types/myDataTypes';
+import { formatDateTime } from '@/utils/formateDateTime';
 
 const Flex1 = styled.div`
   flex: 1;

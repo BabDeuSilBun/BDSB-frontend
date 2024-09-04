@@ -1,8 +1,11 @@
-import styled from 'styled-components';
+import { RefObject } from 'react';
+
 import { Divider } from '@chakra-ui/react';
+import { InfiniteData } from '@tanstack/react-query';
+import styled from 'styled-components';
+
+import { PurchasesResponse } from '@/types/coreTypes';
 import { formatCurrency } from '@/utils/currencyFormatter';
-import { TeamPurchasesResponse, TeamPurchaseType } from '@/types/coreTypes';
-import { ItemType } from '@/types/types';
 
 const MenuTypeTitle = styled.h2`
   color: var(--primary);
@@ -41,13 +44,13 @@ const MenuItemPrice = styled.div`
 `;
 
 interface TeamOrderItemsProps {
-  teamPurchases: {
-    pages: TeamPurchasesResponse[];
-  };
+  teamPurchases: InfiniteData<PurchasesResponse>;
+  lastElementRef: RefObject<HTMLDivElement>;
 }
 
 const TeamPurchaseItems: React.FC<TeamOrderItemsProps> = ({
   teamPurchases,
+  lastElementRef,
 }) => (
   <>
     <Divider
@@ -59,16 +62,20 @@ const TeamPurchaseItems: React.FC<TeamOrderItemsProps> = ({
     />
     <MenuTypeTitle>공통 메뉴</MenuTypeTitle>
     <MenuContainer>
-      {teamPurchases?.pages.map((page) =>
-        page.content.flatMap((teamPurchase: TeamPurchaseType) =>
-          teamPurchase.items.map((item: ItemType) => (
-            <MenuItemRow key={`${item.purchaseId}-${item.menuId}`}>
+      {teamPurchases &&
+        teamPurchases.pages.map((page) =>
+          page.items?.content.map((item, index) => (
+            <MenuItemRow
+              key={`${item.purchaseId}-${item.menuId}`}
+              ref={
+                index === page.items.content.length - 1 ? lastElementRef : null
+              }
+            >
               <MenuItemName>{item.name}</MenuItemName>
               <MenuItemPrice>{formatCurrency(item.price)}</MenuItemPrice>
             </MenuItemRow>
           )),
-        ),
-      )}
+        )}
     </MenuContainer>
   </>
 );

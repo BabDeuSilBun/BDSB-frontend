@@ -1,7 +1,8 @@
 'use client';
 
-import styled from 'styled-components';
 import { Divider } from '@chakra-ui/react';
+import styled from 'styled-components';
+
 import { formatCurrency } from '@/utils/currencyFormatter';
 
 const Container = styled.div`

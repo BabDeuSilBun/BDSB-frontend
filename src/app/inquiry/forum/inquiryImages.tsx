@@ -1,9 +1,18 @@
 'use client';
 
-import styled from 'styled-components';
+import { useState } from 'react';
+
 import Image from 'next/image';
+
+import {
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  useDisclosure,
+} from '@chakra-ui/react';
+import styled from 'styled-components';
+
 import { ImageType } from '@/types/types';
-import { Skeleton } from '@chakra-ui/react';
 
 const ImageWrapper = styled.div`
   border-radius: var(--border-radius-md);
@@ -12,19 +21,27 @@ const ImageWrapper = styled.div`
   position: relative;
   width: 100px;
   height: 100px;
+  cursor: pointer;
+`;
+
+const Wrapper = styled.div`
+  height: 23rem;
 `;
 
 interface InquiryImagesProps {
   images: ImageType[];
-  isLoading: boolean;
   isError: boolean;
 }
 
-const InquiryImages: React.FC<InquiryImagesProps> = ({
-  images,
-  isLoading,
-  isError,
-}) => {
+const InquiryImages: React.FC<InquiryImagesProps> = ({ images, isError }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [imageURL, setImageURL] = useState('');
+
+  const handleOpenModal = (imageURL: string) => {
+    setImageURL(imageURL);
+    onOpen();
+  };
+
   if (isError) {
     return (
       <>
@@ -35,37 +52,41 @@ const InquiryImages: React.FC<InquiryImagesProps> = ({
     );
   }
 
-  if (isLoading) {
+  if (images && images.length > 0) {
     return (
       <>
-        <ImageWrapper>
-          <Skeleton w="100px" h="100px" />
-        </ImageWrapper>
-        <ImageWrapper>
-          <Skeleton w="100px" h="100px" />
-        </ImageWrapper>
-        <ImageWrapper>
-          <Skeleton w="100px" h="100px" />
-        </ImageWrapper>
+        {images.map((item: ImageType) => (
+          <ImageWrapper
+            key={item.imageId}
+            onClick={() => handleOpenModal(item.url)}
+          >
+            <Image
+              src={item.url}
+              alt={`${item.sequence}번 째 이미지`}
+              fill
+              style={{ objectFit: 'cover' }}
+              priority
+            />
+          </ImageWrapper>
+        ))}
+
+        <Modal isOpen={isOpen} onClose={onClose} isCentered size="sm">
+          <ModalOverlay backdropInvert="80%" />
+          <ModalContent>
+            <Wrapper>
+              <Image
+                src={imageURL}
+                alt={'확대 이미지'}
+                fill
+                style={{ objectFit: 'cover' }}
+                priority
+              />
+            </Wrapper>
+          </ModalContent>
+        </Modal>
       </>
     );
   }
-
-  return (
-    <>
-      {images.map((item: ImageType) => (
-        <ImageWrapper key={item.imageId}>
-          <Image
-            src={item.url}
-            alt={`${item.sequence}번 째 이미지`}
-            fill
-            style={{ objectFit: 'cover' }}
-            priority
-          />
-        </ImageWrapper>
-      ))}
-    </>
-  );
 };
 
 export default InquiryImages;

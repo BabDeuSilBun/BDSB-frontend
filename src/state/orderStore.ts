@@ -6,7 +6,7 @@ interface Time {
   minute: string;
 }
 
-interface Address {
+export interface StoredAddress {
   postal: string;
   streetAddress: string;
   detailAddress: string;
@@ -19,28 +19,32 @@ interface OrderFormData {
   maxHeadcount: number;
   orderType: string | null;
   isEarlyPaymentAvailable: boolean;
-  paymentAvailableAt: Date;
+  paymentAvailableAt: string;
   time: Time;
-  deliveredAddress: Address;
-  metAddress: Address;
+  deliveredAddress: StoredAddress;
+  metAddress: StoredAddress;
   description: string;
+  maxIndividualDeliveryFee: number;
 }
 
 interface OrderStore {
   formData: OrderFormData;
   isButtonActive: boolean;
+  isUsingDefaultAddress: boolean;
   setStoreId: (storeId: number) => void;
   setPurchaseType: (purchaseType: string | null) => void;
   setMinHeadcount: (minHeadcount: number) => void;
   setMaxHeadcount: (maxHeadcount: number) => void;
   setOrderType: (orderType: string | null) => void;
   setIsEarlyPaymentAvailable: (isAvailable: boolean) => void;
-  setPaymentAvailableAt: (date: Date, time: Time) => void;
+  setPaymentAvailableAt: (time: Time) => void;
   setTime: (time: Partial<Time>) => void;
-  setDeliveredAddress: (address: Address) => void;
-  setMetAddress: (address: Address) => void;
+  setDeliveredAddress: (address: StoredAddress) => void;
+  setMetAddress: (address: StoredAddress) => void;
   setDescription: (description: string) => void;
   setButtonActive: (isActive: boolean) => void;
+  setMaxIndividualDeliveryFee: (fee: number) => void;
+  setIsUsingDefaultAddress: (isUsing: boolean) => void;
 }
 
 export const useOrderStore = create<OrderStore>((set) => ({
@@ -51,7 +55,7 @@ export const useOrderStore = create<OrderStore>((set) => ({
     minHeadcount: 1,
     maxHeadcount: 1,
     isEarlyPaymentAvailable: false,
-    paymentAvailableAt: new Date(),
+    paymentAvailableAt: '',
     deliveredAddress: {
       postal: '',
       streetAddress: '',
@@ -64,8 +68,10 @@ export const useOrderStore = create<OrderStore>((set) => ({
     },
     description: '',
     time: { amPm: '오전', hour: '', minute: '' },
+    maxIndividualDeliveryFee: 0,
   },
   isButtonActive: false,
+  isUsingDefaultAddress: true,
   setStoreId: (storeId) =>
     set((state) => ({
       formData: { ...state.formData, storeId },
@@ -84,7 +90,11 @@ export const useOrderStore = create<OrderStore>((set) => ({
     })),
   setOrderType: (orderType) =>
     set((state) => ({
-      formData: { ...state.formData, orderType },
+      formData: {
+        ...state.formData,
+        orderType,
+        isEarlyPaymentAvailable: orderType === '바로 주문',
+      },
     })),
   setIsEarlyPaymentAvailable: () =>
     set((state) => ({
@@ -93,16 +103,32 @@ export const useOrderStore = create<OrderStore>((set) => ({
         isEarlyPaymentAvailable: state.formData.orderType === '바로 주문',
       },
     })),
-  setPaymentAvailableAt: (date: Date, time: Time) => {
-    const adjustedDate = new Date(date);
-    adjustedDate.setHours(
-      time.amPm === '오후' && time.hour !== '12'
-        ? parseInt(time.hour, 10) + 12
-        : parseInt(time.hour, 10),
-    );
-    adjustedDate.setMinutes(parseInt(time.minute, 10));
+  setPaymentAvailableAt: (time: Time) => {
+    const currentDate = new Date();
+
+    let hour = parseInt(time.hour, 10);
+    if (time.amPm === '오후' && hour !== 12) {
+      hour += 12;
+    } else if (time.amPm === '오전' && hour === 12) {
+      hour = 0;
+    }
+
+    currentDate.setHours(hour);
+    currentDate.setMinutes(parseInt(time.minute, 10));
+    currentDate.setSeconds(0);
+    currentDate.setMilliseconds(0);
+
+    if (isNaN(currentDate.getTime())) {
+      console.error('Invalid time value');
+      return;
+    }
+
+    const isoDate = new Date(
+      currentDate.getTime() - currentDate.getTimezoneOffset() * 60000,
+    ).toISOString();
+
     set((state) => ({
-      formData: { ...state.formData, paymentAvailableAt: adjustedDate },
+      formData: { ...state.formData, paymentAvailableAt: isoDate },
     }));
   },
   setTime: (newTime) =>
@@ -128,4 +154,10 @@ export const useOrderStore = create<OrderStore>((set) => ({
       formData: { ...state.formData, description },
     })),
   setButtonActive: (isActive) => set({ isButtonActive: isActive }),
+  setMaxIndividualDeliveryFee: (fee) =>
+    set((state) => ({
+      formData: { ...state.formData, maxIndividualDeliveryFee: fee },
+    })),
+  setIsUsingDefaultAddress: (isUsing) =>
+    set({ isUsingDefaultAddress: isUsing }),
 }));

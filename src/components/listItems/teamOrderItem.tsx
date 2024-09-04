@@ -1,12 +1,14 @@
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import styled from 'styled-components';
+import { useRouter } from 'next/navigation';
+
 import { useQuery } from '@tanstack/react-query';
-import { MeetingType } from '@/types/coreTypes';
-import { getCurrentHeadCount } from '@/services/teamOrderService';
-import useRemainingTime from '@/hook/useRemainingTime';
+import styled from 'styled-components';
 
 import GroupIcon from '../svg/group';
+
+import useRemainingTime from '@/hook/useRemainingTime';
+import { getCurrentHeadCount } from '@/services/teamOrderService';
+import { MeetingType } from '@/types/coreTypes';
 
 // 카드 레이아웃 컨테이너
 const CardContainer = styled.div`
@@ -86,30 +88,32 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
     item.paymentAvailableAt,
   );
 
-  const { data: headCountData, isLoading } = useQuery<{
-    currentHeadCount: number;
+  const { data: headCountData } = useQuery<{
+    headcount: number;
   }>({
     queryKey: ['headCount', item.meetingId],
     queryFn: () => getCurrentHeadCount(item.meetingId),
   });
 
   const handleClick = () => {
-    router.push(`/teamOrder/${item.storeId}`);
+    router.push(`/teamOrder/${item.meetingId}`);
   };
 
   return (
     <CardContainer onClick={handleClick}>
       <ImageContainer>
-        {item.images[0] && (
-          <Image
-            src={item.images[0].url}
-            alt="Restaurant Image"
-            fill
-            sizes="50vw"
-            style={{ objectFit: 'cover' }}
-            priority
-          />
-        )}
+        {item.storeImage &&
+          item.storeImage.length > 0 &&
+          item.storeImage[0].url && (
+            <Image
+              src={item.storeImage[0].url}
+              alt="Restaurant Image"
+              fill
+              sizes="50vw"
+              style={{ objectFit: 'cover' }}
+              priority
+            />
+          )}
       </ImageContainer>
       <InfoSection>
         <Information $isCritical={$isCritical}>{remainingTime}</Information>
@@ -127,12 +131,12 @@ const TeamOrderItem: React.FC<{ item: MeetingType }> = ({ item }) => {
         <ParticipantCount>
           <GroupIcon color="var(--primary)" width={18} height={18} />
           <Information>
-            {isLoading
-              ? '0'
-              : `${headCountData?.currentHeadCount ?? 0} / ${item.participantMax}`}
+            {`${headCountData ? headCountData.headcount : 0} / ${item.participantMax}`}
           </Information>
         </ParticipantCount>
-        <OrderTypeLabel>{item.purchaseType}</OrderTypeLabel>
+        <OrderTypeLabel>
+          {item.purchaseType === 'DINING_TOGETHER' ? '함께 식사' : '각자 식사'}
+        </OrderTypeLabel>
       </AdditionalInfo>
     </CardContainer>
   );

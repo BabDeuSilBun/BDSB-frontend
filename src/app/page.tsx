@@ -1,41 +1,47 @@
-import MainHeader from '@/components/layout/mainHeader';
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-import { getTeamOrderList } from '@/services/teamOrderService';
-import { getRestaurantsList } from '@/services/restaurantService';
 
 import ClientComponent from './clientComponent';
+
+import MainHeader from '@/components/layout/mainHeader';
+import { getRestaurantsList } from '@/services/restaurantService';
+import { getTeamOrderList } from '@/services/teamOrderService';
 
 export default async function Home() {
   const queryClient = new QueryClient();
   const initialPageParam = 0;
-  const selectedSort = 'deadline';
+  const selectedRestaurantsCriteria = `delivery-fee`;
+  const selectedMeetingCriteria = 'deadline';
 
   await queryClient.prefetchQuery({
-    queryKey: ['imminentTeamOrders', selectedSort],
+    queryKey: ['imminentTeamOrders', selectedMeetingCriteria],
     queryFn: () =>
-      getTeamOrderList({ page: 0, size: 4, sortCriteria: selectedSort }),
+      getTeamOrderList({
+        page: 0,
+        size: 4,
+        sortCriteria: selectedMeetingCriteria,
+      }),
   });
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ['teamOrderList', selectedSort],
+    queryKey: ['teamOrderList', selectedMeetingCriteria],
     queryFn: ({ pageParam = 0 }) =>
       getTeamOrderList({
         page: pageParam,
-        sortCriteria: selectedSort,
+        sortCriteria: selectedMeetingCriteria,
       }),
     initialPageParam,
   });
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ['restaurantsList', selectedSort],
+    queryKey: ['restaurantsList', selectedRestaurantsCriteria],
     queryFn: ({ pageParam = 0 }) =>
       getRestaurantsList({
         page: pageParam,
-        sortCriteria: selectedSort,
+        sortCriteria: selectedRestaurantsCriteria,
       }),
     initialPageParam,
   });

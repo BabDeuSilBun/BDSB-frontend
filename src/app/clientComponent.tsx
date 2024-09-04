@@ -2,8 +2,8 @@
 
 import { useSearchParams } from 'next/navigation';
 
-import TeamOrderList from './teamOrderList';
 import RestaurantsList from './restaurantsList';
+import TeamOrderList from './teamOrderList';
 
 type Params = 'teamOrder' | 'restaurant';
 

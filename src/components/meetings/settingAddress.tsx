@@ -2,10 +2,11 @@
 
 import { ChangeEvent, FC, useEffect } from 'react';
 
-import { useOrderStore } from '@/state/orderStore';
 import DaumPostcodeEmbed, { Address } from 'react-daum-postcode';
 import styled from 'styled-components';
+
 import SearchIcon from '@/components/svg/search';
+import { useOrderStore } from '@/state/orderStore';
 
 const Caption = styled.p`
   font-size: var(--font-size-xs);
@@ -36,6 +37,7 @@ const IconWrapper = styled.div`
 const AddressBtn = styled.button<{ $hasAddress: boolean }>`
   width: 100%;
   padding: var(--spacing-sm);
+  padding-right: 2.5rem;
   font-size: var(--font-size-md);
   color: ${({ $hasAddress }) =>
     $hasAddress ? 'var(--text)' : 'var(--gray300)'};
@@ -48,14 +50,13 @@ const AddressBtn = styled.button<{ $hasAddress: boolean }>`
   text-align: left;
 `;
 
-const PostcodeWrapper = styled.div<{ $isOpen: boolean }>`
+const PostcodeWrapper = styled.div`
   position: fixed;
   top: 60px;
   left: 0;
   width: 100%;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
-  display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
   z-index: 1000;
@@ -103,10 +104,14 @@ const SettingAddress: FC<SettingAddressProps> = ({
     });
   };
 
+  const openPostcodeSearch = () => {
+    setIsPostcodeOpen(true);
+  };
+
   return (
     <div>
       <Flex>
-        <Wrapper onClick={() => setIsPostcodeOpen(true)}>
+        <Wrapper onClick={openPostcodeSearch}>
           <AddressBtn $hasAddress={!!streetAddress}>
             {streetAddress || '우편번호 검색'}
           </AddressBtn>
@@ -125,12 +130,14 @@ const SettingAddress: FC<SettingAddressProps> = ({
           위치로 설정해주세요.
         </Caption>
       </Flex>
-      <PostcodeWrapper $isOpen={isPostcodeOpen}>
-        <DaumPostcodeEmbed
-          onComplete={handleComplete}
-          style={{ width: '100%', height: '100%' }}
-        />
-      </PostcodeWrapper>
+      {isPostcodeOpen && (
+        <PostcodeWrapper>
+          <DaumPostcodeEmbed
+            onComplete={handleComplete}
+            style={{ width: '100%', height: '100%' }}
+          />
+        </PostcodeWrapper>
+      )}
     </div>
   );
 };

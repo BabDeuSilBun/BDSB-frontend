@@ -1,9 +1,10 @@
-import { RestaurantsResponse } from '@/types/coreTypes';
+import { apiClient, apiClientWithCredentials } from './apiClient';
+
+import { CategoriesResponse, RestaurantsResponse } from '@/types/coreTypes';
 import { GetListParams } from '@/types/types';
 
-import { apiClient } from './apiClient';
-
-export const RESTAURANT_LIST_API_URL = '/api/stores';
+export const RESTAURANT_LIST_API_URL = '/api/users/stores';
+export const CATEGORY_LIST_API_URL = '/api/stores/categories';
 const RESTAURANT_API_URL = '/api/stores/{storeId}';
 
 export const getRestaurantsList = async ({
@@ -15,7 +16,7 @@ export const getRestaurantsList = async ({
   searchMenu = undefined,
 }: GetListParams): Promise<RestaurantsResponse> => {
   try {
-    const response = await apiClient.get<RestaurantsResponse>(
+    const response = await apiClientWithCredentials.get<RestaurantsResponse>(
       RESTAURANT_LIST_API_URL,
       {
         params: {
@@ -39,7 +40,7 @@ export const getRestaurantsList = async ({
 
 export const getRestaurantInfo = async (storeId: number) => {
   try {
-    const response = await apiClient.get(
+    const response = await apiClientWithCredentials.get(
       RESTAURANT_API_URL.replace('{storeId}', storeId.toString()),
     );
     return response.data;
@@ -47,6 +48,29 @@ export const getRestaurantInfo = async (storeId: number) => {
     console.error('Error fetching restaurant:', error);
     throw new Error(
       '음식점 정보를 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+    );
+  }
+};
+
+export const getCategoriesList = async ({
+  page = 0,
+  size = 11,
+}: GetListParams): Promise<CategoriesResponse> => {
+  try {
+    const response = await apiClient.get<CategoriesResponse>(
+      CATEGORY_LIST_API_URL,
+      {
+        params: {
+          size,
+          page,
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching restaurants:', error);
+    throw new Error(
+      '카테고리식점 목록을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
     );
   }
 };

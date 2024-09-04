@@ -2,9 +2,10 @@
 
 import { ChangeEvent, useEffect } from 'react';
 
+import styled from 'styled-components';
+
 import { useSignUpStore } from '@/state/authStore';
 import { validateSignInput } from '@/utils/validateSignInput';
-import styled from 'styled-components';
 
 const Title = styled.h2`
   font-size: var(--font-size-xxl);
