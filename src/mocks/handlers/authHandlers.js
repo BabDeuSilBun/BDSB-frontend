@@ -35,8 +35,9 @@ export const authHandlers = [
       }
 
       return HttpResponse.json(
+        401,
+        {},
         { message: '이메일 또는 비밀번호가 잘못되었습니다.' },
-        { status: 401 },
       );
     } catch (error) {
       return HttpResponse.json(500, { message: `서버 오류: ${error.message}` });
