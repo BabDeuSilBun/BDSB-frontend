@@ -1,5 +1,6 @@
 'use client';
 
+import Cookies from 'js-cookie';
 import { useEffect, useRef, useState } from 'react';
 
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
@@ -34,7 +35,6 @@ const StorePage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { storeId } = useParams();
-
   const { cartQuantity, addToCart } = useCartStore();
 
   // State hooks
@@ -177,17 +177,88 @@ const StorePage = () => {
   });
 
   // Function to handle adding items to the cart
-  const handleAddToCart = (type: 'individual' | 'team') => {
-    if (selectedMenu) {
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const handleAddToCart = async (type: 'individual' | 'team') => {
+    if (!selectedMenu) return;
+
+    try {
+      // Retrieve the JWT token from cookies
+      const token = Cookies.get('jwtToken');
+
+      if (!token) {
+        throw new Error('No token found. Please log in again.');
+      }
+
+      const meetingId = searchParams.get('meetingId');
+      const payload = {
+        menuId: selectedMenu.menuId,
+        quantity: 1, // Adjust the quantity as needed
+      };
+
+      const apiUrl =
+        type === 'individual'
+          ? `${backendUrl}api/users/meetings/${meetingId}/individual-purchases`
+          : `${backendUrl}api/users/meetings/${meetingId}/team-purchases`;
+
+      console.log(`Submitting ${type} purchase to URL: ${apiUrl}`, payload);
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const contentType = response.headers.get('content-type');
+
+      // Check if the response is an error or not JSON
+      if (!response.ok) {
+        // Try to get the error message or response text
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await response.json();
+          throw new Error(
+            errorData.message ||
+              `Failed to submit the order. Status: ${response.status}`,
+          );
+        } else {
+          const errorText = await response.text();
+          console.error(`Unexpected response format: ${errorText}`);
+          throw new Error(
+            `Unexpected response format. Status: ${response.status}. Response text: ${errorText}`,
+          );
+        }
+      }
+
+      // Parse the JSON response if the content type is JSON
+      if (contentType && contentType.includes('application/json')) {
+        const data = await response.json();
+        console.log('Response data:', data);
+      }
+
+      // Add item to cart state
       addToCart({
         menuId: selectedMenu.menuId,
         quantity: 1,
         storeId: String(storeId),
         type,
-        purchaseId: 0,
-        meetingId: 0,
+        purchaseId: 0, // Adjust the purchaseId as necessary
+        meetingId: Number(meetingId),
       });
+
+      console.log('Successfully submitted purchase and added to cart.');
+
+      // Close modal after successful submission
       closeModal();
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Failed to submit purchase:', error.message);
+        alert(`Failed to submit purchase: ${error.message}`);
+      } else {
+        console.error('An unknown error occurred');
+        alert('An unknown error occurred. Please try again.');
+      }
     }
   };
 
