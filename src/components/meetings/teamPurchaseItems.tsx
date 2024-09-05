@@ -71,8 +71,12 @@ const TeamPurchaseItems: React.FC<TeamOrderItemsProps> = ({
                 index === page.items.content.length - 1 ? lastElementRef : null
               }
             >
-              <MenuItemName>{item.name}</MenuItemName>
-              <MenuItemPrice>{formatCurrency(item.price)}</MenuItemPrice>
+              <MenuItemName>
+                {item.name} x {item.quantity}
+              </MenuItemName>
+              <MenuItemPrice>
+                {formatCurrency(item.price * item.quantity)}
+              </MenuItemPrice>
             </MenuItemRow>
           )),
         )}

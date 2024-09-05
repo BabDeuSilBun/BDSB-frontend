@@ -89,8 +89,8 @@ const StoreHeader: React.FC<StoreHeaderProps> = ({
   buttonLeft,
   buttonRight,
   buttonRightSecondary,
-  iconColor = 'var(--text)', // Fallback to var(--text) as default
-  $isTransparent = false, // Default transparent state is false
+  iconColor = 'var(--text)',
+  $isTransparent = false,
   $cartQuantity = 0,
   meetingId,
   storeId,
@@ -110,14 +110,16 @@ const StoreHeader: React.FC<StoreHeaderProps> = ({
   };
 
   const handleRightSecondaryButtonClick = useCallback(() => {
-    if (buttonRightSecondary === 'cart') {
+    if ($cartQuantity > 0) {
       if (meetingId && storeId) {
         router.push(`/cart/${meetingId}?storeId=${storeId}`);
       } else {
         router.push('/cart');
       }
+    } else {
+      console.log('Cart is empty. No action.');
     }
-  }, [buttonRightSecondary, meetingId, storeId, router]);
+  }, [$cartQuantity, meetingId, storeId, router]);
 
   // Dynamically set the icon color based on transparency of the header
   const dynamicIconColor = $isTransparent ? iconColor : 'var(--text)';

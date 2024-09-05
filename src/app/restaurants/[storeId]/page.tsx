@@ -268,20 +268,26 @@ const StorePage = () => {
     setActiveModal('infoModal');
   };
 
+  // Handle footer button click
   const onButtonClick1 = () => {
-    if (context === 'leaderbefore') {
-      router.push(`/teamOrderSetting/${storeId}`);
-    } else if (context === 'leaderafter' || context === 'participant') {
-      const meetingId = searchParams.get('meetingId');
-
-      if (!meetingId || !storeId || !context) {
-        console.error('Missing meetingId, storeId, or context');
-        return; // Prevent pushing an invalid URL
+    if (cartQuantity > 0) {
+      if (context === 'leaderbefore') {
+        router.push(`/teamOrderSetting/${storeId}`);
+      } else if (context === 'leaderafter' || context === 'participant') {
+        const meetingId = searchParams.get('meetingId');
+        if (!meetingId || !storeId || !context) {
+          console.error('Missing meetingId, storeId, or context');
+          return; // Prevent pushing an invalid URL
+        }
+        router.push(`/cart/${meetingId}?storeId=${storeId}&context=${context}`);
       }
-
-      router.push(`/cart/${meetingId}?storeId=${storeId}&context=${context}`);
     }
   };
+
+  // Disable footer button when cart is empty
+  const isFooterButtonDisabled =
+    (context === 'leaderafter' || context === 'participant') &&
+    cartQuantity === 0;
 
   const onModalClick1 = () => {
     if (context === 'leaderbefore') {
@@ -375,6 +381,7 @@ const StorePage = () => {
                   : '모임 만들기'
               }
               onButtonClick={onButtonClick1}
+              disabled={isFooterButtonDisabled}
             />
           </div>
         )}

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Badge, Button, Divider } from '@chakra-ui/react';
 import styled from 'styled-components';
@@ -20,6 +20,7 @@ interface CartItemProps {
   meetingId: number;
   showAddButton?: boolean;
   onQuantityChange?: (newQuantity: number) => void;
+  lastElementRef?: React.RefObject<HTMLDivElement>;
 }
 
 const Container = styled.div`
@@ -91,7 +92,10 @@ export default function CartItems({
   meetingId,
   showAddButton = false,
   onQuantityChange,
+  lastElementRef,
 }: CartItemProps) {
+  const searchParams = useSearchParams();
+  const context = searchParams.get('context')?.toLowerCase() || 'leaderAfter';
   const [quantity, setQuantity] = useState(initialQuantity);
   const [totalPrice, setTotalPrice] = useState(price * quantity);
   const router = useRouter();
@@ -107,13 +111,15 @@ export default function CartItems({
   }, [quantity, onQuantityChange]);
 
   const handleAddItem = () => {
+    const targetContext =
+      context === 'participant' ? 'participant' : 'leaderAfter';
     router.push(
-      `/restaurants/${storeId}?context=leaderAfter&meetingId=${meetingId}`,
+      `/restaurants/${storeId}?context=${targetContext}&meetingId=${meetingId}`,
     );
   };
 
   return (
-    <Container>
+    <Container ref={lastElementRef}>
       <MenuListWrapper>
         <TextWrapper>
           <MenuName>{menuName}</MenuName>

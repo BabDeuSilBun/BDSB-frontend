@@ -17,10 +17,12 @@ import CartItems from '@/components/cart/cartItems';
 import StoreInfo from '@/components/cart/storeInfo';
 import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
+import { useInfiniteScroll } from '@/hook/useInfiniteScroll';
 import { getMenuList } from '@/services/menuService';
 import { getMyData } from '@/services/myDataService';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getTeamOrderInfo } from '@/services/teamOrderService';
+import { getTeamPurchaseList } from '@/services/teamPurchaseService';
 import { CartItem, useCartStore } from '@/state/cartStore';
 import { useOrderStore } from '@/state/orderStore';
 import Container from '@/styles/container';
@@ -103,6 +105,40 @@ const CartPage = () => {
     queryFn: getMyData,
   });
 
+  // Fetch team purchases with JWT token
+  console.log('Fetching team purchases for meetingId:', meetingId);
+  const {
+    data: teamPurchases,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['teamPurchaseList', meetingId],
+    queryFn: ({ pageParam = 0 }) =>
+      getTeamPurchaseList({
+        meetingId: Number(meetingId),
+        page: pageParam,
+      }),
+    getNextPageParam: (lastPage) =>
+      lastPage?.items?.last
+        ? undefined
+        : lastPage?.items?.pageable?.pageNumber + 1,
+    initialPageParam: 0,
+  });
+
+  const lastElementRef = useInfiniteScroll<HTMLDivElement>({
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  });
+
+  // If the data exists, log it to the console
+  useEffect(() => {
+    if (teamPurchases) {
+      console.log('Fetched team purchases:', teamPurchases);
+    }
+  }, [teamPurchases]);
+
   // Calculate totals when cart items or other dependencies change
   useEffect(() => {
     if (isLoadingMenus) return;
@@ -160,9 +196,9 @@ const CartPage = () => {
   );
 
   const location =
-    deliveredAddress.streetAddress || deliveredAddress.detailAddress
-      ? `${deliveredAddress.streetAddress} ${deliveredAddress.detailAddress}`
-      : '배송지 정보 없음';
+    context === 'participant'
+      ? `${meeting?.deliveryAddress?.deliveredStreetAddress || ''} ${meeting?.deliveryAddress?.deliveredDetailAddress || ''}`
+      : `${deliveredAddress?.streetAddress || deliveredAddress?.detailAddress || '배송지 정보 없음'}`;
 
   // PortOne SDK initialization
   // useEffect(() => {
@@ -455,6 +491,7 @@ const CartPage = () => {
             }
           }}
         />
+
         {cartItems.map((item: CartItem, index: number) => {
           const menuDataArray =
             menus?.pages?.flatMap((page) => page.content) || [];
@@ -487,6 +524,29 @@ const CartPage = () => {
         availablePoints={point}
         totalPrice={totalPrice}
       />
+
+      <div>
+        {teamPurchases?.pages?.map((page, pageIndex) => (
+          <div key={pageIndex}>
+            {page.items.content.map((purchase, index) => {
+              const isLastItem =
+                pageIndex === teamPurchases.pages.length - 1 &&
+                index === page.items.content.length - 1;
+              return (
+                <div
+                  key={purchase.purchaseId}
+                  ref={isLastItem ? lastElementRef : null}
+                >
+                  <p>Purchase ID: {purchase.purchaseId}</p>
+                  <p>Menu ID: {purchase.menuId}</p>
+                  <p>Quantity: {purchase.quantity}</p>
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+
       <Footer
         type="button"
         buttonText={footerButtonText}
