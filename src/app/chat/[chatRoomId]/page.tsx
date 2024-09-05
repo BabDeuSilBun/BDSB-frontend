@@ -32,6 +32,7 @@ const ContainerBox = styled(Container)`
 
 const ScrollContainer = styled.section`
   flex-grow: 1;
+  flex-direction: column-reverse;
   overflow-y: auto;
 `;
 
@@ -97,7 +98,7 @@ const ChatPage = () => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-    rootMargin: '100% 0px 0px 0px',
+    rootMargin: '400px 0px 0px 0px',
   });
 
   useEffect(() => {
@@ -150,25 +151,14 @@ const ChatPage = () => {
     }
   }, [myData, chatRoomId]);
 
-  // 이전 데이터가 렌더링 될 때 스크롤을 맨 아래로 설정
+  // 데이터가 추가되었을 때 스크롤을 유지 (위로 로딩된 경우)
   useEffect(() => {
-    if (chatContainerRef.current && status === 'success') {
-      if (isFetchingNextPage) {
-        const previousHeight = chatContainerRef.current.scrollHeight;
-        setTimeout(() => {
-          const newHeight = chatContainerRef.current?.scrollHeight || 0;
-          if (chatContainerRef.current) {
-            chatContainerRef.current.scrollTop = newHeight - previousHeight;
-          }
-        }, 100);
-      } else {
-        if (chatContainerRef.current) {
-          chatContainerRef.current.scrollTop =
-            chatContainerRef.current.scrollHeight;
-        }
-      }
+    if (chatContainerRef.current && isFetchingNextPage) {
+      const prevScrollHeight = chatContainerRef.current.scrollHeight;
+      const newScrollHeight = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop += newScrollHeight - prevScrollHeight;
     }
-  }, [status, isFetchingNextPage, data]);
+  }, [data]);
 
   // 새로운 메세지 전송 시 자동으로 아래로 이동
   useEffect(() => {
