@@ -2,13 +2,12 @@
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 
 import { useParams, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import Loading from '@/app/loading';
@@ -28,6 +27,7 @@ import { useOrderStore } from '@/state/orderStore';
 import Container from '@/styles/container';
 import { formatCurrency } from '@/utils/currencyFormatter';
 import { paymentFormatter } from '@/utils/paymentFormatter';
+import { preparePayment, verifyPayment } from '@/services/paymentService';
 
 const CustomContainer = styled(Container)`
   margin-top: 60px;
@@ -205,112 +205,146 @@ const CartPage = () => {
       ? `${meeting?.deliveryAddress?.deliveryStreetAddress || ''} ${meeting?.deliveryAddress?.deliveryDetailAddress || ''}`
       : `${deliveredAddress?.streetAddress || deliveredAddress?.detailAddress || '배송지 정보 없음'}`;
 
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  // PortOne SDK initialization
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.iamport.kr/v1/iamport.js';
+    script.onload = () => {
+      window.IMP.init('imp51248204'); // Should be updated to match PortOne merchant key
+    };
+    document.body.appendChild(script);
+  }, []);
 
+  // Portone payment by mock data
+  // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
+  const preparePaymentMutation = useMutation({
+    mutationFn: () =>
+      preparePayment(meetingId, `kakaopay.TC0ONETIME`, 'card', point),
+    onSuccess: (paymentData) => {
+      // 2. 프론트엔드에서 백엔드로부터 받은 정보를 바탕으로 결제 진행 (결제 완료 후 포트원uid 발급됨)
+      handlePayment(
+        paymentData.transactionId,
+        paymentData.name,
+        paymentData.price,
+      );
+    },
+    onError: (error) => {
+      console.error('Payment preparation failed', error);
+      alert('Payment preparation failed.');
+    },
+  });
+
+  // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
+  const verifyPaymentMutation = useMutation({
+    mutationFn: ({
+      meetingId,
+      transactionId,
+      portoneUid,
+    }: {
+      meetingId: number;
+      transactionId: string;
+      portoneUid: string;
+    }) => verifyPayment(meetingId, transactionId, portoneUid),
+    onSuccess: (verifyResponse) => {
+      // 4. 백엔드에서 포트원uid로 결제 정보 조회 -> 올바르게 되었는지 프론트로 보내줌
+      if (verifyResponse.success) {
+        // 5. 결제 올바르게 되었으면 다음 단계 진행
+        router.push(
+          `/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`,
+        );
+      } else {
+        // 결제 올바르게 안되었으면 다시 요청
+        alert('Payment verification failed.');
+      }
+    },
+    onError: (error) => {
+      console.error('Payment verification failed', error);
+      alert('Payment verification failed.');
+    },
+  });
+
+  // 2. 프론트엔드에서 백엔드로부터 받은 정보를 바탕으로 결제 진행 (결제 완료 후 포트원uid 발급됨)
+  const handlePayment = async (
+    transactionId: string,
+    name: string,
+    price: number,
+  ): Promise<void> => {
+    return new Promise((resolve, reject) => {
+      const IMP = window.IMP;
+      IMP.request_pay(
+        {
+          pg: 'kakaopay.TC0ONETIME', // PG code for the test environment
+          pay_method: 'card',
+          merchant_uid: transactionId,
+          name: name,
+          amount: price,
+          m_redirect_url: `${window.location.origin}/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`,
+        },
+        (rsp) => {
+          if (rsp.success) {
+            resolve();
+            // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
+            verifyPaymentMutation.mutate({
+              meetingId,
+              transactionId,
+              portoneUid: rsp.imp_uid,
+            });
+          } else {
+            reject(new Error(rsp.error_msg));
+          }
+        },
+      );
+    });
+  };
+
+  // Workflow start: User submits the order and payment process begins
   const handleSubmit = async (
     meetingId: number,
     individualItems: CartItem[],
     teamItems: CartItem[],
   ) => {
     try {
-      const token = Cookies.get('jwtToken');
-
-      if (!token) {
-        throw new Error('No token found. Please log in again.');
-      }
-
-      console.log('Submitting for meetingId:', meetingId);
-      console.log('Individual items:', individualItems);
-      console.log('Team items:', teamItems);
-
-      const handleResponse = async (response: Response) => {
-        console.log('API response status:', response.status);
-        const contentType = response.headers.get('content-type');
-        if (!response.ok) {
-          if (contentType && contentType.includes('application/json')) {
-            const errorData = await response.json();
-            console.error('Error response data:', errorData);
-            throw new Error(
-              errorData.message || 'Error occurred during submission.',
-            );
-          } else {
-            const errorText = await response.text();
-            console.error('Error response text:', errorText);
-            throw new Error(`Unexpected response: ${errorText}`);
-          }
-        }
-
-        if (contentType && contentType.includes('application/json')) {
-          return await response.json();
-        }
-        return null;
-      };
-
-      // Submit individual items to the server
+      // Handle individual purchases submission
       if (individualItems.length > 0) {
-        for (const item of individualItems) {
-          const payload = {
-            menuId: item.menuId,
-            quantity: item.quantity,
-          };
+        const individualPayload = individualItems.map((item) => ({
+          menuId: item.menuId,
+          quantity: item.quantity,
+        }));
 
-          console.log('Individual Item Payload:', payload);
+        console.log('Submitting individual purchases:', individualPayload);
 
-          const response = await fetch(
-            `${backendUrl}api/users/meetings/${meetingId}/individual-purchases`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify(payload),
-            },
-          );
-
-          await handleResponse(response);
-        }
+        await fetch(`/api/users/meetings/${meetingId}/individual-purchases`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(individualPayload),
+        });
       }
 
-      // Submit team items to the server
+      // Handle team purchases submission
       if (teamItems.length > 0) {
-        for (const item of teamItems) {
-          const payload = {
-            menuId: item.menuId,
-            quantity: item.quantity,
-          };
+        const teamPayload = teamItems.map((item) => ({
+          menuId: item.menuId,
+          quantity: item.quantity,
+        }));
 
-          console.log('Team Item Payload:', payload);
+        console.log('Submitting team purchases:', teamPayload);
 
-          const response = await fetch(
-            `${backendUrl}api/users/meetings/${meetingId}/team-purchases`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify(payload),
-            },
-          );
-
-          await handleResponse(response);
-        }
+        await fetch(`/api/users/meetings/${meetingId}/team-purchases`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(teamPayload),
+        });
       }
 
-      // Redirect or update the UI after successful submission
-      console.log('Successfully submitted all purchases.');
-      router.push(
-        `/paymentSuccess/${meetingId}?storeId=${storeId}&context=${context}`,
-      );
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error('Failed to submit purchases:', error.message);
-        alert(`Order submission failed: ${error.message}`);
-      } else {
-        console.error('An unknown error occurred:', error);
-        alert('An unknown error occurred. Please try again.');
-      }
+      // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
+      preparePaymentMutation.mutate();
+    } catch (error) {
+      console.error('Failed to submit purchases:', error);
+      alert('Order submission failed.');
     }
   };
 
