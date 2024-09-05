@@ -97,7 +97,7 @@ const storeImages: { [key: number]: ImageType[] } = {
     },
     {
       sequence: 3,
-      url: 'https://via.placeholder.com/300x200',
+      url: 'https://bdsbmockdata.s3.ap-southeast-2.amazonaws.com/menu1.jpg',
       imageId: 215,
       isRepresentative: false,
     },

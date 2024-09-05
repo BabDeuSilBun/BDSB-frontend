@@ -4,7 +4,7 @@ export function isImageBackgroundLight(
 ) {
   const img = new Image();
   img.crossOrigin = 'Anonymous'; // Handle cross-origin images
-  img.src = imageUrl;
+  img.src = `${imageUrl}?t=${new Date().getTime()}`;
 
   img.onload = function () {
     const canvas = document.createElement('canvas');
@@ -32,7 +32,7 @@ export function isImageBackgroundLight(
 
     const avgBrightness = totalBrightness / pixelCount;
 
-    const isLight = avgBrightness > 100; // Adjust threshold if needed
+    const isLight = avgBrightness > 120; // Adjust threshold if needed
     callback(isLight);
   };
 }

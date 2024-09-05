@@ -48,7 +48,7 @@ const StorePage = () => {
     image: string;
   } | null>(null);
   const [isHeaderTransparent, setIsHeaderTransparent] = useState(true);
-  const [iconColor, setIconColor] = useState('var(--text)');
+  const [iconColor, setIconColor] = useState('white');
   const [, setIsHeaderSolid] = useState(false);
 
   // Refs for IntersectionObserver
@@ -81,13 +81,16 @@ const StorePage = () => {
     checkRef();
   }, []);
 
-  // Function to update icon color based on image brightness
   const updateIconColorForImage = (imageUrl: string) => {
-    if (isHeaderTransparent) {
+    const img = new Image();
+    img.src = imageUrl;
+    img.crossOrigin = 'Anonymous';
+
+    img.onload = () => {
       isImageBackgroundLight(imageUrl, (isLight) => {
         setIconColor(isLight ? 'var(--text)' : 'white');
       });
-    }
+    };
   };
 
   // Fetch store information
@@ -125,11 +128,21 @@ const StorePage = () => {
     fetchNextPage: fetchNextImagesPage,
   });
 
-  // Detect image background brightness for the first image and as images change
+  // Preload images in the carousel
   useEffect(() => {
-    const firstImageUrl = storeImages?.pages?.[0]?.content?.[0]?.url;
-    if (firstImageUrl) {
-      updateIconColorForImage(firstImageUrl);
+    if (storeImages?.pages) {
+      storeImages.pages.forEach((page) => {
+        page.content.forEach((image) => {
+          const img = new Image();
+          img.src = image.url;
+        });
+      });
+    }
+  }, [storeImages]);
+
+  useEffect(() => {
+    if (storeImages?.pages?.[0]?.content?.length) {
+      handleImageChange(0);
     }
   }, [storeImages]);
 
@@ -139,8 +152,10 @@ const StorePage = () => {
       storeImages?.pages?.[Math.floor(imageIndex / 10)]?.content?.[
         imageIndex % 10
       ]?.url;
+
     if (imageUrl) {
-      updateIconColorForImage(imageUrl);
+      const cacheBustedUrl = `${imageUrl}?t=${new Date().getTime()}`;
+      updateIconColorForImage(cacheBustedUrl);
     }
   };
 
