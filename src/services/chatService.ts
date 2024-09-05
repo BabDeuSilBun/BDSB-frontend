@@ -31,7 +31,7 @@ export const getChatList = async ({
 
 export const getChatMessages = async ({
   page = 0,
-  size = 10,
+  size = 15,
   chatRoomId = 0,
 }: GetListParams): Promise<ChatMessagesResponse> => {
   try {
