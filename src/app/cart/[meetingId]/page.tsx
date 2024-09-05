@@ -1,5 +1,4 @@
 'use client';
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -34,7 +33,6 @@ const CustomContainer = styled(Container)`
   padding: var(--spacing-sm);
   background-color: var(--gray100);
 `;
-
 const CartPage = () => {
   // State hooks for data management
   const router = useRouter();
@@ -50,12 +48,10 @@ const CartPage = () => {
   const [minTeamPurchaseDiscount, setMinTeamPurchaseDiscount] = useState(0);
   const [point, setPoint] = useState(0);
   // const [purchaseId, setPurchaseId] = useState<number | null>(null);
-
   // Convert meetingId to a number
   const meetingId = Array.isArray(meetingIdParam)
     ? parseInt(meetingIdParam[0], 10)
     : parseInt(meetingIdParam, 10);
-
   // Fetch meeting data to get storeId
   const {
     data: meeting,
@@ -66,7 +62,6 @@ const CartPage = () => {
     queryFn: () => getTeamOrderInfo(Number(meetingId)),
     enabled: !isNaN(meetingId),
   });
-
   // Fetch store information
   const {
     data: store,
@@ -77,7 +72,6 @@ const CartPage = () => {
     queryFn: () => getRestaurantInfo(Number(meeting?.storeId)),
     enabled: !!meeting?.storeId,
   });
-
   // Fetch menu information for all items in the cart using useInfiniteQuery
   const {
     data: menus,
@@ -94,7 +88,6 @@ const CartPage = () => {
     initialPageParam: 0,
     enabled: !!storeId,
   });
-
   // Fetch user data to get available points
   const {
     data: myData,
@@ -104,7 +97,6 @@ const CartPage = () => {
     queryKey: ['myData'],
     queryFn: getMyData,
   });
-
   // Fetch team purchases with JWT token
   console.log('Fetching team purchases for meetingId:', meetingId);
   const {
@@ -125,44 +117,38 @@ const CartPage = () => {
         : lastPage?.items?.pageable?.pageNumber + 1,
     initialPageParam: 0,
   });
-
   const lastElementRef = useInfiniteScroll<HTMLDivElement>({
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
   });
-
-  // Combine individual and team purchases
+  // Combine team purchases into the cart if in 'participant' context
   const combinedCartItems = useMemo(() => {
-    const teamItems =
-      teamPurchases?.pages.flatMap((page) =>
-        page.items.content.map((item) => ({
-          menuId: item.menuId,
-          quantity: item.quantity,
-          type: 'team',
-          storeId: meeting?.storeId || storeId,
-        })),
-      ) || [];
-
-    // Combine individual and team items correctly
-    return context === 'participant' ? [...cartItems, ...teamItems] : cartItems;
+    return context === 'participant'
+      ? [
+          ...cartItems.filter((item) => item.type === 'individual'), // Include individual items
+          ...(teamPurchases?.pages.flatMap((page) =>
+            page.items.content.map((item) => ({
+              menuId: item.menuId,
+              quantity: item.quantity,
+              type: 'team',
+              storeId,
+            })),
+          ) || []), // Include team purchases
+        ]
+      : cartItems;
   }, [context, cartItems, teamPurchases, meeting?.storeId, storeId]);
-
   // Calculate totals when cart items or other dependencies change
   useEffect(() => {
     if (isLoadingMenus) return;
-
     const menuDataArray = menus?.pages.flatMap((page) => page.content) || [];
-
     const newPurchaseAmount = combinedCartItems.reduce((total, item) => {
       const menuData = menuDataArray.find(
         (menuData) => menuData.menuId === item.menuId,
       );
       return total + (menuData?.price || 0) * item.quantity;
     }, 0);
-
     setPurchaseAmount(paymentFormatter(newPurchaseAmount));
-
     const teamPurchaseTotal = combinedCartItems.reduce((total, item) => {
       if (item.type === 'team') {
         const menuData = menuDataArray.find(
@@ -172,43 +158,34 @@ const CartPage = () => {
       }
       return total;
     }, 0);
-
     setMinTeamPurchaseDiscount(
       paymentFormatter(teamPurchaseTotal / minHeadcount) * (minHeadcount - 1),
     );
-
     if (myData) {
       setPoint(myData.point);
     }
   }, [combinedCartItems, menus, minHeadcount, myData, isLoadingMenus]);
-
   const deliveryPrice = store?.deliveryPrice || 0;
   const maxDeliveryFee = paymentFormatter(deliveryPrice / minHeadcount);
-
   const totalPrice = paymentFormatter(
     purchaseAmount + maxDeliveryFee - minTeamPurchaseDiscount - point,
   );
-
   // Split cart items by types
   const splitCartItemsByType = (cartItems: CartItem[]) => {
     const individualItems = cartItems.filter(
       (item) => item.type === 'individual',
     );
     const teamItems = cartItems.filter((item) => item.type === 'team');
-
     return { individualItems, teamItems };
   };
-
   // Get delivery address
   const deliveredAddress = useOrderStore(
     (state) => state.formData.deliveredAddress,
   );
-
   const location =
     context === 'participant'
       ? `${meeting?.deliveryAddress?.deliveryStreetAddress || ''} ${meeting?.deliveryAddress?.deliveryDetailAddress || ''}`
       : `${deliveredAddress?.streetAddress || deliveredAddress?.detailAddress || '배송지 정보 없음'}`;
-
   // PortOne SDK initialization
   // useEffect(() => {
   //   const script = document.createElement('script');
@@ -218,7 +195,6 @@ const CartPage = () => {
   //   };
   //   document.body.appendChild(script);
   // }, []);
-
   // Portone payment by mock data
   // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
   // const preparePaymentMutation = useMutation({
@@ -237,7 +213,6 @@ const CartPage = () => {
   //     alert('Payment preparation failed.');
   //   },
   // });
-
   // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
   // const verifyPaymentMutation = useMutation({
   //   mutationFn: ({
@@ -266,7 +241,6 @@ const CartPage = () => {
   //     alert('Payment verification failed.');
   //   },
   // });
-
   // 2. 프론트엔드에서 백엔드로부터 받은 정보를 바탕으로 결제 진행 (결제 완료 후 포트원uid 발급됨)
   // const handlePayment = async (
   //   transactionId: string,
@@ -300,11 +274,8 @@ const CartPage = () => {
   //     );
   //   });
   // };
-
   // Workflow start: User submits the order and payment process begins
-
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-
   const handleSubmit = async (
     meetingId: number,
     individualItems: CartItem[],
@@ -313,15 +284,12 @@ const CartPage = () => {
     try {
       // Retrieve the JWT token from cookies
       const token = Cookies.get('jwtToken');
-
       if (!token) {
         throw new Error('No token found. Please log in again.');
       }
-
       console.log('Submitting for meetingId:', meetingId);
       console.log('Individual items:', individualItems);
       console.log('Team items:', teamItems);
-
       // Helper function to handle the API response
       const handleResponse = async (response: Response) => {
         console.log('API response status:', response.status);
@@ -339,13 +307,11 @@ const CartPage = () => {
             throw new Error(`Unexpected response: ${errorText}`);
           }
         }
-
         if (contentType && contentType.includes('application/json')) {
           return await response.json();
         }
         return null;
       };
-
       // Submit individual items to the server
       if (individualItems.length > 0) {
         for (const item of individualItems) {
@@ -353,9 +319,7 @@ const CartPage = () => {
             menuId: item.menuId,
             quantity: item.quantity,
           };
-
           console.log('Individual Item Payload:', payload);
-
           const response = await fetch(
             `${backendUrl}api/users/meetings/${meetingId}/individual-purchases`,
             {
@@ -367,11 +331,9 @@ const CartPage = () => {
               body: JSON.stringify(payload),
             },
           );
-
           await handleResponse(response);
         }
       }
-
       // Submit team items to the server
       if (teamItems.length > 0) {
         for (const item of teamItems) {
@@ -379,9 +341,7 @@ const CartPage = () => {
             menuId: item.menuId,
             quantity: item.quantity,
           };
-
           console.log('Team Item Payload:', payload);
-
           const response = await fetch(
             `${backendUrl}api/users/meetings/${meetingId}/team-purchases`,
             {
@@ -393,11 +353,9 @@ const CartPage = () => {
               body: JSON.stringify(payload),
             },
           );
-
           await handleResponse(response);
         }
       }
-
       // Redirect or update the UI after successful submission
       console.log('Successfully submitted all purchases.');
       router.push(
@@ -415,7 +373,6 @@ const CartPage = () => {
       }
     }
   };
-
   // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
   //     preparePaymentMutation.mutate();
   //   } catch (error) {
@@ -423,7 +380,6 @@ const CartPage = () => {
   //     alert('Order submission failed.');
   //   }
   // };
-
   // // Real API
   // // 1. 백엔드로 결제요청 API 보냄 -> 백엔드에서 결제 관련 정보 보내줌
   // const preparePaymentMutation = useMutation({
@@ -441,7 +397,6 @@ const CartPage = () => {
   //     alert("Payment preparation failed.");
   //   },
   // });
-
   //   // 3. 프론트엔드에서 백엔드로 결제완료 API 요청 -> 백엔드로 결제 시 발급받은 포트원uid 보내줌
   // const verifyPaymentMutation = useMutation({
   //   mutationFn: ({ meetingId, transactionId, portoneUid }) =>
@@ -464,7 +419,6 @@ const CartPage = () => {
   //     alert("Payment verification failed.");
   //   },
   // });
-
   // Determine footer button text based on context
   const footerButtonText =
     context === 'leaderafter'
@@ -472,15 +426,12 @@ const CartPage = () => {
       : context === 'participant'
         ? `${formatCurrency(totalPrice)} 주문하고 모임 참여하기`
         : '';
-
   if (isLoadingMeeting || isLoadingStore || isLoadingMyData || isLoadingMenus) {
     return <Loading />;
   }
-
   if (isErrorMeeting || isErrorStore || isErrorMyData || isErrorMenus) {
     return <p>Error loading data</p>;
   }
-
   return (
     <>
       <Header buttonLeft="back" buttonRight="home" text="장바구니" />
@@ -506,9 +457,7 @@ const CartPage = () => {
           const menuData = menuDataArray.find(
             (menu) => menu.menuId === item.menuId,
           );
-
           const isLastItem = index === combinedCartItems.length - 1;
-
           return (
             <CartItems
               key={item.menuId}
@@ -517,7 +466,7 @@ const CartPage = () => {
               imageUrl={menuData?.image || ''}
               badgeText={item.type === 'individual' ? '개별메뉴' : '공동메뉴'}
               quantity={item.quantity}
-              storeId={Number(storeId)}
+              storeId={Number(item.storeId)}
               meetingId={meetingId}
               showAddButton={index === cartItems.length - 1}
               onQuantityChange={(newQuantity) =>
@@ -547,5 +496,4 @@ const CartPage = () => {
     </>
   );
 };
-
 export default CartPage;
