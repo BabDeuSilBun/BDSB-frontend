@@ -517,11 +517,11 @@ const CartPage = () => {
               imageUrl={menuData?.image || ''}
               badgeText={item.type === 'individual' ? '개별메뉴' : '공동메뉴'}
               quantity={item.quantity}
-              storeId={Number(item.storeId)}
+              storeId={Number(storeId)}
               meetingId={meetingId}
               showAddButton={index === cartItems.length - 1}
               onQuantityChange={(newQuantity) =>
-                updateQuantity(item.menuId, String(item.storeId), newQuantity)
+                updateQuantity(item.menuId, String(storeId), newQuantity)
               }
               lastElementRef={isLastItem ? lastElementRef : undefined}
             />
