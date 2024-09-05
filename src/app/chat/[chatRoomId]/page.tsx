@@ -21,7 +21,7 @@ import Container from '@/styles/container';
 import PaddingBox from '@/styles/paddingBox';
 import { ChatMessageType } from '@/types/chatTypes';
 
-const SOCKET_URL = `https://bdsb-frontend.vercel.app/stomp`;
+const SOCKET_URL = `https://babdeusilbun.kro.kr/stomp`;
 
 const ContainerBox = styled(Container)`
   background: var(--gray100);
