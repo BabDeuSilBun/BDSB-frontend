@@ -147,7 +147,7 @@ const ChatPage = () => {
               if (message.body) {
                 const newMessage = JSON.parse(message.body);
                 setNewMessages((prevMessages) => [...prevMessages, newMessage]);
-                console.log(newMessage);
+                console.log(newMessages);
               }
             },
           );
