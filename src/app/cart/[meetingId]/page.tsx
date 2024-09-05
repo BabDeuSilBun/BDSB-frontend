@@ -150,7 +150,7 @@ const CartPage = () => {
 
     const menuDataArray = menus?.pages.flatMap((page) => page.content) || [];
 
-    const newPurchaseAmount = combinedCartItems.reduce((total, item) => {
+    const newPurchaseAmount = cartItems.reduce((total, item) => {
       const menuData = menuDataArray.find(
         (menuData) => menuData.menuId === item.menuId,
       );
@@ -159,7 +159,7 @@ const CartPage = () => {
 
     setPurchaseAmount(paymentFormatter(newPurchaseAmount));
 
-    const teamPurchaseTotal = combinedCartItems.reduce((total, item) => {
+    const teamPurchaseTotal = cartItems.reduce((total, item) => {
       if (item.type === 'team') {
         const menuData = menuDataArray.find(
           (menuData) => menuData.menuId === item.menuId,
@@ -176,7 +176,7 @@ const CartPage = () => {
     if (myData) {
       setPoint(myData.point);
     }
-  }, [combinedCartItems, menus, minHeadcount, myData, isLoadingMenus]);
+  }, [cartItems, menus, minHeadcount, myData, isLoadingMenus]);
 
   const deliveryPrice = store?.deliveryPrice || 0;
   const maxDeliveryFee = paymentFormatter(deliveryPrice / minHeadcount);
