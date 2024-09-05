@@ -48,6 +48,12 @@ const MessageWrapper = styled.div`
   gap: 1.5rem;
 `;
 
+const NewMessageWrapper = styled.div`
+  padding: 1rem 0;
+  display: flex;
+  gap: 1.5rem;
+`;
+
 const InputBox = styled.div`
   display: flex;
   position: fixed;
@@ -208,13 +214,13 @@ const ChatPage = () => {
           data && data.pages[0].content.length > 0 ? (
             <ScrollContainer ref={chatContainerRef}>
               {newMessages.map((message) => (
-                <MessageWrapper key={message.createdAt}>
+                <NewMessageWrapper key={message.createdAt}>
                   {message.senderId === myData?.userId ? (
                     <MyMessageItem message={message} />
                   ) : (
                     <MessageItem message={message} />
                   )}
-                </MessageWrapper>
+                </NewMessageWrapper>
               ))}
               {data.pages.map((page, pageIndex) => (
                 <MessageWrapper key={pageIndex}>
