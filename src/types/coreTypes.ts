@@ -2,9 +2,9 @@ import { Address, ImageType, ItemType, Response } from './types';
 
 // Address interfaces
 interface DeliveryAddress {
-  deliveredPostal: string;
-  deliveredStreetAddress: string;
-  deliveredDetailAddress: string;
+  deliveryPostal: string;
+  deliveryStreetAddress: string;
+  deliveryDetailAddress: string;
 }
 
 interface MetAddress {

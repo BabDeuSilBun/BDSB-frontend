@@ -17,9 +17,9 @@ export const meetings: MeetingType[] = [
     isEarlyPaymentAvailable: true,
     paymentAvailableAt: '2024-08-15T09:23:00',
     deliveryAddress: {
-      deliveredPostal: '12345',
-      deliveredStreetAddress: '서울시 강남구 테헤란로 123',
-      deliveredDetailAddress: '12층 1201호',
+      deliveryPostal: '12345',
+      deliveryStreetAddress: '서울시 강남구 테헤란로 123',
+      deliveryDetailAddress: '12층 1201호',
     },
     metAddress: {
       metPostal: '03995',
@@ -55,9 +55,9 @@ export const meetings: MeetingType[] = [
     participantMin: 3,
     isEarlyPaymentAvailable: false,
     deliveryAddress: {
-      deliveredPostal: '54321',
-      deliveredStreetAddress: '서울시 중구 명동 1길 2',
-      deliveredDetailAddress: '3층 305호',
+      deliveryPostal: '54321',
+      deliveryStreetAddress: '서울시 중구 명동 1길 2',
+      deliveryDetailAddress: '3층 305호',
     },
     metAddress: {
       metPostal: '03995',
@@ -91,9 +91,9 @@ export const meetings: MeetingType[] = [
     participantMin: 4,
     isEarlyPaymentAvailable: true,
     deliveryAddress: {
-      deliveredPostal: '67890',
-      deliveredStreetAddress: '서울시 서초구 반포대로 101',
-      deliveredDetailAddress: '2층 203호',
+      deliveryPostal: '67890',
+      deliveryStreetAddress: '서울시 서초구 반포대로 101',
+      deliveryDetailAddress: '2층 203호',
     },
     metAddress: {
       metPostal: '03995',
@@ -127,9 +127,9 @@ export const meetings: MeetingType[] = [
     participantMin: 2,
     isEarlyPaymentAvailable: false,
     deliveryAddress: {
-      deliveredPostal: '23456',
-      deliveredStreetAddress: '서울시 송파구 올림픽로 45',
-      deliveredDetailAddress: '1층 110호',
+      deliveryPostal: '23456',
+      deliveryStreetAddress: '서울시 송파구 올림픽로 45',
+      deliveryDetailAddress: '1층 110호',
     },
     metAddress: {
       metPostal: '03995',
@@ -163,9 +163,9 @@ export const meetings: MeetingType[] = [
     participantMin: 5,
     isEarlyPaymentAvailable: true,
     deliveryAddress: {
-      deliveredPostal: '34567',
-      deliveredStreetAddress: '서울시 강서구 화곡로 80',
-      deliveredDetailAddress: '1층 120호',
+      deliveryPostal: '34567',
+      deliveryStreetAddress: '서울시 강서구 화곡로 80',
+      deliveryDetailAddress: '1층 120호',
     },
     metAddress: {
       metPostal: '03995',
@@ -199,9 +199,9 @@ export const meetings: MeetingType[] = [
     participantMin: 2,
     isEarlyPaymentAvailable: true,
     deliveryAddress: {
-      deliveredPostal: '45678',
-      deliveredStreetAddress: '서울시 강남구 논현로 111',
-      deliveredDetailAddress: '2층 208호',
+      deliveryPostal: '45678',
+      deliveryStreetAddress: '서울시 강남구 논현로 111',
+      deliveryDetailAddress: '2층 208호',
     },
     metAddress: {
       metPostal: '03995',
@@ -235,9 +235,9 @@ export const meetings: MeetingType[] = [
     participantMin: 6,
     isEarlyPaymentAvailable: false,
     deliveryAddress: {
-      deliveredPostal: '56789',
-      deliveredStreetAddress: '서울시 마포구 성산동 200',
-      deliveredDetailAddress: '3층 305호',
+      deliveryPostal: '56789',
+      deliveryStreetAddress: '서울시 마포구 성산동 200',
+      deliveryDetailAddress: '3층 305호',
     },
     metAddress: {
       metPostal: '03995',
@@ -271,9 +271,9 @@ export const meetings: MeetingType[] = [
     participantMin: 2,
     isEarlyPaymentAvailable: true,
     deliveryAddress: {
-      deliveredPostal: '67890',
-      deliveredStreetAddress: '서울시 관악구 봉천로 123',
-      deliveredDetailAddress: '1층 105호',
+      deliveryPostal: '67890',
+      deliveryStreetAddress: '서울시 관악구 봉천로 123',
+      deliveryDetailAddress: '1층 105호',
     },
     metAddress: {
       metPostal: '03995',
@@ -307,9 +307,9 @@ export const meetings: MeetingType[] = [
     participantMin: 2,
     isEarlyPaymentAvailable: false,
     deliveryAddress: {
-      deliveredPostal: '78901',
-      deliveredStreetAddress: '서울시 동작구 노량진로 200',
-      deliveredDetailAddress: '2층 205호',
+      deliveryPostal: '78901',
+      deliveryStreetAddress: '서울시 동작구 노량진로 200',
+      deliveryDetailAddress: '2층 205호',
     },
     metAddress: {
       metPostal: '03995',
@@ -343,9 +343,9 @@ export const meetings: MeetingType[] = [
     participantMin: 2,
     isEarlyPaymentAvailable: true,
     deliveryAddress: {
-      deliveredPostal: '89012',
-      deliveredStreetAddress: '서울시 영등포구 당산로 150',
-      deliveredDetailAddress: '1층 101호',
+      deliveryPostal: '89012',
+      deliveryStreetAddress: '서울시 영등포구 당산로 150',
+      deliveryDetailAddress: '1층 101호',
     },
     metAddress: {
       metPostal: '03995',
@@ -379,9 +379,9 @@ export const meetings: MeetingType[] = [
     participantMin: 2,
     isEarlyPaymentAvailable: false,
     deliveryAddress: {
-      deliveredPostal: '90123',
-      deliveredStreetAddress: '서울시 성북구 보문로 88',
-      deliveredDetailAddress: '2층 201호',
+      deliveryPostal: '90123',
+      deliveryStreetAddress: '서울시 성북구 보문로 88',
+      deliveryDetailAddress: '2층 201호',
     },
     metAddress: {
       metPostal: '03995',
@@ -415,9 +415,9 @@ export const meetings: MeetingType[] = [
     participantMin: 2,
     isEarlyPaymentAvailable: true,
     deliveryAddress: {
-      deliveredPostal: '01234',
-      deliveredStreetAddress: '서울시 강북구 수유로 123',
-      deliveredDetailAddress: '3층 305호',
+      deliveryPostal: '01234',
+      deliveryStreetAddress: '서울시 강북구 수유로 123',
+      deliveryDetailAddress: '3층 305호',
     },
     metAddress: {
       metPostal: '03995',
@@ -451,9 +451,9 @@ export const meetings: MeetingType[] = [
     participantMin: 2,
     isEarlyPaymentAvailable: false,
     deliveryAddress: {
-      deliveredPostal: '12340',
-      deliveredStreetAddress: '서울시 구로구 디지털로 123',
-      deliveredDetailAddress: '2층 202호',
+      deliveryPostal: '12340',
+      deliveryStreetAddress: '서울시 구로구 디지털로 123',
+      deliveryDetailAddress: '2층 202호',
     },
     metAddress: {
       metPostal: '03995',
@@ -487,9 +487,9 @@ export const meetings: MeetingType[] = [
     participantMin: 2,
     isEarlyPaymentAvailable: true,
     deliveryAddress: {
-      deliveredPostal: '23450',
-      deliveredStreetAddress: '서울시 강동구 성내로 45',
-      deliveredDetailAddress: '1층 103호',
+      deliveryPostal: '23450',
+      deliveryStreetAddress: '서울시 강동구 성내로 45',
+      deliveryDetailAddress: '1층 103호',
     },
     metAddress: {
       metPostal: '03995',
@@ -523,9 +523,9 @@ export const meetings: MeetingType[] = [
     participantMin: 2,
     isEarlyPaymentAvailable: false,
     deliveryAddress: {
-      deliveredPostal: '34560',
-      deliveredStreetAddress: '서울시 서초구 서초대로 99',
-      deliveredDetailAddress: '3층 305호',
+      deliveryPostal: '34560',
+      deliveryStreetAddress: '서울시 서초구 서초대로 99',
+      deliveryDetailAddress: '3층 305호',
     },
     metAddress: {
       metPostal: '03995',
@@ -559,9 +559,9 @@ export const meetings: MeetingType[] = [
     participantMin: 2,
     isEarlyPaymentAvailable: false,
     deliveryAddress: {
-      deliveredPostal: '12340',
-      deliveredStreetAddress: '서울시 구로구 디지털로 123',
-      deliveredDetailAddress: '2층 202호',
+      deliveryPostal: '12340',
+      deliveryStreetAddress: '서울시 구로구 디지털로 123',
+      deliveryDetailAddress: '2층 202호',
     },
     metAddress: {
       metPostal: '03995',

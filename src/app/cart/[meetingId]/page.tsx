@@ -197,7 +197,7 @@ const CartPage = () => {
 
   const location =
     context === 'participant'
-      ? `${meeting?.deliveryAddress?.deliveredStreetAddress || ''} ${meeting?.deliveryAddress?.deliveredDetailAddress || ''}`
+      ? `${meeting?.deliveryAddress?.deliveryStreetAddress || ''} ${meeting?.deliveryAddress?.deliveryDetailAddress || ''}`
       : `${deliveredAddress?.streetAddress || deliveredAddress?.detailAddress || '배송지 정보 없음'}`;
 
   useEffect(() => {
@@ -207,11 +207,11 @@ const CartPage = () => {
       if (meeting.deliveryAddress) {
         console.log(
           'Delivered Street Address:',
-          meeting.deliveryAddress.deliveredStreetAddress,
+          meeting.deliveryAddress.deliveryStreetAddress,
         );
         console.log(
           'Delivered Detail Address:',
-          meeting.deliveryAddress.deliveredDetailAddress,
+          meeting.deliveryAddress.deliveryDetailAddress,
         );
       } else {
         console.log('No delivery address found for meeting');
