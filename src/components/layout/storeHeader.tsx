@@ -2,7 +2,7 @@
 
 import React, { useCallback } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import styled from 'styled-components';
 
@@ -96,6 +96,7 @@ const StoreHeader: React.FC<StoreHeaderProps> = ({
   storeId,
 }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleLeftButtonClick = useCallback(() => {
     if (buttonLeft === 'back') {
@@ -110,9 +111,14 @@ const StoreHeader: React.FC<StoreHeaderProps> = ({
   };
 
   const handleRightSecondaryButtonClick = useCallback(() => {
+    const context = searchParams.get('context');
+
     if ($cartQuantity > 0) {
       if (meetingId && storeId) {
-        router.push(`/cart/${meetingId}?storeId=${storeId}`);
+        const url =
+          `/cart/${meetingId}?storeId=${storeId}` +
+          (context ? `&context=${context}` : '');
+        router.push(url);
       } else {
         router.push('/cart');
       }
