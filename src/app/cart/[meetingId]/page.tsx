@@ -142,7 +142,7 @@ const CartPage = () => {
               menuId: item.menuId,
               quantity: item.quantity,
               type: 'team',
-              storeId: meeting?.storeId || storeId,
+              storeId,
             })),
           ) || []), // Include team purchases
         ]
@@ -522,7 +522,7 @@ const CartPage = () => {
               meetingId={meetingId}
               showAddButton={index === cartItems.length - 1}
               onQuantityChange={(newQuantity) =>
-                updateQuantity(item.menuId, String(item.storeId), newQuantity)
+                updateQuantity(item.menuId, String(storeId), newQuantity)
               }
               lastElementRef={isLastItem ? lastElementRef : undefined}
             />
