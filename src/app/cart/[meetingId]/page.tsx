@@ -200,6 +200,25 @@ const CartPage = () => {
       ? `${meeting?.deliveryAddress?.deliveredStreetAddress || ''} ${meeting?.deliveryAddress?.deliveredDetailAddress || ''}`
       : `${deliveredAddress?.streetAddress || deliveredAddress?.detailAddress || '배송지 정보 없음'}`;
 
+  useEffect(() => {
+    if (meeting) {
+      console.log('Meeting Data:', meeting);
+
+      if (meeting.deliveryAddress) {
+        console.log(
+          'Delivered Street Address:',
+          meeting.deliveryAddress.deliveredStreetAddress,
+        );
+        console.log(
+          'Delivered Detail Address:',
+          meeting.deliveryAddress.deliveredDetailAddress,
+        );
+      } else {
+        console.log('No delivery address found for meeting');
+      }
+    }
+  }, [meeting]);
+
   // PortOne SDK initialization
   // useEffect(() => {
   //   const script = document.createElement('script');
