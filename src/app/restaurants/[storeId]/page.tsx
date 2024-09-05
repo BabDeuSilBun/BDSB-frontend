@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import Loading from '@/app/loading';
 import Modal from '@/components/common/modal';
 import Footer from '@/components/layout/footer';
-import Header from '@/components/layout/header';
+import StoreHeader from '@/components/layout/storeHeader';
 import MenuItem from '@/components/listItems/menuItem';
 import Carousel from '@/components/stores/carousel';
 import StoreInfo from '@/components/stores/storeInfo';
@@ -20,6 +20,7 @@ import { getMenuInfo, getMenuList } from '@/services/menuService';
 import { getRestaurantInfo } from '@/services/restaurantService';
 import { getStoreImages } from '@/services/storeImageService';
 import { useCartStore } from '@/state/cartStore';
+import { isImageBackgroundLight } from '@/utils/imageBrightness';
 
 const HeaderContainer = styled.div`
   width: 100vw;
@@ -47,6 +48,8 @@ const StorePage = () => {
     image: string;
   } | null>(null);
   const [isHeaderTransparent, setIsHeaderTransparent] = useState(true);
+  const [iconColor, setIconColor] = useState('var(--text)');
+  const [, setIsHeaderSolid] = useState(false);
 
   // Refs for IntersectionObserver
   const carouselRef = useRef<HTMLDivElement | null>(null);
@@ -59,6 +62,7 @@ const StorePage = () => {
           entry,
         ]: IntersectionObserverEntry[]) => {
           setIsHeaderTransparent(entry.isIntersecting);
+          setIsHeaderSolid(!entry.isIntersecting);
         };
 
         const headerObserver = new IntersectionObserver(handleHeaderIntersect, {
@@ -76,6 +80,15 @@ const StorePage = () => {
 
     checkRef();
   }, []);
+
+  // Function to update icon color based on image brightness
+  const updateIconColorForImage = (imageUrl: string) => {
+    if (isHeaderTransparent) {
+      isImageBackgroundLight(imageUrl, (isLight) => {
+        setIconColor(isLight ? 'var(--text)' : 'white');
+      });
+    }
+  };
 
   // Fetch store information
   const {
@@ -111,6 +124,25 @@ const StorePage = () => {
     isFetchingNextPage: isFetchingNextImagesPage,
     fetchNextPage: fetchNextImagesPage,
   });
+
+  // Detect image background brightness for the first image and as images change
+  useEffect(() => {
+    const firstImageUrl = storeImages?.pages?.[0]?.content?.[0]?.url;
+    if (firstImageUrl) {
+      updateIconColorForImage(firstImageUrl);
+    }
+  }, [storeImages]);
+
+  // Function to handle image scroll or change and adjust icon color
+  const handleImageChange = (imageIndex: number) => {
+    const imageUrl =
+      storeImages?.pages?.[Math.floor(imageIndex / 10)]?.content?.[
+        imageIndex % 10
+      ]?.url;
+    if (imageUrl) {
+      updateIconColorForImage(imageUrl);
+    }
+  };
 
   // Fetch holiday data with pagination
   const {
@@ -273,12 +305,12 @@ const StorePage = () => {
   return (
     <div>
       <HeaderContainer>
-        <Header
+        <StoreHeader
           buttonLeft="back"
           buttonRight="home"
           buttonRightSecondary="cart"
           $cartQuantity={Math.round(cartQuantity)}
-          iconColor={isHeaderTransparent ? 'white' : 'black'}
+          iconColor={isHeaderTransparent ? iconColor : 'var(--text)'}
           $isTransparent={isHeaderTransparent}
           meetingId={searchParams.get('meetingId') || undefined}
           storeId={String(storeId)}
@@ -288,6 +320,7 @@ const StorePage = () => {
         images={storeImages?.pages.flatMap((page) => page.content) || []}
         ref={carouselRef}
         lastElementRef={lastImageRef}
+        onImageChange={handleImageChange}
       />
       <StoreInfo store={store} onInfoButtonClick={handleInfoButtonClick} />
 

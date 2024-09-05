@@ -85,13 +85,13 @@ const storeImages: { [key: number]: ImageType[] } = {
   5: [
     {
       sequence: 1,
-      url: 'https://via.placeholder.com/300x200',
+      url: 'https://bdsbmockdata.s3.ap-southeast-2.amazonaws.com/menu1.jpg',
       imageId: 213,
       isRepresentative: true,
     },
     {
       sequence: 2,
-      url: 'https://via.placeholder.com/300x200',
+      url: 'https://bdsbmockdata.s3.ap-southeast-2.amazonaws.com/testimage.jpeg',
       imageId: 214,
       isRepresentative: false,
     },

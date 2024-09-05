@@ -12,10 +12,11 @@ import { ImageType } from '@/types/types';
 interface CarouselProps {
   images: ImageType[];
   lastElementRef?: React.RefObject<HTMLDivElement>;
+  onImageChange?: (currentIndex: number) => void;
 }
 
 const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
-  ({ images = [], lastElementRef }, ref) => {
+  ({ images = [], lastElementRef, onImageChange }, ref) => {
     const [slider, setSlider] = useState<Slider | null>(null);
     const [currentSlide, setCurrentSlide] = useState(1);
 
@@ -57,8 +58,12 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       autoplaySpeed: 5000,
       slidesToShow: 1,
       slidesToScroll: 1,
-      beforeChange: (current: number, next: number) =>
-        setCurrentSlide(next + 1),
+      beforeChange: (current: number, next: number) => {
+        setCurrentSlide(next + 1);
+        if (onImageChange) {
+          onImageChange(next);
+        }
+      },
     };
 
     return (
