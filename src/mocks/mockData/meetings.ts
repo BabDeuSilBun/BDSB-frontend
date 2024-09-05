@@ -4,7 +4,7 @@ export const meetings: MeetingType[] = [
   {
     meetingId: 1,
     storeId: 1,
-    storeName: '맛있는 피자 집',
+    storeName: 'Pizza Hut',
     storeImage: [
       {
         imageId: 301,

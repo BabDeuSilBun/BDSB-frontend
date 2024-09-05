@@ -36,7 +36,7 @@ export const stores: RestaurantType[] = [
       '신선한 재료로 만든 정통 피자를 제공합니다. 다양한 토핑과 사이드 메뉴가 준비되어 있습니다.',
     entrepreneurId: 101,
     minPurchasePrice: 15000,
-    name: '맛있는 피자 집',
+    name: 'Pizza Hut',
     openTime: '11:00:00',
     phoneNumber: '02-1234-5678',
     dayOfWeek: '월요일', // 휴무일
