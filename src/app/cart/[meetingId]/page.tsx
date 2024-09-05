@@ -132,12 +132,18 @@ const CartPage = () => {
     fetchNextPage,
   });
 
-  // If the data exists, log it to the console
-  useEffect(() => {
-    if (teamPurchases) {
-      console.log('Fetched team purchases:', teamPurchases);
-    }
-  }, [teamPurchases]);
+  // Combine team purchases into the cart if in 'participant' context
+  const combinedCartItems =
+    context === 'participant' && teamPurchases
+      ? teamPurchases.pages.flatMap((page) =>
+          page.items.content.map((item) => ({
+            menuId: item.menuId,
+            quantity: item.quantity,
+            type: 'team',
+            storeId: meeting?.storeId || storeId,
+          })),
+        )
+      : cartItems;
 
   // Calculate totals when cart items or other dependencies change
   useEffect(() => {
@@ -145,7 +151,7 @@ const CartPage = () => {
 
     const menuDataArray = menus?.pages.flatMap((page) => page.content) || [];
 
-    const newPurchaseAmount = cartItems.reduce((total, item) => {
+    const newPurchaseAmount = combinedCartItems.reduce((total, item) => {
       const menuData = menuDataArray.find(
         (menuData) => menuData.menuId === item.menuId,
       );
@@ -154,7 +160,7 @@ const CartPage = () => {
 
     setPurchaseAmount(paymentFormatter(newPurchaseAmount));
 
-    const teamPurchaseTotal = cartItems.reduce((total, item) => {
+    const teamPurchaseTotal = combinedCartItems.reduce((total, item) => {
       if (item.type === 'team') {
         const menuData = menuDataArray.find(
           (menuData) => menuData.menuId === item.menuId,
@@ -171,7 +177,7 @@ const CartPage = () => {
     if (myData) {
       setPoint(myData.point);
     }
-  }, [cartItems, menus, minHeadcount, myData, isLoadingMenus]);
+  }, [combinedCartItems, menus, minHeadcount, myData, isLoadingMenus]);
 
   const deliveryPrice = store?.deliveryPrice || 0;
   const maxDeliveryFee = paymentFormatter(deliveryPrice / minHeadcount);
@@ -199,25 +205,6 @@ const CartPage = () => {
     context === 'participant'
       ? `${meeting?.deliveryAddress?.deliveryStreetAddress || ''} ${meeting?.deliveryAddress?.deliveryDetailAddress || ''}`
       : `${deliveredAddress?.streetAddress || deliveredAddress?.detailAddress || '배송지 정보 없음'}`;
-
-  useEffect(() => {
-    if (meeting) {
-      console.log('Meeting Data:', meeting);
-
-      if (meeting.deliveryAddress) {
-        console.log(
-          'Delivered Street Address:',
-          meeting.deliveryAddress.deliveryStreetAddress,
-        );
-        console.log(
-          'Delivered Detail Address:',
-          meeting.deliveryAddress.deliveryDetailAddress,
-        );
-      } else {
-        console.log('No delivery address found for meeting');
-      }
-    }
-  }, [meeting]);
 
   // PortOne SDK initialization
   // useEffect(() => {
@@ -510,13 +497,14 @@ const CartPage = () => {
             }
           }}
         />
-
-        {cartItems.map((item: CartItem, index: number) => {
+        {combinedCartItems.map((item, index) => {
           const menuDataArray =
             menus?.pages?.flatMap((page) => page.content) || [];
           const menuData = menuDataArray.find(
             (menu) => menu.menuId === item.menuId,
           );
+
+          const isLastItem = index === combinedCartItems.length - 1;
 
           return (
             <CartItems
@@ -530,8 +518,9 @@ const CartPage = () => {
               meetingId={meetingId}
               showAddButton={index === cartItems.length - 1}
               onQuantityChange={(newQuantity) =>
-                updateQuantity(item.menuId, item.storeId, newQuantity)
+                updateQuantity(item.menuId, String(item.storeId), newQuantity)
               }
+              lastElementRef={isLastItem ? lastElementRef : undefined}
             />
           );
         })}
@@ -543,29 +532,6 @@ const CartPage = () => {
         availablePoints={point}
         totalPrice={totalPrice}
       />
-
-      <div>
-        {teamPurchases?.pages?.map((page, pageIndex) => (
-          <div key={pageIndex}>
-            {page.items.content.map((purchase, index) => {
-              const isLastItem =
-                pageIndex === teamPurchases.pages.length - 1 &&
-                index === page.items.content.length - 1;
-              return (
-                <div
-                  key={purchase.purchaseId}
-                  ref={isLastItem ? lastElementRef : null}
-                >
-                  <p>Purchase ID: {purchase.purchaseId}</p>
-                  <p>Menu ID: {purchase.menuId}</p>
-                  <p>Quantity: {purchase.quantity}</p>
-                </div>
-              );
-            })}
-          </div>
-        ))}
-      </div>
-
       <Footer
         type="button"
         buttonText={footerButtonText}
