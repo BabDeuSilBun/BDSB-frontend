@@ -3,7 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useParams, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
@@ -133,21 +133,17 @@ const CartPage = () => {
   });
 
   // Combine team purchases into the cart if in 'participant' context
-  const combinedCartItems = useMemo(() => {
-    return context === 'participant'
-      ? [
-          ...cartItems.filter((item) => item.type === 'individual'), // Include individual items
-          ...(teamPurchases?.pages.flatMap((page) =>
-            page.items.content.map((item) => ({
-              menuId: item.menuId,
-              quantity: item.quantity,
-              type: 'team',
-              storeId,
-            })),
-          ) || []), // Include team purchases
-        ]
+  const combinedCartItems =
+    context === 'participant' && teamPurchases
+      ? teamPurchases.pages.flatMap((page) =>
+          page.items.content.map((item) => ({
+            menuId: item.menuId,
+            quantity: item.quantity,
+            type: 'team',
+            storeId: meeting?.storeId || storeId,
+          })),
+        )
       : cartItems;
-  }, [context, cartItems, teamPurchases, meeting?.storeId, storeId]);
 
   // Calculate totals when cart items or other dependencies change
   useEffect(() => {
@@ -522,7 +518,7 @@ const CartPage = () => {
               meetingId={meetingId}
               showAddButton={index === cartItems.length - 1}
               onQuantityChange={(newQuantity) =>
-                updateQuantity(item.menuId, String(storeId), newQuantity)
+                updateQuantity(item.menuId, String(item.storeId), newQuantity)
               }
               lastElementRef={isLastItem ? lastElementRef : undefined}
             />
