@@ -150,13 +150,25 @@ const ChatPage = () => {
     }
   }, [myData, chatRoomId]);
 
-  // 컴포넌트가 처음 렌더링될 때 스크롤을 맨 아래로 설정
+  // 이전 데이터가 렌더링 될 때 스크롤을 맨 아래로 설정
   useEffect(() => {
     if (chatContainerRef.current && status === 'success') {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
+      if (isFetchingNextPage) {
+        const previousHeight = chatContainerRef.current.scrollHeight;
+        setTimeout(() => {
+          const newHeight = chatContainerRef.current?.scrollHeight || 0;
+          if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = newHeight - previousHeight;
+          }
+        }, 100);
+      } else {
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTop =
+            chatContainerRef.current.scrollHeight;
+        }
+      }
     }
-  }, [status]);
+  }, [status, isFetchingNextPage, data]);
 
   // 새로운 메세지 전송 시 자동으로 아래로 이동
   useEffect(() => {
