@@ -158,6 +158,14 @@ const ChatPage = () => {
     }
   }, [status]);
 
+  // 새로운 메세지 전송 시 자동으로 아래로 이동
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [newMessages]);
+
   const sendMessage = async () => {
     if (myData && client.current) {
       if (!client.current.connected) {
