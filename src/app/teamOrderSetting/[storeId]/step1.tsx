@@ -155,13 +155,13 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
         setButtonActive(false);
       } else {
         setError(null);
+        setButtonActive(true);
       }
     }
   };
 
   const debouncedValidateTime = useMemo(
-    () => debounce(validateTime, 1000),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    () => debounce(validateTime, 500),
     [store],
   );
 
@@ -200,28 +200,6 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
 
     setPaymentAvailableAt(updatedTime);
 
-    if (store?.openTime && store?.closeTime) {
-      const [openHour, openMinute] = store.openTime.split(':').map(Number);
-      const [closeHour, closeMinute] = store.closeTime.split(':').map(Number);
-
-      const selectedTimeInMinutes =
-        parseInt(hour, 10) * 60 + parseInt(minute, 10);
-      const openTimeInMinutes = openHour * 60 + openMinute;
-      const closeTimeInMinutes = closeHour * 60 + closeMinute;
-
-      if (
-        selectedTimeInMinutes < openTimeInMinutes ||
-        selectedTimeInMinutes > closeTimeInMinutes
-      ) {
-        setError(
-          `영업 시간은 ${store.openTime}부터 ${store.closeTime}까지입니다.`,
-        );
-        setButtonActive(false);
-        return;
-      }
-      setError(null);
-    }
-
     debouncedValidateTime(formattedTime);
   };
 
@@ -258,6 +236,7 @@ const Step1: FC<Step1Props> = ({ isPostcodeOpen, setIsPostcodeOpen }) => {
       !!time.minute &&
       !error &&
       (isUsingDefaultAddress || !!formData.deliveredAddress.streetAddress);
+
     setButtonActive(isActive);
   }, [
     purchaseType,
