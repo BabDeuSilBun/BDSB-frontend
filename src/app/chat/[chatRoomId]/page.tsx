@@ -147,7 +147,6 @@ const ChatPage = () => {
               if (message.body) {
                 const newMessage = JSON.parse(message.body);
                 setNewMessages((prevMessages) => [...prevMessages, newMessage]);
-                console.log(newMessages);
               }
             },
           );
@@ -214,15 +213,15 @@ const ChatPage = () => {
         ) : status === 'success' && myData ? (
           data && data.pages[0].content.length > 0 ? (
             <ScrollContainer ref={chatContainerRef}>
-              {newMessages.map((message) => (
-                <NewMessageWrapper key={message.createdAt}>
-                  {message.senderId === myData?.userId ? (
-                    <MyMessageItem message={message} />
+              <NewMessageWrapper>
+                {newMessages.map((message) =>
+                  message.senderId === myData?.userId ? (
+                    <MyMessageItem message={message} key={message.createdAt} />
                   ) : (
-                    <MessageItem message={message} />
-                  )}
-                </NewMessageWrapper>
-              ))}
+                    <MessageItem message={message} key={message.createdAt} />
+                  ),
+                )}
+              </NewMessageWrapper>
               {data.pages.map((page, pageIndex) => (
                 <MessageWrapper key={pageIndex}>
                   {page.content.map((message, index) => (

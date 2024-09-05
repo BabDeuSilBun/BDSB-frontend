@@ -60,6 +60,7 @@ const ListContainer = styled.ul`
 const ListItem = styled.li<{ $isLast?: boolean }>`
   display: flex;
   padding: 1rem;
+  cursor: pointer;
   justify-content: space-between;
   border-bottom: ${(props) =>
     props.$isLast ? '' : '0.1rem solid var(--gray200)'};

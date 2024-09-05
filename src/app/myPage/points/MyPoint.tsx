@@ -26,7 +26,7 @@ const ContainerSection = styled(Container)`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  margin-top: 1rem;
+  margin-top: 5rem;
 `;
 
 const Flex = styled.div`
