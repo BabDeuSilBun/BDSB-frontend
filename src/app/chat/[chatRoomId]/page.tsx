@@ -7,7 +7,11 @@ import SockJS from 'sockjs-client';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import styled from 'styled-components';
 
 import Header from '@/components/layout/header';
@@ -70,15 +74,20 @@ const InputBox = styled.div`
 const ChatPage = () => {
   const params = useParams();
   const chatRoomId = params.chatRoomId as string;
-  const chatContainerRef = useRef<HTMLDivElement | null>(null);
-  const [inputValue, setInputValue] = useState('');
+  const queryClient = useQueryClient();
   const client = useRef<Client | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const [newMessages, setNewMessages] = useState<ChatMessageType[]>([]);
+  const [inputValue, setInputValue] = useState('');
 
   const { data: myData } = useQuery({
     queryKey: ['MyData'],
     queryFn: getMyData,
   });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ['chatMessages'] });
+  }, [queryClient]);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery({
@@ -99,7 +108,7 @@ const ChatPage = () => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-    rootMargin: '400px 0px 0px 0px',
+    rootMargin: '100px 0px 0px 0px',
   });
 
   useEffect(() => {
@@ -131,6 +140,7 @@ const ChatPage = () => {
               if (message.body) {
                 const newMessage = JSON.parse(message.body);
                 setNewMessages((prevMessages) => [...prevMessages, newMessage]);
+                console.log(newMessage);
               }
             },
           );
@@ -179,6 +189,7 @@ const ChatPage = () => {
         destination: `/socket/chat-rooms/${chatRoomId}`,
         body: JSON.stringify(message),
       });
+
       setInputValue('');
     } else {
       console.error('STOMP client is not connected or input is empty.');
@@ -196,6 +207,15 @@ const ChatPage = () => {
         ) : status === 'success' && myData ? (
           data && data.pages[0].content.length > 0 ? (
             <ScrollContainer ref={chatContainerRef}>
+              {newMessages.map((message) => (
+                <MessageWrapper key={message.createdAt}>
+                  {message.senderId === myData?.userId ? (
+                    <MyMessageItem message={message} />
+                  ) : (
+                    <MessageItem message={message} />
+                  )}
+                </MessageWrapper>
+              ))}
               {data.pages.map((page, pageIndex) => (
                 <MessageWrapper key={pageIndex}>
                   {page.content.map((message, index) => (
@@ -215,16 +235,6 @@ const ChatPage = () => {
                       )}
                     </div>
                   ))}
-                </MessageWrapper>
-              ))}
-
-              {newMessages.map((message) => (
-                <MessageWrapper key={message.createdAt}>
-                  {message.senderId === myData?.userId ? (
-                    <MyMessageItem message={message} />
-                  ) : (
-                    <MessageItem message={message} />
-                  )}
                 </MessageWrapper>
               ))}
             </ScrollContainer>
