@@ -31,9 +31,12 @@ const ContainerBox = styled(Container)`
 `;
 
 const ScrollContainer = styled.section`
-  padding: 1rem 0;
   flex-grow: 1;
   overflow-y: auto;
+`;
+
+const MessageWrapper = styled.div`
+  padding: 1rem 0;
   display: flex;
   flex-direction: column-reverse;
   gap: 1.5rem;
@@ -193,7 +196,7 @@ const ChatPage = () => {
           data && data.pages[0].content.length > 0 ? (
             <ScrollContainer ref={chatContainerRef}>
               {data.pages.map((page, pageIndex) => (
-                <div key={pageIndex}>
+                <MessageWrapper key={pageIndex}>
                   {page.content.map((message, index) => (
                     <div
                       key={message.createdAt}
@@ -211,19 +214,18 @@ const ChatPage = () => {
                       )}
                     </div>
                   ))}
-                </div>
+                </MessageWrapper>
               ))}
 
-              {newMessages &&
-                newMessages.map((message) => (
-                  <div key={message.createdAt}>
-                    {message.senderId === myData?.userId ? (
-                      <MyMessageItem message={message} />
-                    ) : (
-                      <MessageItem message={message} />
-                    )}
-                  </div>
-                ))}
+              {newMessages.map((message) => (
+                <MessageWrapper key={message.createdAt}>
+                  {message.senderId === myData?.userId ? (
+                    <MyMessageItem message={message} />
+                  ) : (
+                    <MessageItem message={message} />
+                  )}
+                </MessageWrapper>
+              ))}
             </ScrollContainer>
           ) : (
             <PaddingBox>
@@ -237,7 +239,8 @@ const ChatPage = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
+              const { key, nativeEvent } = e;
+              if (key === 'Enter' && !nativeEvent.isComposing) {
                 sendMessage();
               }
             }}
