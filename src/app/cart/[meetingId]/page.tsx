@@ -27,7 +27,6 @@ import { useOrderStore } from '@/state/orderStore';
 import Container from '@/styles/container';
 import { formatCurrency } from '@/utils/currencyFormatter';
 import { paymentFormatter } from '@/utils/paymentFormatter';
-
 const CustomContainer = styled(Container)`
   margin-top: 60px;
   padding: var(--spacing-sm);
@@ -122,21 +121,19 @@ const CartPage = () => {
     isFetchingNextPage,
     fetchNextPage,
   });
-  // Combine team purchases into the cart if in 'participant' context
+  // Combine individual and team purchases
   const combinedCartItems = useMemo(() => {
-    return context === 'participant'
-      ? [
-          ...cartItems.filter((item) => item.type === 'individual'), // Include individual items
-          ...(teamPurchases?.pages.flatMap((page) =>
-            page.items.content.map((item) => ({
-              menuId: item.menuId,
-              quantity: item.quantity,
-              type: 'team',
-              storeId,
-            })),
-          ) || []), // Include team purchases
-        ]
-      : cartItems;
+    const teamItems =
+      teamPurchases?.pages.flatMap((page) =>
+        page.items.content.map((item) => ({
+          menuId: item.menuId,
+          quantity: item.quantity,
+          type: 'team',
+          storeId: meeting?.storeId || storeId,
+        })),
+      ) || [];
+    // Combine individual and team items correctly
+    return context === 'participant' ? [...cartItems, ...teamItems] : cartItems;
   }, [context, cartItems, teamPurchases, meeting?.storeId, storeId]);
   // Calculate totals when cart items or other dependencies change
   useEffect(() => {
@@ -466,7 +463,7 @@ const CartPage = () => {
               imageUrl={menuData?.image || ''}
               badgeText={item.type === 'individual' ? '개별메뉴' : '공동메뉴'}
               quantity={item.quantity}
-              storeId={Number(item.storeId)}
+              storeId={Number(storeId)}
               meetingId={meetingId}
               showAddButton={index === cartItems.length - 1}
               onQuantityChange={(newQuantity) =>
