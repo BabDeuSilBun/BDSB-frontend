@@ -31,6 +31,7 @@ const ContainerBox = styled(Container)`
 `;
 
 const ScrollContainer = styled.section`
+  display: flex;
   flex-grow: 1;
   flex-direction: column-reverse;
   overflow-y: auto;
@@ -129,7 +130,6 @@ const ChatPage = () => {
             async (message) => {
               if (message.body) {
                 const newMessage = JSON.parse(message.body);
-                console.log(newMessage);
                 setNewMessages((prevMessages) => [...prevMessages, newMessage]);
               }
             },
@@ -150,15 +150,6 @@ const ChatPage = () => {
       };
     }
   }, [myData, chatRoomId]);
-
-  // 데이터가 추가되었을 때 스크롤을 유지 (위로 로딩된 경우)
-  useEffect(() => {
-    if (chatContainerRef.current && isFetchingNextPage) {
-      const prevScrollHeight = chatContainerRef.current.scrollHeight;
-      const newScrollHeight = chatContainerRef.current.scrollHeight;
-      chatContainerRef.current.scrollTop += newScrollHeight - prevScrollHeight;
-    }
-  }, [data]);
 
   // 새로운 메세지 전송 시 자동으로 아래로 이동
   useEffect(() => {
