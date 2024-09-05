@@ -21,7 +21,7 @@ import Container from '@/styles/container';
 import PaddingBox from '@/styles/paddingBox';
 import { ChatMessageType } from '@/types/chatTypes';
 
-const SOCKET_URL = `https://babdeusilbun.kro.kr/stomp`;
+const SOCKET_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}stomp`;
 
 const ContainerBox = styled(Container)`
   background: var(--gray100);
@@ -95,25 +95,22 @@ const ChatPage = () => {
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
-    rootMargin: '400px 0px 0px 0px',
+    rootMargin: '100% 0px 0px 0px',
   });
 
   useEffect(() => {
     if (data) {
-      // 메시지를 상태로 설정
       setMessages(data.pages.flatMap((page) => page.content));
     }
 
     console.log(messages);
   }, [data]);
 
-  // WebSocket 연결 설정 및 메시지 수신 처리
   useEffect(() => {
     if (myData) {
       const socket = new SockJS(SOCKET_URL);
       client.current = Stomp.over(() => socket);
 
-      // Authorization 헤더 포함하여 소켓 연결
       const authToken =
         apiClientWithCredentials.defaults.headers.common.Authorization;
 
@@ -125,7 +122,7 @@ const ChatPage = () => {
         connectHeaders: {
           Authorization: authToken as string,
         },
-        reconnectDelay: 5000, // 자동 재 연결
+        reconnectDelay: 5000,
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
 
@@ -138,7 +135,6 @@ const ChatPage = () => {
               if (message.body) {
                 const newMessage = JSON.parse(message.body);
 
-                // 새로운 메시지를 상태에 추가
                 setMessages((prevMessages) => [...prevMessages, newMessage]);
                 console.log(messages);
               }
@@ -154,7 +150,6 @@ const ChatPage = () => {
 
       return () => {
         if (client.current?.connected) {
-          console.log('연결 종료 시도 중...');
           client.current.deactivate();
           console.log('STOMP client disconnected.');
         }

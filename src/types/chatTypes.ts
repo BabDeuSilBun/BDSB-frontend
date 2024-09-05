@@ -9,7 +9,7 @@ export interface ChatMessageType {
   type: string;
   senderId: number;
   nickname: string;
-  image: string | null;
+  profileImage: string | null;
   content: string;
   createdAt: string;
   updatedAt: string;

@@ -52,9 +52,9 @@ const MessageItem: React.FC<{ message: ChatMessageType }> = ({ message }) => {
   return (
     <Container>
       <ImageWrapper>
-        {message.image && (
+        {message.profileImage && (
           <Image
-            src={message.image}
+            src={message.profileImage}
             alt={`${message.nickname}님 프로필 이미지`}
             fill
             style={{ objectFit: 'cover' }}
