@@ -3,7 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useParams, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
@@ -132,18 +132,21 @@ const CartPage = () => {
     fetchNextPage,
   });
 
-  // Combine team purchases into the cart if in 'participant' context
-  const combinedCartItems =
-    context === 'participant' && teamPurchases
-      ? teamPurchases.pages.flatMap((page) =>
-          page.items.content.map((item) => ({
-            menuId: item.menuId,
-            quantity: item.quantity,
-            type: 'team',
-            storeId: meeting?.storeId || storeId,
-          })),
-        )
-      : cartItems;
+  // Combine individual and team purchases
+  const combinedCartItems = useMemo(() => {
+    const teamItems =
+      teamPurchases?.pages.flatMap((page) =>
+        page.items.content.map((item) => ({
+          menuId: item.menuId,
+          quantity: item.quantity,
+          type: 'team',
+          storeId: meeting?.storeId || storeId,
+        })),
+      ) || [];
+
+    // Combine individual and team items correctly
+    return context === 'participant' ? [...cartItems, ...teamItems] : cartItems;
+  }, [context, cartItems, teamPurchases, meeting?.storeId, storeId]);
 
   // Calculate totals when cart items or other dependencies change
   useEffect(() => {
