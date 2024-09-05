@@ -66,16 +66,15 @@ const ChatPage = () => {
   const params = useParams();
   const chatRoomId = params.chatRoomId as string;
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-  const [messages, setMessages] = useState<ChatMessageType[]>([]);
   const [inputValue, setInputValue] = useState('');
   const client = useRef<Client | null>(null);
+  const [newMessages, setNewMessages] = useState<ChatMessageType[]>([]);
 
   const { data: myData } = useQuery({
     queryKey: ['MyData'],
     queryFn: getMyData,
   });
 
-  // 이전 메시지 로드
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery({
       queryKey: ['chatMessages', chatRoomId],
@@ -99,14 +98,6 @@ const ChatPage = () => {
   });
 
   useEffect(() => {
-    if (data) {
-      setMessages(data.pages.flatMap((page) => page.content));
-    }
-
-    console.log(messages);
-  }, [data]);
-
-  useEffect(() => {
     if (myData) {
       const socket = new SockJS(SOCKET_URL);
       client.current = Stomp.over(() => socket);
@@ -127,16 +118,15 @@ const ChatPage = () => {
         heartbeatOutgoing: 4000,
 
         onConnect: () => {
-          console.log('STOMP client connected successfully.');
+          console.log('입장하셨습니다.');
 
           client.current?.subscribe(
             `/meeting/chat-rooms/${chatRoomId}`,
-            (message) => {
+            async (message) => {
               if (message.body) {
                 const newMessage = JSON.parse(message.body);
-
-                setMessages((prevMessages) => [...prevMessages, newMessage]);
-                console.log(messages);
+                console.log(newMessage);
+                setNewMessages((prevMessages) => [...prevMessages, newMessage]);
               }
             },
           );
@@ -163,9 +153,9 @@ const ChatPage = () => {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
     }
-  }, [messages, status]);
+  }, [status]);
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (myData && client.current) {
       if (!client.current.connected) {
         console.error('STOMP client is not connected.');
@@ -200,20 +190,40 @@ const ChatPage = () => {
         ) : status === 'error' ? (
           <PaddingBox>문의 내역을 불러오지 못했습니다.</PaddingBox>
         ) : status === 'success' && myData ? (
-          messages.length > 0 ? (
+          data && data.pages[0].content.length > 0 ? (
             <ScrollContainer ref={chatContainerRef}>
-              {messages.map((message, index) => (
-                <div
-                  key={message.createdAt}
-                  ref={index === messages.length - 1 ? lastElementRef : null}
-                >
-                  {message.senderId === myData.userId ? (
-                    <MyMessageItem message={message} />
-                  ) : (
-                    <MessageItem message={message} />
-                  )}
+              {data.pages.map((page, pageIndex) => (
+                <div key={pageIndex}>
+                  {page.content.map((message, index) => (
+                    <div
+                      key={message.createdAt}
+                      ref={
+                        pageIndex === data.pages.length - 1 &&
+                        index === page.content.length - 1
+                          ? lastElementRef
+                          : null
+                      }
+                    >
+                      {message.senderId === myData?.userId ? (
+                        <MyMessageItem message={message} />
+                      ) : (
+                        <MessageItem message={message} />
+                      )}
+                    </div>
+                  ))}
                 </div>
               ))}
+
+              {newMessages &&
+                newMessages.map((message) => (
+                  <div key={message.createdAt}>
+                    {message.senderId === myData?.userId ? (
+                      <MyMessageItem message={message} />
+                    ) : (
+                      <MessageItem message={message} />
+                    )}
+                  </div>
+                ))}
             </ScrollContainer>
           ) : (
             <PaddingBox>
