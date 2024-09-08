@@ -8,9 +8,7 @@ function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider>
       <ChakraProvider>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <AuthProvider>{children}</AuthProvider>
       </ChakraProvider>
     </QueryClientProvider>
   );
