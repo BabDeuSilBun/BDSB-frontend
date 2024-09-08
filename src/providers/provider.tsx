@@ -9,7 +9,7 @@ function Providers({ children }: { children: React.ReactNode }) {
     <QueryClientProvider>
       <ChakraProvider>
         <AuthProvider>
-        {children}
+          {children}
         </AuthProvider>
       </ChakraProvider>
     </QueryClientProvider>
