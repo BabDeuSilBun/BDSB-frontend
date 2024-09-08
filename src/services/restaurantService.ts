@@ -70,7 +70,7 @@ export const getCategoriesList = async ({
   } catch (error) {
     console.error('Error fetching restaurants:', error);
     throw new Error(
-      '카테고리식점 목록을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+      '카테고리 목록을 불러오는 데 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
     );
   }
 };
